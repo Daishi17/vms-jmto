@@ -18,10 +18,9 @@ class Datapenyedia extends CI_Controller
 
 	public function index()
 	{
-		$this->load->view('template/header');
-		$this->load->view('template/sidebar');
+		$this->load->view('template_menu/header_menu');
 		$this->load->view('datapenyedia/index');
-		$this->load->view('template/footer');
+		$this->load->view('template_menu/new_footer');
 		$this->load->view('datapenyedia/ajax');
 	}
 
@@ -733,41 +732,36 @@ class Datapenyedia extends CI_Controller
 
 	public function akta_pendirian()
 	{
-		$this->load->view('template/header');
-		$this->load->view('template/sidebar');
+		$this->load->view('template_menu/header_menu');
 		$this->load->view('datapenyedia/akta_pendirian/index');
-		$this->load->view('template/footer');
+		$this->load->view('template_menu/new_footer');
 	}
 
 	public function manajerial()
 	{
-		$this->load->view('template/header');
-		$this->load->view('template/sidebar');
+		$this->load->view('template_menu/header_menu');
 		$this->load->view('datapenyedia/manajerial/index');
-		$this->load->view('template/footer');
+		$this->load->view('template_menu/new_footer');
 	}
 
 	public function sdm()
 	{
-		$this->load->view('template/header');
-		$this->load->view('template/sidebar');
+		$this->load->view('template_menu/header_menu');
 		$this->load->view('datapenyedia/sdm/index');
-		$this->load->view('template/footer');
+		$this->load->view('template_menu/new_footer');
 	}
 
 	public function pengalaman()
 	{
-		$this->load->view('template/header');
-		$this->load->view('template/sidebar');
+		$this->load->view('template_menu/header_menu');
 		$this->load->view('datapenyedia/pengalaman/index');
-		$this->load->view('template/footer');
+		$this->load->view('template_menu/new_footer');
 	}
 
 	public function pajak()
 	{
-		$this->load->view('template/header');
-		$this->load->view('template/sidebar');
+		$this->load->view('template_menu/header_menu');
 		$this->load->view('datapenyedia/pajak/index');
-		$this->load->view('template/footer');
+		$this->load->view('template_menu/new_footer');
 	}
 }

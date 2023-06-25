@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/plugins-lte/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/plugins-lte/datatables-responsive/css/responsive.bootstrap4.min.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/plugins-lte/datatables-buttons/css/buttons.bootstrap4.min.css">
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <meta name="theme-color" content="#7952b3">
     <?php
     function tgl_indo($tanggal)

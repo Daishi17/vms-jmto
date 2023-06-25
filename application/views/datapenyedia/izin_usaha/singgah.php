@@ -65,13 +65,13 @@
                             <div class="card border-warning shadow-sm">
                                 <div class="card-header">
                                     <div class="nav nav-tabs mb-3 bg-warning" id="nav-tab" role="tablist">
-                                        <button class="nav-link active" id="nav-siup-tab" data-bs-toggle="tab" data-bs-target="#nav-siup" type="button" role="tab" aria-controls="nav-siup" aria-selected="true">
-                                            <i class="fa-regular fa-file-powerpoint"></i>
-                                            <small><b>SIUP</b></small>
-                                        </button>
-                                        <button class="nav-link" id="nav-nib-tab" data-bs-toggle="tab" data-bs-target="#nav-nib" type="button" role="tab" aria-controls="nav-nib" aria-selected="false">
+                                        <button class="nav-link active" id="nav-nib-tab" data-bs-toggle="tab" data-bs-target="#nav-nib" type="button" role="tab" aria-controls="nav-nib" aria-selected="false">
                                             <i class="fa-regular fa-file-word"></i>
                                             <small><b>NIB/TDP</b></small>
+                                        </button>
+                                        <button class="nav-link" id="nav-siup-tab" data-bs-toggle="tab" data-bs-target="#nav-siup" type="button" role="tab" aria-controls="nav-siup" aria-selected="true">
+                                            <i class="fa-regular fa-file-powerpoint"></i>
+                                            <small><b>SIUP</b></small>
                                         </button>
                                         <button class="nav-link" id="nav-sbu-tab" data-bs-toggle="tab" data-bs-target="#nav-sbu" type="button" role="tab" aria-controls="nav-sbu" aria-selected="false">
                                             <i class="fa-regular fa-file-excel"></i>
@@ -83,16 +83,16 @@
                                         </button>
                                     </div>
                                     <div class="tab-content p-3 border bg-light" id="nav-tabContent">
-                                        <div class="tab-pane fade active show" id="nav-siup" role="tabpanel" aria-labelledby="nav-siup-tab">
+                                        <div class="tab-pane fade active show" id="nav-nib" role="tabpanel" aria-labelledby="nav-nib-tab">
                                             <div class="card border-danger shadow-sm">
                                                 <div class="card-header border-danger d-flex justify-content-between align-items-center">
                                                     <div class="card-title">
                                                         <span class="text-dark">
                                                             <i class="fa-regular fa-folder-open"></i>
-                                                            <small><strong>Form Dokumen - Surat Izin Usaha Perdagangan (SIUP)</strong></small>
+                                                            <small><strong>Form Dokumen - Nomor Induk Berusaha (NIB)</strong></small>
                                                         </span>
                                                     </div>
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#apply_edit_siup" class="btn btn-secondary btn-sm shadow-lg">
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#apply_edit_nib" class="btn btn-secondary btn-sm shadow-lg">
                                                         <i class="fa-solid fa-pen-to-square px-1"></i>
                                                         Edit Changes
                                                     </button>
@@ -119,12 +119,12 @@
                                                                     <div class="col-sm-5">
                                                                         <div class="input-group mb-2">
                                                                             <span class="input-group-text"><i class="fa-solid fa-calendar-days"></i></span>
-                                                                            <select name="sts_seumur_hidup_form" class="form-select text-sm sts_seumur_hidup_form" aria-label="Default select example" onchange="sts_berlaku_nib()" id="exampleSelectRounded1" onchange="sts_berlaku_nib()">
+                                                                            <select name="sts_seumur_hidup_form" class="form-select text-sm sts_seumur_hidup_form" aria-label="Default select example" onchange="sts_berlaku_nib()">
                                                                                 <option value="1">Tanggal</option>
                                                                                 <option value="2">Seumur Hidup</option>
                                                                             </select>
                                                                         </div>
-                                                                        <input type="date" id="tgl_berlaku_nib" name="tgl_berlaku_nib" class="form-control tgl_berlaku_nib_form" data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask>
+                                                                        <input type="date" id="tgl_berlaku_nib" name="tgl_berlaku_nib" class="form-control tgl_berlaku_nib_form" readonly data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask>
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -184,13 +184,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade" id="nav-nib" role="tabpanel" aria-labelledby="nav-nib-tab">
+                                    <div class="tab-pane fade" id="nav-siup" role="tabpanel" aria-labelledby="nav-siup-tab">
                                         <div class="card border-dark shadow-sm">
                                             <div class="card-header border-dark d-flex justify-content-between align-items-center">
                                                 <div class="card-title">
                                                     <span class="text-dark">
                                                         <i class="fa-regular fa-folder-open"></i>
-                                                        <small><strong>Form Dokumen - Nomor Induk Berusaha (NIB)</strong></small>
+                                                        <small><strong>Form Dokumen - Surat Izin Usaha Perdagangan (SIUP)</strong></small>
                                                     </span>
                                                 </div>
                                                 <button type="button" class="btn btn-secondary btn-sm shadow-lg" disabled>
@@ -958,7 +958,7 @@
     </div>
 </main>
 
-<div class="modal fade" id="apply_edit_siup" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+<div class="modal fade" id="apply_edit_nib" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-warning">

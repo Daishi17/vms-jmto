@@ -32,6 +32,7 @@ function get_row_vendor() {
             $('.file_dokumen').attr("readonly", false);
             $('.nib_kbli_form').attr("readonly", false);
             $('.file_dokumen').attr("disabled", false);
+            $('#on_save').attr("disabled", false);
           }
             if (response == 'maaf') {
                 alert('Maaf Anda Kurang Beruntung');
@@ -46,13 +47,13 @@ function get_row_vendor() {
                 $('.file').text(response['row_nib']['file_dokumen'])
                 if (response['row_nib']['sts_token_dokumen'] == 1) {
                     $('.button_enkrip').html('<a href="javascript:;"  onclick="DekripEnkrip(\'' + id_url +'\''+','+ '\'' + 'dekrip' +'\')" class="btn btn-warning btn-sm"><i class="fas fa-lock-open mr-2"></i>Dekripsi Dokumen</a>');
-                    var html2 = '<a href="javascript:;" class="btn btn-sm btn-info btn-block">' +
+                    var html2 = '<a href="javascript:;" style="white-space: nowrap;width: 200px;overflow: hidden;text-overflow: ellipsis;" class="btn btn-sm btn-info btn-block">' +
                     response['row_nib']['file_dokumen'] +'</a>';
                     $('#tampil_dokumen').html(html2);
                     $('.token_generate').html('<div class="input-group"><span class="input-group-text"><i class="fas fa-qrcode"></i></span><textarea class="form-control form-control-sm" disabled>'+response['row_nib']['token_dokumen']+'</textarea></div>');
                 } else {
                     $('.button_enkrip').html('<a href="javascript:;" onclick="DekripEnkrip(\'' + id_url +'\''+','+ '\'' + 'enkrip' +'\')" class="btn btn-success btn-sm"><i class="fas fa-lock mr-2"></i>Enkripsi Dokumen</a>');
-                    var html2 = '<a href="javascript:;" onclick="DownloadFile(\''+ id_url +'\')" class="btn btn-sm btn-warning btn-block">' + response['row_nib']['file_dokumen'] +'</a>';
+                    var html2 = '<a href="javascript:;" style="white-space: nowrap;width: 200px;overflow: hidden;text-overflow: ellipsis;" onclick="DownloadFile(\''+ id_url +'\')" class="btn btn-sm btn-warning btn-block">' + response['row_nib']['file_dokumen'] +'</a>';
                     $('#tampil_dokumen').html(html2);
                 }
             }
@@ -211,16 +212,15 @@ form_izin_usaha.on('submit', function(e) {
 
 function sts_berlaku_nib(){
     var sts_seumur_hidup = $('[name="sts_seumur_hidup"]').val()
-
     if (sts_seumur_hidup == 1) {
-        $('#tgl_berlaku_nib').attr("readonly", false); 
+      $('.tgl_berlaku_nib_form').attr("readonly", false);
     } else {
-        $('#tgl_berlaku_nib').attr("readonly", true); 
+      $('.tgl_berlaku_nib_form').attr("readonly", true);
     }
 }
 
 function EditChangeGlobal() {
-  $('#apply_edit_siup').modal('hide')
+  $('#apply_edit_nib').modal('hide')
   $('.nomor_surat_form').attr("readonly", false);
   $('.sts_seumur_hidup_form').attr("disabled", false);
   $('.tgl_berlaku_nib_form').attr("readonly", false);
@@ -232,7 +232,7 @@ function EditChangeGlobal() {
 }
 
 function BatalChangeGlobal() {
-  $('#apply_edit_siup').modal('hide')
+  $('#apply_edit_nib').modal('hide')
   $('.nomor_surat_form').attr("readonly", true);
   $('.sts_seumur_hidup_form').attr("disabled", true);
   $('.tgl_berlaku_nib_form').attr("readonly", true);
