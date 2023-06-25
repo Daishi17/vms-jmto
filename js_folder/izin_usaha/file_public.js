@@ -49,7 +49,7 @@ function get_row_vendor() {
                     var html2 = '<a href="javascript:;" class="btn btn-sm btn-info btn-block">' +
                     response['row_nib']['file_dokumen'] +'</a>';
                     $('#tampil_dokumen').html(html2);
-                    $('.token_generate').html('<div class="input-group"><div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-qrcode">Token </i></span></div><input type="text" value="'+response['row_nib']['token_dokumen']+'" class="form-control form-control-sm" readonly></div>');
+                    $('.token_generate').html('<div class="input-group"><span class="input-group-text"><i class="fas fa-qrcode"></i></span><textarea class="form-control form-control-sm" disabled>'+response['row_nib']['token_dokumen']+'</textarea></div>');
                 } else {
                     $('.button_enkrip').html('<a href="javascript:;" onclick="DekripEnkrip(\'' + id_url +'\''+','+ '\'' + 'enkrip' +'\')" class="btn btn-success btn-sm"><i class="fas fa-lock mr-2"></i>Enkripsi Dokumen</a>');
                     var html2 = '<a href="javascript:;" onclick="DownloadFile(\''+ id_url +'\')" class="btn btn-sm btn-warning btn-block">' + response['row_nib']['file_dokumen'] +'</a>';
@@ -220,7 +220,7 @@ function sts_berlaku_nib(){
 }
 
 function EditChangeGlobal() {
-  $('#apply_edit').modal('hide')
+  $('#apply_edit_siup').modal('hide')
   $('.nomor_surat_form').attr("readonly", false);
   $('.sts_seumur_hidup_form').attr("disabled", false);
   $('.tgl_berlaku_nib_form').attr("readonly", false);
@@ -232,7 +232,7 @@ function EditChangeGlobal() {
 }
 
 function BatalChangeGlobal() {
-  $('#apply_edit').modal('hide')
+  $('#apply_edit_siup').modal('hide')
   $('.nomor_surat_form').attr("readonly", true);
   $('.sts_seumur_hidup_form').attr("disabled", true);
   $('.tgl_berlaku_nib_form').attr("readonly", true);

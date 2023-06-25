@@ -172,7 +172,6 @@ class Datapenyedia extends CI_Controller
 	public function encryption_nib($id_url)
 	{
 		$type = $this->input->post('type');
-
 		$get_row_enkrip = $this->M_datapenyedia->get_row_nib_url($id_url);
 		$secret_token = $this->input->post('secret_token');
 		$chiper = "AES-128-ECB";

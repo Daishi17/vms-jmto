@@ -119,12 +119,12 @@
                                                                     <div class="col-sm-5">
                                                                         <div class="input-group mb-2">
                                                                             <span class="input-group-text"><i class="fa-solid fa-calendar-days"></i></span>
-                                                                            <select class="form-select text-sm sts_seumur_hidup_form" aria-label="Default select example" onchange="sts_berlaku_nib()" id="exampleSelectRounded1" onchange="sts_berlaku_nib()">
+                                                                            <select name="sts_seumur_hidup_form" class="form-select text-sm sts_seumur_hidup_form" aria-label="Default select example" onchange="sts_berlaku_nib()" id="exampleSelectRounded1" onchange="sts_berlaku_nib()">
                                                                                 <option value="1">Tanggal</option>
                                                                                 <option value="2">Seumur Hidup</option>
                                                                             </select>
                                                                         </div>
-                                                                        <input type="date" id="date" disabled>
+                                                                        <input type="date" id="tgl_berlaku_nib" name="tgl_berlaku_nib" class="form-control tgl_berlaku_nib_form" data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask>
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -133,19 +133,19 @@
                                                                     <label class="form-label col-form-label-sm"><b>Upload File</b></label>
                                                                 </td>
                                                                 <td class="col-sm-3">
-                                                                    <input type="file" id="file" accept=".pdf, .xlsx, .xls">
+                                                                    <input type="file" name="file_dokumen" class="file_dokumen" accept=".pdf, .xlsx, .xls">
                                                                 </td>
                                                                 <td class="col-sm-2 bg-light">
-                                                                    <button type="button" class="btn btn-info btn-sm text-start col-sm-12 shadow-lg">
-                                                                        <i class="fa-solid fa-file-pdf px-1"></i>
-                                                                        Nama File .pdf
-                                                                    </button>
+                                                                    <div id="tampil_dokumen">
+
+                                                                    </div>
                                                                 </td>
                                                                 <td class="col-sm-5">
-                                                                    <button type="button" class="btn btn-warning btn-sm shadow-lg" disabled>
-                                                                        <i class="fa-solid fa-lock-open px-1"></i>
-                                                                        Dekripsi File
-                                                                    </button>
+                                                                    <div class="button_enkrip">
+
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
                                                 </div>
                                                 </tr>
                                                 <tr>
@@ -170,14 +170,13 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="col-sm-12" colspan="4">
-                                                        <button onclick="history.back()" type="button" class="btn btn-dark btn-sm shadow-lg">
-                                                            <i class="fa-solid fa-angles-left px-1"></i>
-                                                            Go Back
-                                                        </button>
-                                                        <button type="button" class="btn btn-primary btn-sm shadow-lg" disabled>
-                                                            <i class="fa-solid fa-floppy-disk px-1"></i>
-                                                            Save Changes
-                                                        </button>
+                                                        <div class="card-footer">
+                                                            <button type="submit" id="on_save" class="btn btn-primary btn-sm shadow-lg">
+                                                                <i class="fa-solid fa-floppy-disk px-1"></i>
+                                                                Simpan
+                                                            </button>
+                                                            <a href="javascript:;" id="on_cancel" onclick="BatalChangeGlobal()" class="btn btn-dark btn-sm shadow-lg"> <i class="fa-solid fa-angles-left px-1"> </i> Cancel</a>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                                 </table>
@@ -976,6 +975,43 @@
             <div class="modal-footer">
                 <a href="javascript:;" onclick="EditChangeGlobal()" class="btn btn-success"> <i class="fas fa fa-check"> </i> Yakin !!</a>
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="fas fa fa-ban"> </i> Tidak !!</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modal_dekrip" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title">DEKRIP FILE</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="form_dekrip" method="post">
+                    <input type="hidden" name="id_url">
+                    <input type="hidden" name="secret_token" value="<?= $row_vendor['token_scure_vendor'] ?>">
+                    <center>
+                        <img src="<?= base_url('assets34543543/img/private.jpg') ?>" width="100%" alt="">
+                        <p>Silakan Masukan Token Untuk Mendkrip File Anda </p>
+                        <div class="token_generate">
+
+                        </div>
+                        <br>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-key"></i></span>
+                            <input id="token_nib" type="text" name="token_dokumen" value="" class="form-control">
+                        </div>
+                    </center>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:;" id="button_dekrip_generate" onclick="GenerateDekrip()" class="btn btn-success"> <i class="fas fa fa-check"> </i> Generate !!</a>
+                <button disabled style="display:none" id="button_dekrip_generate_manipulasi" class="btn btn-success"> <i class="fas fa fa-check"> </i> Generate !!</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="fas fa fa-ban"> </i> Batal !!</button>
             </div>
         </div>
     </div>
