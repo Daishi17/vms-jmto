@@ -35,7 +35,7 @@
                     <h6 class="card-title">
                         <span class="text-white">
                             <i class="fas fa-user-tag"></i>
-                            <small><strong>Elektronik Data Rekanan Tervalidasi (E-DRT)</strong></small>
+                            <small><strong>Elektronik Data Rekanan T ervalidasi (E-DRT)</strong></small>
                         </span>
                     </h6>
                 </div>
@@ -92,7 +92,7 @@
                                                             <small><strong>Form Dokumen - Surat Izin Usaha Perdagangan (SIUP)</strong></small>
                                                         </span>
                                                     </div>
-                                                    <button type="button" class="btn btn-secondary btn-sm shadow-lg" disabled>
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#apply_edit_siup" class="btn btn-secondary btn-sm shadow-lg">
                                                         <i class="fa-solid fa-pen-to-square px-1"></i>
                                                         Edit Changes
                                                     </button>
@@ -958,3 +958,25 @@
     </div>
     </div>
 </main>
+
+<div class="modal fade" id="apply_edit_siup" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title">Anda Yakin Ingin Mengedit Data Anda ??</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <center>
+                    <img src="<?= base_url('assets34543543/img/tanya.jpg') ?>" width="200px" alt="">
+                </center>
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:;" onclick="EditChangeGlobal()" class="btn btn-success"> <i class="fas fa fa-check"> </i> Yakin !!</a>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="fas fa fa-ban"> </i> Tidak !!</button>
+            </div>
+        </div>
+    </div>
+</div>

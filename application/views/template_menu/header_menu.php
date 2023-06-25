@@ -7,17 +7,17 @@
 
     <title>JMTO - VMS</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/fontawesome-free/css/all.min.css">
-    <link href="<?php echo base_url(); ?>/assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/fontawesome-free/css/all.min.css">
+    <link href="<?php echo base_url(); ?>assets/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Select2 -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/plugins-lte/select2/css/select2.min.css">
-    <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/plugins-lte/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/plugins-lte/select2/css/select2.min.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/plugins-lte/select2-bootstrap4-theme/select2-bootstrap4.min.css">
     <!-- DataTables -->
-    <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/plugins-lte/datatables-bs4/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/plugins-lte/datatables-responsive/css/responsive.bootstrap4.min.css">
-    <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/plugins-lte/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/plugins-lte/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/plugins-lte/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/plugins-lte/datatables-buttons/css/buttons.bootstrap4.min.css">
 
     <meta name="theme-color" content="#7952b3">
     <?php
@@ -138,7 +138,7 @@
     <nav class="navbar fixed-top navbar-dark bg-dark">
         <div class="container-fluid d-flex flex-wrap bg-light shadow-lg">
             <a class="navbar-brand">
-                <img src="<?php echo base_url(); ?>/assets/brand/jm1.png" alt="" width="25" height="25" class="d-inline-block align-text-top">
+                <img src="<?php echo base_url(); ?>assets/brand/jm1.png" alt="" width="25" height="25" class="d-inline-block align-text-top">
                 <b><span class="text-primary">Jasamarga Tollroad Operator</span></b>
             </a>
             <ul class="nav">
@@ -149,7 +149,7 @@
         </div>
         <div class="container-fluid shadow-lg">
             <a class="navbar-brand">
-                <!-- <img src="<?php echo base_url(); ?>/assets/brand/bootstrap-logo.svg" alt="" width="29" height="24" class="d-inline-block align-text-top"> -->
+                <!-- <img src="<?php echo base_url(); ?>assets/brand/bootstrap-logo.svg" alt="" width="29" height="24" class="d-inline-block align-text-top"> -->
                 <small>E-DataRekananJMTO</small>
             </a>
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
@@ -287,7 +287,7 @@
                 <div class="d-flex align-items-center">
                     <div class="flex-shrink-0 dropdown">
                         <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="<?php echo base_url(); ?>/assets/brand/avatar5.png" alt="mdo" width="32" height="32" class="rounded-circle shadow-lg">
+                            <img src="<?php echo base_url(); ?>assets/brand/avatar5.png" alt="mdo" width="32" height="32" class="rounded-circle shadow-lg">
                             <small class="text-white">User: Penyedia</small>
                         </a>
                         <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">

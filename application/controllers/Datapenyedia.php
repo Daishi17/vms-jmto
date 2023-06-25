@@ -32,7 +32,7 @@ class Datapenyedia extends CI_Controller
 		$data['provinsi']  = $this->Wilayah_model->getProvinsi();
 		$this->load->view('template_menu/header_menu');
 		$this->load->view('datapenyedia/identitas/index', $data);
-		$this->load->view('template_menu/footer_menu');
+		$this->load->view('template_menu/new_footer');
 		$this->load->view('js_file_on_session/index');
 	}
 
@@ -44,7 +44,7 @@ class Datapenyedia extends CI_Controller
 		$data['kualifikasi']  = $this->M_datapenyedia->get_kualifikasi_izin();
 		$this->load->view('template_menu/header_menu');
 		$this->load->view('datapenyedia/izin_usaha/singgah', $data);
-		$this->load->view('template_menu/footer_menu');
+		$this->load->view('template_menu/new_footer');
 		$this->load->view('js_file_on_session/index');
 	}
 
