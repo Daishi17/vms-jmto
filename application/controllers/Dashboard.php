@@ -21,7 +21,6 @@ class Dashboard extends CI_Controller
         $data['kualifikasi'] = str_split($data['row_vendor']['id_jenis_usaha']);
 
         $this->load->view('template_menu/header_menu');
-        $this->load->view('template_menu/side_menu');
         $this->load->view('dashboard/index', $data);
         $this->load->view('template_menu/footer_menu');
         // angga

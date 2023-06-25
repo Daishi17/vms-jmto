@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Headers · Bootstrap v5.2</title>
+    <title>JMTO - VMS</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/fontawesome-free/css/all.min.css">
     <link href="<?php echo base_url(); ?>/assets/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -131,7 +131,7 @@
 
 
     <!-- Custom styles for this template -->
-    <link href="headers.css" rel="stylesheet">
+    <!-- <link href="headers.css" rel="stylesheet"> -->
 </head>
 
 <body>
@@ -149,7 +149,7 @@
         </div>
         <div class="container-fluid shadow-lg">
             <a class="navbar-brand">
-                <img src="<?php echo base_url(); ?>/assets/brand/bootstrap-logo.svg" alt="" width="29" height="24" class="d-inline-block align-text-top">
+                <!-- <img src="<?php echo base_url(); ?>/assets/brand/bootstrap-logo.svg" alt="" width="29" height="24" class="d-inline-block align-text-top"> -->
                 <small>E-DataRekananJMTO</small>
             </a>
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
@@ -167,7 +167,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li>
-                            <a class="dropdown-item" href="<?= base_url() ?>identitas">
+                            <a class="dropdown-item" href="<?= base_url() ?>datapenyedia/identitas_perusahaan">
                                 <i class="fa-regular fa-building px-1"></i>
                                 <small>Identitas Perusahaan</small>
                             </a>
@@ -176,31 +176,31 @@
                             <hr class="dropdown-divider">
                         </li>
                         <li>
-                            <a class="dropdown-item" href="<?= base_url() ?>izin_usaha">
+                            <a class="dropdown-item" href="<?= base_url() ?>datapenyedia/izin_usaha">
                                 <i class="fa-regular fa-folder-open px-1"></i>
                                 <small>Izin Perusahaan</small>
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="<?= base_url() ?>akta_pendiri">
+                            <a class="dropdown-item" href="<?= base_url() ?>datapenyedia/akta_pendiri">
                                 <i class="fa-solid fa-file-shield px-1"></i>
                                 <small>Akta Pendirian</small>
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="<?= base_url() ?>manajerial">
+                            <a class="dropdown-item" href="<?= base_url() ?>datapenyedia/manajerial">
                                 <i class="fa-solid fa-network-wired px-1"></i>
                                 <small>Manajerial</small>
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="<?= base_url() ?>pengalaman">
+                            <a class="dropdown-item" href="<?= base_url() ?>datapenyedia/pengalaman">
                                 <i class="fa-solid fa-chalkboard-user px-1"></i>
                                 <small>Pengalaman Perusahaan</small>
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="<?= base_url() ?>pajak">
+                            <a class="dropdown-item" href="<?= base_url() ?>datapenyedia/pajak">
                                 <i class="fa-solid fa-calculator px-2"></i>
                                 <small>Pajak</small>
                             </a>
@@ -216,6 +216,7 @@
                         </li>
                     </ul>
                 </li>
+
                 <li>
                     <a href="<?= base_url() ?>dok_tervalidasi" class="nav-link px-2 text-white">
                         <i class="fa-solid fa-envelope-circle-check mb-1"></i>
@@ -309,3 +310,27 @@
         </div>
     </nav>
     <br><br><br><br>
+
+    <script>
+        window.onload = function() {
+            jam();
+        }
+
+        function jam() {
+            var e = document.getElementById('jam'),
+                d = new Date(),
+                h, m, s;
+            h = d.getHours();
+            m = set(d.getMinutes());
+            s = set(d.getSeconds());
+
+            e.innerHTML = h + ':' + m + ':' + s;
+
+            setTimeout('jam()', 1000);
+        }
+
+        function set(e) {
+            e = e < 10 ? '0' + e : e;
+            return e;
+        }
+    </script>
