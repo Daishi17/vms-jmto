@@ -1,12 +1,16 @@
 <main class="container-fluid mt-5">
-    <input type="hidden" name="url_post" value="<?= base_url('datapenyedia/add_akta_pendirian') ?>">
-    <input type="hidden" name="url_post_perubahan" value="<?= base_url('datapenyedia/add_akta_perubahan') ?>">
     <input type="hidden" name="id_url_vendor" value="<?= $row_vendor['id_url_vendor'] ?>">
     <input type="hidden" name="secret_token" value="<?= $row_vendor['token_scure_vendor'] ?>">
     <input type="hidden" value="<?= base_url('datapenyedia/get_row_global_vendor/') ?>" name="url_get_row_vendor">
+
+    <!-- pendirian -->
+    <input type="hidden" name="url_post" value="<?= base_url('datapenyedia/add_akta_pendirian') ?>">
     <input type="hidden" name="url_download_pendirian" value="<?= base_url('datapenyedia/url_download_pendirian/') ?>">
     <input type="hidden" name="url_encryption_pendirian" value="<?= base_url('datapenyedia/encryption_akta_pendirian/') ?>">
 
+    <!-- perubahan -->
+    <input type="hidden" name="url_post_perubahan" value="<?= base_url('datapenyedia/add_akta_perubahan') ?>">
+    <input type="hidden" name="url_download_perubahan" value="<?= base_url('datapenyedia/url_download_perubahan/') ?>">
     <input type="hidden" name="url_encryption_perubahan" value="<?= base_url('datapenyedia/encryption_akta_perubahan/') ?>">
     <div class="row">
         <div class="col">
@@ -244,26 +248,19 @@
                                                                     <label class="form-label col-form-label-sm"><b>Upload File</b></label>
                                                                 </td>
                                                                 <td class="col-sm-3">
-                                                                    <input type="file" id="file" accept=".pdf, .xlsx, .xls" name="file_dokumen_perubahan">
-                                                                    <div id="tampil_dokumen_akta"></div>
+                                                                    <input type="file" class="" name="file_dokumen_perubahan" id="file" accept=".pdf, .xlsx, .xls">
                                                                 </td>
                                                                 <td class="col-sm-2 bg-light">
-
-                                                                    <button type="button" class="btn btn-info btn-sm text-start col-sm-12 shadow-lg">
+                                                                    <!-- <a href="javascript:;" class="btn btn-info btn-sm text-start col-sm-12 shadow-lg">
                                                                         <i class="fa-solid fa-file-pdf px-1"></i>
-                                                                        <div class="file_akta_perubahan">
-
-                                                                        </div>
-                                                                    </button>
+                                                                        <span class="file_akta_pendirian"></span>
+                                                                    </a> -->
+                                                                    <div id="tampil_dokumen_akta_perubahan"></div>
                                                                 </td>
                                                                 <td class="col-sm-5">
-                                                                    <!-- <div class="button_enkrip">
+                                                                    <div class="button_enkrip_perubahan">
 
-                                                                    </div> -->
-                                                                    <!-- <button type="button" class="btn btn-warning btn-sm shadow-lg">
-                                                                        <i class="fa-solid fa-lock-open px-1"></i>
-                                                                        Dekripsi File
-                                                                    </button> -->
+                                                                    </div>
                                                             </tr>
                                                             <tr>
                                                                 <td class="col-sm-2 bg-light">
@@ -440,24 +437,25 @@
             </div>
             <div class="modal-body">
                 <form id="form_dekrip_perubahan" method="post">
-                    <input type="hidden" name="id_url">
+                    <input type="hidden" value="dekrip" name="type">
+                    <input type="hidden" name="id_url_perubahan">
                     <center>
                         <img src="<?= base_url('assets34543543/img/private.jpg') ?>" width="100%" alt="">
                         <p>Silakan Masukan Token Untuk Mendkrip File Anda </p>
-                        <div class="token_generate">
+                        <div class="token_generate_perubahan">
 
                         </div>
                         <br>
                         <div class="input-group">
                             <span class="input-group-text"><i class="fas fa-key"></i></span>
-                            <input type="text" name="token_dokumen" value="" class="form-control">
+                            <input type="text" name="token_dokumen" class="form-control">
                         </div>
                     </center>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                <button type="button" class="btn btn-primary" onclick="GenerateDekrip()">Yakin</button>
+                <button type="button" class="btn btn-primary" onclick="GenerateDekrip_Perubahan()">Yakin</button>
             </div>
         </div>
     </div>
@@ -472,12 +470,12 @@
             </div>
             <div class="modal-body">
                 <form id="form_enkrip_perubahan" method="post">
-                    <input type="hidden" name="id_url">
+                    <input type="hidden" name="id_url_perubahan">
                     <input type="hidden" name="type" value="enkrip">
                     <center>
                         <img src="<?= base_url('assets34543543/img/private.jpg') ?>" width="100%" alt="">
                         <p>Silakan Masukan Token Untuk Enkripsi File Anda </p>
-                        <div class="token_generate">
+                        <div class="token_generate_perubahan">
 
                         </div>
                         <br>
@@ -490,7 +488,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                <button type="button" class="btn btn-primary" onclick="GenerateEnkrip()">Yakin</button>
+                <button type="button" class="btn btn-primary" onclick="GenerateEnkrip_Perubahan()">Yakin</button>
             </div>
         </div>
     </div>

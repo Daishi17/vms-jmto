@@ -927,7 +927,7 @@ class Datapenyedia extends CI_Controller
 	{
 		$id_vendor = $this->session->userdata('id_vendor');
 		$nama_usaha = $this->session->userdata('nama_usaha');
-		$row_akta_pendirian = $this->M_datapenyedia->get_row_akta_perubahan($id_vendor);
+		$row_akta_perubahan = $this->M_datapenyedia->get_row_akta_perubahan($id_vendor);
 
 		$id = $this->uuid->v4();
 		$id = str_replace('-', '', $id);
@@ -984,16 +984,16 @@ class Datapenyedia extends CI_Controller
 			$where = [
 				'id_vendor' => $id_vendor
 			];
-			if (!$row_akta_pendirian) {
+			if (!$row_akta_perubahan) {
 				$this->M_datapenyedia->tambah_akta_perubahan($upload);
-				// $this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
+				$this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
 			} else {
 				$this->M_datapenyedia->update_akta_perubahan($upload, $where);
-				// $this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
+				$this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
 			}
 
 			$response = [
-				'row_akta' => $this->M_datapenyedia->get_row_akta_pendirian($id_vendor),
+				'row_akta' => $this->M_datapenyedia->get_row_akta_perubahan($id_vendor),
 			];
 			$this->output->set_content_type('application/json')->set_output(json_encode($response));
 		} else {
@@ -1008,7 +1008,7 @@ class Datapenyedia extends CI_Controller
 				'jumlah_setor_modal' => $jumlah_setor_modal,
 				'sts_token_dokumen' => 1,
 			];
-			if (!$row_akta_pendirian) {
+			if (!$row_akta_perubahan) {
 				$this->M_datapenyedia->tambah_akta_perubahan($upload);
 			} else {
 				$where = [
@@ -1027,12 +1027,12 @@ class Datapenyedia extends CI_Controller
 
 	public function encryption_akta_perubahan($id_url)
 	{
-		$id_url = $this->input->post('id_url');
 		$token_dokumen = $this->input->post('token_dokumen');
+
 		// $secret_token = $this->input->post('secret_token');
 		$type = $this->input->post('type');
 
-		$get_row_enkrip = $this->M_datapenyedia->get_row_akta_pendirian_url($id_url);
+		$get_row_enkrip = $this->M_datapenyedia->get_row_akta_perubahan_url($id_url);
 		$id_vendor = $get_row_enkrip['id_vendor'];
 		$row_vendor = $this->M_datapenyedia->get_row_vendor($id_vendor);
 		$chiper = "AES-128-ECB";
@@ -1052,7 +1052,7 @@ class Datapenyedia extends CI_Controller
 				$response = [
 					'message' => 'success'
 				];
-				$this->M_datapenyedia->update_akta_perubahan($where, $data);
+				$this->M_datapenyedia->update_akta_perubahan($data, $where);
 			} else {
 				$response = [
 					'maaf' => 'Maaf Anda Memerlukan Token Yang Valid',
@@ -1071,7 +1071,7 @@ class Datapenyedia extends CI_Controller
 				$response = [
 					'message' => 'success'
 				];
-				$this->M_datapenyedia->update_akta_perubahan($where, $data);
+				$this->M_datapenyedia->update_akta_perubahan($data, $where);
 			} else {
 				$response = [
 					'maaf' => 'Maaf Anda Memerlukan Token Yang Valid',

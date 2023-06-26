@@ -301,5 +301,14 @@ class M_datapenyedia extends CI_Model
         $this->db->where($where);
         return $this->db->affected_rows();
     }
+
+    public function get_row_akta_perubahan_url($id_vendor)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_vendor_akta_perubahan');
+        $this->db->where('tbl_vendor_akta_perubahan.id_url', $id_vendor);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
     // end crud akta perubahan
 }
