@@ -182,7 +182,7 @@
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="<?= base_url() ?>datapenyedia/akta_pendiri">
+                            <a class="dropdown-item" href="<?= base_url() ?>datapenyedia/akta_pendirian">
                                 <i class="fa-solid fa-file-shield px-1"></i>
                                 <small>Akta Pendirian</small>
                             </a>

@@ -243,4 +243,63 @@ class M_datapenyedia extends CI_Model
         return $this->db->affected_rows();
     }
     // end siujk
+
+    // crud akta pendirian
+    public function get_row_akta_pendirian($id_vendor)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_vendor_akta_pendirian');
+        $this->db->where('tbl_vendor_akta_pendirian.id_vendor', $id_vendor);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
+    public function tambah_akta_pendirian($data)
+    {
+        $this->db->insert('tbl_vendor_akta_pendirian', $data);
+        return $this->db->affected_rows();
+    }
+
+    public function update_akta_pendirian($where, $data)
+    {
+        $this->db->update('tbl_vendor_akta_pendirian', $data);
+        $this->db->where($where);
+        return $this->db->affected_rows();
+    }
+
+    public function get_row_akta_pendirian_url($id_vendor)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_vendor_akta_pendirian');
+        $this->db->where('tbl_vendor_akta_pendirian.id_url', $id_vendor);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
+    // end crud akta pendirian
+
+    // crud akta perubahan
+    public function get_row_akta_perubahan($id_vendor)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_vendor_akta_perubahan');
+        $this->db->where('tbl_vendor_akta_perubahan.id_vendor', $id_vendor);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
+
+    public function tambah_akta_perubahan($data)
+    {
+        $this->db->insert('tbl_vendor_akta_perubahan', $data);
+        return $this->db->affected_rows();
+    }
+
+    public function update_akta_perubahan($data, $where)
+    {
+        $this->db->update('tbl_vendor_akta_perubahan', $data);
+        $this->db->where($where);
+        return $this->db->affected_rows();
+    }
+    // end crud akta perubahan
 }
