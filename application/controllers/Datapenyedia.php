@@ -851,6 +851,7 @@ class Datapenyedia extends CI_Controller
 		$id_url = $this->input->post('id_url');
 		$token_dokumen = $this->input->post('token_dokumen');
 		// $secret_token = $this->input->post('secret_token');
+
 		$type = $this->input->post('type');
 
 		$get_row_enkrip = $this->M_datapenyedia->get_row_akta_pendirian_url($id_url);
@@ -873,7 +874,7 @@ class Datapenyedia extends CI_Controller
 				$response = [
 					'message' => 'success'
 				];
-				$this->M_datapenyedia->update_akta_pendirian($where, $data);
+				$this->M_datapenyedia->update_akta_pendirian($data, $where);
 			} else {
 				$response = [
 					'maaf' => 'Maaf Anda Memerlukan Token Yang Valid',
@@ -892,7 +893,7 @@ class Datapenyedia extends CI_Controller
 				$response = [
 					'message' => 'success'
 				];
-				$this->M_datapenyedia->update_akta_pendirian($where, $data);
+				$this->M_datapenyedia->update_akta_pendirian($data, $where);
 			} else {
 				$response = [
 					'maaf' => 'Maaf Anda Memerlukan Token Yang Valid',
@@ -985,10 +986,10 @@ class Datapenyedia extends CI_Controller
 			];
 			if (!$row_akta_pendirian) {
 				$this->M_datapenyedia->tambah_akta_perubahan($upload);
-				$this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
+				// $this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
 			} else {
 				$this->M_datapenyedia->update_akta_perubahan($upload, $where);
-				$this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
+				// $this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
 			}
 
 			$response = [

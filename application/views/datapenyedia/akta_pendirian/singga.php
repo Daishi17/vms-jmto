@@ -354,6 +354,7 @@
             <div class="modal-body">
                 <form id="form_dekrip" method="post">
                     <input type="hidden" name="id_url">
+                    <input type="hidden" name="type" value="dekrip">
                     <center>
                         <img src="<?= base_url('assets34543543/img/private.jpg') ?>" width="100%" alt="">
                         <p>Silakan Masukan Token Untuk Mendkrip File Anda </p>

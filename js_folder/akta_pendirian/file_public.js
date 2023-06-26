@@ -177,7 +177,7 @@ function GenerateEnkrip(){
 function GenerateDekrip(){
   var url_encryption_pendirian = $('[name="url_encryption_pendirian"]').val();
   var modal_dekrip_pendirian = $('#modal_dekrip_pendirian');
-  var id_url =  $('[name="id_url"]').val();
+  var id_url = $('[name="id_url"]').val();
   $.ajax({
         method: "POST",
         url: url_encryption_pendirian + id_url,
