@@ -22,7 +22,7 @@ class Dashboard extends CI_Controller
 
         $this->load->view('template_menu/header_menu');
         $this->load->view('dashboard/index', $data);
-        $this->load->view('template_menu/footer_menu');
+        $this->load->view('template_menu/new_footer');
         // angga
         // $this->load->view('dashboard/ajax');
     }

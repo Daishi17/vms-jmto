@@ -222,7 +222,7 @@
                 </li>
 
                 <li>
-                    <a href="<?= base_url() ?>dok_tervalidasi" class="nav-link px-2 text-white">
+                    <a href="<?= base_url() ?>monitoring_dokumen" class="nav-link px-2 text-white">
                         <i class="fa-solid fa-envelope-circle-check mb-1"></i>
                         <small>Monitoring Status Dokumen <span class="badge bg-danger">0</span></small>
 
@@ -235,13 +235,13 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li>
-                            <a class="dropdown-item" href="http://localhost/eproc-jmto/page_kosong/page_konstruksi">
+                            <a class="dropdown-item" href="<?= base_url() ?>page_kosong/page_konstruksi">
                                 <i class="fa-solid fa-envelope-open-text px-1"></i>
                                 <small>Tender Terundang <span class="badge bg-success">4</span></small>
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="http://localhost/eproc-jmto/page_kosong/page_konstruksi">
+                            <a class="dropdown-item" href="<?= base_url() ?>page_kosong/page_konstruksi">
                                 <i class="fa-solid fa-inbox px-1"></i>
                                 <small>Tender Umum</small>
                             </a>
@@ -250,7 +250,7 @@
                             <hr class="dropdown-divider">
                         </li>
                         <li>
-                            <a class="dropdown-item" href="http://localhost/eproc-jmto/page_kosong/page_konstruksi">
+                            <a class="dropdown-item" href="<?= base_url() ?>page_kosong/page_konstruksi">
                                 <i class="fa-solid fa-newspaper px-1"></i>
                                 <small>Berita Terkini <span class="badge bg-primary">4</span></small>
                             </a>
@@ -264,7 +264,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li>
-                            <a class="dropdown-item" href="http://localhost/eproc-jmto/page_kosong/page_konstruksi">
+                            <a class="dropdown-item" href="<?= base_url() ?>page_kosong/page_konstruksi">
                                 <i class="fa-solid fa-marker px-1"></i>
                                 <small>Hasil Tender</small>
                             </a>
@@ -273,13 +273,13 @@
                             <hr class="dropdown-divider">
                         </li>
                         <li>
-                            <a class="dropdown-item" href="http://localhost/eproc-jmto/page_kosong/page_konstruksi">
+                            <a class="dropdown-item" href="<?= base_url() ?>page_kosong/page_konstruksi">
                                 <i class="fa-solid fa-person-chalkboard px-1"></i>
                                 <small>Progress Kerja <span class="badge bg-success">4</span></small>
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="http://localhost/eproc-jmto/page_kosong/page_konstruksi">
+                            <a class="dropdown-item" href="<?= base_url() ?>page_kosong/page_konstruksi">
                                 <i class="fa-solid fa-certificate px-1"></i>
                                 <small>Penilaian Kinerja</small>
                             </a>
@@ -295,7 +295,7 @@
                             <small class="text-white">User: Penyedia</small>
                         </a>
                         <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-                            <li><a class="dropdown-item" href="#"><small>New project...</small></a></li>
+                            <li><a class="dropdown-item" href="<?= base_url('auth/logout') ?>"><small>Logout</small></a></li>
                         </ul>
                     </div>
                     <div class="flex-shrink-0 dropdown">
