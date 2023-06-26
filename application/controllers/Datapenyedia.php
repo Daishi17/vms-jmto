@@ -1087,7 +1087,7 @@ class Datapenyedia extends CI_Controller
 	public function manajerial()
 	{
 		$this->load->view('template_menu/header_menu');
-		$this->load->view('datapenyedia/manajerial/index');
+		$this->load->view('datapenyedia/manajerial/singgah');
 		$this->load->view('template_menu/new_footer');
 	}
 
@@ -1101,14 +1101,14 @@ class Datapenyedia extends CI_Controller
 	public function pengalaman()
 	{
 		$this->load->view('template_menu/header_menu');
-		$this->load->view('datapenyedia/pengalaman/index');
+		$this->load->view('datapenyedia/pengalaman/singgah');
 		$this->load->view('template_menu/new_footer');
 	}
 
 	public function pajak()
 	{
 		$this->load->view('template_menu/header_menu');
-		$this->load->view('datapenyedia/pajak/index');
+		$this->load->view('datapenyedia/pajak/singgah');
 		$this->load->view('template_menu/new_footer');
 	}
 }
