@@ -1,99 +1,143 @@
-<div class="tab-pane fade active show" id="nav-nib" role="tabpanel" aria-labelledby="nav-nib-tab">
-    <div class="card border-danger shadow-sm">
-        <div class="card-header border-danger d-flex justify-content-between align-items-center">
-            <div class="card-title">
-                <span class="text-dark">
-                    <i class="fa-regular fa-folder-open"></i>
-                    <small><strong>Form Dokumen - Nomor Induk Berusaha (NIB)</strong></small>
-                </span>
-            </div>
-            <button type="button" data-bs-toggle="modal" data-bs-target="#apply_edit_nib" class="btn btn-secondary btn-sm shadow-lg">
-                <i class="fa-solid fa-pen-to-square px-1"></i>
-                Edit Changes
-            </button>
-        </div>
-        <div class="card-body">
-            <form id="form_izin_usaha" enctype="multipart/form-data">
-                <table class="table table-sm">
-                    <tr>
-                        <td class="col-sm-2 bg-light">
-                            <label class="form-label col-form-label-sm"><b>Nomor Surat</b></label>
-                        </td>
-                        <td class="col-sm-3">
-                            <div class="col-sm-10">
-                                <div class="input-group mb-2">
-                                    <span class="input-group-text"><i class="fa-solid fa-barcode"></i></span>
-                                    <input type="text" name="nomor_surat_nib" class="form-control form-control-sm nomor_surat_form">
-                                </div>
-                            </div>
-                        </td>
-                        <td class="col-sm-2 bg-light">
-                            <label class="form-label col-sm-12 col-form-label-sm"><b>Berlaku Sampai</b></label>
-                        </td>
-                        <td class="col-sm-5">
-                            <div class="col-sm-5">
-                                <div class="input-group mb-2">
-                                    <span class="input-group-text"><i class="fa-solid fa-calendar-days"></i></span>
-                                    <select name="sts_seumur_hidup_form_nib" class="form-select text-sm sts_seumur_hidup_form_nib" aria-label="Default select example" onchange="sts_berlaku_nib()">
-                                        <option value="1">Tanggal</option>
-                                        <option value="2">Seumur Hidup</option>
-                                    </select>
-                                </div>
-                                <input type="date" id="tgl_berlaku_nib" name="tgl_berlaku_nib" class="form-control tgl_berlaku_nib_form" readonly data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-sm-2 bg-light">
-                            <label class="form-label col-form-label-sm"><b>Upload File</b></label>
-                        </td>
-                        <td class="col-sm-3">
-                            <input type="file" name="file_dokumen_nib" class="file_dokumen_nib" accept=".pdf, .xlsx, .xls">
-                        </td>
-                        <td class="col-sm-2 bg-light">
-                            <div id="tampil_dokumen">
+//   BATAS SBU
 
-                            </div>
-                        </td>
-                        <td class="col-sm-5">
-                            <div class="button_enkrip">
+// batas sbu
+public function tambah_sbu($data)
+{
+    $this->db->insert('tbl_vendor_sbu', $data);
+    return $this->db->affected_rows();
+}
 
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-sm-2 bg-light">
-                            <label class="form-label col-form-label-sm"><b>Input KBLI</b></label>
-                        </td>
-                        <td class="col-sm-3">
-                            <button type="button" class="btn btn-danger btn-sm col-sm-8 shadow-lg" data-bs-toggle="modal" data-bs-target="#modal-xl-nib">
-                                <i class="fa-solid fa-clone px-1"></i>
-                                Input Data KBLI
-                            </button>
-                        </td>
-                        <td class="col-sm-2 bg-light">
-                            <label class="form-label col-form-label-sm"><b>Status Validasi Dokumen</b></label>
-                        </td>
-                        <td class="col-sm-5">
-                            <span class="badge bg-secondary">Belum Tervalidasi</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-sm-12 bg-dark" colspan="4"></td>
-                    </tr>
-                    <tr>
-                        <td class="col-sm-12" colspan="4">
-                            <div class="card-footer">
-                                <button type="submit" id="on_save_nib" class="btn btn-primary btn-sm shadow-lg">
-                                    <i class="fa-solid fa-floppy-disk px-1"></i>
-                                    Simpan
-                                </button>
-                                <a href="javascript:;" id="on_cancel_nib" onclick="BatalChangeGlobal_nib()" class="btn btn-dark btn-sm shadow-lg"> <i class="fa-solid fa-angles-left px-1"> </i> Cancel</a>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-            </form>
-        </div>
-    </div>
-</div>
+public function update_sbu($data, $where)
+{
+    $this->db->update('tbl_vendor_sbu', $data);
+    $this->db->where($where);
+    return $this->db->affected_rows();
+}
+
+
+
+public function update_enkrip_sbu($where, $data)
+{
+    $this->db->update('tbl_vendor_sbu', $data, $where);
+    return $this->db->affected_rows();
+}
+
+public function update_dekrip_sbu($where, $data)
+{
+    $this->db->update('tbl_vendor_sbu', $data, $where);
+    return $this->db->affected_rows();
+}
+
+
+public function get_row_sbu_url($id_url)
+{
+    $this->db->select('*');
+    $this->db->from('tbl_vendor_sbu');
+    $this->db->where('tbl_vendor_sbu.id_url', $id_url);
+    $query = $this->db->get();
+    return $query->row_array();
+}
+
+public function get_row_sbu($id_vendor)
+{
+    $this->db->select('*');
+    $this->db->from('tbl_vendor_sbu');
+    $this->db->where('tbl_vendor_sbu.id_vendor', $id_vendor);
+    $query = $this->db->get();
+    return $query->row_array();
+}
+
+// 
+// tambah kbli sbu
+public function tambah_kbli_sbu($data)
+{
+    $this->db->insert('tbl_vendor_kbli_sbu', $data);
+    return $this->db->affected_rows();
+}
+var $order_sbu =  array('id_vendor_kbli_sbu', 'kode_kbli', 'nama_kbli', 'sts_kbli_sbu', 'id_vendor_kbli_sbu');
+
+// get sbu
+private function _get_data_query_kbli_sbu($id_vendor)
+{
+    $this->db->select('*');
+    $this->db->from('tbl_vendor_kbli_sbu');
+    $this->db->join('tbl_sbu', 'tbl_vendor_kbli_sbu.id_sbu = tbl_sbu.id_sbu', 'left');
+    $this->db->join('tbl_kualifikasi_sbu', 'tbl_vendor_kbli_sbu.id_kualifikasi_sbu = tbl_kualifikasi_sbu.id_kualifikasi_sbu', 'left');
+    $this->db->where('tbl_vendor_kbli_sbu.id_vendor', $id_vendor);
+    $i = 0;
+    foreach ($this->order_sbu as $item) // looping awal
+    {
+        if ($_POST['search']['value']) // jika datatable mengirimkan pencarian dengan metode POST
+        {
+
+            if ($i === 0) // looping awal
+            {
+                $this->db->group_start();
+                $this->db->like($item, $_POST['search']['value']);
+            } else {
+                $this->db->or_like(
+                    $item,
+                    $_POST['search']['value']
+                );
+            }
+
+            if (count($this->order_sbu) - 1 == $i)
+                $this->db->group_end();
+        }
+        $i++;
+    }
+    if (isset($_POST['order'])) {
+        $this->db->order_by($this->order_sbu[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+    } else {
+        $this->db->order_by('tbl_vendor_kbli_sbu.id_vendor_kbli_sbu', 'DESC');
+    }
+}
+
+public function gettable_kbli_sbu($id_vendor) //nam[ilin data pake ini
+{
+    $this->_get_data_query_kbli_sbu($id_vendor); //ambil data dari get yg di atas
+    if ($_POST['length'] != -1) {
+        $this->db->limit($_POST['length'], $_POST['start']);
+    }
+    $query = $this->db->get();
+    return $query->result();
+}
+public function count_filtered_data_kbli_sbu($id_vendor)
+{
+    $this->_get_data_query_kbli_sbu($id_vendor); //ambil data dari get yg di atas
+    $query = $this->db->get();
+    return $query->num_rows();
+}
+
+public function count_all_data_kbli_sbu($id_vendor)
+{
+    $this->db->select('*');
+    $this->db->from('tbl_vendor_kbli_sbu');
+    $this->db->join('tbl_sbu', 'tbl_vendor_kbli_sbu.id_sbu = tbl_sbu.id_sbu', 'left');
+    $this->db->join('tbl_kualifikasi_sbu', 'tbl_vendor_kbli_sbu.id_kualifikasi_sbu = tbl_kualifikasi_sbu.id_kualifikasi_sbu', 'left');
+    $this->db->where('tbl_vendor_kbli_sbu.id_vendor', $id_vendor);
+    return $this->db->count_all_results();
+}
+
+public function get_row_kbli_sbu($id_url_kbli_sbu)
+{
+    $this->db->select('*');
+    $this->db->from('tbl_vendor_kbli_sbu');
+    $this->db->join('tbl_sbu', 'tbl_vendor_kbli_sbu.id_sbu = tbl_sbu.id_sbu', 'left');
+    $this->db->join('tbl_kualifikasi_sbu', 'tbl_vendor_kbli_sbu.id_kualifikasi_sbu = tbl_kualifikasi_sbu.id_kualifikasi_sbu', 'left');
+    $this->db->where('tbl_vendor_kbli_sbu.id_url_kbli_sbu', $id_url_kbli_sbu);
+    $query = $this->db->get();
+    return $query->row_array();
+}
+
+function edit_kbli_sbu($data, $where)
+{
+    $this->db->update('tbl_vendor_kbli_sbu', $data, $where);
+    return $this->db->affected_rows();
+}
+
+function hapus_kbli_sbu($where)
+{
+    $this->db->delete('tbl_vendor_kbli_sbu', $where);
+    return $this->db->affected_rows();
+}
