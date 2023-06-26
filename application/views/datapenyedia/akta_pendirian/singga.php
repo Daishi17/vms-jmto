@@ -257,9 +257,9 @@
                                                                     </button>
                                                                 </td>
                                                                 <td class="col-sm-5">
-                                                                    <div class="button_enkrip">
+                                                                    <!-- <div class="button_enkrip">
 
-                                                                    </div>
+                                                                    </div> -->
                                                                     <!-- <button type="button" class="btn btn-warning btn-sm shadow-lg">
                                                                         <i class="fa-solid fa-lock-open px-1"></i>
                                                                         Dekripsi File

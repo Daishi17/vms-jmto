@@ -806,10 +806,10 @@ class Datapenyedia extends CI_Controller
 			];
 			if (!$row_akta_pendirian) {
 				$this->M_datapenyedia->tambah_akta_pendirian($upload);
-				$this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
+				$this->M_datapenyedia->update_status_dokumen($where, $sts_upload);
 			} else {
 				$this->M_datapenyedia->update_akta_pendirian($upload, $where);
-				$this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
+				$this->M_datapenyedia->update_status_dokumen($where, $sts_upload);
 			}
 
 			$response = [
@@ -829,12 +829,12 @@ class Datapenyedia extends CI_Controller
 				'sts_token_dokumen' => 1,
 			];
 			if (!$row_akta_pendirian) {
-				$this->M_datapenyedia->tambah_nib($upload);
+				$this->M_datapenyedia->tambah_akta_pendirian($upload);
 			} else {
 				$where = [
 					'id_vendor' => $id_vendor
 				];
-				$this->M_datapenyedia->update_nib($upload, $where);
+				$this->M_datapenyedia->update_akta_pendirian($upload, $where);
 			}
 
 			$response = [

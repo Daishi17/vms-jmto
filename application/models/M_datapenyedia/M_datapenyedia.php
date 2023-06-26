@@ -260,7 +260,7 @@ class M_datapenyedia extends CI_Model
         return $this->db->affected_rows();
     }
 
-    public function update_akta_pendirian($where, $data)
+    public function update_akta_pendirian($data, $where)
     {
         $this->db->update('tbl_vendor_akta_pendirian', $data);
         $this->db->where($where);
