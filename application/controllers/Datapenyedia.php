@@ -915,10 +915,10 @@ class Datapenyedia extends CI_Controller
 			];
 			if (!$row_akta_pendirian) {
 				$this->M_datapenyedia->tambah_akta_pendirian($upload);
-				$this->M_datapenyedia->update_status_dokumen($where, $sts_upload);
+				$this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
 			} else {
 				$this->M_datapenyedia->update_akta_pendirian($upload, $where);
-				$this->M_datapenyedia->update_status_dokumen($where, $sts_upload);
+				$this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
 			}
 
 			$response = [
