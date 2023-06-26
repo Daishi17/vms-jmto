@@ -1,100 +1,99 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-?><!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<title>Welcome to CodeIgniter</title>
+<div class="tab-pane fade active show" id="nav-nib" role="tabpanel" aria-labelledby="nav-nib-tab">
+    <div class="card border-danger shadow-sm">
+        <div class="card-header border-danger d-flex justify-content-between align-items-center">
+            <div class="card-title">
+                <span class="text-dark">
+                    <i class="fa-regular fa-folder-open"></i>
+                    <small><strong>Form Dokumen - Nomor Induk Berusaha (NIB)</strong></small>
+                </span>
+            </div>
+            <button type="button" data-bs-toggle="modal" data-bs-target="#apply_edit_nib" class="btn btn-secondary btn-sm shadow-lg">
+                <i class="fa-solid fa-pen-to-square px-1"></i>
+                Edit Changes
+            </button>
+        </div>
+        <div class="card-body">
+            <form id="form_izin_usaha" enctype="multipart/form-data">
+                <table class="table table-sm">
+                    <tr>
+                        <td class="col-sm-2 bg-light">
+                            <label class="form-label col-form-label-sm"><b>Nomor Surat</b></label>
+                        </td>
+                        <td class="col-sm-3">
+                            <div class="col-sm-10">
+                                <div class="input-group mb-2">
+                                    <span class="input-group-text"><i class="fa-solid fa-barcode"></i></span>
+                                    <input type="text" name="nomor_surat_nib" class="form-control form-control-sm nomor_surat_form">
+                                </div>
+                            </div>
+                        </td>
+                        <td class="col-sm-2 bg-light">
+                            <label class="form-label col-sm-12 col-form-label-sm"><b>Berlaku Sampai</b></label>
+                        </td>
+                        <td class="col-sm-5">
+                            <div class="col-sm-5">
+                                <div class="input-group mb-2">
+                                    <span class="input-group-text"><i class="fa-solid fa-calendar-days"></i></span>
+                                    <select name="sts_seumur_hidup_form_nib" class="form-select text-sm sts_seumur_hidup_form_nib" aria-label="Default select example" onchange="sts_berlaku_nib()">
+                                        <option value="1">Tanggal</option>
+                                        <option value="2">Seumur Hidup</option>
+                                    </select>
+                                </div>
+                                <input type="date" id="tgl_berlaku_nib" name="tgl_berlaku_nib" class="form-control tgl_berlaku_nib_form" readonly data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-2 bg-light">
+                            <label class="form-label col-form-label-sm"><b>Upload File</b></label>
+                        </td>
+                        <td class="col-sm-3">
+                            <input type="file" name="file_dokumen_nib" class="file_dokumen_nib" accept=".pdf, .xlsx, .xls">
+                        </td>
+                        <td class="col-sm-2 bg-light">
+                            <div id="tampil_dokumen">
 
-	<style type="text/css">
+                            </div>
+                        </td>
+                        <td class="col-sm-5">
+                            <div class="button_enkrip">
 
-	::selection { background-color: #E13300; color: white; }
-	::-moz-selection { background-color: #E13300; color: white; }
-
-	body {
-		background-color: #fff;
-		margin: 40px;
-		font: 13px/20px normal Helvetica, Arial, sans-serif;
-		color: #4F5155;
-	}
-
-	a {
-		color: #003399;
-		background-color: transparent;
-		font-weight: normal;
-		text-decoration: none;
-	}
-
-	a:hover {
-		color: #97310e;
-	}
-
-	h1 {
-		color: #444;
-		background-color: transparent;
-		border-bottom: 1px solid #D0D0D0;
-		font-size: 19px;
-		font-weight: normal;
-		margin: 0 0 14px 0;
-		padding: 14px 15px 10px 15px;
-	}
-
-	code {
-		font-family: Consolas, Monaco, Courier New, Courier, monospace;
-		font-size: 12px;
-		background-color: #f9f9f9;
-		border: 1px solid #D0D0D0;
-		color: #002166;
-		display: block;
-		margin: 14px 0 14px 0;
-		padding: 12px 10px 12px 10px;
-	}
-
-	#body {
-		margin: 0 15px 0 15px;
-		min-height: 96px;
-	}
-
-	p {
-		margin: 0 0 10px;
-		padding:0;
-	}
-
-	p.footer {
-		text-align: right;
-		font-size: 11px;
-		border-top: 1px solid #D0D0D0;
-		line-height: 32px;
-		padding: 0 10px 0 10px;
-		margin: 20px 0 0 0;
-	}
-
-	#container {
-		margin: 10px;
-		border: 1px solid #D0D0D0;
-		box-shadow: 0 0 8px #D0D0D0;
-	}
-	</style>
-</head>
-<body>
-
-<div id="container">
-	<h1>Welcome to CodeIgniter!</h1>
-
-	<div id="body">
-		<p>The page you are looking at is being generated dynamically by CodeIgniter.</p>
-
-		<p>If you would like to edit this page you'll find it located at:</p>
-		<code>application/views/welcome_message.php</code>
-
-		<p>The corresponding controller for this page is found at:</p>
-		<code>application/controllers/Welcome.php</code>
-
-		<p>If you are exploring CodeIgniter for the very first time, you should start by reading the <a href="userguide3/">User Guide</a>.</p>
-	</div>
-
-	<p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds. <?php echo  (ENVIRONMENT === 'development') ?  'CodeIgniter Version <strong>' . CI_VERSION . '</strong>' : '' ?></p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-2 bg-light">
+                            <label class="form-label col-form-label-sm"><b>Input KBLI</b></label>
+                        </td>
+                        <td class="col-sm-3">
+                            <button type="button" class="btn btn-danger btn-sm col-sm-8 shadow-lg" data-bs-toggle="modal" data-bs-target="#modal-xl-nib">
+                                <i class="fa-solid fa-clone px-1"></i>
+                                Input Data KBLI
+                            </button>
+                        </td>
+                        <td class="col-sm-2 bg-light">
+                            <label class="form-label col-form-label-sm"><b>Status Validasi Dokumen</b></label>
+                        </td>
+                        <td class="col-sm-5">
+                            <span class="badge bg-secondary">Belum Tervalidasi</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-12 bg-dark" colspan="4"></td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-12" colspan="4">
+                            <div class="card-footer">
+                                <button type="submit" id="on_save_nib" class="btn btn-primary btn-sm shadow-lg">
+                                    <i class="fa-solid fa-floppy-disk px-1"></i>
+                                    Simpan
+                                </button>
+                                <a href="javascript:;" id="on_cancel_nib" onclick="BatalChangeGlobal_nib()" class="btn btn-dark btn-sm shadow-lg"> <i class="fa-solid fa-angles-left px-1"> </i> Cancel</a>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
 </div>
-
-</body>
-</html>

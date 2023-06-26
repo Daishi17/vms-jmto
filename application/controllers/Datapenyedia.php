@@ -41,6 +41,7 @@ class Datapenyedia extends CI_Controller
 		$data['row_vendor']  = $this->M_datapenyedia->get_row_vendor($id_vendor);
 		$data['get_row_nib']  = $this->M_datapenyedia->get_row_nib($id_vendor);
 		$data['kualifikasi']  = $this->M_datapenyedia->get_kualifikasi_izin();
+		$data['data_kbli']  = $this->M_datapenyedia->get_kbli();
 		$this->load->view('template_menu/header_menu');
 		$this->load->view('datapenyedia/izin_usaha/singgah', $data);
 		$this->load->view('template_menu/new_footer');
@@ -83,11 +84,11 @@ class Datapenyedia extends CI_Controller
 		$id = str_replace('-', '', $id);
 		$token = $this->token->data_token();
 		// post
-		$nomor_surat = $this->input->post('nomor_surat');
-		$kualifikasi_izin = $this->input->post('kualifikasi_izin');
-		$sts_seumur_hidup = $this->input->post('sts_seumur_hidup');
+		$nomor_surat_nib = $this->input->post('nomor_surat_nib');
+		$kualifikasi_izin_nib = $this->input->post('kualifikasi_izin_nib');
+		$sts_seumur_hidup_nib = $this->input->post('sts_seumur_hidup_nib');
 		$tgl_berlaku_nib = $this->input->post('tgl_berlaku_nib');
-		$password_dokumen = '1234';
+		$password_dokumen_nib = '1234';
 
 		// SETTING PATH 
 		$date = date('Y');
@@ -103,37 +104,32 @@ class Datapenyedia extends CI_Controller
 
 
 		$this->load->library('upload', $config);
-		if ($this->upload->do_upload('file_dokumen')) {
+		if ($this->upload->do_upload('file_dokumen_nib')) {
 			$fileData = $this->upload->data();
-			$file_dokumen = $fileData['file_name'];
+			$file_dokumen_nib = $fileData['file_name'];
 			$chiper = "AES-128-ECB";
 			$secret = $token;
-			$enckrips_string = openssl_encrypt($file_dokumen, $chiper, $secret);
+			$enckrips_string = openssl_encrypt($file_dokumen_nib, $chiper, $secret);
 			$upload = [
-				'id_url' => $id,
+				'id_url_nib' => $id,
 				'id_vendor' => $id_vendor,
 				'no_urut_nib' => '322',
-				'nomor_surat' => $nomor_surat,
-				'kualifikasi_izin' => $kualifikasi_izin,
-				'sts_seumur_hidup' => $sts_seumur_hidup,
-				'password_dokumen' => $password_dokumen,
-				'file_dokumen' => $enckrips_string,
-				'token_dokumen' => $secret,
+				'nomor_surat_nib' => $nomor_surat_nib,
+				'kualifikasi_izin_nib' => $kualifikasi_izin_nib,
+				'sts_seumur_hidup_nib' => $sts_seumur_hidup_nib,
+				'password_dokumen_nib' => $password_dokumen_nib,
+				'file_dokumen_nib' => $enckrips_string,
+				'token_dokumen_nib' => $secret,
 				'tgl_berlaku_nib' => $tgl_berlaku_nib,
-				'sts_token_dokumen' => 1,
-			];
-			$sts_upload = [
-				'sts_upload_dokumen' => 1
+				'sts_token_dokumen_nib' => 1,
 			];
 			$where = [
 				'id_vendor' => $id_vendor
 			];
 			if (!$row_nib) {
 				$this->M_datapenyedia->tambah_nib($upload);
-				$this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
 			} else {
 				$this->M_datapenyedia->update_nib($upload, $where);
-				$this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
 			}
 
 			$response = [
@@ -142,13 +138,12 @@ class Datapenyedia extends CI_Controller
 			$this->output->set_content_type('application/json')->set_output(json_encode($response));
 		} else {
 			$upload = [
-				'id_url' => $id,
+				'id_url_nib' => $id,
 				'id_vendor' => $id_vendor,
 				'no_urut_nib' => '322',
-				'nomor_surat' => $nomor_surat,
-				'kualifikasi_izin' => $kualifikasi_izin,
-				'sts_seumur_hidup' => $sts_seumur_hidup,
-				'password_dokumen' => $password_dokumen,
+				'nomor_surat_nib' => $nomor_surat_nib,
+				'kualifikasi_izin_nib' => $kualifikasi_izin_nib,
+				'sts_seumur_hidup_nib' => $sts_seumur_hidup_nib,
 				'tgl_berlaku_nib' => $tgl_berlaku_nib,
 			];
 			if (!$row_nib) {
@@ -256,6 +251,122 @@ class Datapenyedia extends CI_Controller
 		return force_download('file_vms/' . $row_vendor['nama_usaha'] . '/NIB-' . $date . '/' . $get_row_enkrip['file_dokumen'], NULL);
 	}
 
+	// get_data_kbli_nib
+	public function get_data_kbli_nib()
+	{
+		$id_vendor = $this->session->userdata('id_vendor');
+		$resultss = $this->M_datapenyedia->gettable_kbli_nib($id_vendor);
+		$data = [];
+		$no = $_POST['start'];
+		foreach ($resultss as $rs) {
+			$row = array();
+			$row[] = ++$no;
+			$row[] = $rs->kode_kbli . ' || ' . $rs->nama_kbli;
+			$row[] = $rs->nama_kualifikasi;
+			if ($rs->sts_kbli_nib == 1) {
+				$row[] = '<span class="badge bg-success">Sudah Tervalidasi</span>';
+			} else {
+				$row[] = '<span class="badge bg-secondary">Belum Tervalidasi</span>';
+			}
+			$row[] = '<a  href="javascript:;" class=" btn btn-warning btn-sm" onClick="byid_kbli_nib(' . "'" . $rs->id_url_kbli_nib . "','edit'" . ')"><i class="fa fa-edit"></i> Edit</a>
+			<a  href="javascript:;" class=" btn btn-danger btn-sm" onClick="byid_kbli_nib(' . "'" . $rs->id_url_kbli_nib . "','hapus'" . ')"><i class="fas fa fa-trash"></i> Hapus</a>';
+			$data[] = $row;
+		}
+		$output = array(
+			"draw" => $_POST['draw'],
+			"recordsTotal" => $this->M_datapenyedia->count_all_data($id_vendor),
+			"recordsFiltered" => $this->M_datapenyedia->count_filtered_data($id_vendor),
+			"data" => $data
+		);
+		$this->output->set_content_type('application/json')->set_output(json_encode($output));
+	}
+
+
+	function get_byid_kbli_nib($id_url_kbli_nib)
+	{
+		$response = [
+			'row_kbli_nib' => $this->M_datapenyedia->get_row_kbli_nib($id_url_kbli_nib),
+		];
+		$this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+	// tambah kbli_nib 
+	function tambah_kbli_nib()
+	{
+		$id_vendor = $this->session->userdata('id_vendor');
+		$id = $this->uuid->v4();
+		$id = str_replace('-', '', $id);
+		$token = $this->token->data_token();
+		// post
+		$id_kbli = $this->input->post('id_kbli');
+		$id_kualifikasi_izin = $this->input->post('id_kualifikasi_izin');
+		$ket_kbli_nib = $this->input->post('ket_kbli_nib');
+		$data = [
+			'id_url_kbli_nib' => $id,
+			'token_kbli_nib' => $token,
+			'id_vendor' => $id_vendor,
+			'id_kbli' => $id_kbli,
+			'id_kualifikasi_izin' => $id_kualifikasi_izin,
+			'ket_kbli_nib' => $ket_kbli_nib,
+			'sts_kbli_nib' => 0,
+		];
+		$this->M_datapenyedia->tambah_kbli_nib($data);
+		$response = [
+			'message' => 'success',
+		];
+		$this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+	function edit_kbli_nib()
+	{
+
+		$id_url_kbli_nib = $this->input->post('id_url_kbli_nib');
+		$token_kbli_nib = $this->input->post('token_kbli_nib');
+		$id_kbli = $this->input->post('id_kbli');
+		$id_kualifikasi_izin = $this->input->post('id_kualifikasi_izin');
+		$ket_kbli_nib = $this->input->post('ket_kbli_nib');
+		$cek_token = $this->M_datapenyedia->get_row_kbli_nib($id_url_kbli_nib);
+		if ($token_kbli_nib == $cek_token['token_kbli_nib']) {
+			$where = [
+				'id_url_kbli_nib' => $id_url_kbli_nib
+			];
+			$data = [
+				'id_kbli' => $id_kbli,
+				'id_kualifikasi_izin' => $id_kualifikasi_izin,
+				'ket_kbli_nib' => $ket_kbli_nib,
+				'sts_kbli_nib' => 0,
+			];
+			$this->M_datapenyedia->edit_kbli_nib($data, $where);
+			$response = [
+				'message' => 'success',
+			];
+		} else {
+			$response = [
+				'maaf' => 'Token Tidak Valid !!!',
+			];
+		}
+
+		$this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+	function hapus_kbli_nib()
+	{
+		$id_url_kbli_nib = $this->input->post('id');
+		$token_kbli_nib = $this->input->post('token');
+		$cek_token = $this->M_datapenyedia->get_row_kbli_nib($id_url_kbli_nib);
+		if ($token_kbli_nib == $cek_token['token_kbli_nib']) {
+			$where = [
+				'id_url_kbli_nib' => $id_url_kbli_nib
+			];
+			$this->M_datapenyedia->hapus_kbli_nib($where);
+			$response = [
+				'message' => 'success',
+			];
+		} else {
+			$response = [
+				'maaf' => 'Token Tidak Valid !!!',
+			];
+		}
+		$this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
 
 	// siup crud
 	public function add_izin_usaha_siup()
@@ -285,8 +396,6 @@ class Datapenyedia extends CI_Controller
 		$config['max_size'] = 0;
 		$config['remove_spaces'] = TRUE;
 		// $config['encrypt_name'] = TRUE;
-
-
 		$this->load->library('upload', $config);
 		if ($this->upload->do_upload('file_dokumen')) {
 			$fileData = $this->upload->data();

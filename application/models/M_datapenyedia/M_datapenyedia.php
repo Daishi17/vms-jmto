@@ -50,6 +50,15 @@ class M_datapenyedia extends CI_Model
         return $query->result_array();
     }
 
+
+
+    public function get_kbli()
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_kbli');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
     public function get_result_vendor()
     {
         $this->db->select('*');
@@ -125,6 +134,103 @@ class M_datapenyedia extends CI_Model
         $query = $this->db->get();
         return $query->row_array();
     }
+
+    // 
+    // tambah kbli nib
+    public function tambah_kbli_nib($data)
+    {
+        $this->db->insert('tbl_vendor_kbli_nib', $data);
+        return $this->db->affected_rows();
+    }
+    var $colum_order = array('id_vendor_kbli_nib', 'kode_kbli', 'nama_kbli', 'sts_kbli_nib', 'id_vendor_kbli_nib');
+    var $order =  array('id_vendor_kbli_nib', 'kode_kbli', 'nama_kbli', 'sts_kbli_nib', 'id_vendor_kbli_nib');
+
+    // get nib
+    private function _get_data_query($id_vendor)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_vendor_kbli_nib');
+        $this->db->join('tbl_kbli', 'tbl_vendor_kbli_nib.id_kbli = tbl_kbli.id_kbli', 'left');
+        $this->db->join('tbl_kualifikasi_izin', 'tbl_vendor_kbli_nib.id_kualifikasi_izin = tbl_kualifikasi_izin.id_kualifikasi_izin', 'left');
+        $this->db->where('tbl_vendor_kbli_nib.id_vendor', $id_vendor);
+        $i = 0;
+        foreach ($this->order as $item) // looping awal
+        {
+            if ($_POST['search']['value']) // jika datatable mengirimkan pencarian dengan metode POST
+            {
+
+                if ($i === 0) // looping awal
+                {
+                    $this->db->group_start();
+                    $this->db->like($item, $_POST['search']['value']);
+                } else {
+                    $this->db->or_like(
+                        $item,
+                        $_POST['search']['value']
+                    );
+                }
+
+                if (count($this->order) - 1 == $i)
+                    $this->db->group_end();
+            }
+            $i++;
+        }
+        if (isset($_POST['order'])) {
+            $this->db->order_by($this->order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        } else {
+            $this->db->order_by('tbl_vendor_kbli_nib.id_vendor_kbli_nib', 'DESC');
+        }
+    }
+
+    public function gettable_kbli_nib($id_vendor) //nam[ilin data pake ini
+    {
+        $this->_get_data_query($id_vendor); //ambil data dari get yg di atas
+        if ($_POST['length'] != -1) {
+            $this->db->limit($_POST['length'], $_POST['start']);
+        }
+        $query = $this->db->get();
+        return $query->result();
+    }
+    public function count_filtered_data($id_vendor)
+    {
+        $this->_get_data_query($id_vendor); //ambil data dari get yg di atas
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    public function count_all_data($id_vendor)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_vendor_kbli_nib');
+        $this->db->join('tbl_kbli', 'tbl_vendor_kbli_nib.id_kbli = tbl_kbli.id_kbli', 'left');
+        $this->db->join('tbl_kualifikasi_izin', 'tbl_vendor_kbli_nib.id_kualifikasi_izin = tbl_kualifikasi_izin.id_kualifikasi_izin', 'left');
+        $this->db->where('tbl_vendor_kbli_nib.id_vendor', $id_vendor);
+        return $this->db->count_all_results();
+    }
+
+    public function get_row_kbli_nib($id_url_kbli_nib)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_vendor_kbli_nib');
+        $this->db->join('tbl_kbli', 'tbl_vendor_kbli_nib.id_kbli = tbl_kbli.id_kbli', 'left');
+        $this->db->join('tbl_kualifikasi_izin', 'tbl_vendor_kbli_nib.id_kualifikasi_izin = tbl_kualifikasi_izin.id_kualifikasi_izin', 'left');
+        $this->db->where('tbl_vendor_kbli_nib.id_url_kbli_nib', $id_url_kbli_nib);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
+    function edit_kbli_nib($data, $where)
+    {
+        $this->db->update('tbl_vendor_kbli_nib', $data, $where);
+        return $this->db->affected_rows();
+    }
+
+    function hapus_kbli_nib($where)
+    {
+        $this->db->delete('tbl_vendor_kbli_nib', $where);
+        return $this->db->affected_rows();
+    }
+
 
     // siup
     public function get_row_siup($id_vendor)

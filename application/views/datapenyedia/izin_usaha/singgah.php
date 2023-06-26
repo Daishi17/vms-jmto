@@ -1,32 +1,8 @@
-<main class="container-fluid">
+<div class="container-fluid">
     <!-- nanti ini di buat file global terpisah -->
     <input type="hidden" name="id_url_vendor" value="<?= $row_vendor['id_url_vendor'] ?>">
     <input type="hidden" name="secret_token" value="<?= $row_vendor['token_scure_vendor'] ?>">
-    <input type="hidden" name="url_encryption_nib" value="<?= base_url('datapenyedia/encryption_nib/') ?>">
-    <input type="hidden" name="url_download" value="<?= base_url('datapenyedia/url_download/') ?>">
-    <input type="hidden" value="<?= base_url('datapenyedia/get_row_global_vendor/') ?>" name="url_get_row_vendor">
-    <input type="hidden" value="<?= base_url('datapenyedia/add_izin_usaha') ?>" name="url_post">
-    <!-- <a href="javascript:;" onclick="kirun()">klik</a> -->
-
-    <!-- link post siup -->
-    <input type="hidden" value="<?= base_url('datapenyedia/add_izin_usaha_siup') ?>" name="url_post_siup">
-    <input type="hidden" name="url_encryption_siup" value="<?= base_url('datapenyedia/encryption_siup/') ?>">
-    <input type="hidden" name="url_download_siup" value="<?= base_url('datapenyedia/url_download_siup/') ?>">
-    <!-- end link post siup  -->
-
-
-    <!-- link post sbu -->
-    <input type="hidden" value="<?= base_url('datapenyedia/add_izin_usaha_sbu') ?>" name="url_post_sbu">
-    <input type="hidden" name="url_encryption_sbu" value="<?= base_url('datapenyedia/encryption_sbu/') ?>">
-    <input type="hidden" name="url_download_sbu" value="<?= base_url('datapenyedia/url_download_sbu/') ?>">
-    <!-- end link post sbu  -->
-
-    <!-- link post siujk -->
-    <input type="hidden" value="<?= base_url('datapenyedia/add_izin_usaha_siujk') ?>" name="url_post_siujk">
-    <input type="hidden" name="url_encryption_siujk" value="<?= base_url('datapenyedia/encryption_siujk/') ?>">
-    <input type="hidden" name="url_download_siujk" value="<?= base_url('datapenyedia/url_download_siujk/') ?>">
-    <!-- end link post siujk  -->
-    <input type="hidden" name="url_dekrip_nib" value="<?= base_url('datapenyedia/dekrip_nib') ?>">
+    <?php $this->load->view('datapenyedia/izin_usaha/url_izin_usaha') ?>
     <!-- Default box -->
     <div class="row">
         <div class="col">
@@ -108,7 +84,7 @@
                                                                     <div class="col-sm-10">
                                                                         <div class="input-group mb-2">
                                                                             <span class="input-group-text"><i class="fa-solid fa-barcode"></i></span>
-                                                                            <input type="text" name="nomor_surat" class="form-control form-control-sm nomor_surat_form">
+                                                                            <input type="text" name="nomor_surat_nib" class="form-control form-control-sm nomor_surat_form">
                                                                         </div>
                                                                     </div>
                                                                 </td>
@@ -119,7 +95,7 @@
                                                                     <div class="col-sm-5">
                                                                         <div class="input-group mb-2">
                                                                             <span class="input-group-text"><i class="fa-solid fa-calendar-days"></i></span>
-                                                                            <select name="sts_seumur_hidup_form" class="form-select text-sm sts_seumur_hidup_form" aria-label="Default select example" onchange="sts_berlaku_nib()">
+                                                                            <select name="sts_seumur_hidup_form_nib" class="form-select text-sm sts_seumur_hidup_form_nib" aria-label="Default select example" onchange="sts_berlaku_nib()">
                                                                                 <option value="1">Tanggal</option>
                                                                                 <option value="2">Seumur Hidup</option>
                                                                             </select>
@@ -133,7 +109,7 @@
                                                                     <label class="form-label col-form-label-sm"><b>Upload File</b></label>
                                                                 </td>
                                                                 <td class="col-sm-3">
-                                                                    <input type="file" name="file_dokumen" class="file_dokumen" accept=".pdf, .xlsx, .xls">
+                                                                    <input type="file" name="file_dokumen_nib" class="file_dokumen_nib" accept=".pdf, .xlsx, .xls">
                                                                 </td>
                                                                 <td class="col-sm-2 bg-light">
                                                                     <div id="tampil_dokumen">
@@ -146,360 +122,258 @@
                                                                     </div>
                                                                 </td>
                                                             </tr>
-                                                </div>
-                                                </tr>
-                                                <tr>
-                                                    <td class="col-sm-2 bg-light">
-                                                        <label class="form-label col-form-label-sm"><b>Input KBLI</b></label>
-                                                    </td>
-                                                    <td class="col-sm-3">
-                                                        <button type="button" class="btn btn-danger btn-sm col-sm-8 shadow-lg" data-bs-toggle="modal" data-bs-target="#modal-xl">
-                                                            <i class="fa-solid fa-clone px-1"></i>
-                                                            Input Data KBLI
-                                                        </button>
-                                                    </td>
-                                                    <td class="col-sm-2 bg-light">
-                                                        <label class="form-label col-form-label-sm"><b>Status Validasi Dokumen</b></label>
-                                                    </td>
-                                                    <td class="col-sm-5">
-                                                        <span class="badge bg-secondary">Belum Tervalidasi</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="col-sm-12 bg-dark" colspan="4"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="col-sm-12" colspan="4">
-                                                        <div class="card-footer">
-                                                            <button type="submit" id="on_save" class="btn btn-primary btn-sm shadow-lg">
-                                                                <i class="fa-solid fa-floppy-disk px-1"></i>
-                                                                Simpan
-                                                            </button>
-                                                            <a href="javascript:;" id="on_cancel" onclick="BatalChangeGlobal()" class="btn btn-dark btn-sm shadow-lg"> <i class="fa-solid fa-angles-left px-1"> </i> Cancel</a>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                </table>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="nav-siup" role="tabpanel" aria-labelledby="nav-siup-tab">
-                                        <div class="card border-dark shadow-sm">
-                                            <div class="card-header border-dark d-flex justify-content-between align-items-center">
-                                                <div class="card-title">
-                                                    <span class="text-dark">
-                                                        <i class="fa-regular fa-folder-open"></i>
-                                                        <small><strong>Form Dokumen - Surat Izin Usaha Perdagangan (SIUP)</strong></small>
-                                                    </span>
-                                                </div>
-                                                <button type="button" class="btn btn-secondary btn-sm shadow-lg" disabled>
-                                                    <i class="fa-solid fa-pen-to-square px-1"></i>
-                                                    Edit Changes
-                                                </button>
-                                            </div>
-                                            <div class="card-body">
-                                                <form>
-                                                    <table class="table table-sm">
-                                                        <tr>
-                                                            <td class="col-sm-2 bg-light">
-                                                                <label class="form-label col-form-label-sm"><b>Nomor Surat</b></label>
-                                                            </td>
-                                                            <td class="col-sm-3">
-                                                                <div class="col-sm-10">
-                                                                    <div class="input-group mb-2">
-                                                                        <span class="input-group-text"><i class="fa-solid fa-barcode"></i></span>
-                                                                        <input type="text" class="form-control">
+                                                            <tr>
+                                                                <td class="col-sm-2 bg-light">
+                                                                    <label class="form-label col-form-label-sm"><b>Input KBLI</b></label>
+                                                                </td>
+                                                                <td class="col-sm-3">
+                                                                    <button type="button" class="btn btn-danger btn-sm col-sm-8 shadow-lg" data-bs-toggle="modal" data-bs-target="#modal-xl-nib">
+                                                                        <i class="fa-solid fa-clone px-1"></i>
+                                                                        Input Data KBLI
+                                                                    </button>
+                                                                </td>
+                                                                <td class="col-sm-2 bg-light">
+                                                                    <label class="form-label col-form-label-sm"><b>Status Validasi Dokumen</b></label>
+                                                                </td>
+                                                                <td class="col-sm-5">
+                                                                    <span class="badge bg-secondary">Belum Tervalidasi</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="col-sm-12 bg-dark" colspan="4"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="col-sm-12" colspan="4">
+                                                                    <div class="card-footer">
+                                                                        <button type="submit" id="on_save_nib" class="btn btn-primary btn-sm shadow-lg">
+                                                                            <i class="fa-solid fa-floppy-disk px-1"></i>
+                                                                            Simpan
+                                                                        </button>
+                                                                        <a href="javascript:;" id="on_cancel_nib" onclick="BatalChangeGlobal_nib()" class="btn btn-dark btn-sm shadow-lg"> <i class="fa-solid fa-angles-left px-1"> </i> Cancel</a>
                                                                     </div>
-                                                                </div>
-                                                            </td>
-                                                            <td class="col-sm-2 bg-light">
-                                                                <label class="form-label col-sm-12 col-form-label-sm"><b>Berlaku Sampai</b></label>
-                                                            </td>
-                                                            <td class="col-sm-5">
-                                                                <div class="col-sm-5">
-                                                                    <div class="input-group mb-2">
-                                                                        <span class="input-group-text"><i class="fa-solid fa-calendar-days"></i></span>
-                                                                        <select class="form-select" aria-label="Default select example">
-                                                                            <option selected>Seumur Hidup</option>
-                                                                            <option>Tanggal</option>
-                                                                        </select>
-                                                                    </div>
-                                                                    <input type="date" id="date" disabled>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="col-sm-2 bg-light">
-                                                                <label class="form-label col-form-label-sm"><b>Upload File</b></label>
-                                                            </td>
-                                                            <td class="col-sm-3">
-                                                                <input type="file" id="file" accept=".pdf, .xlsx, .xls">
-                                                            </td>
-                                                            <td class="col-sm-2 bg-light">
-                                                                <button type="button" class="btn btn-info btn-sm text-start col-sm-12 shadow-lg">
-                                                                    <i class="fa-solid fa-file-pdf px-1"></i>
-                                                                    Nama File .pdf
-                                                                </button>
-                                                            </td>
-                                                            <td class="col-sm-5">
-
-                                                                <button type="button" class="btn btn-warning btn-sm shadow-lg" disabled>
-                                                                    <i class="fa-solid fa-lock-open px-1"></i>
-                                                                    Dekripsi File
-                                                                </button>
-                                            </div>
-                                            </tr>
-                                            <tr>
-                                                <td class="col-sm-2 bg-light">
-                                                    <label class="form-label col-form-label-sm"><b>Input KBLI</b></label>
-                                                </td>
-                                                <td class="col-sm-3">
-                                                    <button type="button" class="btn btn-danger btn-sm col-sm-8 shadow-lg" data-bs-toggle="modal" data-bs-target="#modal-xl-nib">
-                                                        <i class="fa-solid fa-clone px-1"></i>
-                                                        Input Data KBLI
-                                                    </button>
-                                                </td>
-                                                <td class="col-sm-2 bg-light">
-                                                    <label class="form-label col-form-label-sm"><b>Status Validasi Dokumen</b></label>
-                                                </td>
-                                                <td class="col-sm-5">
-                                                    <span class="badge bg-secondary">Belum Tervalidasi</span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="col-sm-12 bg-dark" colspan="4"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="col-sm-12" colspan="4">
-                                                    <button onclick="history.back()" type="button" class="btn btn-dark btn-sm shadow-lg">
-                                                        <i class="fa-solid fa-angles-left px-1"></i>
-                                                        Go Back
-                                                    </button>
-                                                    <button type="button" class="btn btn-primary btn-sm shadow-lg" disabled>
-                                                        <i class="fa-solid fa-floppy-disk px-1"></i>
-                                                        Save Changes
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            </table>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade" id="nav-sbu" role="tabpanel" aria-labelledby="nav-sbu-tab">
-                                    <div class="card border-danger shadow-sm">
-                                        <div class="card-header border-danger d-flex justify-content-between align-items-center">
-                                            <div class="card-title">
-                                                <span class="text-dark">
-                                                    <i class="fa-regular fa-folder-open"></i>
-                                                    <small><strong>Form Dokumen - Sertifikat Badan Usaha (SBU)</strong></small>
-                                                </span>
-                                            </div>
-                                            <button type="button" class="btn btn-secondary btn-sm shadow-lg" disabled>
-                                                <i class="fa-solid fa-pen-to-square px-1"></i>
-                                                Edit Changes
-                                            </button>
-                                        </div>
-                                        <div class="card-body">
-                                            <form>
-                                                <table class="table table-sm">
-                                                    <tr>
-                                                        <td class="col-sm-2 bg-light">
-                                                            <label class="form-label col-form-label-sm"><b>Nomor Surat</b></label>
-                                                        </td>
-                                                        <td class="col-sm-3">
-                                                            <div class="col-sm-10">
-                                                                <div class="input-group mb-2">
-                                                                    <span class="input-group-text"><i class="fa-solid fa-barcode"></i></span>
-                                                                    <input type="text" class="form-control">
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td class="col-sm-2 bg-light">
-                                                            <label class="form-label col-sm-12 col-form-label-sm"><b>Berlaku Sampai</b></label>
-                                                        </td>
-                                                        <td class="col-sm-5">
-                                                            <div class="col-sm-5">
-                                                                <div class="input-group mb-2">
-                                                                    <span class="input-group-text"><i class="fa-solid fa-calendar-days"></i></span>
-                                                                    <select class="form-select" aria-label="Default select example">
-                                                                        <option selected>Seumur Hidup</option>
-                                                                        <option>Tanggal</option>
-                                                                    </select>
-                                                                </div>
-                                                                <input type="date" id="date" disabled>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="col-sm-2 bg-light">
-                                                            <label class="form-label col-form-label-sm"><b>Upload File</b></label>
-                                                        </td>
-                                                        <td class="col-sm-3">
-                                                            <input type="file" id="file" accept=".pdf, .xlsx, .xls">
-                                                        </td>
-                                                        <td class="col-sm-2 bg-light">
-                                                            <button type="button" class="btn btn-info btn-sm text-start col-sm-12 shadow-lg">
-                                                                <i class="fa-solid fa-file-pdf px-1"></i>
-                                                                Nama File .pdf
-                                                            </button>
-                                                        </td>
-                                                        <td class="col-sm-5">
-
-                                                            <button type="button" class="btn btn-warning btn-sm shadow-lg" disabled>
-                                                                <i class="fa-solid fa-lock-open px-1"></i>
-                                                                Dekripsi File
-                                                            </button>
-                                        </div>
-                                        </tr>
-                                        <tr>
-                                            <td class="col-sm-2 bg-light">
-                                                <label class="form-label col-form-label-sm"><b>Input SBU</b></label>
-                                            </td>
-                                            <td class="col-sm-3">
-                                                <button type="button" class="btn btn-danger btn-sm col-sm-8 shadow-lg" data-bs-toggle="modal" data-bs-target="#modal-xl-sbu">
-                                                    <i class="fa-solid fa-clone px-1"></i>
-                                                    Input Data SBU
-                                                </button>
-                                            </td>
-                                            <td class="col-sm-2 bg-light">
-                                                <label class="form-label col-form-label-sm"><b>Status Validasi Dokumen</b></label>
-                                            </td>
-                                            <td class="col-sm-5">
-                                                <span class="badge bg-secondary">Belum Tervalidasi</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="col-sm-12 bg-dark" colspan="4"></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="col-sm-12" colspan="4">
-                                                <button onclick="history.back()" type="button" class="btn btn-dark btn-sm shadow-lg">
-                                                    <i class="fa-solid fa-angles-left px-1"></i>
-                                                    Go Back
-                                                </button>
-                                                <button type="button" class="btn btn-primary btn-sm shadow-lg" disabled>
-                                                    <i class="fa-solid fa-floppy-disk px-1"></i>
-                                                    Save Changes
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        </table>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="nav-siujk" role="tabpanel" aria-labelledby="nav-siujk-tab">
-                                <div class="card border-dark shadow-sm">
-                                    <div class="card-header border-dark d-flex justify-content-between align-items-center">
-                                        <div class="card-title">
-                                            <span class="text-dark">
-                                                <i class="fa-regular fa-folder-open"></i>
-                                                <small><strong>Form Dokumen - Surat Izin Usaha Jasa Konstruksi (SIUJK)</strong></small>
-                                            </span>
-                                            <button type="button" class="btn btn-success btn-sm shadow-lg">
-                                                <i class="fa-solid fa-circle-check px-1"></i>
-                                                Tidak Ada
-                                            </button>
-                                        </div>
-                                        <button type="button" class="btn btn-secondary btn-sm shadow-lg" disabled>
-                                            <i class="fa-solid fa-pen-to-square px-1"></i>
-                                            Edit Changes
-                                        </button>
-                                    </div>
-                                    <div class="card-body">
-                                        <form>
-                                            <table class="table table-sm">
-                                                <tr>
-                                                    <td class="col-sm-2 bg-light">
-                                                        <label class="form-label col-form-label-sm"><b>Nomor Surat</b></label>
-                                                    </td>
-                                                    <td class="col-sm-3">
-                                                        <div class="col-sm-10">
-                                                            <div class="input-group mb-2">
-                                                                <span class="input-group-text"><i class="fa-solid fa-barcode"></i></span>
-                                                                <input type="text" class="form-control">
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="col-sm-2 bg-light">
-                                                        <label class="form-label col-sm-12 col-form-label-sm"><b>Berlaku Sampai</b></label>
-                                                    </td>
-                                                    <td class="col-sm-5">
-                                                        <div class="col-sm-5">
-                                                            <div class="input-group mb-2">
-                                                                <span class="input-group-text"><i class="fa-solid fa-calendar-days"></i></span>
-                                                                <select class="form-select" aria-label="Default select example">
-                                                                    <option selected>Seumur Hidup</option>
-                                                                    <option>Tanggal</option>
-                                                                </select>
-                                                            </div>
-                                                            <input type="date" id="date" disabled>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="col-sm-2 bg-light">
-                                                        <label class="form-label col-form-label-sm"><b>Upload File</b></label>
-                                                    </td>
-                                                    <td class="col-sm-3">
-                                                        <input type="file" id="file" accept=".pdf, .xlsx, .xls">
-                                                    </td>
-                                                    <td class="col-sm-2 bg-light">
-                                                        <button type="button" class="btn btn-info btn-sm text-start col-sm-12 shadow-lg">
-                                                            <i class="fa-solid fa-file-pdf px-1"></i>
-                                                            Nama File .pdf
-                                                        </button>
-                                                    </td>
-                                                    <td class="col-sm-5">
-
-                                                        <button type="button" class="btn btn-warning btn-sm shadow-lg" disabled>
-                                                            <i class="fa-solid fa-lock-open px-1"></i>
-                                                            Dekripsi File
-                                                        </button>
-                                    </div>
-                                    </tr>
-                                    <tr>
-                                        <td class="col-sm-2 bg-light">
-                                            <label class="form-label col-form-label-sm"><b>Kualifikasi Usaha</b></label>
-                                        </td>
-                                        <td class="col-sm-3">
-                                            <div class="col-sm-8">
-                                                <div class="input-group mb-2">
-                                                    <span class="input-group-text"><i class="fa-solid fa-angles-right"></i></span>
-                                                    <select class="form-select" aria-label="Default select example">
-                                                        <option selected>Besar</option>
-                                                        <option>Menengah</option>
-                                                        <option>Kecil</option>
-                                                    </select>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </form>
                                                 </div>
                                             </div>
-                                        </td>
-                                        <td class="col-sm-2 bg-light">
-                                            <label class="form-label col-form-label-sm"><b>Status Validasi Dokumen</b></label>
-                                        </td>
-                                        <td class="col-sm-5">
-                                            <span class="badge bg-secondary">Belum Tervalidasi</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col-sm-12 bg-dark" colspan="4"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col-sm-12" colspan="4">
-                                            <button onclick="history.back()" type="button" class="btn btn-dark btn-sm shadow-lg">
-                                                <i class="fa-solid fa-angles-left px-1"></i>
-                                                Go Back
-                                            </button>
-                                            <button type="button" class="btn btn-primary btn-sm shadow-lg" disabled>
-                                                <i class="fa-solid fa-floppy-disk px-1"></i>
-                                                Save Changes
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    </table>
-                                    </form>
+                                        </div>
+
+                                        <div class="tab-pane fade" id="nav-sbu" role="tabpanel" aria-labelledby="nav-sbu-tab">
+                                            <div class="card border-danger shadow-sm">
+                                                <div class="card-header border-danger d-flex justify-content-between align-items-center">
+                                                    <div class="card-title">
+                                                        <span class="text-dark">
+                                                            <i class="fa-regular fa-folder-open"></i>
+                                                            <small><strong>Form Dokumen - Sertifikat Badan Usaha (SBU)</strong></small>
+                                                        </span>
+                                                    </div>
+                                                    <button type="button" class="btn btn-secondary btn-sm shadow-lg" disabled>
+                                                        <i class="fa-solid fa-pen-to-square px-1"></i>
+                                                        Edit Changes
+                                                    </button>
+                                                </div>
+                                                <div class="card-body">
+                                                    <form>
+                                                        <table class="table table-sm">
+                                                            <tr>
+                                                                <td class="col-sm-2 bg-light">
+                                                                    <label class="form-label col-form-label-sm"><b>Nomor Surat</b></label>
+                                                                </td>
+                                                                <td class="col-sm-3">
+                                                                    <div class="col-sm-10">
+                                                                        <div class="input-group mb-2">
+                                                                            <span class="input-group-text"><i class="fa-solid fa-barcode"></i></span>
+                                                                            <input type="text" class="form-control">
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                <td class="col-sm-2 bg-light">
+                                                                    <label class="form-label col-sm-12 col-form-label-sm"><b>Berlaku Sampai</b></label>
+                                                                </td>
+                                                                <td class="col-sm-5">
+                                                                    <div class="col-sm-5">
+                                                                        <div class="input-group mb-2">
+                                                                            <span class="input-group-text"><i class="fa-solid fa-calendar-days"></i></span>
+                                                                            <select class="form-select" aria-label="Default select example">
+                                                                                <option selected>Seumur Hidup</option>
+                                                                                <option>Tanggal</option>
+                                                                            </select>
+                                                                        </div>
+                                                                        <input type="date" id="date" disabled>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="col-sm-2 bg-light">
+                                                                    <label class="form-label col-form-label-sm"><b>Upload File</b></label>
+                                                                </td>
+                                                                <td class="col-sm-3">
+                                                                    <input type="file" id="file" accept=".pdf, .xlsx, .xls">
+                                                                </td>
+                                                                <td class="col-sm-2 bg-light">
+                                                                    <button type="button" class="btn btn-info btn-sm text-start col-sm-12 shadow-lg">
+                                                                        <i class="fa-solid fa-file-pdf px-1"></i>
+                                                                        Nama File .pdf
+                                                                    </button>
+                                                                </td>
+                                                                <td class="col-sm-5">
+
+                                                                    <button type="button" class="btn btn-warning btn-sm shadow-lg" disabled>
+                                                                        <i class="fa-solid fa-lock-open px-1"></i>
+                                                                        Dekripsi File
+                                                                    </button>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="col-sm-2 bg-light">
+                                                                    <label class="form-label col-form-label-sm"><b>Input SBU</b></label>
+                                                                </td>
+                                                                <td class="col-sm-3">
+                                                                    <button type="button" class="btn btn-danger btn-sm col-sm-8 shadow-lg" data-bs-toggle="modal" data-bs-target="#modal-xl-sbu">
+                                                                        <i class="fa-solid fa-clone px-1"></i>
+                                                                        Input Data SBU
+                                                                    </button>
+                                                                </td>
+                                                                <td class="col-sm-2 bg-light">
+                                                                    <label class="form-label col-form-label-sm"><b>Status Validasi Dokumen</b></label>
+                                                                </td>
+                                                                <td class="col-sm-5">
+                                                                    <span class="badge bg-secondary">Belum Tervalidasi</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="col-sm-12 bg-dark" colspan="4"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="col-sm-12" colspan="4">
+                                                                    <button onclick="history.back()" type="button" class="btn btn-dark btn-sm shadow-lg">
+                                                                        <i class="fa-solid fa-angles-left px-1"></i>
+                                                                        Go Back
+                                                                    </button>
+                                                                    <button type="button" class="btn btn-primary btn-sm shadow-lg" disabled>
+                                                                        <i class="fa-solid fa-floppy-disk px-1"></i>
+                                                                        Save Changes
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="nav-siujk" role="tabpanel" aria-labelledby="nav-siujk-tab">
+                                            <div class="card border-dark shadow-sm">
+                                                <div class="card-header border-dark d-flex justify-content-between align-items-center">
+                                                    <div class="card-title">
+                                                        <span class="text-dark">
+                                                            <i class="fa-regular fa-folder-open"></i>
+                                                            <small><strong>Form Dokumen - Surat Izin Usaha Jasa Konstruksi (SIUJK)</strong></small>
+                                                        </span>
+                                                        <button type="button" class="btn btn-success btn-sm shadow-lg">
+                                                            <i class="fa-solid fa-circle-check px-1"></i>
+                                                            Tidak Ada
+                                                        </button>
+                                                    </div>
+                                                    <button type="button" class="btn btn-secondary btn-sm shadow-lg" disabled>
+                                                        <i class="fa-solid fa-pen-to-square px-1"></i>
+                                                        Edit Changes
+                                                    </button>
+                                                </div>
+                                                <div class="card-body">
+                                                    <form>
+                                                        <table class="table table-sm">
+                                                            <tr>
+                                                                <td class="col-sm-2 bg-light">
+                                                                    <label class="form-label col-form-label-sm"><b>Nomor Surat</b></label>
+                                                                </td>
+                                                                <td class="col-sm-3">
+                                                                    <div class="col-sm-10">
+                                                                        <div class="input-group mb-2">
+                                                                            <span class="input-group-text"><i class="fa-solid fa-barcode"></i></span>
+                                                                            <input type="text" class="form-control">
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                <td class="col-sm-2 bg-light">
+                                                                    <label class="form-label col-sm-12 col-form-label-sm"><b>Berlaku Sampai</b></label>
+                                                                </td>
+                                                                <td class="col-sm-5">
+                                                                    <div class="col-sm-5">
+                                                                        <div class="input-group mb-2">
+                                                                            <span class="input-group-text"><i class="fa-solid fa-calendar-days"></i></span>
+                                                                            <select class="form-select" aria-label="Default select example">
+                                                                                <option selected>Seumur Hidup</option>
+                                                                                <option>Tanggal</option>
+                                                                            </select>
+                                                                        </div>
+                                                                        <input type="date" id="date" disabled>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="col-sm-2 bg-light">
+                                                                    <label class="form-label col-form-label-sm"><b>Upload File</b></label>
+                                                                </td>
+                                                                <td class="col-sm-3">
+                                                                    <input type="file" id="file" accept=".pdf, .xlsx, .xls">
+                                                                </td>
+                                                                <td class="col-sm-2 bg-light">
+                                                                    <button type="button" class="btn btn-info btn-sm text-start col-sm-12 shadow-lg">
+                                                                        <i class="fa-solid fa-file-pdf px-1"></i>
+                                                                        Nama File .pdf
+                                                                    </button>
+                                                                </td>
+                                                                <td class="col-sm-5">
+
+                                                                    <button type="button" class="btn btn-warning btn-sm shadow-lg" disabled>
+                                                                        <i class="fa-solid fa-lock-open px-1"></i>
+                                                                        Dekripsi File
+                                                                    </button>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="col-sm-2 bg-light">
+                                                                    <label class="form-label col-form-label-sm"><b>Kualifikasi Usaha</b></label>
+                                                                </td>
+                                                                <td class="col-sm-3">
+                                                                    <div class="col-sm-8">
+                                                                        <div class="input-group mb-2">
+                                                                            <span class="input-group-text"><i class="fa-solid fa-angles-right"></i></span>
+                                                                            <select class="form-select" aria-label="Default select example">
+                                                                                <option selected>Besar</option>
+                                                                                <option>Menengah</option>
+                                                                                <option>Kecil</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                <td class="col-sm-2 bg-light">
+                                                                    <label class="form-label col-form-label-sm"><b>Status Validasi Dokumen</b></label>
+                                                                </td>
+                                                                <td class="col-sm-5">
+                                                                    <span class="badge bg-secondary">Belum Tervalidasi</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="col-sm-12 bg-dark" colspan="4"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="col-sm-12" colspan="4">
+                                                                    <button onclick="history.back()" type="button" class="btn btn-dark btn-sm shadow-lg">
+                                                                        <i class="fa-solid fa-angles-left px-1"></i>
+                                                                        Go Back
+                                                                    </button>
+                                                                    <button type="button" class="btn btn-primary btn-sm shadow-lg" disabled>
+                                                                        <i class="fa-solid fa-floppy-disk px-1"></i>
+                                                                        Save Changes
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -508,11 +382,273 @@
             </div>
         </div>
     </div>
+
+
+
+    <!-- batas modal nib -->
+    <div class="modal" tabindex="-1" id="modal-xl-nib">
+        <div class="modal-dialog modal-dialog-scrollable modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a class="navbar-brand">
+                        <img src="<?php echo base_url(); ?>/assets/brand/jm1.png" alt="" width="25" height="25" class="d-inline-block align-text-top">
+                        <b><span class="text-primary">Jasamarga Tollroad Operator</span></b>
+                    </a>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card border-primary shadow-lg">
+                        <div class="card-header bg-primary d-flex bd-highlight">
+                            <div class="flex-grow-1 bd-highlight">
+                                <span class="text-white">
+                                    <i class="fa-solid fa-align-justify px-1"></i>
+                                    <small><strong>Form Input - KBLI - NIB/TDP</strong></small>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <form id="form_simpan_kbli_nib" method="post">
+                                <table class="table table-sm">
+                                    <tr>
+                                        <td class="col-sm-2 bg-light">
+                                            <label class="form-label col-form-label-sm"><b>Kode KBLI</b></label>
+                                        </td>
+                                        <td class="col-sm-5">
+                                            <div class="col-sm-12">
+                                                <div class="input-group mb-2">
+                                                    <span class="input-group-text"><i class="fa-solid fa-barcode"></i></span>
+                                                    <select class="form-select form-select-sm single-select-field" data-placeholder="Cari Kode Kbli..." name="id_kbli">
+                                                        <option value=""></option>
+                                                        <?php foreach ($data_kbli as $key => $value) { ?>
+                                                            <option value="<?= $value['id_kbli'] ?>"><?= $value['kode_kbli'] ?> || <?= $value['nama_kbli'] ?></option>
+                                                        <?php  } ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="col-sm-2 bg-light">
+                                            <label class="form-label col-form-label-sm"><b>Kualifikasi KBLI</b></label>
+                                        </td>
+                                        <td class="col-sm-3">
+                                            <div class="col-sm-12">
+                                                <div class="input-group mb-2">
+                                                    <span class="input-group-text"><i class="fa-solid fa-bars"></i></span>
+                                                    <select class="form-select form-select-sm single-select-field" data-placeholder="Cari Kualifikasi Usaha..." name="id_kualifikasi_izin">
+                                                        <option value=""></option>
+                                                        <?php foreach ($kualifikasi as $key => $value) { ?>
+                                                            <option value="<?= $value['id_kualifikasi_izin'] ?>"><?= $value['nama_kualifikasi'] ?></option>
+                                                        <?php  } ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-sm-2 bg-light">
+                                            <label class="form-label col-form-label-sm"><b>Keterangan KBLI</b></label>
+                                        </td>
+                                        <td class="col-sm-10" colspan="3">
+                                            <div class="col-sm-12">
+                                                <div class="input-group mb-2">
+                                                    <span class="input-group-text"><i class="fa-solid fa-building-flag"></i></span>
+                                                    <textarea name="ket_kbli_nib" class="form-control form-control-sm" rows="2"></textarea>
+                                                </div>
+                                            </div>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-sm-12 bg-light" colspan="4">
+                                            <a href="javascript:;" id="button_save_kbli_nib" onclick="simpan_kbli_nib()" class="btn btn-primary btn-sm shadow-lg">
+                                                <i class="fa-solid fa-floppy-disk px-1"></i>
+                                                Add Changes
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                            <hr>
+                            <div class="card border-secondary shadow-lg">
+                                <div class="card-header bg-secondary d-flex bd-highlight">
+                                    <div class="flex-grow-1 bd-highlight">
+                                        <span class="text-white">
+                                            <i class="fa-solid fa-table-list px-1"></i>
+                                            <small><strong>Tabel Data KBLI - NIB/TDP Yang Terinput</strong></small>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <table id="table_kbli_nib" class="table table-sm table-bordered table-striped">
+                                        <thead class="bg-secondary">
+                                            <tr>
+                                                <th><small class="text-white">No</small></th>
+                                                <th style="width:50%;"><small class="text-white">Kode & Jenis KBLI</small></th>
+                                                <th style="width:10%;"><small class="text-white">Kualifikasi</small></th>
+                                                <th style="width:15%;"><small class="text-white">
+                                                        <div class="text-center">Status Validasi</div>
+                                                    </small></th>
+                                                <th style="width:20%;"><small class="text-white">
+                                                        <div class="text-center">More Options</div>
+                                                    </small></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-start">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-rectangle-xmark px-1"></i>
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <div class="modal fade" id="apply_edit_nib" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-warning">
+                    <h5 class="modal-title">Anda Yakin Ingin Mengedit Data Anda ??</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <center>
+                        <img src="<?= base_url('assets34543543/img/tanya.jpg') ?>" width="200px" alt="">
+                    </center>
+                </div>
+                <div class="modal-footer">
+                    <a href="javascript:;" onclick="EditChangeGlobal_nib()" class="btn btn-success"> <i class="fas fa fa-check"> </i> Yakin !!</a>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="fas fa fa-ban"> </i> Tidak !!</button>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <div class="modal fade" id="modal_dekrip_nib" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-warning">
+                    <h5 class="modal-title">DEKRIP FILE</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="form_dekrip" method="post">
+                        <input type="hidden" name="id_url_nib">
+                        <input type="hidden" name="secret_token" value="<?= $row_vendor['token_scure_vendor'] ?>">
+                        <center>
+                            <img src="<?= base_url('assets34543543/img/private.jpg') ?>" width="100%" alt="">
+                            <p>Silakan Masukan Token Untuk Mendkrip File Anda </p>
+                            <div class="token_generate_nib">
+
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                <input id="token_nib" type="text" name="token_dokumen_nib" value="" class="form-control">
+                            </div>
+                        </center>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <a href="javascript:;" id="button_dekrip_generate_nib" onclick="GenerateDekrip_nib()" class="btn btn-success"> <i class="fas fa fa-check"> </i> Generate !!</a>
+                    <button disabled style="display:none" id="button_dekrip_generate_manipulasi_nib" class="btn btn-success"> <i class="fas fa fa-check"> </i> Generate !!</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="fas fa fa-ban"> </i> Batal !!</button>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <div class="modal fade" id="modal_edit_kbli_nib" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">EDIT KBLI</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="form_edit_kbli_nib" method="post">
+                        <input type="hidden" name="id_url_kbli_nib">
+                        <input type="hidden" name="token_kbli_nib">
+                        <table class="table table-sm">
+                            <tr>
+                                <td class="col-sm-2 bg-light">
+                                    <label class="form-label col-form-label-sm"><b>Kode KBLI</b></label>
+                                </td>
+                                <td class="col-sm-5">
+                                    <div class="col-sm-12">
+                                        <div class="input-group mb-2">
+                                            <span class="input-group-text"><i class="fa-solid fa-barcode"></i></span>
+                                            <select class="form-select form-select-sm single-select-field" data-placeholder="Cari Kode Kbli..." name="id_kbli">
+                                                <option value=""></option>
+                                                <?php foreach ($data_kbli as $key => $value) { ?>
+                                                    <option value="<?= $value['id_kbli'] ?>"><?= $value['kode_kbli'] ?> || <?= $value['nama_kbli'] ?></option>
+                                                <?php  } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <label id="pilihan_kbli_nib" for=""></label>
+                                </td>
+                                <td class="col-sm-2 bg-light">
+                                    <label class="form-label col-form-label-sm"><b>Kualifikasi KBLI</b></label>
+                                </td>
+                                <td class="col-sm-3">
+                                    <div class="col-sm-12">
+                                        <div class="input-group mb-2">
+                                            <span class="input-group-text"><i class="fa-solid fa-bars"></i></span>
+                                            <select class="form-select form-select-sm single-select-field" data-placeholder="Cari Kualifikasi..." name="id_kualifikasi_izin">
+                                                <option value=""></option>
+                                                <?php foreach ($kualifikasi as $key => $value) { ?>
+                                                    <option value="<?= $value['id_kualifikasi_izin'] ?>"><?= $value['nama_kualifikasi'] ?></option>
+                                                <?php  } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <label id="pilihan_kualifikasi_nib" for=""></label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-sm-2 bg-light">
+                                    <label class="form-label col-form-label-sm"><b>Keterangan KBLI</b></label>
+                                </td>
+                                <td class="col-sm-10" colspan="3">
+                                    <div class="col-sm-12">
+                                        <div class="input-group mb-2">
+                                            <span class="input-group-text"><i class="fa-solid fa-building-flag"></i></span>
+                                            <textarea name="ket_kbli_nib" class="form-control form-control-sm" rows="2"></textarea>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-sm-12 bg-light" colspan="4">
+                                    <a href="javascript:;" id="button_save_kbli_nib" onclick="edit_kbli_nib()" class="btn btn-primary btn-sm shadow-lg">
+                                        <i class="fa-solid fa-floppy-disk px-1"></i>
+                                        Edit Changes
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="modal" tabindex="-1" id="modal-xl">
+
+
+    <div class="modal" tabindex="-1" id="modal-xl-siup">
         <div class="modal-dialog modal-dialog-scrollable modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
@@ -543,8 +679,8 @@
                                             <div class="col-sm-12">
                                                 <div class="input-group mb-2">
                                                     <span class="input-group-text"><i class="fa-solid fa-barcode"></i></span>
-                                                    <input class="form-control form-control-sm" list="datalistOptions" id="exampleDataList" placeholder="Pilih Kode KBLI...">
-                                                    <datalist id="datalistOptions">
+                                                    <input class="form-control form-control-sm" list="datalistOptions3" id="exampleDataList" placeholder="Pilih Kode KBLI...">
+                                                    <datalist id="datalistOptions3">
                                                         <option value="62019 || Aktivitas Pemrograman Komputer Lainnya">
                                                         <option value="46512 || Perdagangan Besar Piranti Lunak">
                                                         <option value="47413 || Perdagangan Eceran Piranti Lunak (Software)">
@@ -571,243 +707,94 @@
                                                     </select>
                                                 </div>
                                             </div>
-                        </div>
-                        </tr>
-                        <tr>
-                            <td class="col-sm-2 bg-light">
-                                <label class="form-label col-form-label-sm"><b>Keterangan KBLI</b></label>
-                            </td>
-                            <td class="col-sm-10" colspan="3">
-                                <div class="col-sm-12">
-                                    <div class="input-group mb-2">
-                                        <span class="input-group-text"><i class="fa-solid fa-building-flag"></i></span>
-                                        <!-- <input type="text" class="form-control" disabled> -->
-                                        <textarea class="form-control form-control-sm" rows="2" disabled></textarea>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-sm-2 bg-light">
+                                            <label class="form-label col-form-label-sm"><b>Keterangan KBLI</b></label>
+                                        </td>
+                                        <td class="col-sm-10" colspan="3">
+                                            <div class="col-sm-12">
+                                                <div class="input-group mb-2">
+                                                    <span class="input-group-text"><i class="fa-solid fa-building-flag"></i></span>
+                                                    <!-- <input type="text" class="form-control" disabled> -->
+                                                    <textarea class="form-control form-control-sm" rows="2" disabled></textarea>
+                                                </div>
+                                            </div>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-sm-12 bg-light" colspan="4">
+                                            <button type="button" class="btn btn-primary btn-sm shadow-lg" disabled>
+                                                <i class="fa-solid fa-floppy-disk px-1"></i>
+                                                Add Changes
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                            <hr>
+                            <div class="card border-dark shadow-lg">
+                                <div class="card-header bg-dark d-flex bd-highlight">
+                                    <div class="flex-grow-1 bd-highlight">
+                                        <span class="text-white">
+                                            <i class="fa-solid fa-table-list px-1"></i>
+                                            <small><strong>Tabel Data KBLI - SIUP Yang Terinput</strong></small>
+                                        </span>
                                     </div>
                                 </div>
-                    </div>
-                    </tr>
-                    <tr>
-                        <td class="col-sm-12 bg-light" colspan="4">
-                            <button type="button" class="btn btn-primary btn-sm shadow-lg" disabled>
-                                <i class="fa-solid fa-floppy-disk px-1"></i>
-                                Add Changes
-                            </button>
-                        </td>
-                    </tr>
-                    </table>
-                    </form>
-                    <hr>
-                    <div class="card border-dark shadow-lg">
-                        <div class="card-header bg-dark d-flex bd-highlight">
-                            <div class="flex-grow-1 bd-highlight">
-                                <span class="text-white">
-                                    <i class="fa-solid fa-table-list px-1"></i>
-                                    <small><strong>Tabel Data KBLI - SIUP Yang Terinput</strong></small>
-                                </span>
+                                <div class="card-body">
+                                    <table id="example1" class="table table-sm table-bordered table-striped">
+                                        <thead class="bg-dark">
+                                            <tr>
+                                                <th style="width:25%;"><small class="text-white">Kode & Jenis KBLI</small></th>
+                                                <th style="width:10%;"><small class="text-white">Kualifikasi</small></th>
+                                                <th style="width:8%;"><small class="text-white">
+                                                        <div class="text-center">Status Validasi</div>
+                                                    </small></th>
+                                                <th style="width:15%;"><small class="text-white">
+                                                        <div class="text-center">More Options</div>
+                                                    </small></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><small>62019 || Aktivitas Pemrograman Komputer Lainnya</small></td>
+                                                <td><small>Menengah - (M1)</small></td>
+                                                <td><small>
+                                                        <div class="text-center">
+                                                            <span class="badge bg-secondary">Belum Tervalidasi</span>
+                                                        </div>
+                                                    </small>
+                                                </td>
+                                                <td>
+                                                    <div class="text-center">
+                                                        <button type="button" class="btn btn-warning btn-sm shadow-lg">
+                                                            <i class="fa-solid fa-pen-to-square px-1"></i>
+                                                            <small>Edit Changes</small>
+                                                        </button>
+                                                        <button type="button" class="btn btn-danger btn-sm shadow-lg">
+                                                            <i class="fa-solid fa-trash-can px-1"></i>
+                                                            <small>Delete</small>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
-                        <div class="card-body">
-                            <table id="example1" class="table table-sm table-bordered table-striped">
-                                <thead class="bg-dark">
-                                    <tr>
-                                        <th style="width:25%;"><small class="text-white">Kode & Jenis KBLI</small></th>
-                                        <th style="width:10%;"><small class="text-white">Kualifikasi</small></th>
-                                        <th style="width:8%;"><small class="text-white">
-                                                <div class="text-center">Status Validasi</div>
-                                            </small></th>
-                                        <th style="width:15%;"><small class="text-white">
-                                                <div class="text-center">More Options</div>
-                                            </small></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><small>62019 || Aktivitas Pemrograman Komputer Lainnya</small></td>
-                                        <td><small>Menengah - (M1)</small></td>
-                                        <td><small>
-                                                <div class="text-center">
-                                                    <span class="badge bg-secondary">Belum Tervalidasi</span>
-                                                </div>
-                                            </small>
-                                        </td>
-                                        <td>
-                                            <div class="text-center">
-                                                <button type="button" class="btn btn-warning btn-sm shadow-lg">
-                                                    <i class="fa-solid fa-pen-to-square px-1"></i>
-                                                    <small>Edit Changes</small>
-                                                </button>
-                                                <button type="button" class="btn btn-danger btn-sm shadow-lg">
-                                                    <i class="fa-solid fa-trash-can px-1"></i>
-                                                    <small>Delete</small>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
                     </div>
+                </div>
+                <div class="modal-footer justify-content-start">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-rectangle-xmark px-1"></i>
+                        Close
+                    </button>
                 </div>
             </div>
         </div>
-        <div class="modal-footer justify-content-start">
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-                <i class="fa-solid fa-rectangle-xmark px-1"></i>
-                Close
-            </button>
-        </div>
     </div>
-    </div>
-    </div>
-    <div class="modal" tabindex="-1" id="modal-xl-nib">
-        <div class="modal-dialog modal-dialog-scrollable modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <a class="navbar-brand">
-                        <img src="<?php echo base_url(); ?>/assets/brand/jm1.png" alt="" width="25" height="25" class="d-inline-block align-text-top">
-                        <b><span class="text-primary">Jasamarga Tollroad Operator</span></b>
-                    </a>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="card border-primary shadow-lg">
-                        <div class="card-header bg-primary d-flex bd-highlight">
-                            <div class="flex-grow-1 bd-highlight">
-                                <span class="text-white">
-                                    <i class="fa-solid fa-align-justify px-1"></i>
-                                    <small><strong>Form Input - KBLI - NIB/TDP</strong></small>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <form>
-                                <table class="table table-sm">
-                                    <tr>
-                                        <td class="col-sm-2 bg-light">
-                                            <label class="form-label col-form-label-sm"><b>Kode KBLI</b></label>
-                                        </td>
-                                        <td class="col-sm-5">
-                                            <div class="col-sm-12">
-                                                <div class="input-group mb-2">
-                                                    <span class="input-group-text"><i class="fa-solid fa-barcode"></i></span>
-                                                    <input class="form-control form-control-sm" list="datalistOptions" id="exampleDataList" placeholder="Pilih Kode KBLI...">
-                                                    <datalist id="datalistOptions">
-                                                        <option value="62019 || Aktivitas Pemrograman Komputer Lainnya">
-                                                        <option value="46512 || Perdagangan Besar Piranti Lunak">
-                                                        <option value="47413 || Perdagangan Eceran Piranti Lunak (Software)">
-                                                    </datalist>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="col-sm-2 bg-light">
-                                            <label class="form-label col-form-label-sm"><b>Kualifikasi KBLI</b></label>
-                                        </td>
-                                        <td class="col-sm-3">
-                                            <div class="col-sm-12">
-                                                <div class="input-group mb-2">
-                                                    <span class="input-group-text"><i class="fa-solid fa-bars"></i></span>
-                                                    <select class="form-select form-select-sm" aria-label="Default select example">
-                                                        <option selected>Besar - (B2)</option>
-                                                        <option>Besar - (B1)</option>
-                                                        <option>Menengah - (M3)</option>
-                                                        <option>Menengah - (M2)</option>
-                                                        <option>Menengah - (M1)</option>
-                                                        <option>Kecil - (K-3)</option>
-                                                        <option>Kecil - (K-2)</option>
-                                                        <option>Kecil - (K-1)</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                        </div>
-                        </tr>
-                        <tr>
-                            <td class="col-sm-2 bg-light">
-                                <label class="form-label col-form-label-sm"><b>Keterangan KBLI</b></label>
-                            </td>
-                            <td class="col-sm-10" colspan="3">
-                                <div class="col-sm-12">
-                                    <div class="input-group mb-2">
-                                        <span class="input-group-text"><i class="fa-solid fa-building-flag"></i></span>
-                                        <!-- <input type="text" class="form-control" disabled> -->
-                                        <textarea class="form-control form-control-sm" rows="2" disabled></textarea>
-                                    </div>
-                                </div>
-                    </div>
-                    </tr>
-                    <tr>
-                        <td class="col-sm-12 bg-light" colspan="4">
-                            <button type="button" class="btn btn-primary btn-sm shadow-lg" disabled>
-                                <i class="fa-solid fa-floppy-disk px-1"></i>
-                                Add Changes
-                            </button>
-                        </td>
-                    </tr>
-                    </table>
-                    </form>
-                    <hr>
-                    <div class="card border-secondary shadow-lg">
-                        <div class="card-header bg-secondary d-flex bd-highlight">
-                            <div class="flex-grow-1 bd-highlight">
-                                <span class="text-white">
-                                    <i class="fa-solid fa-table-list px-1"></i>
-                                    <small><strong>Tabel Data KBLI - NIB/TDP Yang Terinput</strong></small>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <table id="example3" class="table table-sm table-bordered table-striped">
-                                <thead class="bg-secondary">
-                                    <tr>
-                                        <th style="width:25%;"><small class="text-white">Kode & Jenis KBLI</small></th>
-                                        <th style="width:10%;"><small class="text-white">Kualifikasi</small></th>
-                                        <th style="width:8%;"><small class="text-white">
-                                                <div class="text-center">Status Validasi</div>
-                                            </small></th>
-                                        <th style="width:15%;"><small class="text-white">
-                                                <div class="text-center">More Options</div>
-                                            </small></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><small>62019 || Aktivitas Pemrograman Komputer Lainnya</small></td>
-                                        <td><small>Menengah - (M1)</small></td>
-                                        <td><small>
-                                                <div class="text-center">
-                                                    <span class="badge bg-secondary">Belum Tervalidasi</span>
-                                                </div>
-                                            </small>
-                                        </td>
-                                        <td>
-                                            <div class="text-center">
-                                                <button type="button" class="btn btn-warning btn-sm shadow-lg">
-                                                    <i class="fa-solid fa-pen-to-square px-1"></i>
-                                                    <small>Edit Changes</small>
-                                                </button>
-                                                <button type="button" class="btn btn-danger btn-sm shadow-lg">
-                                                    <i class="fa-solid fa-trash-can px-1"></i>
-                                                    <small>Delete</small>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer justify-content-start">
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-                <i class="fa-solid fa-rectangle-xmark px-1"></i>
-                Close
-            </button>
-        </div>
-    </div>
-    </div>
-    </div>
+
     <div class="modal" tabindex="-1" id="modal-xl-sbu">
         <div class="modal-dialog modal-dialog-scrollable modal-xl">
             <div class="modal-content">
@@ -839,8 +826,8 @@
                                             <div class="col-sm-12">
                                                 <div class="input-group mb-2">
                                                     <span class="input-group-text"><i class="fa-solid fa-barcode"></i></span>
-                                                    <input class="form-control form-control-sm" list="datalistOptions" id="exampleDataList" placeholder="Pilih Kode SBU...">
-                                                    <datalist id="datalistOptions">
+                                                    <input class="form-control form-control-sm" list="datalistOptions2" id="exampleDataList" placeholder="Pilih Kode SBU...">
+                                                    <datalist id="datalistOptions2">
                                                         <option value="62019 || Aktivitas Pemrograman Komputer Lainnya">
                                                         <option value="46512 || Perdagangan Besar Piranti Lunak">
                                                         <option value="47413 || Perdagangan Eceran Piranti Lunak (Software)">
@@ -867,152 +854,94 @@
                                                     </select>
                                                 </div>
                                             </div>
-                        </div>
-                        </tr>
-                        <tr>
-                            <td class="col-sm-2 bg-light">
-                                <label class="form-label col-form-label-sm"><b>Keterangan SBU</b></label>
-                            </td>
-                            <td class="col-sm-10" colspan="3">
-                                <div class="col-sm-12">
-                                    <div class="input-group mb-2">
-                                        <span class="input-group-text"><i class="fa-solid fa-building-flag"></i></span>
-                                        <!-- <input type="text" class="form-control" disabled> -->
-                                        <textarea class="form-control form-control-sm" rows="2" disabled></textarea>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-sm-2 bg-light">
+                                            <label class="form-label col-form-label-sm"><b>Keterangan SBU</b></label>
+                                        </td>
+                                        <td class="col-sm-10" colspan="3">
+                                            <div class="col-sm-12">
+                                                <div class="input-group mb-2">
+                                                    <span class="input-group-text"><i class="fa-solid fa-building-flag"></i></span>
+                                                    <!-- <input type="text" class="form-control" disabled> -->
+                                                    <textarea class="form-control form-control-sm" rows="2" disabled></textarea>
+                                                </div>
+                                            </div>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-sm-12 bg-light" colspan="4">
+                                            <button type="button" class="btn btn-primary btn-sm shadow-lg" disabled>
+                                                <i class="fa-solid fa-floppy-disk px-1"></i>
+                                                Add Changes
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                            <hr>
+                            <div class="card border-danger shadow-lg">
+                                <div class="card-header bg-danger d-flex bd-highlight">
+                                    <div class="flex-grow-1 bd-highlight">
+                                        <span class="text-white">
+                                            <i class="fa-solid fa-table-list px-1"></i>
+                                            <small><strong>Tabel Data - SBU Yang Terinput</strong></small>
+                                        </span>
                                     </div>
                                 </div>
-                    </div>
-                    </tr>
-                    <tr>
-                        <td class="col-sm-12 bg-light" colspan="4">
-                            <button type="button" class="btn btn-primary btn-sm shadow-lg" disabled>
-                                <i class="fa-solid fa-floppy-disk px-1"></i>
-                                Add Changes
-                            </button>
-                        </td>
-                    </tr>
-                    </table>
-                    </form>
-                    <hr>
-                    <div class="card border-danger shadow-lg">
-                        <div class="card-header bg-danger d-flex bd-highlight">
-                            <div class="flex-grow-1 bd-highlight">
-                                <span class="text-white">
-                                    <i class="fa-solid fa-table-list px-1"></i>
-                                    <small><strong>Tabel Data - SBU Yang Terinput</strong></small>
-                                </span>
+                                <div class="card-body">
+                                    <table id="example5" class="table table-sm table-bordered table-striped">
+                                        <thead class="bg-danger">
+                                            <tr>
+                                                <th style="width:25%;"><small class="text-white">Kode & Jenis SBU</small></th>
+                                                <th style="width:10%;"><small class="text-white">Kualifikasi</small></th>
+                                                <th style="width:8%;"><small class="text-white">
+                                                        <div class="text-center">Status Validasi</div>
+                                                    </small></th>
+                                                <th style="width:15%;"><small class="text-white">
+                                                        <div class="text-center">More Options</div>
+                                                    </small></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><small>62019 || Aktivitas Pemrograman Komputer Lainnya</small></td>
+                                                <td><small>Menengah - (M1)</small></td>
+                                                <td><small>
+                                                        <div class="text-center">
+                                                            <span class="badge bg-secondary">Belum Tervalidasi</span>
+                                                        </div>
+                                                    </small>
+                                                </td>
+                                                <td>
+                                                    <div class="text-center">
+                                                        <button type="button" class="btn btn-warning btn-sm shadow-lg">
+                                                            <i class="fa-solid fa-pen-to-square px-1"></i>
+                                                            <small>Edit Changes</small>
+                                                        </button>
+                                                        <button type="button" class="btn btn-danger btn-sm shadow-lg">
+                                                            <i class="fa-solid fa-trash-can px-1"></i>
+                                                            <small>Delete</small>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
-                        <div class="card-body">
-                            <table id="example5" class="table table-sm table-bordered table-striped">
-                                <thead class="bg-danger">
-                                    <tr>
-                                        <th style="width:25%;"><small class="text-white">Kode & Jenis SBU</small></th>
-                                        <th style="width:10%;"><small class="text-white">Kualifikasi</small></th>
-                                        <th style="width:8%;"><small class="text-white">
-                                                <div class="text-center">Status Validasi</div>
-                                            </small></th>
-                                        <th style="width:15%;"><small class="text-white">
-                                                <div class="text-center">More Options</div>
-                                            </small></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><small>62019 || Aktivitas Pemrograman Komputer Lainnya</small></td>
-                                        <td><small>Menengah - (M1)</small></td>
-                                        <td><small>
-                                                <div class="text-center">
-                                                    <span class="badge bg-secondary">Belum Tervalidasi</span>
-                                                </div>
-                                            </small>
-                                        </td>
-                                        <td>
-                                            <div class="text-center">
-                                                <button type="button" class="btn btn-warning btn-sm shadow-lg">
-                                                    <i class="fa-solid fa-pen-to-square px-1"></i>
-                                                    <small>Edit Changes</small>
-                                                </button>
-                                                <button type="button" class="btn btn-danger btn-sm shadow-lg">
-                                                    <i class="fa-solid fa-trash-can px-1"></i>
-                                                    <small>Delete</small>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="modal-footer justify-content-start">
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-                <i class="fa-solid fa-rectangle-xmark px-1"></i>
-                Close
-            </button>
-        </div>
-    </div>
-    </div>
-    </div>
-</main>
-
-<div class="modal fade" id="apply_edit_nib" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-warning">
-                <h5 class="modal-title">Anda Yakin Ingin Mengedit Data Anda ??</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <center>
-                    <img src="<?= base_url('assets34543543/img/tanya.jpg') ?>" width="200px" alt="">
-                </center>
-            </div>
-            <div class="modal-footer">
-                <a href="javascript:;" onclick="EditChangeGlobal()" class="btn btn-success"> <i class="fas fa fa-check"> </i> Yakin !!</a>
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="fas fa fa-ban"> </i> Tidak !!</button>
+                <div class="modal-footer justify-content-start">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-rectangle-xmark px-1"></i>
+                        Close
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
-<div class="modal fade" id="modal_dekrip" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-warning">
-                <h5 class="modal-title">DEKRIP FILE</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="form_dekrip" method="post">
-                    <input type="hidden" name="id_url">
-                    <input type="hidden" name="secret_token" value="<?= $row_vendor['token_scure_vendor'] ?>">
-                    <center>
-                        <img src="<?= base_url('assets34543543/img/private.jpg') ?>" width="100%" alt="">
-                        <p>Silakan Masukan Token Untuk Mendkrip File Anda </p>
-                        <div class="token_generate">
-
-                        </div>
-                        <br>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="fas fa-key"></i></span>
-                            <input id="token_nib" type="text" name="token_dokumen" value="" class="form-control">
-                        </div>
-                    </center>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <a href="javascript:;" id="button_dekrip_generate" onclick="GenerateDekrip()" class="btn btn-success"> <i class="fas fa fa-check"> </i> Generate !!</a>
-                <button disabled style="display:none" id="button_dekrip_generate_manipulasi" class="btn btn-success"> <i class="fas fa fa-check"> </i> Generate !!</button>
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="fas fa fa-ban"> </i> Batal !!</button>
-            </div>
-        </div>
-    </div>
+    
 </div>
