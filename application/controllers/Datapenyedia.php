@@ -29,10 +29,11 @@ class Datapenyedia extends CI_Controller
 		$data['row_vendor'] = $this->vendor->get_vendor_url();
 		$data['get_jenis_usaha']  = $this->M_jenis_usaha->get_result_jenis_usaha();
 		$data['provinsi']  = $this->Wilayah_model->getProvinsi();
+		$data['type']  = 'izin_usaha';
 		$this->load->view('template_menu/header_menu');
 		$this->load->view('datapenyedia/identitas/index', $data);
 		$this->load->view('template_menu/new_footer');
-		$this->load->view('js_file_on_session/index');
+		$this->load->view('js_file_on_session/index', $data);
 	}
 
 	public function izin_usaha()
@@ -671,303 +672,303 @@ class Datapenyedia extends CI_Controller
 	}
 	// end siup crud
 
-	
-// sbu crud
 
-// BATAS sbu
+	// sbu crud
 
-public function add_sbu()
-{
-    $id_vendor = $this->session->userdata('id_vendor');
-    $nama_usaha = $this->session->userdata('nama_usaha');
-    $row_sbu = $this->M_datapenyedia->get_row_sbu($id_vendor);
+	// BATAS sbu
 
-    $id = $this->uuid->v4();
-    $id = str_replace('-', '', $id);
-    $token = $this->token->data_token();
-    // post
-    $nomor_surat = $this->input->post('nomor_surat_sbu');
-    $kualifikasi_izin = $this->input->post('kualifikasi_izin_sbu');
-    $sts_seumur_hidup = $this->input->post('sts_seumur_hidup_sbu');
-    $tgl_berlaku = $this->input->post('tgl_berlaku_sbu');
-    $password_dokumen = '1234';
+	public function add_sbu()
+	{
+		$id_vendor = $this->session->userdata('id_vendor');
+		$nama_usaha = $this->session->userdata('nama_usaha');
+		$row_sbu = $this->M_datapenyedia->get_row_sbu($id_vendor);
 
-    // SETTING PATH 
-    $date = date('Y');
-    if (!is_dir('file_vms/' . $nama_usaha . '/SBU-' . $date)) {
-        mkdir('file_vms/' . $nama_usaha . '/SBU-' . $date, 0777, TRUE);
-    }
+		$id = $this->uuid->v4();
+		$id = str_replace('-', '', $id);
+		$token = $this->token->data_token();
+		// post
+		$nomor_surat = $this->input->post('nomor_surat_sbu');
+		$kualifikasi_izin = $this->input->post('kualifikasi_izin_sbu');
+		$sts_seumur_hidup = $this->input->post('sts_seumur_hidup_sbu');
+		$tgl_berlaku = $this->input->post('tgl_berlaku_sbu');
+		$password_dokumen = '1234';
 
-    $config['upload_path'] = './file_vms/' . $nama_usaha . '/SBU-' . $date;
-    $config['allowed_types'] = 'pdf';
-    $config['max_size'] = 0;
-    $config['remove_spaces'] = TRUE;
-    // $config['encrypt_name'] = TRUE;
+		// SETTING PATH 
+		$date = date('Y');
+		if (!is_dir('file_vms/' . $nama_usaha . '/SBU-' . $date)) {
+			mkdir('file_vms/' . $nama_usaha . '/SBU-' . $date, 0777, TRUE);
+		}
 
-
-    $this->load->library('upload', $config);
-    if ($this->upload->do_upload('file_dokumen_sbu')) {
-        $fileData = $this->upload->data();
-        $file_dokumen = $fileData['file_name'];
-        $chiper = "AES-128-ECB";
-        $secret = $token;
-        $enckrips_string = openssl_encrypt($file_dokumen, $chiper, $secret);
-        $upload = [
-            'id_url' => $id,
-            'id_vendor' => $id_vendor,
-            'no_urut' => '322',
-            'nomor_surat' => $nomor_surat,
-            'kualifikasi_izin' => $kualifikasi_izin,
-            'sts_seumur_hidup' => $sts_seumur_hidup,
-            'password_dokumen' => $password_dokumen,
-            'file_dokumen' => $enckrips_string,
-            'token_dokumen' => $secret,
-            'tgl_berlaku' => $tgl_berlaku,
-            'sts_token_dokumen' => 1,
-        ];
-        $where = [
-            'id_vendor' => $id_vendor
-        ];
-        if (!$row_sbu) {
-            $this->M_datapenyedia->tambah_sbu($upload);
-        } else {
-            $this->M_datapenyedia->update_sbu($upload, $where);
-        }
-
-        $response = [
-            'row_sbu' => $this->M_datapenyedia->get_row_sbu($id_vendor),
-        ];
-        $this->output->set_content_type('application/json')->set_output(json_encode($response));
-    } else {
-        $upload = [
-            'id_url' => $id,
-            'id_vendor' => $id_vendor,
-            'no_urut' => '322',
-            'nomor_surat' => $nomor_surat,
-            'kualifikasi_izin' => $kualifikasi_izin,
-            'sts_seumur_hidup' => $sts_seumur_hidup,
-            'tgl_berlaku' => $tgl_berlaku,
-        ];
-        if (!$row_sbu) {
-            $this->M_datapenyedia->tambah_sbu($upload);
-        } else {
-            $where = [
-                'id_vendor' => $id_vendor
-            ];
-            $this->M_datapenyedia->update_sbu($upload, $where);
-        }
-
-        $response = [
-            'row_sbu' => $this->M_datapenyedia->get_row_sbu($id_vendor),
-        ];
-        $this->output->set_content_type('application/json')->set_output(json_encode($response));
-        // redirect(base_url('upload'));
-    }
-}
-
-public function encryption_sbu($id_url)
-{
-    $type = $this->input->post('type');
-    $get_row_enkrip = $this->M_datapenyedia->get_row_sbu_url($id_url);
-    $secret_token = $this->input->post('secret_token');
-    $chiper = "AES-128-ECB";
-    $secret = $get_row_enkrip['token_dokumen'];
-    if ($type == 'dekrip') {
-        $encryption_string = openssl_decrypt($get_row_enkrip['file_dokumen'], $chiper, $secret);
-        $data = [
-            'sts_token_dokumen' => 2,
-            'file_dokumen' => $encryption_string,
-        ];
-    } else {
-        $encryption_string = openssl_encrypt($get_row_enkrip['file_dokumen'], $chiper, $secret);
-        $data = [
-            'sts_token_dokumen' => 1,
-            'file_dokumen' => $encryption_string,
-        ];
-    }
-
-    $id_vendor = $get_row_enkrip['id_vendor'];
-    $row_vendor = $this->M_datapenyedia->get_row_vendor($id_vendor);
-    $where = [
-        'id_url' => $id_url
-    ];
-
-    if ($secret_token == $row_vendor['token_scure_vendor']) {
-        $response = [
-            'message' => 'success'
-        ];
-    } else {
-        $response = [
-            'maaf' => 'Anda Belum Beruntung',
-        ];
-    }
-    $this->M_datapenyedia->update_enkrip_sbu($where, $data);
-    $this->output->set_content_type('application/json')->set_output(json_encode($response));
-}
-
-public function dekrip_sbu()
-{
-    $id_url = $this->input->post('id_url_sbu');
-    $token_dokumen = $this->input->post('token_dokumen_sbu');
-    $secret_token = $this->input->post('secret_token');
-    $get_row_enkrip = $this->M_datapenyedia->get_row_sbu_url($id_url);
-    $id_vendor = $get_row_enkrip['id_vendor'];
-    $row_vendor = $this->M_datapenyedia->get_row_vendor($id_vendor);
-    $chiper = "AES-128-ECB";
-    $secret_token_dokumen = $get_row_enkrip['token_dokumen'];
-    $encryption_string = openssl_decrypt($get_row_enkrip['file_dokumen'], $chiper, $secret_token_dokumen);
-    $where = [
-        'id_url' => $id_url
-    ];
-    $data = [
-        'sts_token_dokumen' => 2,
-        'file_dokumen' => $encryption_string,
-    ];
-    if ($token_dokumen == $secret_token_dokumen) {
-        $response = [
-            'message' => 'success'
-        ];
-        $this->M_datapenyedia->update_enkrip_sbu($where, $data);
-    } else {
-        $response = [
-            'maaf' => 'Maaf Anda Memerlukan Token Yang Valid',
-        ];
-    }
-    $this->output->set_content_type('application/json')->set_output(json_encode($response));
-}
+		$config['upload_path'] = './file_vms/' . $nama_usaha . '/SBU-' . $date;
+		$config['allowed_types'] = 'pdf';
+		$config['max_size'] = 0;
+		$config['remove_spaces'] = TRUE;
+		// $config['encrypt_name'] = TRUE;
 
 
-public function url_download_sbu($id_url)
-{
-    if ($id_url == '') {
-        // tendang not found
-    }
-    $get_row_enkrip = $this->M_datapenyedia->get_row_sbu_url($id_url);
-    $id_vendor = $get_row_enkrip['id_vendor'];
-    $row_vendor = $this->M_datapenyedia->get_row_vendor($id_vendor);
-    $date = date('Y');
-    // $nama_file = $get_row_enkrip['nomor_surat'];
-    // $file_dokumen =  $get_row_enkrip['file_dokumen'];
-    return force_download('file_vms/' . $row_vendor['nama_usaha'] . '/SBU-' . $date . '/' . $get_row_enkrip['file_dokumen'], NULL);
-}
+		$this->load->library('upload', $config);
+		if ($this->upload->do_upload('file_dokumen_sbu')) {
+			$fileData = $this->upload->data();
+			$file_dokumen = $fileData['file_name'];
+			$chiper = "AES-128-ECB";
+			$secret = $token;
+			$enckrips_string = openssl_encrypt($file_dokumen, $chiper, $secret);
+			$upload = [
+				'id_url' => $id,
+				'id_vendor' => $id_vendor,
+				'no_urut' => '322',
+				'nomor_surat' => $nomor_surat,
+				'kualifikasi_izin' => $kualifikasi_izin,
+				'sts_seumur_hidup' => $sts_seumur_hidup,
+				'password_dokumen' => $password_dokumen,
+				'file_dokumen' => $enckrips_string,
+				'token_dokumen' => $secret,
+				'tgl_berlaku' => $tgl_berlaku,
+				'sts_token_dokumen' => 1,
+			];
+			$where = [
+				'id_vendor' => $id_vendor
+			];
+			if (!$row_sbu) {
+				$this->M_datapenyedia->tambah_sbu($upload);
+			} else {
+				$this->M_datapenyedia->update_sbu($upload, $where);
+			}
 
-// get_data_kbli_sbu
-public function get_data_kbli_sbu()
-{
-    $id_vendor = $this->session->userdata('id_vendor');
-    $resultss = $this->M_datapenyedia->gettable_kbli_sbu($id_vendor);
-    $data = [];
-    $no = $_POST['start'];
-    foreach ($resultss as $rs) {
-        $row = array();
-        $row[] = ++$no;
-        $row[] = $rs->kode_sbu . ' || ' . $rs->nama_sbu;
-        $row[] = $rs->nama_kualifikasi;
-        if ($rs->sts_kbli_sbu == 1) {
-            $row[] = '<span class="badge bg-success">Sudah Tervalidasi</span>';
-        } else {
-            $row[] = '<span class="badge bg-secondary">Belum Tervalidasi</span>';
-        }
-        $row[] = '<a  href="javascript:;" class="btn btn-warning btn-sm button_edit" onClick="byid_kbli_sbu(' . "'" . $rs->id_url_kbli_sbu . "','edit'" . ')"><i class="fa fa-edit"></i> Edit</a>
+			$response = [
+				'row_sbu' => $this->M_datapenyedia->get_row_sbu($id_vendor),
+			];
+			$this->output->set_content_type('application/json')->set_output(json_encode($response));
+		} else {
+			$upload = [
+				'id_url' => $id,
+				'id_vendor' => $id_vendor,
+				'no_urut' => '322',
+				'nomor_surat' => $nomor_surat,
+				'kualifikasi_izin' => $kualifikasi_izin,
+				'sts_seumur_hidup' => $sts_seumur_hidup,
+				'tgl_berlaku' => $tgl_berlaku,
+			];
+			if (!$row_sbu) {
+				$this->M_datapenyedia->tambah_sbu($upload);
+			} else {
+				$where = [
+					'id_vendor' => $id_vendor
+				];
+				$this->M_datapenyedia->update_sbu($upload, $where);
+			}
+
+			$response = [
+				'row_sbu' => $this->M_datapenyedia->get_row_sbu($id_vendor),
+			];
+			$this->output->set_content_type('application/json')->set_output(json_encode($response));
+			// redirect(base_url('upload'));
+		}
+	}
+
+	public function encryption_sbu($id_url)
+	{
+		$type = $this->input->post('type');
+		$get_row_enkrip = $this->M_datapenyedia->get_row_sbu_url($id_url);
+		$secret_token = $this->input->post('secret_token');
+		$chiper = "AES-128-ECB";
+		$secret = $get_row_enkrip['token_dokumen'];
+		if ($type == 'dekrip') {
+			$encryption_string = openssl_decrypt($get_row_enkrip['file_dokumen'], $chiper, $secret);
+			$data = [
+				'sts_token_dokumen' => 2,
+				'file_dokumen' => $encryption_string,
+			];
+		} else {
+			$encryption_string = openssl_encrypt($get_row_enkrip['file_dokumen'], $chiper, $secret);
+			$data = [
+				'sts_token_dokumen' => 1,
+				'file_dokumen' => $encryption_string,
+			];
+		}
+
+		$id_vendor = $get_row_enkrip['id_vendor'];
+		$row_vendor = $this->M_datapenyedia->get_row_vendor($id_vendor);
+		$where = [
+			'id_url' => $id_url
+		];
+
+		if ($secret_token == $row_vendor['token_scure_vendor']) {
+			$response = [
+				'message' => 'success'
+			];
+		} else {
+			$response = [
+				'maaf' => 'Anda Belum Beruntung',
+			];
+		}
+		$this->M_datapenyedia->update_enkrip_sbu($where, $data);
+		$this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
+	public function dekrip_sbu()
+	{
+		$id_url = $this->input->post('id_url_sbu');
+		$token_dokumen = $this->input->post('token_dokumen_sbu');
+		$secret_token = $this->input->post('secret_token');
+		$get_row_enkrip = $this->M_datapenyedia->get_row_sbu_url($id_url);
+		$id_vendor = $get_row_enkrip['id_vendor'];
+		$row_vendor = $this->M_datapenyedia->get_row_vendor($id_vendor);
+		$chiper = "AES-128-ECB";
+		$secret_token_dokumen = $get_row_enkrip['token_dokumen'];
+		$encryption_string = openssl_decrypt($get_row_enkrip['file_dokumen'], $chiper, $secret_token_dokumen);
+		$where = [
+			'id_url' => $id_url
+		];
+		$data = [
+			'sts_token_dokumen' => 2,
+			'file_dokumen' => $encryption_string,
+		];
+		if ($token_dokumen == $secret_token_dokumen) {
+			$response = [
+				'message' => 'success'
+			];
+			$this->M_datapenyedia->update_enkrip_sbu($where, $data);
+		} else {
+			$response = [
+				'maaf' => 'Maaf Anda Memerlukan Token Yang Valid',
+			];
+		}
+		$this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
+
+	public function url_download_sbu($id_url)
+	{
+		if ($id_url == '') {
+			// tendang not found
+		}
+		$get_row_enkrip = $this->M_datapenyedia->get_row_sbu_url($id_url);
+		$id_vendor = $get_row_enkrip['id_vendor'];
+		$row_vendor = $this->M_datapenyedia->get_row_vendor($id_vendor);
+		$date = date('Y');
+		// $nama_file = $get_row_enkrip['nomor_surat'];
+		// $file_dokumen =  $get_row_enkrip['file_dokumen'];
+		return force_download('file_vms/' . $row_vendor['nama_usaha'] . '/SBU-' . $date . '/' . $get_row_enkrip['file_dokumen'], NULL);
+	}
+
+	// get_data_kbli_sbu
+	public function get_data_kbli_sbu()
+	{
+		$id_vendor = $this->session->userdata('id_vendor');
+		$resultss = $this->M_datapenyedia->gettable_kbli_sbu($id_vendor);
+		$data = [];
+		$no = $_POST['start'];
+		foreach ($resultss as $rs) {
+			$row = array();
+			$row[] = ++$no;
+			$row[] = $rs->kode_sbu . ' || ' . $rs->nama_sbu;
+			$row[] = $rs->nama_kualifikasi;
+			if ($rs->sts_kbli_sbu == 1) {
+				$row[] = '<span class="badge bg-success">Sudah Tervalidasi</span>';
+			} else {
+				$row[] = '<span class="badge bg-secondary">Belum Tervalidasi</span>';
+			}
+			$row[] = '<a  href="javascript:;" class="btn btn-warning btn-sm button_edit" onClick="byid_kbli_sbu(' . "'" . $rs->id_url_kbli_sbu . "','edit'" . ')"><i class="fa fa-edit"></i> Edit</a>
     <a  href="javascript:;" class="btn btn-danger btn-sm button_hapus" onClick="byid_kbli_sbu(' . "'" . $rs->id_url_kbli_sbu . "','hapus'" . ')"><i class="fas fa fa-trash"></i> Hapus</a>';
-        $data[] = $row;
-    }
-    $output = array(
-        "draw" => $_POST['draw'],
-        "recordsTotal" => $this->M_datapenyedia->count_all_data_kbli_sbu($id_vendor),
-        "recordsFiltered" => $this->M_datapenyedia->count_filtered_data_kbli_sbu($id_vendor),
-        "data" => $data
-    );
-    $this->output->set_content_type('application/json')->set_output(json_encode($output));
-}
+			$data[] = $row;
+		}
+		$output = array(
+			"draw" => $_POST['draw'],
+			"recordsTotal" => $this->M_datapenyedia->count_all_data_kbli_sbu($id_vendor),
+			"recordsFiltered" => $this->M_datapenyedia->count_filtered_data_kbli_sbu($id_vendor),
+			"data" => $data
+		);
+		$this->output->set_content_type('application/json')->set_output(json_encode($output));
+	}
 
 
-function get_byid_kbli_sbu($id_url_kbli_sbu)
-{
-    $response = [
-        'row_kbli_sbu' => $this->M_datapenyedia->get_row_kbli_sbu($id_url_kbli_sbu),
-    ];
-    $this->output->set_content_type('application/json')->set_output(json_encode($response));
-}
-// tambah kbli_sbu 
-function tambah_kbli_sbu()
-{
-    $id_vendor = $this->session->userdata('id_vendor');
-    $id = $this->uuid->v4();
-    $id = str_replace('-', '', $id);
-    $token = $this->token->data_token();
-    // post
-    $id_sbu = $this->input->post('id_kbli_sbu');
-    $id_kualifikasi_sbu = $this->input->post('id_kualifikasi_izin_kbli_sbu');
-    $ket_kbli_sbu = $this->input->post('ket_kbli_sbu');
-    $data = [
-        'id_url_kbli_sbu' => $id,
-        'token_kbli_sbu' => $token,
-        'id_vendor' => $id_vendor,
-        'id_sbu' => $id_sbu,
-        'id_kualifikasi_sbu' => $id_kualifikasi_sbu,
-        'ket_kbli_sbu' => $ket_kbli_sbu,
-        'sts_kbli_sbu' => 0,
-    ];
-    $this->M_datapenyedia->tambah_kbli_sbu($data);
-    $response = [
-        'message' => 'success',
-    ];
-    $this->output->set_content_type('application/json')->set_output(json_encode($response));
-}
-function edit_kbli_sbu()
-{
+	function get_byid_kbli_sbu($id_url_kbli_sbu)
+	{
+		$response = [
+			'row_kbli_sbu' => $this->M_datapenyedia->get_row_kbli_sbu($id_url_kbli_sbu),
+		];
+		$this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+	// tambah kbli_sbu 
+	function tambah_kbli_sbu()
+	{
+		$id_vendor = $this->session->userdata('id_vendor');
+		$id = $this->uuid->v4();
+		$id = str_replace('-', '', $id);
+		$token = $this->token->data_token();
+		// post
+		$id_sbu = $this->input->post('id_kbli_sbu');
+		$id_kualifikasi_sbu = $this->input->post('id_kualifikasi_izin_kbli_sbu');
+		$ket_kbli_sbu = $this->input->post('ket_kbli_sbu');
+		$data = [
+			'id_url_kbli_sbu' => $id,
+			'token_kbli_sbu' => $token,
+			'id_vendor' => $id_vendor,
+			'id_sbu' => $id_sbu,
+			'id_kualifikasi_sbu' => $id_kualifikasi_sbu,
+			'ket_kbli_sbu' => $ket_kbli_sbu,
+			'sts_kbli_sbu' => 0,
+		];
+		$this->M_datapenyedia->tambah_kbli_sbu($data);
+		$response = [
+			'message' => 'success',
+		];
+		$this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+	function edit_kbli_sbu()
+	{
 
-    $id_url_kbli_sbu = $this->input->post('id_url_kbli_sbu');
-    $token_kbli_sbu = $this->input->post('token_kbli_sbu');
-    $id_sbu = $this->input->post('id_kbli_sbu');
-    $id_kualifikasi_sbu = $this->input->post('id_kualifikasi_izin_kbli_sbu');
-    $ket_kbli_sbu = $this->input->post('ket_kbli_sbu');
-    $cek_token = $this->M_datapenyedia->get_row_kbli_sbu($id_url_kbli_sbu);
-    if ($token_kbli_sbu == $cek_token['token_kbli_sbu']) {
-        $where = [
-            'id_url_kbli_sbu' => $id_url_kbli_sbu
-        ];
-        $data = [
-            'id_sbu' => $id_sbu,
-            'id_kualifikasi_sbu' => $id_kualifikasi_sbu,
-            'ket_kbli_sbu' => $ket_kbli_sbu,
-            'sts_kbli_sbu' => 0,
-        ];
-        $this->M_datapenyedia->edit_kbli_sbu($data, $where);
-        $response = [
-            'message' => 'success',
-        ];
-    } else {
-        $response = [
-            'maaf' => 'Token Tidak Valid !!!',
-        ];
-    }
+		$id_url_kbli_sbu = $this->input->post('id_url_kbli_sbu');
+		$token_kbli_sbu = $this->input->post('token_kbli_sbu');
+		$id_sbu = $this->input->post('id_kbli_sbu');
+		$id_kualifikasi_sbu = $this->input->post('id_kualifikasi_izin_kbli_sbu');
+		$ket_kbli_sbu = $this->input->post('ket_kbli_sbu');
+		$cek_token = $this->M_datapenyedia->get_row_kbli_sbu($id_url_kbli_sbu);
+		if ($token_kbli_sbu == $cek_token['token_kbli_sbu']) {
+			$where = [
+				'id_url_kbli_sbu' => $id_url_kbli_sbu
+			];
+			$data = [
+				'id_sbu' => $id_sbu,
+				'id_kualifikasi_sbu' => $id_kualifikasi_sbu,
+				'ket_kbli_sbu' => $ket_kbli_sbu,
+				'sts_kbli_sbu' => 0,
+			];
+			$this->M_datapenyedia->edit_kbli_sbu($data, $where);
+			$response = [
+				'message' => 'success',
+			];
+		} else {
+			$response = [
+				'maaf' => 'Token Tidak Valid !!!',
+			];
+		}
 
-    $this->output->set_content_type('application/json')->set_output(json_encode($response));
-}
-function hapus_kbli_sbu()
-{
-    $id_url_kbli_sbu = $this->input->post('id_url_kbli_sbu');
-    $token_kbli_sbu = $this->input->post('token_kbli_sbu');
-    $cek_token = $this->M_datapenyedia->get_row_kbli_sbu($id_url_kbli_sbu);
-    if ($token_kbli_sbu == $cek_token['token_kbli_sbu']) {
-        $where = [
-            'id_url_kbli_sbu' => $id_url_kbli_sbu
-        ];
-        $this->M_datapenyedia->hapus_kbli_sbu($where);
-        $response = [
-            'message' => 'success',
-        ];
-    } else {
-        $response = [
-            'maaf' => 'Token Tidak Valid !!!',
-        ];
-    }
-    $this->output->set_content_type('application/json')->set_output(json_encode($response));
-}
+		$this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+	function hapus_kbli_sbu()
+	{
+		$id_url_kbli_sbu = $this->input->post('id_url_kbli_sbu');
+		$token_kbli_sbu = $this->input->post('token_kbli_sbu');
+		$cek_token = $this->M_datapenyedia->get_row_kbli_sbu($id_url_kbli_sbu);
+		if ($token_kbli_sbu == $cek_token['token_kbli_sbu']) {
+			$where = [
+				'id_url_kbli_sbu' => $id_url_kbli_sbu
+			];
+			$this->M_datapenyedia->hapus_kbli_sbu($where);
+			$response = [
+				'message' => 'success',
+			];
+		} else {
+			$response = [
+				'maaf' => 'Token Tidak Valid !!!',
+			];
+		}
+		$this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
 
-	
+
 
 	public function akta_pendirian()
 	{

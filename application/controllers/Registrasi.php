@@ -59,11 +59,10 @@ class Registrasi extends CI_Controller
 		}
 		$data['widget'] = $this->recaptcha->getWidget();
 		$data['script'] = $this->recaptcha->getScriptTag();
-		$this->load->view('template/header_registrasi');
-		$this->load->view('template/sidebar_registrasi');
-		$this->load->view('datapenyedia/registrasi/index', $data);
-		$this->load->view('template/footer');
-		$this->load->view('js_file_out_session/index');
+		$this->load->view('template_menu_regis/header_menu');
+		$this->load->view('datapenyedia/registrasi/new_regis', $data);
+		$this->load->view('template_menu_regis/footer_menu');
+		$this->load->view('template_menu_regis/js_registrasi');
 	}
 
 	public function dataKabupaten($id_provinsi) //klpd
@@ -91,11 +90,10 @@ class Registrasi extends CI_Controller
 		$data['script'] = $this->recaptcha->getScriptTag();
 		$data['get_jenis_usaha']  = $this->M_jenis_usaha->get_result_jenis_usaha();
 		$data['provinsi']  = $this->Wilayah_model->getProvinsi();
-		$this->load->view('template/header_registrasi');
-		$this->load->view('template/sidebar_registrasi');
-		$this->load->view('datapenyedia/registrasi/identitas', $data);
-		$this->load->view('template/footer');
-		$this->load->view('js_file_out_session/index');
+		$this->load->view('template_menu_regis/header_menu');
+		$this->load->view('datapenyedia/registrasi/new_identitas', $data);
+		$this->load->view('template_menu_regis/footer_menu');
+		$this->load->view('template_menu_regis/js_registrasi');
 	}
 
 	public function add_identitas()
@@ -166,12 +164,13 @@ class Registrasi extends CI_Controller
 					$data['get_jenis_usaha']  = $this->M_jenis_usaha->get_result_jenis_usaha();
 					$data['provinsi']  = $this->Wilayah_model->getProvinsi();
 					$data['token_regis'] = $this->session->userdata('token_regis');
-					$this->load->view('template/header_registrasi');
-					$this->load->view('template/sidebar_registrasi');
-					$this->load->view('datapenyedia/registrasi/identitas', $data);
-					$this->load->view('template/footer');
+					$this->load->view('template_menu_regis/header_menu');
+					$this->load->view('datapenyedia/registrasi/new_identitas', $data);
+					$this->load->view('template_menu_regis/footer_menu');
+					$this->load->view('template_menu_regis/js_registrasi');
+					$this->load->view('js_file_out_session/index');
 					$this->load->view('datapenyedia/registrasi/redirect_identitas');
-					$this->session->sess_destroy();
+					// $this->session->sess_destroy();
 				}
 			}
 		} else {

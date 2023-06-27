@@ -4,13 +4,12 @@
     }
     ?>
     <?php if ($token_regis == $this->session->userdata('token_regis')) { ?>
-        <input type="hidden" required name="url_kabupaten" value="<?= base_url('wilayah/dataKabupaten/') ?>">
+    <input type="hidden" required name="url_kabupaten" value="<?= base_url('wilayah/dataKabupaten/') ?>">
     <input type="hidden" required name="url_kecamatan" value="<?= base_url('wilayah/dataKecamatan/') ?>">
+    <input type="hidden" name="url_provinsi" value="<?= base_url('registrasi/dataKabupaten/') ?>">
+    <input type="hidden" name="url_kecamatan" value="<?= base_url('registrasi/dataKecamatan/') ?>">
     <section class="content">
         <div class="container">
-            <input type="hidden" name="url_provinsi" value="<?= base_url('registrasi/dataKabupaten/') ?>">
-            <input type="hidden" name="url_kecamatan" value="<?= base_url('registrasi/dataKecamatan/') ?>">
-
             <!-- Default box -->
             <div class="card card-outline card-primary text-sm">
                 <div class="card-header">
@@ -67,7 +66,7 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
                                                 </div>
-                                                <input type="text" required class="form-control" name="nama_usaha" placeholder="Nama Perusahaan / Individu">
+                                                <input type="text" required class="form-control" name="nama_usaha" placeholder="Alamat Perusahaan / Individu">
                                             </div>
                                         </td>
                                     </tr>
