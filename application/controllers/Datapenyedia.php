@@ -1327,12 +1327,43 @@ class Datapenyedia extends CI_Controller
 	// end akta pendirian
 
 
+	// crud manajerial
+
 	public function manajerial()
 	{
 		$this->load->view('template_menu/header_menu');
 		$this->load->view('datapenyedia/manajerial/singgah');
 		$this->load->view('template_menu/new_footer');
 		$this->load->view('js_folder/pemilik_perusahaan/file_public');
+	}
+
+	public function get_data_excel_manajerial()
+	{
+		$id_vendor = $this->session->userdata('id_vendor');
+		$resultss = $this->M_datapenyedia->gettable_kbli_nib($id_vendor);
+		$data = [];
+		$no = $_POST['start'];
+		foreach ($resultss as $rs) {
+			$row = array();
+			$row[] = ++$no;
+			$row[] = $rs->kode_kbli . ' || ' . $rs->nama_kbli;
+			$row[] = $rs->nama_kualifikasi;
+			if ($rs->sts_kbli_nib == 1) {
+				$row[] = '<span class="badge bg-success">Sudah Tervalidasi</span>';
+			} else {
+				$row[] = '<span class="badge bg-secondary">Belum Tervalidasi</span>';
+			}
+			$row[] = '<a  href="javascript:;" class="btn btn-warning btn-sm button_edit" onClick="byid_kbli_nib(' . "'" . $rs->id_url_kbli_nib . "','edit'" . ')"><i class="fa fa-edit"></i> Edit</a>
+			<a  href="javascript:;" class="btn btn-danger btn-sm button_hapus" onClick="byid_kbli_nib(' . "'" . $rs->id_url_kbli_nib . "','hapus'" . ')"><i class="fas fa fa-trash"></i> Hapus</a>';
+			$data[] = $row;
+		}
+		$output = array(
+			"draw" => $_POST['draw'],
+			"recordsTotal" => $this->M_datapenyedia->count_all_data_kbli_siup($id_vendor),
+			"recordsFiltered" => $this->M_datapenyedia->count_filtered_data_kbli_siup($id_vendor),
+			"data" => $data
+		);
+		$this->output->set_content_type('application/json')->set_output(json_encode($output));
 	}
 
 	function import_pemilik_perusahaan()
@@ -1377,6 +1408,9 @@ class Datapenyedia extends CI_Controller
 			echo "Error : " . $this->upload->display_errors();
 		}
 	}
+
+
+	// end crud manajerial
 
 	public function sdm()
 	{
