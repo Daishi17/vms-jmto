@@ -1,100 +1,143 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-?><!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<title>Welcome to CodeIgniter</title>
+//   BATAS SBU
 
-	<style type="text/css">
+// batas sbu
+public function tambah_sbu($data)
+{
+    $this->db->insert('tbl_vendor_sbu', $data);
+    return $this->db->affected_rows();
+}
 
-	::selection { background-color: #E13300; color: white; }
-	::-moz-selection { background-color: #E13300; color: white; }
+public function update_sbu($data, $where)
+{
+    $this->db->update('tbl_vendor_sbu', $data);
+    $this->db->where($where);
+    return $this->db->affected_rows();
+}
 
-	body {
-		background-color: #fff;
-		margin: 40px;
-		font: 13px/20px normal Helvetica, Arial, sans-serif;
-		color: #4F5155;
-	}
 
-	a {
-		color: #003399;
-		background-color: transparent;
-		font-weight: normal;
-		text-decoration: none;
-	}
 
-	a:hover {
-		color: #97310e;
-	}
+public function update_enkrip_sbu($where, $data)
+{
+    $this->db->update('tbl_vendor_sbu', $data, $where);
+    return $this->db->affected_rows();
+}
 
-	h1 {
-		color: #444;
-		background-color: transparent;
-		border-bottom: 1px solid #D0D0D0;
-		font-size: 19px;
-		font-weight: normal;
-		margin: 0 0 14px 0;
-		padding: 14px 15px 10px 15px;
-	}
+public function update_dekrip_sbu($where, $data)
+{
+    $this->db->update('tbl_vendor_sbu', $data, $where);
+    return $this->db->affected_rows();
+}
 
-	code {
-		font-family: Consolas, Monaco, Courier New, Courier, monospace;
-		font-size: 12px;
-		background-color: #f9f9f9;
-		border: 1px solid #D0D0D0;
-		color: #002166;
-		display: block;
-		margin: 14px 0 14px 0;
-		padding: 12px 10px 12px 10px;
-	}
 
-	#body {
-		margin: 0 15px 0 15px;
-		min-height: 96px;
-	}
+public function get_row_sbu_url($id_url)
+{
+    $this->db->select('*');
+    $this->db->from('tbl_vendor_sbu');
+    $this->db->where('tbl_vendor_sbu.id_url', $id_url);
+    $query = $this->db->get();
+    return $query->row_array();
+}
 
-	p {
-		margin: 0 0 10px;
-		padding:0;
-	}
+public function get_row_sbu($id_vendor)
+{
+    $this->db->select('*');
+    $this->db->from('tbl_vendor_sbu');
+    $this->db->where('tbl_vendor_sbu.id_vendor', $id_vendor);
+    $query = $this->db->get();
+    return $query->row_array();
+}
 
-	p.footer {
-		text-align: right;
-		font-size: 11px;
-		border-top: 1px solid #D0D0D0;
-		line-height: 32px;
-		padding: 0 10px 0 10px;
-		margin: 20px 0 0 0;
-	}
+// 
+// tambah kbli sbu
+public function tambah_kbli_sbu($data)
+{
+    $this->db->insert('tbl_vendor_kbli_sbu', $data);
+    return $this->db->affected_rows();
+}
+var $order_sbu =  array('id_vendor_kbli_sbu', 'kode_kbli', 'nama_kbli', 'sts_kbli_sbu', 'id_vendor_kbli_sbu');
 
-	#container {
-		margin: 10px;
-		border: 1px solid #D0D0D0;
-		box-shadow: 0 0 8px #D0D0D0;
-	}
-	</style>
-</head>
-<body>
+// get sbu
+private function _get_data_query_kbli_sbu($id_vendor)
+{
+    $this->db->select('*');
+    $this->db->from('tbl_vendor_kbli_sbu');
+    $this->db->join('tbl_sbu', 'tbl_vendor_kbli_sbu.id_sbu = tbl_sbu.id_sbu', 'left');
+    $this->db->join('tbl_kualifikasi_sbu', 'tbl_vendor_kbli_sbu.id_kualifikasi_sbu = tbl_kualifikasi_sbu.id_kualifikasi_sbu', 'left');
+    $this->db->where('tbl_vendor_kbli_sbu.id_vendor', $id_vendor);
+    $i = 0;
+    foreach ($this->order_sbu as $item) // looping awal
+    {
+        if ($_POST['search']['value']) // jika datatable mengirimkan pencarian dengan metode POST
+        {
 
-<div id="container">
-	<h1>Welcome to CodeIgniter!</h1>
+            if ($i === 0) // looping awal
+            {
+                $this->db->group_start();
+                $this->db->like($item, $_POST['search']['value']);
+            } else {
+                $this->db->or_like(
+                    $item,
+                    $_POST['search']['value']
+                );
+            }
 
-	<div id="body">
-		<p>The page you are looking at is being generated dynamically by CodeIgniter.</p>
+            if (count($this->order_sbu) - 1 == $i)
+                $this->db->group_end();
+        }
+        $i++;
+    }
+    if (isset($_POST['order'])) {
+        $this->db->order_by($this->order_sbu[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+    } else {
+        $this->db->order_by('tbl_vendor_kbli_sbu.id_vendor_kbli_sbu', 'DESC');
+    }
+}
 
-		<p>If you would like to edit this page you'll find it located at:</p>
-		<code>application/views/welcome_message.php</code>
+public function gettable_kbli_sbu($id_vendor) //nam[ilin data pake ini
+{
+    $this->_get_data_query_kbli_sbu($id_vendor); //ambil data dari get yg di atas
+    if ($_POST['length'] != -1) {
+        $this->db->limit($_POST['length'], $_POST['start']);
+    }
+    $query = $this->db->get();
+    return $query->result();
+}
+public function count_filtered_data_kbli_sbu($id_vendor)
+{
+    $this->_get_data_query_kbli_sbu($id_vendor); //ambil data dari get yg di atas
+    $query = $this->db->get();
+    return $query->num_rows();
+}
 
-		<p>The corresponding controller for this page is found at:</p>
-		<code>application/controllers/Welcome.php</code>
+public function count_all_data_kbli_sbu($id_vendor)
+{
+    $this->db->select('*');
+    $this->db->from('tbl_vendor_kbli_sbu');
+    $this->db->join('tbl_sbu', 'tbl_vendor_kbli_sbu.id_sbu = tbl_sbu.id_sbu', 'left');
+    $this->db->join('tbl_kualifikasi_sbu', 'tbl_vendor_kbli_sbu.id_kualifikasi_sbu = tbl_kualifikasi_sbu.id_kualifikasi_sbu', 'left');
+    $this->db->where('tbl_vendor_kbli_sbu.id_vendor', $id_vendor);
+    return $this->db->count_all_results();
+}
 
-		<p>If you are exploring CodeIgniter for the very first time, you should start by reading the <a href="userguide3/">User Guide</a>.</p>
-	</div>
+public function get_row_kbli_sbu($id_url_kbli_sbu)
+{
+    $this->db->select('*');
+    $this->db->from('tbl_vendor_kbli_sbu');
+    $this->db->join('tbl_sbu', 'tbl_vendor_kbli_sbu.id_sbu = tbl_sbu.id_sbu', 'left');
+    $this->db->join('tbl_kualifikasi_sbu', 'tbl_vendor_kbli_sbu.id_kualifikasi_sbu = tbl_kualifikasi_sbu.id_kualifikasi_sbu', 'left');
+    $this->db->where('tbl_vendor_kbli_sbu.id_url_kbli_sbu', $id_url_kbli_sbu);
+    $query = $this->db->get();
+    return $query->row_array();
+}
 
-	<p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds. <?php echo  (ENVIRONMENT === 'development') ?  'CodeIgniter Version <strong>' . CI_VERSION . '</strong>' : '' ?></p>
-</div>
+function edit_kbli_sbu($data, $where)
+{
+    $this->db->update('tbl_vendor_kbli_sbu', $data, $where);
+    return $this->db->affected_rows();
+}
 
-</body>
-</html>
+function hapus_kbli_sbu($where)
+{
+    $this->db->delete('tbl_vendor_kbli_sbu', $where);
+    return $this->db->affected_rows();
+}
