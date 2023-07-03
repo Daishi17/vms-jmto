@@ -60,7 +60,6 @@
         $.ajax({
             type: "GET",
             url: '<?= base_url('datapenyedia/by_id_excel_pemilik_menajerial/') ?>' + id_pemilik,
-            id_pemilik,
             dataType: "JSON",
             success: function(response) {
                 if (type == 'edit') {
@@ -78,8 +77,8 @@
                     $('[name="file_ktp"]').val(response['row_excel_pemilik_manajerial'].file_ktp);
                     $('[name="file_bjps"]').val(response['row_excel_pemilik_manajerial'].file_bjps);
                     $('[name="file_sk_pengukuhan"]').val(response['row_excel_pemilik_manajerial'].file_sk_pengukuhan);
-                    $('.button_pemilik_ktp').html('<a href="">' + ktp + '</a>');
-                    $('.button_pemilik_bpjs').html('<a href="javascript:;"  onclick="Download_pemilik(\'' + id_pemilik + '\'' + ',' + '\'' + 'pemilik_bpjs' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-lock-open mr-2"></i> ' + response['row_excel_pemilik_manajerial'].file_bpjs + '</a>');
+                    $('.button_pemilik_ktp').html('<label>' + ktp + '</label>');
+                    $('.button_pemilik_bpjs').html('<a href="javascript:;"  onclick="Download_pemilik(\'' + id_pemilik + '\'' + ',' + '\'' + 'pemilik_bpjs' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-lock-open mr-2"></i> ' + response['row_excel_pemilik_manajerial'].file_bjps + '</a>');
                     $('.button_pemilik_file_sk_pengukuhan').html('<a href="javascript:;"  onclick="Download_pemilik(\'' + id_pemilik + '\'' + ',' + '\'' + 'pemilik_file_sk_pengukuhan' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-lock-open mr-2"></i> ' + response['row_excel_pemilik_manajerial'].file_sk_pengukuhan + '</a>');
                 } else {
                     // Question_kbli_nib(id_pemilik, response['row_excel_pemilik_manajerial'].nama_pemilik);

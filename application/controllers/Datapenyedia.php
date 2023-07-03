@@ -1343,6 +1343,9 @@ class Datapenyedia extends CI_Controller
 		$resultss = $this->M_datapenyedia->gettable_excel_pemilik_manajerial($id_vendor);
 		$data = [];
 		$no = $_POST['start'];
+		$nama_usaha = $this->session->userdata('nama_usaha');
+		$date = date('Y');
+		$file_path = 'file_vms/' . $nama_usaha . '/Pemilik-' . $date;
 		foreach ($resultss as $rs) {
 			$row = array();
 			$row[] = ++$no;
@@ -1352,9 +1355,9 @@ class Datapenyedia extends CI_Controller
 			$row[] = $rs->alamat_pemilik;
 			$row[] = $rs->warganegara;
 			$row[] = $rs->saham;
-			$row[] = '<a  href="javascript:;" class="btn btn-info btn-sm d-md-block" onClick="by_id_excel_pemilik_manajerial(' . "'" . $rs->id_pemilik . "','upload_ktp'" . ')"><i class="fa fa-upload"></i></a>';
-			$row[] = '<a  href="javascript:;" class="btn btn-info btn-sm d-md-block" onClick="by_id_excel_pemilik_manajerial(' . "'" . $rs->id_pemilik . "','upload_bpjs'" . ')"><i class="fa fa-upload"></i></a>';
-			$row[] = '<a  href="javascript:;" class="btn btn-info btn-sm d-md-block" onClick="by_id_excel_pemilik_manajerial(' . "'" . $rs->id_pemilik . "','upload_sk_pengukuhan'" . ')"><i class="fa fa-upload"></i></a>';
+			$row[] = '<a href=' . base_url('/' . $file_path . '/' . $rs->file_ktp) . '>' . '<img width="30px" src=' . base_url('assets/img/pdf.png') . ' >' . '</a>';
+			$row[] = '<a href=' . base_url('/' . $file_path . '/' . $rs->file_bjps) . '>' . '<img width="30px" src=' . base_url('assets/img/pdf.png') . ' >' . '</a>';
+			$row[] = '<a href=' . base_url('/' . $file_path . '/' . $rs->file_sk_pengukuhan) . '>' . '<img width="30px" src=' . base_url('assets/img/pdf.png') . ' >' . '</a>';
 			$row[] = '<a  href="javascript:;" class="btn btn-warning btn-sm d-md-block" onClick="by_id_excel_pemilik_manajerial(' . "'" . $rs->id_pemilik . "','edit'" . ')"><i class="fa fa-edit"></i></a>
 			<a  href="javascript:;" class="btn btn-danger btn-sm d-md-block" onClick="by_id_excel_pemilik_manajerial(' . "'" . $rs->id_pemilik . "','hapus'" . ')"><i class="fas fa fa-trash"></i></a>';
 			$data[] = $row;
@@ -1437,7 +1440,7 @@ class Datapenyedia extends CI_Controller
 				'saham' => $saham,
 			];
 		}
-		
+
 		$this->M_datapenyedia->update_excel_pemilik_manajerial($upload, $where);
 		$this->output->set_content_type('application/json')->set_output(json_encode('success'));
 	}
