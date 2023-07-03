@@ -311,4 +311,14 @@ class M_datapenyedia extends CI_Model
         return $query->row_array();
     }
     // end crud akta perubahan
+
+    // crud pemilik perusahaan
+    function insert_pemilik($data)
+    {
+        $jumlah = count($data);
+        if ($jumlah > 0) {
+            $this->db->replace('temp_vendor_pemilik', $data);
+        }
+    }
+    // 
 }

@@ -63,6 +63,12 @@
                                                             Create Data
                                                         </button>
                                                     </div>&nbsp;
+                                                    <div class="bd-highlight">
+                                                        <button type="button" class="btn btn-success btn-sm shadow-lg" data-bs-toggle="modal" data-bs-target="#modal_dataimport">
+                                                            <i class="fa-solid fa-search px-1"></i>
+                                                            Lihat Data Import Excel
+                                                        </button>
+                                                    </div>&nbsp;
                                                     <span>||</span>&nbsp;
                                                     <div class="bd-highlight">
                                                         <button type="button" class="btn btn-success btn-sm shadow-lg">
@@ -71,7 +77,7 @@
                                                         </button>
                                                     </div>&nbsp;
                                                     <div class="bd-highlight">
-                                                        <button type="button" class="btn btn-secondary btn-sm shadow-lg">
+                                                        <button type="button" class="btn btn-secondary btn-sm shadow-lg" data-bs-toggle="modal" data-bs-target="#modalImportPemilik">
                                                             <i class="fa-solid fa-cloud-arrow-up px-1"></i>
                                                             Import Excel
                                                         </button>
@@ -643,3 +649,115 @@
     </div>
     </div>
 </main>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalImportPemilik" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Import Data Pemilik Perusahaan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header bg-primary text-white">
+                                <h4 class="text-white">Import Data Pemilik Perusahaan</h4>
+                            </div>
+                            <div class="card-body">
+                                <?= form_open_multipart('datapenyedia/import_pemilik_perusahaan') ?>
+                                <div class="input-group">
+                                    <input type="file" class="form-control form-control-sm" id="importexcel" aria-describedby="inputGroupFileAddon04" accept=".xlsx,.xls" name="importexcel" aria-label="Upload" required>
+                                    <button class="btn btn-sm btn-success" type="submit" id="inputGroupFileAddon04"><img src="<?= base_url('assets/excel.png') ?>" style="width: 20px;" alt=""> UPLOAD</button>
+                                </div>
+                                <?= form_close(); ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" id="modal_dataimport">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a class="navbar-brand">
+                    <img src="<?php echo base_url(); ?>/assets/brand/jm1.png" alt="" width="25" height="25" class="d-inline-block align-text-top">
+                    <b><span class="text-primary">Jasamarga Tollroad Operator</span></b>
+                </a>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card border-dark shadow-lg">
+                    <div class="card-header bg-dark d-flex bd-highlight">
+                        <div class="flex-grow-1 bd-highlight">
+                            <span class="text-white">
+                                <i class="fa-solid fa-align-justify px-1"></i>
+                                <small><strong>Form Data - Manajerial Pemilik Usaha</strong></small>
+                            </span>
+                        </div>
+                        <div class="bd-highlight">
+                            <button type="button" class="btn btn-warning btn-sm shadow-lg" disabled>
+                                <i class="fa-solid fa-pen-to-square"></i>
+                                Edit Data
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table id="data_import_pemilik" class="table table-bordered">
+                            <thead class="bg-secondary" style="text-align: center;">
+                                <tr>
+                                    <th style="width:7%; ">
+                                        <small class="text-white">NIK/Paspor</small>
+                                    </th>
+                                    <th style="width:7%;">
+                                        <small class="text-white">NPWP</small>
+                                    </th>
+                                    <th style="width:25%;">
+                                        <small class="text-white">Nama</small>
+                                    </th>
+                                    <th style="width:8%;"><small class="text-white">Warganegara</small></th>
+                                    <th style="width:10%;">
+                                        <small class="text-white">Jenis Kepemilikan</small>
+                                    </th>
+                                    <th style="width:7%;">
+                                        <small class="text-white">
+                                            <div class="text-center">Saham %</div>
+                                        </small>
+                                    </th>
+                                    <th>
+                                        <small class="text-white">
+                                            <div class="text-center">Upload File KTP</div>
+                                        </small>
+                                    </th>
+                                    <th>
+                                        <small class="text-white">
+                                            <div class="text-center"> Upload File BPJS-TK</div>
+                                        </small>
+                                    </th>
+                                    <th>
+                                        <small class="text-white">
+                                            <div class="text-center"> Upload File SK/Pengukuhan </div>
+                                        </small>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,6 +1,12 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 date_default_timezone_set("Asia/Jakarta");
+
+require_once APPPATH . 'third_party/Spout/Autoloader/autoload.php';
+
+use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
+
+
 class Datapenyedia extends CI_Controller
 {
 	public function __construct()
@@ -1089,6 +1095,50 @@ class Datapenyedia extends CI_Controller
 		$this->load->view('template_menu/header_menu');
 		$this->load->view('datapenyedia/manajerial/singgah');
 		$this->load->view('template_menu/new_footer');
+		$this->load->view('js_folder/pemilik_perusahaan/file_public');
+	}
+
+	function import_pemilik_perusahaan()
+	{
+		$id_vendor = $this->session->userdata('id_vendor');
+		$id = $this->uuid->v4();
+		$id = str_replace('-', '', $id);
+
+		$config['upload_path'] = './uploads/';
+		$config['allowed_types'] = 'xlsx|xls';
+		$config['file_name'] = 'doc' . time();
+		$this->load->library('upload', $config);
+		if ($this->upload->do_upload('importexcel')) {
+			$file = $this->upload->data();
+			$reader = ReaderEntityFactory::createXLSXReader();
+			$reader->open('uploads/' . $file['file_name']);
+			foreach ($reader->getSheetIterator() as $sheet) {
+				$numRow = 1;
+				foreach ($sheet->getRowIterator() as $row) {
+					if ($numRow > 2) {
+						$data = array(
+							'id_vendor' => $id_vendor,
+							'id_url' => $id,
+							'nik' => $row->getCellAtIndex(0),
+							'npwp' => $row->getCellAtIndex(1),
+							'nama_pemilik' => $row->getCellAtIndex(2),
+							'warganegara' => $row->getCellAtIndex(3),
+							'jns_pemilik' => $row->getCellAtIndex(4),
+							'saham' => $row->getCellAtIndex(5),
+							'alamat_pemilik' => $row->getCellAtIndex(6),
+						);
+						$this->M_datapenyedia->insert_pemilik($data);
+					}
+					$numRow++;
+				}
+				$reader->close();
+				unlink('uploads/' . $file['file_name']);
+				$this->session->set_flashdata('pesan', 'Data Berhasil Di Import');
+				redirect('datapenyedia/manajerial');
+			}
+		} else {
+			echo "Error : " . $this->upload->display_errors();
+		}
 	}
 
 	public function sdm()
