@@ -656,7 +656,7 @@ class M_datapenyedia extends CI_Model
     }
 
 
-    var $order_pemilik_excel =  array('id_vendor','nik','nama_pemilik','jns_pemilik','alamat_pemilik','npwp','warganegara','saham','file_ktp','id_vendor','id_vendor');
+    var $order_pemilik_excel =  array('id_vendor', 'nik', 'nama_pemilik', 'jns_pemilik', 'alamat_pemilik', 'npwp', 'warganegara', 'saham', 'file_ktp', 'id_vendor', 'id_vendor');
 
     private function _get_data_query_excel_pemilik_manjerial($id_vendor)
     {
@@ -716,8 +716,8 @@ class M_datapenyedia extends CI_Model
         return $this->db->count_all_results();
     }
 
-    
-    
+
+
     public function get_row_excel_pemilik_manajerial($id_pemilik)
     {
         $this->db->select('*');
@@ -726,11 +726,79 @@ class M_datapenyedia extends CI_Model
         $query = $this->db->get();
         return $query->row_array();
     }
-    // 
-    
+
     public function update_excel_pemilik_manajerial($data, $where)
     {
         $this->db->update('temp_vendor_pemilik', $data, $where);
         return $this->db->affected_rows();
     }
+    // 
+
+    // crud pajak sppkp
+    public function get_row_sppkp($id_vendor)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_vendor_sppkp');
+        $this->db->where('tbl_vendor_sppkp.id_vendor', $id_vendor);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
+    public function tambah_sppkp($data)
+    {
+        $this->db->insert('tbl_vendor_sppkp', $data);
+        return $this->db->affected_rows();
+    }
+
+    public function update_sppkp($data, $where)
+    {
+        $this->db->update('tbl_vendor_sppkp', $data);
+        $this->db->where($where);
+        return $this->db->affected_rows();
+    }
+
+    public function get_row_sppkp_url($id_url)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_vendor_sppkp');
+        $this->db->where('tbl_vendor_sppkp.id_url', $id_url);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
+    // end crud pajak sppkp
+
+    // crud pajak npwp
+    public function get_row_npwp($id_vendor)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_vendor_npwp');
+        $this->db->where('tbl_vendor_npwp.id_vendor', $id_vendor);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
+    public function tambah_npwp($data)
+    {
+        $this->db->insert('tbl_vendor_npwp', $data);
+        return $this->db->affected_rows();
+    }
+
+    public function update_npwp($data, $where)
+    {
+        $this->db->update('tbl_vendor_npwp', $data);
+        $this->db->where($where);
+        return $this->db->affected_rows();
+    }
+
+    public function get_row_npwp_url($id_url)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_vendor_npwp');
+        $this->db->where('tbl_vendor_npwp.id_url', $id_url);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
+    // end crud pajak npwp
 }

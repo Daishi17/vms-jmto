@@ -1508,10 +1508,356 @@ class Datapenyedia extends CI_Controller
 		$this->load->view('template_menu/new_footer');
 	}
 
+	// crud pajak
+
+
 	public function pajak()
 	{
+		$id_vendor = $this->session->userdata('id_vendor');
+		$data['row_vendor']  = $this->M_datapenyedia->get_row_vendor($id_vendor);
 		$this->load->view('template_menu/header_menu');
-		$this->load->view('datapenyedia/pajak/singgah');
+		$this->load->view('datapenyedia/pajak/singgah', $data);
 		$this->load->view('template_menu/new_footer');
+		$this->load->view('datapenyedia/pajak/file_public');
 	}
+
+	public function get_row_global_pajak($id_url_vendor)
+	{
+		$token = $this->input->post('secret_token');
+		$row_vendor = $this->M_datapenyedia->get_row_vendor_by_id_url_vendor($id_url_vendor);
+		$id_vendor = $row_vendor['id_vendor'];
+		$row_sppkp = $this->M_datapenyedia->get_row_sppkp($id_vendor);
+		$row_npwp = $this->M_datapenyedia->get_row_npwp($id_vendor);
+		// $row_sbu = $this->M_datapenyedia->get_row_sbu($id_vendor);
+		// $row_siujk = $this->M_datapenyedia->get_row_siujk($id_vendor);
+		if ($token == $row_vendor['token_scure_vendor']) {
+			$response = [
+				'row_vendor' => $row_vendor,
+				'row_sppkp' => $row_sppkp,
+				'row_npwp' => $row_npwp,
+				// 'row_sbu' => $row_sbu,
+				// 'row_siujk' => $row_siujk
+			];
+			$this->output->set_content_type('application/json')->set_output(json_encode($response));
+		} else {
+			$response = [
+				'maaf' => 'Anda Belum Beruntung',
+			];
+			$this->output->set_content_type('application/json')->set_output(json_encode($response));
+		}
+	}
+
+	function add_sppkp()
+	{
+		$id_vendor = $this->session->userdata('id_vendor');
+		$nama_usaha = $this->session->userdata('nama_usaha');
+		$row_sppkp = $this->M_datapenyedia->get_row_sppkp($id_vendor);
+
+		$id = $this->uuid->v4();
+		$id = str_replace('-', '', $id);
+		$token = $this->token->data_token();
+		// post
+		$no_surat = $this->input->post('no_surat_sppkp');
+		$sts_seumur_hidup = $this->input->post('sts_seumur_hidup_sppkp');
+		$tgl_berlaku = $this->input->post('tgl_berlaku_sppkp');
+		$password_dokumen = '1234';
+
+		// SETTING PATH 
+		$date = date('Y');
+		if (!is_dir('file_vms/' . $nama_usaha . '/SPPKP-' . $date)) {
+			mkdir('file_vms/' . $nama_usaha . '/SPPKP-' . $date, 0777, TRUE);
+		}
+
+		$config['upload_path'] = './file_vms/' . $nama_usaha . '/SPPKP-' . $date;
+		$config['allowed_types'] = 'pdf';
+		$config['max_size'] = 0;
+		$config['remove_spaces'] = TRUE;
+		// $config['encrypt_name'] = TRUE;
+
+
+		$this->load->library('upload', $config);
+		if ($this->upload->do_upload('file_sppkp')) {
+			$fileData = $this->upload->data();
+			$file_dokumen = $fileData['file_name'];
+			$chiper = "AES-128-ECB";
+			$secret = $token;
+			$enckrips_string = openssl_encrypt($file_dokumen, $chiper, $secret);
+			$upload = [
+				'id_url' => $id,
+				'id_vendor' => $id_vendor,
+				'no_surat' => $no_surat,
+				'sts_seumur_hidup' => $sts_seumur_hidup,
+				'password_dokumen' => $password_dokumen,
+				'file_dokumen' => $enckrips_string,
+				'token_dokumen' => $secret,
+				'tgl_berlaku' => $tgl_berlaku,
+				'sts_token_dokumen' => 1,
+			];
+			$where = [
+				'id_vendor' => $id_vendor
+			];
+			if (!$row_sppkp) {
+				$this->M_datapenyedia->tambah_sppkp($upload);
+			} else {
+				$this->M_datapenyedia->update_sppkp($upload, $where);
+			}
+
+			$response = [
+				'row_sppkp' => $this->M_datapenyedia->get_row_sppkp($id_vendor),
+			];
+			$this->output->set_content_type('application/json')->set_output(json_encode($response));
+		} else {
+			$upload = [
+				'id_url' => $id,
+				'id_vendor' => $id_vendor,
+				'no_surat' => $no_surat,
+				'sts_seumur_hidup' => $sts_seumur_hidup,
+				'tgl_berlaku' => $tgl_berlaku,
+			];
+			if (!$row_sppkp) {
+				$this->M_datapenyedia->tambah_sppkp($upload);
+			} else {
+				$where = [
+					'id_vendor' => $id_vendor
+				];
+				$this->M_datapenyedia->update_sppkp($upload, $where);
+			}
+
+			$response = [
+				'row_sppkp' => $this->M_datapenyedia->get_row_sppkp($id_vendor),
+			];
+			$this->output->set_content_type('application/json')->set_output(json_encode($response));
+			// redirect(base_url('upload'));
+		}
+	}
+
+	public function encryption_sppkp($id_url)
+	{
+		$id_url = $this->input->post('id_url_sppkp');
+		$token_dokumen = $this->input->post('token_dokumen');
+		// $secret_token = $this->input->post('secret_token');
+
+		$type = $this->input->post('type');
+
+		$get_row_enkrip = $this->M_datapenyedia->get_row_sppkp_url($id_url);
+		// $id_vendor = $get_row_enkrip['id_vendor'];
+		// $row_vendor = $this->M_datapenyedia->get_row_vendor($id_vendor);
+		$chiper = "AES-128-ECB";
+		$secret_token_dokumen = $get_row_enkrip['token_dokumen'];
+
+		if ($type == 'enkrip') {
+
+			$encryption_string = openssl_encrypt($get_row_enkrip['file_dokumen'], $chiper, $secret_token_dokumen);
+			$where = [
+				'id_url' => $id_url
+			];
+			$data = [
+				'sts_token_dokumen' => 1,
+				'file_dokumen' => $encryption_string,
+			];
+			if ($token_dokumen == $secret_token_dokumen) {
+				$response = [
+					'message' => 'success'
+				];
+				$this->M_datapenyedia->update_sppkp($data, $where);
+			} else {
+				$response = [
+					'maaf' => 'Maaf Anda Memerlukan Token Yang Valid',
+				];
+			}
+		} else {
+			$encryption_string = openssl_decrypt($get_row_enkrip['file_dokumen'], $chiper, $secret_token_dokumen);
+			$where = [
+				'id_url' => $id_url
+			];
+			$data = [
+				'sts_token_dokumen' => 2,
+				'file_dokumen' => $encryption_string,
+			];
+			if ($token_dokumen == $secret_token_dokumen) {
+				$response = [
+					'message' => 'success'
+				];
+				$this->M_datapenyedia->update_sppkp($data, $where);
+			} else {
+				$response = [
+					'maaf' => 'Maaf Anda Memerlukan Token Yang Valid',
+				];
+			}
+		}
+
+		$this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
+	public function url_download_sppkp($id_url)
+	{
+		if ($id_url == '') {
+			// tendang not found
+		}
+		$get_row_enkrip = $this->M_datapenyedia->get_row_sppkp_url($id_url);
+		$id_vendor = $get_row_enkrip['id_vendor'];
+		$row_vendor = $this->M_datapenyedia->get_row_vendor($id_vendor);
+		$date = date('Y');
+		// $nama_file = $get_row_enkrip['nomor_surat'];
+		// $file_dokumen =  $get_row_enkrip['file_dokumen'];
+		return force_download('file_vms/' . $row_vendor['nama_usaha'] . '/SPPKP-' . $date . '/' . $get_row_enkrip['file_dokumen'], NULL);
+	}
+
+
+	function add_npwp()
+	{
+		$id_vendor = $this->session->userdata('id_vendor');
+		$nama_usaha = $this->session->userdata('nama_usaha');
+		$row_npwp = $this->M_datapenyedia->get_row_npwp($id_vendor);
+
+		$id = $this->uuid->v4();
+		$id = str_replace('-', '', $id);
+		$token = $this->token->data_token();
+		// post
+		$no_surat = $this->input->post('no_npwp');
+		$sts_seumur_hidup = $this->input->post('sts_seumur_hidup_npwp');
+		$tgl_berlaku = $this->input->post('tgl_berlaku_npwp');
+		$password_dokumen = '1234';
+
+		// SETTING PATH 
+		$date = date('Y');
+		if (!is_dir('file_vms/' . $nama_usaha . '/NPWP-' . $date)) {
+			mkdir('file_vms/' . $nama_usaha . '/NPWP-' . $date, 0777, TRUE);
+		}
+
+		$config['upload_path'] = './file_vms/' . $nama_usaha . '/NPWP-' . $date;
+		$config['allowed_types'] = 'pdf';
+		$config['max_size'] = 0;
+		$config['remove_spaces'] = TRUE;
+		// $config['encrypt_name'] = TRUE;
+
+
+		$this->load->library('upload', $config);
+		if ($this->upload->do_upload('file_npwp')) {
+			$fileData = $this->upload->data();
+			$file_dokumen = $fileData['file_name'];
+			$chiper = "AES-128-ECB";
+			$secret = $token;
+			$enckrips_string = openssl_encrypt($file_dokumen, $chiper, $secret);
+			$upload = [
+				'id_url' => $id,
+				'id_vendor' => $id_vendor,
+				'no_npwp' => $no_surat,
+				'sts_seumur_hidup' => $sts_seumur_hidup,
+				'password_dokumen' => $password_dokumen,
+				'file_dokumen' => $enckrips_string,
+				'token_dokumen' => $secret,
+				'tgl_berlaku' => $tgl_berlaku,
+				'sts_token_dokumen' => 1,
+			];
+			$where = [
+				'id_vendor' => $id_vendor
+			];
+			if (!$row_npwp) {
+				$this->M_datapenyedia->tambah_npwp($upload);
+			} else {
+				$this->M_datapenyedia->update_npwp($upload, $where);
+			}
+
+			$response = [
+				'row_npwp' => $this->M_datapenyedia->get_row_npwp($id_vendor),
+			];
+			$this->output->set_content_type('application/json')->set_output(json_encode($response));
+		} else {
+			$upload = [
+				'id_url' => $id,
+				'id_vendor' => $id_vendor,
+				'no_npwp' => $no_surat,
+				'sts_seumur_hidup' => $sts_seumur_hidup,
+				'tgl_berlaku' => $tgl_berlaku,
+			];
+			if (!$row_npwp) {
+				$this->M_datapenyedia->tambah_npwp($upload);
+			} else {
+				$where = [
+					'id_vendor' => $id_vendor
+				];
+				$this->M_datapenyedia->update_npwp($upload, $where);
+			}
+
+			$response = [
+				'row_npwp' => $this->M_datapenyedia->get_row_npwp($id_vendor),
+			];
+			$this->output->set_content_type('application/json')->set_output(json_encode($response));
+			// redirect(base_url('upload'));
+		}
+	}
+
+	public function encryption_npwp($id_url)
+	{
+		$id_url = $this->input->post('id_url_npwp');
+		$token_dokumen = $this->input->post('token_dokumen');
+		// $secret_token = $this->input->post('secret_token');
+
+		$type = $this->input->post('type');
+
+		$get_row_enkrip = $this->M_datapenyedia->get_row_npwp_url($id_url);
+		// $id_vendor = $get_row_enkrip['id_vendor'];
+		// $row_vendor = $this->M_datapenyedia->get_row_vendor($id_vendor);
+		$chiper = "AES-128-ECB";
+		$secret_token_dokumen = $get_row_enkrip['token_dokumen'];
+
+		if ($type == 'enkrip') {
+
+			$encryption_string = openssl_encrypt($get_row_enkrip['file_dokumen'], $chiper, $secret_token_dokumen);
+			$where = [
+				'id_url' => $id_url
+			];
+			$data = [
+				'sts_token_dokumen' => 1,
+				'file_dokumen' => $encryption_string,
+			];
+			if ($token_dokumen == $secret_token_dokumen) {
+				$response = [
+					'message' => 'success'
+				];
+				$this->M_datapenyedia->update_npwp($data, $where);
+			} else {
+				$response = [
+					'maaf' => 'Maaf Anda Memerlukan Token Yang Valid',
+				];
+			}
+		} else {
+			$encryption_string = openssl_decrypt($get_row_enkrip['file_dokumen'], $chiper, $secret_token_dokumen);
+			$where = [
+				'id_url' => $id_url
+			];
+			$data = [
+				'sts_token_dokumen' => 2,
+				'file_dokumen' => $encryption_string,
+			];
+			if ($token_dokumen == $secret_token_dokumen) {
+				$response = [
+					'message' => 'success'
+				];
+				$this->M_datapenyedia->update_npwp($data, $where);
+			} else {
+				$response = [
+					'maaf' => 'Maaf Anda Memerlukan Token Yang Valid',
+				];
+			}
+		}
+
+		$this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
+	public function url_download_npwp($id_url)
+	{
+		if ($id_url == '') {
+			// tendang not found
+		}
+		$get_row_enkrip = $this->M_datapenyedia->get_row_npwp_url($id_url);
+		$id_vendor = $get_row_enkrip['id_vendor'];
+		$row_vendor = $this->M_datapenyedia->get_row_vendor($id_vendor);
+		$date = date('Y');
+		// $nama_file = $get_row_enkrip['nomor_surat'];
+		// $file_dokumen =  $get_row_enkrip['file_dokumen'];
+		return force_download('file_vms/' . $row_vendor['nama_usaha'] . '/NPWP-' . $date . '/' . $get_row_enkrip['file_dokumen'], NULL);
+	}
+	// end crud pajak
 }
