@@ -732,6 +732,78 @@ class M_datapenyedia extends CI_Model
         $this->db->update('temp_vendor_pemilik', $data, $where);
         return $this->db->affected_rows();
     }
+
+    public function get_result_excel_pemilik_manajerial($id_vendor, $cek_table)
+    {
+        $this->db->select('*');
+        $this->db->from('temp_vendor_pemilik');
+        $this->db->where('temp_vendor_pemilik.id_vendor', $id_vendor);
+        if ($cek_table) {
+            foreach ($cek_table as $key => $value) {
+                $this->db->where('nik !=', '' . $value['nik'] . '');
+            }
+        } else {
+        }
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function get_result_validasi_excel_pemilik_manajerial($id_vendor, $cek_table2)
+    {
+        foreach ($cek_table2 as $key => $valu2) {
+            $this->db->select('*');
+            $this->db->from('tbl_vendor_pemilik');
+            $this->db->where('nik', $valu2['nik']);
+            $query = $this->db->get();
+            return $query->result_array();
+        }
+    }
+
+    public function get_result_pemilik_manajerial($id_vendor)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_vendor_pemilik');
+        $this->db->where('tbl_vendor_pemilik.id_vendor', $id_vendor);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function get_row_pemilik_manajerial($id_vendor)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_vendor_pemilik');
+        $this->db->where('tbl_vendor_pemilik.id_vendor', $id_vendor);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function result_excel_pemilik($id_vendor)
+    {
+        $this->db->select('*');
+        $this->db->from('temp_vendor_pemilik');
+        $this->db->where('temp_vendor_pemilik.id_vendor', $id_vendor);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+
+
+
+
+    function delete_import_excel_pemilik($where)
+    {
+        $this->db->delete('temp_vendor_pemilik', $where);
+        return $this->db->affected_rows();
+    }
+
+
+    public function tambah_tbl_vendor_pemilik($data)
+    {
+        $this->db->insert('tbl_vendor_pemilik', $data);
+        return $this->db->affected_rows();
+    }
+
+
     // 
 
     // crud pajak sppkp
@@ -799,6 +871,7 @@ class M_datapenyedia extends CI_Model
         $query = $this->db->get();
         return $query->row_array();
     }
+
 
     // end crud pajak npwp
 }

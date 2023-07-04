@@ -1337,6 +1337,7 @@ class Datapenyedia extends CI_Controller
 		$this->load->view('js_folder/pemilik_perusahaan/file_public');
 	}
 
+
 	public function get_data_excel_pemilik_manajerial()
 	{
 		$id_vendor = $this->session->userdata('id_vendor');
@@ -1356,7 +1357,7 @@ class Datapenyedia extends CI_Controller
 			$row[] = $rs->warganegara;
 			$row[] = $rs->saham;
 			$row[] = '<a href=' . base_url('/' . $file_path . '/' . $rs->file_ktp) . '>' . '<img width="30px" src=' . base_url('assets/img/pdf.png') . ' >' . '</a>';
-			$row[] = '<a href=' . base_url('/' . $file_path . '/' . $rs->file_bjps) . '>' . '<img width="30px" src=' . base_url('assets/img/pdf.png') . ' >' . '</a>';
+			$row[] = '<a href=' . base_url('/' . $file_path . '/' . $rs->file_bpjs) . '>' . '<img width="30px" src=' . base_url('assets/img/pdf.png') . ' >' . '</a>';
 			$row[] = '<a href=' . base_url('/' . $file_path . '/' . $rs->file_sk_pengukuhan) . '>' . '<img width="30px" src=' . base_url('assets/img/pdf.png') . ' >' . '</a>';
 			$row[] = '<a  href="javascript:;" class="btn btn-warning btn-sm d-md-block" onClick="by_id_excel_pemilik_manajerial(' . "'" . $rs->id_pemilik . "','edit'" . ')"><i class="fa fa-edit"></i></a>
 			<a  href="javascript:;" class="btn btn-danger btn-sm d-md-block" onClick="by_id_excel_pemilik_manajerial(' . "'" . $rs->id_pemilik . "','hapus'" . ')"><i class="fas fa fa-trash"></i></a>';
@@ -1405,7 +1406,7 @@ class Datapenyedia extends CI_Controller
 		if ($this->upload->do_upload('file_ktp')) {
 			$fileDataKtp = $this->upload->data();
 		}
-		if ($this->upload->do_upload('file_bjps')) {
+		if ($this->upload->do_upload('file_bpjs')) {
 			$fileData_bpjs = $this->upload->data();
 		}
 		if ($this->upload->do_upload('file_sk_pengukuhan')) {
@@ -1414,33 +1415,19 @@ class Datapenyedia extends CI_Controller
 		$where = [
 			'id_pemilik' => $id_pemilik
 		];
-		if ($this->upload->do_upload()) {
-			$upload = [
-				'id_vendor' => $id_vendor,
-				'nik' => $nik,
-				'nama_pemilik' => $nama_pemilik,
-				'jns_pemilik' => $jns_pemilik,
-				'alamat_pemilik' => $alamat_pemilik,
-				'npwp' => $npwp,
-				'warganegara' => $warganegara,
-				'saham' => $saham,
-				'file_ktp' => $fileDataKtp['file_name'],
-				'file_bjps' => $fileData_bpjs['file_name'],
-				'file_sk_pengukuhan' => $fileData_sk['file_name']
-			];
-		} else {
-			$upload = [
-				'id_vendor' => $id_vendor,
-				'nik' => $nik,
-				'nama_pemilik' => $nama_pemilik,
-				'jns_pemilik' => $jns_pemilik,
-				'alamat_pemilik' => $alamat_pemilik,
-				'npwp' => $npwp,
-				'warganegara' => $warganegara,
-				'saham' => $saham,
-			];
-		}
-
+		$upload = [
+			'id_vendor' => $id_vendor,
+			'nik' => $nik,
+			'nama_pemilik' => $nama_pemilik,
+			'jns_pemilik' => $jns_pemilik,
+			'alamat_pemilik' => $alamat_pemilik,
+			'npwp' => $npwp,
+			'warganegara' => $warganegara,
+			'saham' => $saham,
+			'file_ktp' => $fileDataKtp['file_name'],
+			'file_bpjs' => $fileData_bpjs['file_name'],
+			'file_sk_pengukuhan' => $fileData_sk['file_name']
+		];
 		$this->M_datapenyedia->update_excel_pemilik_manajerial($upload, $where);
 		$this->output->set_content_type('application/json')->set_output(json_encode('success'));
 	}
@@ -1483,14 +1470,77 @@ class Datapenyedia extends CI_Controller
 				}
 				$reader->close();
 				unlink('uploads/' . $file['file_name']);
-				$this->session->set_flashdata('pesan', 'Data Berhasil Di Import');
-				redirect('datapenyedia/manajerial');
+				$response = [
+					'message' => 'Data Berhasil Di Upload',
+				];
+				$this->output->set_content_type('application/json')->set_output(json_encode($response));
 			}
 		} else {
-			echo "Error : " . $this->upload->display_errors();
+			$response = [
+				'error' => 'error',
+			];
+			$this->output->set_content_type('application/json')->set_output(json_encode($response));
+
 		}
 	}
 
+
+	public function hapus_import_excel_pemilik()
+	{
+		
+		$id_vendor = $this->session->userdata('id_vendor');
+		$where = [
+			'id_vendor' => $id_vendor
+		];
+		$this->M_datapenyedia->delete_import_excel_pemilik($where);
+		$this->output->set_content_type('application/json')->set_output(json_encode('success'));
+	}
+
+
+	public function simpan_import_excel_pemilik()
+	{
+		$id_vendor = $this->session->userdata('id_vendor');
+		$cek_table = $this->M_datapenyedia->get_result_pemilik_manajerial($id_vendor);
+		$cek_table_excel_validasi = $this->M_datapenyedia->result_excel_pemilik($id_vendor);
+		$result = $this->M_datapenyedia->get_result_excel_pemilik_manajerial($id_vendor, $cek_table);
+		$data_tervalidasi = $this->M_datapenyedia->get_result_validasi_excel_pemilik_manajerial($id_vendor, $cek_table_excel_validasi);
+		
+		
+		foreach ($cek_table_excel_validasi as $key => $value) {
+			$row_cek_table = $this->M_datapenyedia->get_row_pemilik_manajerial($id_vendor);
+			foreach ($row_cek_table as $key => $value2) {
+				if ($value2['nik'] == $value['nik']) {
+					echo('ada');
+				} else {
+					echo('gak Ada');
+				}
+			}
+		}
+		die;
+		
+		foreach ($result as $key => $value) {
+			$data = [
+				'id_vendor' => $value['id_vendor'],
+				'id_url' => $value['id_url'],
+				'nik' => $value['nik'],
+				'npwp' => $value['npwp'],
+				'nama_pemilik' => $value['nama_pemilik'],
+				'warganegara' => $value['warganegara'],
+				'jns_pemilik' => $value['jns_pemilik'],
+				'saham' => $value['saham'],
+				'alamat_pemilik' => $value['alamat_pemilik'],
+			];
+			$this->M_datapenyedia->tambah_tbl_vendor_pemilik($data);
+		}
+		$where = [
+			'id_vendor' => $id_vendor
+		];
+		$this->M_datapenyedia->delete_import_excel_pemilik($where);
+		$response = [
+			'validasi' => $data_tervalidasi,
+		];
+		$this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
 
 	// end crud manajerial
 

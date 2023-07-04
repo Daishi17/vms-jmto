@@ -63,12 +63,6 @@
                                                             Create Data
                                                         </button>
                                                     </div>&nbsp;
-                                                    <div class="bd-highlight">
-                                                        <button type="button" class="btn btn-success btn-sm shadow-lg" data-bs-toggle="modal" data-bs-target="#modal_dataimport">
-                                                            <i class="fa-solid fa-search px-1"></i>
-                                                            Lihat Data Import Excel
-                                                        </button>
-                                                    </div>&nbsp;
                                                     <span>||</span>&nbsp;
                                                     <div class="bd-highlight">
                                                         <button type="button" class="btn btn-success btn-sm shadow-lg">
@@ -364,7 +358,7 @@
                                         <td class="col-sm-2 bg-light">
                                             <button type="button" class="btn btn-info btn-sm text-start col-sm-12 shadow-lg">
                                                 <i class="fa-solid fa-file-pdf px-1"></i>
-                                               label
+                                                label
                                             </button>
                                         </td>
                                         <td class="col-sm-3">
@@ -382,12 +376,12 @@
                                             <label class="form-label col-form-label-sm"><b>Upload File BPJS-TK</b></label>
                                         </td>
                                         <td class="col-sm-3">
-                                            <input type="file" name="file_bjps" id="file" accept=".pdf">
+                                            <input type="file" name="file_bpjs" id="file" accept=".pdf">
                                         </td>
                                         <td class="col-sm-2 bg-light">
                                             <button type="button" class="btn btn-info btn-sm text-start col-sm-12 shadow-lg">
                                                 <i class="fa-solid fa-file-pdf px-1"></i>
-                                               label
+                                                label
                                             </button>
                                         </td>
                                         <td class="col-sm-3">
@@ -410,7 +404,7 @@
                                         <td class="col-sm-2 bg-light">
                                             <button type="button" class="btn btn-info btn-sm text-start col-sm-12 shadow-lg">
                                                 <i class="fa-solid fa-file-pdf px-1"></i>
-                                               label
+                                                label
                                             </button>
                                         </td>
                                         <td class="col-sm-3 mb-2">
@@ -568,7 +562,7 @@
                                         <td class="col-sm-2 bg-light">
                                             <button type="button" class="btn btn-info btn-sm text-start col-sm-12 shadow-lg">
                                                 <i class="fa-solid fa-file-pdf px-1"></i>
-                                               label
+                                                label
                                             </button>
                                         </td>
                                         <td class="col-sm-3">
@@ -591,7 +585,7 @@
                                         <td class="col-sm-2 bg-light">
                                             <button type="button" class="btn btn-info btn-sm text-start col-sm-12 shadow-lg">
                                                 <i class="fa-solid fa-file-pdf px-1"></i>
-                                               label
+                                                label
                                             </button>
                                         </td>
                                         <td class="col-sm-3">
@@ -614,7 +608,7 @@
                                         <td class="col-sm-2 bg-light">
                                             <button type="button" class="btn btn-info btn-sm text-start col-sm-12 shadow-lg">
                                                 <i class="fa-solid fa-file-pdf px-1"></i>
-                                               label
+                                                label
                                             </button>
                                         </td>
                                         <td class="col-sm-3 mb-2">
@@ -653,7 +647,7 @@
 
 <!-- Modal -->
 <div class="modal fade" id="modalImportPemilik" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Import Data Pemilik Perusahaan</h5>
@@ -667,109 +661,115 @@
                                 <h4 class="text-white">Import Data Pemilik Perusahaan</h4>
                             </div>
                             <div class="card-body">
-                                <?= form_open_multipart('datapenyedia/import_pemilik_perusahaan') ?>
-                                <div class="input-group">
-                                    <input type="file" class="form-control form-control-sm" id="importexcel" aria-describedby="inputGroupFileAddon04" accept=".xlsx,.xls" name="importexcel" aria-label="Upload" required>
-                                    <button class="btn btn-sm btn-success" type="submit" id="inputGroupFileAddon04"><img src="<?= base_url('assets/excel.png') ?>" style="width: 20px;" alt=""> UPLOAD</button>
+                                <div class="row">
+                                    <div class="col-md-4">
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <form action="javascript:;" id="form_import_excel" enctype="multipart/form-data" method="post">
+                                            <div class="input-group">
+                                                <input type="file" class="form-control form-control-sm" id="importexcel" aria-describedby="inputGroupFileAddon04" accept=".xlsx,.xls" name="importexcel" aria-label="Upload" required>
+                                                <button class="btn btn-sm btn-success" type="submit" id="inputGroupFileAddon04"><img src="<?= base_url('assets/excel.png') ?>" style="width: 20px;" alt=""> UPLOAD</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="col-md-4">
+
+                                    </div>
                                 </div>
-                                <?= form_close(); ?>
+                                <br><br>
+                                <div style="display: none;" class="data_tervalidasi">
+                                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        <div class="card">
+                                            <div class="card-header bg-danger text-white">
+                                                Data Ini Sudah Ada , Dan Tidak Dapat Dimasukan Ke Table Pemilik
+                                            </div>
+                                            <div class="card-body">
+                                                <table class="table table-striped table-inverse table-responsive">
+                                                    <thead class="thead-inverse">
+                                                        <tr>
+                                                            <th>Nik</th>
+                                                            <th>Nama Pemilik</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="data_tervalidasi_excel">
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header bg-success text-white">
+                                        View Data Import
+                                    </div>
+                                    <div class="card-body">
+                                        <table id="data_excel_pemilik_manajerial" style="width: 100%;font-size:12px" class="table table-bordered">
+                                            <thead class="bg-secondary" style="text-align: center;">
+                                                <tr>
+                                                    <th>
+                                                        No
+                                                    </th>
+                                                    <th>
+                                                        <small class="text-white">NIK/Paspor</small>
+                                                    </th>
+                                                    <th>
+                                                        <small class="text-white">NPWP</small>
+                                                    </th>
+                                                    <th>
+                                                        <small class="text-white">Nama</small>
+                                                    </th>
+                                                    <th><small class="text-white">Warganegara</small></th>
+                                                    <th>
+                                                        <small class="text-white">Jenis Kepemilikan</small>
+                                                    </th>
+                                                    <th>
+                                                        <small class="text-white">
+                                                            <div class="text-center">Saham %</div>
+                                                        </small>
+                                                    </th>
+                                                    <th>
+                                                        <small class="text-white">
+                                                            <div class="text-center"> File KTP</div>
+                                                        </small>
+                                                    </th>
+                                                    <th>
+                                                        <small class="text-white">
+                                                            <div class="text-center"> File BPJS-TK</div>
+                                                        </small>
+                                                    </th>
+                                                    <th>
+                                                        <small class="text-white">
+                                                            <div class="text-center"> File SK/Pengukuhan </div>
+                                                        </small>
+                                                    </th>
+                                                    <th>
+                                                        <small class="text-white">
+                                                            <div class="text-center"> Aksi </div>
+                                                        </small>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <a href="javascript:;" onclick="Hapus_import_pemilik()" class="btn btn-secondary" data-bs-dismiss="modal">Reset Table View</a>
+                <a href="javascript:;" onclick="Simpan_import_pemilik()" class="btn btn-primary">Simpan Ke Table</a>
             </div>
         </div>
     </div>
 </div>
-
-<div class="modal fade" tabindex="-1" id="modal_dataimport">
-    <div class="modal-dialog modal-dialog-scrollable modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <a class="navbar-brand">
-                    <img src="<?php echo base_url(); ?>/assets/brand/jm1.png" alt="" width="25" height="25" class="d-inline-block align-text-top">
-                    <b><span class="text-primary">Jasamarga Tollroad Operator</span></b>
-                </a>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="card border-dark shadow-lg">
-                    <div class="card-header bg-dark d-flex bd-highlight">
-                        <div class="flex-grow-1 bd-highlight">
-                            <span class="text-white">
-                                <i class="fa-solid fa-align-justify px-1"></i>
-                                <small><strong>Form Data - Manajerial Pemilik Usaha</strong></small>
-                            </span>
-                        </div>
-                        <div class="bd-highlight">
-                            <button type="button" class="btn btn-warning btn-sm shadow-lg" disabled>
-                                <i class="fa-solid fa-pen-to-square"></i>
-                                Edit Data
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <table id="data_excel_pemilik_manajerial" style="width: 100%;font-size:12px" class="table table-bordered">
-                            <thead class="bg-secondary" style="text-align: center;">
-                                <tr>
-                                    <th>
-                                        No
-                                    </th>
-                                    <th>
-                                        <small class="text-white">NIK/Paspor</small>
-                                    </th>
-                                    <th>
-                                        <small class="text-white">NPWP</small>
-                                    </th>
-                                    <th>
-                                        <small class="text-white">Nama</small>
-                                    </th>
-                                    <th><small class="text-white">Warganegara</small></th>
-                                    <th>
-                                        <small class="text-white">Jenis Kepemilikan</small>
-                                    </th>
-                                    <th>
-                                        <small class="text-white">
-                                            <div class="text-center">Saham %</div>
-                                        </small>
-                                    </th>
-                                    <th>
-                                        <small class="text-white">
-                                            <div class="text-center"> File KTP</div>
-                                        </small>
-                                    </th>
-                                    <th>
-                                        <small class="text-white">
-                                            <div class="text-center">  File BPJS-TK</div>
-                                        </small>
-                                    </th>
-                                    <th>
-                                        <small class="text-white">
-                                            <div class="text-center">  File SK/Pengukuhan </div>
-                                        </small>
-                                    </th>
-                                    <th>
-                                        <small class="text-white">
-                                            <div class="text-center"> Aksi </div>
-                                        </small>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 
 
 <div class="modal fade" tabindex="-1" id="modal_edit_excel_pemilik_manajerial">
@@ -794,7 +794,7 @@
                     </div>
                     <div class="card-body">
                         <form id="form_edit_excel_pemilik_manajerial" enctype="multipart/form-data">
-                            <input type="text" name="id_pemilik">
+                            <input type="hidden" name="id_pemilik">
                             <table class="table table-sm">
                                 <tr>
                                     <td class="col-sm-2 bg-light">
@@ -897,8 +897,11 @@
                                     <td class="col-sm-3">
                                         <input type="file" name="file_ktp" id="file" accept=".pdf">
                                     </td>
-                                    <td class="col-sm-2 bg-light">
-                                    <div class="button_pemilik_ktp"></div>
+                                    <td></td>
+                                    <td class="col-sm-4">
+                                        <div class="button_nama_file_ktp">
+
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
@@ -906,16 +909,13 @@
                                         <label class="form-label col-form-label-sm"><b>Upload File BPJS-TK</b></label>
                                     </td>
                                     <td class="col-sm-3">
-                                        <input type="file" name="file_bjps" id="file" accept=".pdf">
+                                        <input type="file" name="file_bpjs" id="file" accept=".pdf">
                                     </td>
-                                    <td class="col-sm-2 bg-light">
-                                    <div class="button_pemilik_bpjs"></div>
-                                    </td>
-                                    <td class="col-sm-3">
-                                        <button type="button" class="btn btn-warning btn-sm shadow-lg" disabled>
-                                            <i class="fa-solid fa-lock-open px-1"></i>
-                                            ENKRIPSI SEMUA FILE
-                                        </button>
+                                    <td></td>
+                                    <td class="col-sm-4">
+                                        <div class="button_nama_file_bpjs">
+
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
@@ -925,8 +925,11 @@
                                     <td class="col-sm-3">
                                         <input type="file" name="file_sk_pengukuhan" id="file" accept=".pdf">
                                     </td>
-                                    <td class="col-sm-2 bg-light">
-                                    <div class="button_pemilik_sk"></div>
+                                    <td></td>
+                                    <td class="col-sm-4">
+                                        <div class="button_nama_file_sk">
+
+                                        </div>
                                     </td>
                                 </tr>
                                 <hr>
