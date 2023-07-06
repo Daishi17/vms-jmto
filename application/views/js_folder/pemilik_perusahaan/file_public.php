@@ -142,22 +142,30 @@
             type: "POST",
             url: '<?= base_url('datapenyedia/simpan_import_excel_pemilik') ?>',
             dataType: "JSON",
+            beforeSend: function() {
+                $('.data_tervalidasi').css('display', 'none');
+            },
             success: function(response) {
                 Swal.fire('Good job!', 'Data Beharhasil Simpan!', 'success');
                 form_import_excel[0].reset();
-                reloaddata_excel_pemilik_manajerial()
-                $('.data_tervalidasi').css('display','block');
-                console.log(response['validasi']);
-                var html = '';
-					var i;
-					for (i = 0; i < response['validasi'].length; i++) {
-						$hps = response['validasi'][i].hps;
-						html += '<tr>' +
-							'<td>' + response['validasi'][i].nik + '</td>' +
-							'<td>' + response['validasi'][i].nama_pemilik + '</td>' +
-							'</tr>'
-					}
-					$('.data_tervalidasi_excel').html(html);
+                reloaddata_excel_pemilik_manajerial();
+                if (response['validasi']) {
+                    $('.data_tervalidasi').css('display', 'block');
+                    setTimeout(() => {
+                        $('.data_tervalidasi').css('display', 'none');
+                    }, 5000);
+                    var html = '';
+                    var i;
+                    for (i = 0; i < response['validasi'].length; i++) {
+                        html += '<tr>' +
+                            '<td>' + response['validasi'][i].nik + '</td>' +
+                            '<td>' + response['validasi'][i].nama_pemilik + '</td>' +
+                            '</tr>'
+                    }
+                    $('.data_tervalidasi_excel').html(html);
+                } else {
+
+                }
             }
         })
     }

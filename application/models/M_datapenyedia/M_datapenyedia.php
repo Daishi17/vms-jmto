@@ -750,25 +750,20 @@ class M_datapenyedia extends CI_Model
 
     public function get_result_validasi_excel_pemilik_manajerial($id_vendor, $cek_table2)
     {
-        foreach ($cek_table2 as $key => $valu2) {
-            $this->db->select('*');
-            $this->db->from('tbl_vendor_pemilik');
-            $this->db->where('nik', $valu2['nik']);
-            $query = $this->db->get();
-            return $query->result_array();
-        }
-    }
-
-    public function get_result_pemilik_manajerial($id_vendor)
-    {
         $this->db->select('*');
         $this->db->from('tbl_vendor_pemilik');
         $this->db->where('tbl_vendor_pemilik.id_vendor', $id_vendor);
+        if ($cek_table2) {
+            foreach ($cek_table2 as $key => $valu2) {
+                $this->db->or_where('nik', '' . $valu2['nik'] . '');
+            }
+        } else {
+        }
         $query = $this->db->get();
         return $query->result_array();
     }
 
-    public function get_row_pemilik_manajerial($id_vendor)
+    public function get_result_pemilik_manajerial($id_vendor)
     {
         $this->db->select('*');
         $this->db->from('tbl_vendor_pemilik');

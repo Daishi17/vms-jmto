@@ -1432,9 +1432,6 @@ class Datapenyedia extends CI_Controller
 		$this->output->set_content_type('application/json')->set_output(json_encode('success'));
 	}
 
-
-
-
 	function import_pemilik_perusahaan()
 	{
 		$id_vendor = $this->session->userdata('id_vendor');
@@ -1480,14 +1477,13 @@ class Datapenyedia extends CI_Controller
 				'error' => 'error',
 			];
 			$this->output->set_content_type('application/json')->set_output(json_encode($response));
-
 		}
 	}
 
 
 	public function hapus_import_excel_pemilik()
 	{
-		
+
 		$id_vendor = $this->session->userdata('id_vendor');
 		$where = [
 			'id_vendor' => $id_vendor
@@ -1504,20 +1500,6 @@ class Datapenyedia extends CI_Controller
 		$cek_table_excel_validasi = $this->M_datapenyedia->result_excel_pemilik($id_vendor);
 		$result = $this->M_datapenyedia->get_result_excel_pemilik_manajerial($id_vendor, $cek_table);
 		$data_tervalidasi = $this->M_datapenyedia->get_result_validasi_excel_pemilik_manajerial($id_vendor, $cek_table_excel_validasi);
-		
-		
-		foreach ($cek_table_excel_validasi as $key => $value) {
-			$row_cek_table = $this->M_datapenyedia->get_row_pemilik_manajerial($id_vendor);
-			foreach ($row_cek_table as $key => $value2) {
-				if ($value2['nik'] == $value['nik']) {
-					echo('ada');
-				} else {
-					echo('gak Ada');
-				}
-			}
-		}
-		die;
-		
 		foreach ($result as $key => $value) {
 			$data = [
 				'id_vendor' => $value['id_vendor'],
@@ -1536,9 +1518,17 @@ class Datapenyedia extends CI_Controller
 			'id_vendor' => $id_vendor
 		];
 		$this->M_datapenyedia->delete_import_excel_pemilik($where);
-		$response = [
-			'validasi' => $data_tervalidasi,
-		];
+		if ($data_tervalidasi == null) {
+			$response = [
+				'error' => 'maaf'
+			];
+		} else {
+			$response = [
+				'validasi' => $data_tervalidasi,
+			];
+		}
+
+	
 		$this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 
