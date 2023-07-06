@@ -656,6 +656,76 @@ class M_datapenyedia extends CI_Model
     }
 
 
+
+
+
+    var $order_pemilik =  array('id_vendor', 'nik', 'nama_pemilik', 'jns_pemilik', 'alamat_pemilik', 'npwp', 'warganegara', 'saham', 'file_ktp', 'id_vendor', 'id_vendor');
+
+    private function _get_data_query_pemilik_manjerial($id_vendor)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_vendor_pemilik');
+        $this->db->where('tbl_vendor_pemilik.id_vendor', $id_vendor);
+        $this->db->order_by('tbl_vendor_pemilik.id_pemilik', 'DESC');
+        $i = 0;
+        foreach ($this->order_nib as $item) // looping awal
+        {
+            if ($_POST['search']['value']) // jika datatable mengirimkan pencarian dengan metode POST
+            {
+
+                if ($i === 0) // looping awal
+                {
+                    $this->db->group_start();
+                    $this->db->like($item, $_POST['search']['value']);
+                } else {
+                    $this->db->or_like(
+                        $item,
+                        $_POST['search']['value']
+                    );
+                }
+
+                if (count($this->order_pemilik) - 1 == $i)
+                    $this->db->group_end();
+            }
+            $i++;
+        }
+        if (isset($_POST['order'])) {
+            $this->db->order_by($this->order_pemilik[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        } else {
+            $this->db->order_by('tbl_vendor_pemilik.id_vendor', 'DESC');
+        }
+    }
+
+    public function gettable_pemilik_manajerial($id_vendor) //nam[ilin data pake ini
+    {
+        $this->_get_data_query_pemilik_manjerial($id_vendor); //ambil data dari get yg di atas
+        if ($_POST['length'] != -1) {
+            $this->db->limit($_POST['length'], $_POST['start']);
+        }
+        $query = $this->db->get();
+        return $query->result();
+    }
+    public function count_filtered_data_pemilik_manajerial($id_vendor)
+    {
+        $this->_get_data_query_pemilik_manjerial($id_vendor); //ambil data dari get yg di atas
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    public function count_all_data_pemilik_manajerial($id_vendor)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_vendor_pemilik');
+        $this->db->where('tbl_vendor_pemilik.id_vendor', $id_vendor);
+        return $this->db->count_all_results();
+    }
+
+
+
+
+
+
+
     var $order_pemilik_excel =  array('id_vendor', 'nik', 'nama_pemilik', 'jns_pemilik', 'alamat_pemilik', 'npwp', 'warganegara', 'saham', 'file_ktp', 'id_vendor', 'id_vendor');
 
     private function _get_data_query_excel_pemilik_manjerial($id_vendor)
@@ -781,6 +851,21 @@ class M_datapenyedia extends CI_Model
         return $query->result_array();
     }
 
+    public function get_row_excel_pemilik_manajerial_enkription($id_url)
+    {
+        $this->db->select('*');
+        $this->db->from('temp_vendor_pemilik');
+        $this->db->where('temp_vendor_pemilik.id_url', $id_url);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+    
+
+    public function update_excel_pemilik_manajerial_enkription($where, $data)
+    {
+        $this->db->update('temp_vendor_pemilik', $data, $where);
+        return $this->db->affected_rows();
+    }
 
 
 

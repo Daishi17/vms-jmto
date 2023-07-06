@@ -19,7 +19,7 @@
                         <hr>
                         <small>1. Upload dokumen-dokumen yang di butuhkan sesuai dengan keterangan form manajerial di bawah ini.</small><br>
                         <small>2. Jika ingin menginput banyak biodata pemilik/pengurus bisa menggunakan tombol <b>export excel</b> dan isi data sesuai format excel. Lalu setelah itu <b>import excel</b> data yang sudah diisi sesuai format.</small><br>
-                        <small>3. Semua dokumen <b>KTP & BPJS-TK</b> wajib di upload dengan format file pdf. upload dokumen tersebut pada setiap biodata pemilik/pengurus yang sudah terinput melalui import excel / create data, dengan klik tombol <b>View</b> lalu <b>Edit</b>.</small><br>
+                        <small>3. Semua dokumen <b>KTP & NPWP</b> wajib di upload dengan format file pdf. upload dokumen tersebut pada setiap biodata pemilik/pengurus yang sudah terinput melalui import excel / create data, dengan klik tombol <b>View</b> lalu <b>Edit</b>.</small><br>
                         <small>4. Jika salah upload atau status dokumen file <span class="text-danger"><b>tidak valid</b></span>, klik tombol <b>View</b> lalu <b>Edit Changes</b> untuk melakukan upload file dokumen yang terbaru atau file dokumen revisi.</small><br>
                         <small>5. Jika dokumen file sudah terenkripsi, untuk mendownload dan membuka dokumen file, mengklik tombol <b>dekripsi</b> dan masukan <b>token</b> yang keluar dalam form pop up dekripsi dokumen file.</small><br>
                     </div>
@@ -79,12 +79,13 @@
                                                     <span>||</span>
                                                 </div>
                                                 <div class="card-body">
-                                                    <table id="example1" class="table table-sm table-bordered table-striped">
+                                                    <table id="data_pemilik_manajerial" class="table table-sm table-bordered table-striped">
                                                         <thead class="bg-secondary">
                                                             <tr>
-                                                                <th style="width:7%;"><small class="text-white">NIK/Paspor</small></th>
-                                                                <th style="width:7%;"><small class="text-white">NPWP</small></th>
-                                                                <th style="width:25%;"><small class="text-white">Nama</small></th>
+                                                            <th style="width:7%;"><small class="text-white">No</small></th>
+                                                                <th style="width:10%;"><small class="text-white">NIK/Paspor</small></th>
+                                                                <th style="width:15%;"><small class="text-white">NPWP</small></th>
+                                                                <th style="width:15%;"><small class="text-white">Nama</small></th>
                                                                 <th style="width:8%;"><small class="text-white">Warganegara</small></th>
                                                                 <th style="width:15%;"><small class="text-white">Jenis Kepemilikan</small></th>
                                                                 <th style="width:7%;"><small class="text-white">
@@ -99,32 +100,7 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr>
-                                                                <td><small>1234567890123456</small></td>
-                                                                <td><small>12345678901234567</small></td>
-                                                                <td><small>Ahmad Fikri Zulfikar</small></td>
-                                                                <td><small>Indonesia</small></td>
-                                                                <td><small>Individu</small></td>
-                                                                <td><small>
-                                                                        <div class="text-center">50</div>
-                                                                    </small></td>
-                                                                <td><small>
-                                                                        <div class="text-center">
-                                                                            <span class="badge bg-secondary">Belum Tervalidasi</span>
-                                                                        </div>
-                                                                    </small>
-                                                                </td>
-                                                                <td>
-                                                                    <button type="button" class="btn btn-info btn-sm shadow-lg" data-bs-toggle="modal" data-bs-target="#modal-xl-pemilik">
-                                                                        <i class="fa-solid fa-users-viewfinder px-1"></i>
-                                                                        <small>View</small>
-                                                                    </button>
-                                                                    <button type="button" class="btn btn-danger btn-sm shadow-lg">
-                                                                        <i class="fa-solid fa-trash-can px-1"></i>
-                                                                        <small>Delete</small>
-                                                                    </button>
-                                                                </td>
-                                                            </tr>
+                                                            
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -161,9 +137,10 @@
                                                     <span>||</span>
                                                 </div>
                                                 <div class="card-body">
-                                                    <table id="example3" class="table table-sm table-bordered table-striped">
+                                                    <table class="table table-sm table-bordered table-striped">
                                                         <thead class="bg-secondary">
                                                             <tr class="shadow-lg">
+                                                            <th style="width:5%;"><small class="text-white">No</small></th>
                                                                 <th style="width:5%;"><small class="text-white">NIK/Paspor</small></th>
                                                                 <th style="width:7%;"><small class="text-white">NPWP</small></th>
                                                                 <th style="width:25%;"><small class="text-white">Nama</small></th>
@@ -187,6 +164,7 @@
                                                         </thead>
                                                         <tbody>
                                                             <tr class="shadow-lg">
+                                                            <td><small>No</small></td>
                                                                 <td><small>1234567890123456</small></td>
                                                                 <td><small>12345678901234567</small></td>
                                                                 <td><small>Ahmad Fikri Zulfikar</small></td>
@@ -244,15 +222,9 @@
                                     <small><strong>Form Data - Manajerial Pemilik Usaha</strong></small>
                                 </span>
                             </div>
-                            <div class="bd-highlight">
-                                <button type="button" class="btn btn-warning btn-sm shadow-lg" disabled>
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                    Edit Data
-                                </button>
-                            </div>
                         </div>
                         <div class="card-body">
-                            <form>
+                            <form id="form_simpan_manajerial_pemilik" method="post" enctype="multipart/form-data">
                                 <table class="table table-sm">
                                     <tr>
                                         <td class="col-sm-2 bg-light">
@@ -355,68 +327,18 @@
                                         <td class="col-sm-3">
                                             <input type="file" name="file_ktp" id="file" accept=".pdf">
                                         </td>
-                                        <td class="col-sm-2 bg-light">
-                                            <button type="button" class="btn btn-info btn-sm text-start col-sm-12 shadow-lg">
-                                                <i class="fa-solid fa-file-pdf px-1"></i>
-                                                label
-                                            </button>
-                                        </td>
-                                        <td class="col-sm-3">
-                                            <small>
-                                                <span class="badge bg-secondary">Belum Tervalidasi</span>
-                                            </small>
-                                            <button type="button" class="btn btn-warning btn-sm shadow-lg" disabled>
-                                                <i class="fa-solid fa-lock-open px-1"></i>
-                                                Dekripsi File
-                                            </button>
-                                        </td>
+                                      
                                     </tr>
                                     <tr>
                                         <td class="col-sm-2 bg-light">
-                                            <label class="form-label col-form-label-sm"><b>Upload File BPJS-TK</b></label>
+                                            <label class="form-label col-form-label-sm"><b>Upload File NPWP</b></label>
                                         </td>
                                         <td class="col-sm-3">
-                                            <input type="file" name="file_bpjs" id="file" accept=".pdf">
+                                            <input type="file" name="file_npwp" id="file" accept=".pdf">
                                         </td>
-                                        <td class="col-sm-2 bg-light">
-                                            <button type="button" class="btn btn-info btn-sm text-start col-sm-12 shadow-lg">
-                                                <i class="fa-solid fa-file-pdf px-1"></i>
-                                                label
-                                            </button>
-                                        </td>
-                                        <td class="col-sm-3">
-                                            <small>
-                                                <span class="badge bg-secondary">Belum Tervalidasi</span>
-                                            </small>
-                                            <button type="button" class="btn btn-warning btn-sm shadow-lg" disabled>
-                                                <i class="fa-solid fa-lock-open px-1"></i>
-                                                Dekripsi File
-                                            </button>
-                                        </td>
+                                       
                                     </tr>
-                                    <tr>
-                                        <td class="col-sm-2 bg-light">
-                                            <label class="form-label col-form-label-sm"><b>Upload File SK/Pengukuhan</b></label>
-                                        </td>
-                                        <td class="col-sm-3">
-                                            <input type="file" name="file_sk_pengukuhan" id="file" accept=".pdf">
-                                        </td>
-                                        <td class="col-sm-2 bg-light">
-                                            <button type="button" class="btn btn-info btn-sm text-start col-sm-12 shadow-lg">
-                                                <i class="fa-solid fa-file-pdf px-1"></i>
-                                                label
-                                            </button>
-                                        </td>
-                                        <td class="col-sm-3 mb-2">
-                                            <small>
-                                                <span class="badge bg-secondary">Belum Tervalidasi</span>
-                                            </small>
-                                            <button type="button" class="btn btn-warning btn-sm shadow-lg">
-                                                <i class="fa-solid fa-lock-open px-1"></i>
-                                                Dekripsi File
-                                            </button>
-                                        </td>
-                                    </tr>
+                                   
                                     <hr>
                                     <tr>
                                         <td class="col-sm-12" colspan="4">
@@ -424,7 +346,7 @@
                                                 <i class="fa-solid fa-angles-left px-1"></i>
                                                 Close
                                             </button>
-                                            <button type="submit" class="btn btn-success btn-sm shadow-lg">
+                                            <button type="submit" class="btn btn-success btn-sm shadow-lg simpan">
                                                 <i class="fa-solid fa-floppy-disk px-1"></i>
                                                 Save Changes
                                             </button>
@@ -577,7 +499,7 @@
                                     </tr>
                                     <tr>
                                         <td class="col-sm-2 bg-light">
-                                            <label class="form-label col-form-label-sm"><b>Upload File BPJS-TK</b></label>
+                                            <label class="form-label col-form-label-sm"><b>Upload File NPWP</b></label>
                                         </td>
                                         <td class="col-sm-3">
                                             <input type="file" id="file" accept=".pdf">
@@ -589,29 +511,6 @@
                                             </button>
                                         </td>
                                         <td class="col-sm-3">
-                                            <small>
-                                                <span class="badge bg-secondary">Belum Tervalidasi</span>
-                                            </small>
-                                            <button type="button" class="btn btn-warning btn-sm shadow-lg" disabled>
-                                                <i class="fa-solid fa-lock-open px-1"></i>
-                                                Dekripsi File
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col-sm-2 bg-light">
-                                            <label class="form-label col-form-label-sm"><b>Upload File SK/Pengukuhan</b></label>
-                                        </td>
-                                        <td class="col-sm-3">
-                                            <input type="file" id="file" accept=".pdf">
-                                        </td>
-                                        <td class="col-sm-2 bg-light">
-                                            <button type="button" class="btn btn-info btn-sm text-start col-sm-12 shadow-lg">
-                                                <i class="fa-solid fa-file-pdf px-1"></i>
-                                                label
-                                            </button>
-                                        </td>
-                                        <td class="col-sm-3 mb-2">
                                             <small>
                                                 <span class="badge bg-secondary">Belum Tervalidasi</span>
                                             </small>
@@ -736,14 +635,10 @@
                                                     </th>
                                                     <th>
                                                         <small class="text-white">
-                                                            <div class="text-center"> File BPJS-TK</div>
+                                                            <div class="text-center"> File NPWP</div>
                                                         </small>
                                                     </th>
-                                                    <th>
-                                                        <small class="text-white">
-                                                            <div class="text-center"> File SK/Pengukuhan </div>
-                                                        </small>
-                                                    </th>
+                                                   
                                                     <th>
                                                         <small class="text-white">
                                                             <div class="text-center"> Aksi </div>
@@ -769,7 +664,6 @@
         </div>
     </div>
 </div>
-
 
 <div class="modal fade" tabindex="-1" id="modal_edit_excel_pemilik_manajerial">
     <div class="modal-dialog modal-dialog-scrollable modal-xl">
@@ -896,7 +790,6 @@
                                     <td class="col-sm-3">
                                         <input type="file" name="file_ktp" id="file" accept=".pdf">
                                     </td>
-                                    <td></td>
                                     <td class="col-sm-4">
                                         <div class="button_nama_file_ktp">
 
@@ -905,30 +798,20 @@
                                 </tr>
                                 <tr>
                                     <td class="col-sm-2 bg-light">
-                                        <label class="form-label col-form-label-sm"><b>Upload File BPJS-TK</b></label>
+                                        <label class="form-label col-form-label-sm"><b>Upload File NPWP</b></label>
                                     </td>
                                     <td class="col-sm-3">
-                                        <input type="file" name="file_bpjs" id="file" accept=".pdf">
+                                        <input type="file" name="file_npwp" id="file" accept=".pdf">
                                     </td>
-                                    <td></td>
                                     <td class="col-sm-4">
-                                        <div class="button_nama_file_bpjs">
+                                        <div class="button_nama_file_npwp">
 
                                         </div>
                                     </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-sm-2 bg-light">
-                                        <label class="form-label col-form-label-sm"><b>Upload File SK/Pengukuhan</b></label>
-                                    </td>
-                                    <td class="col-sm-3">
-                                        <input type="file" name="file_sk_pengukuhan" id="file" accept=".pdf">
-                                    </td>
-                                    <td></td>
-                                    <td class="col-sm-4">
-                                        <div class="button_nama_file_sk">
+                                    <td>
+                                       <div class="button_enkrip_pemilik">
 
-                                        </div>
+                                       </div>
                                     </td>
                                 </tr>
                                 <hr>

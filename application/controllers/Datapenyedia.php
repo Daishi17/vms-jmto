@@ -1337,6 +1337,39 @@ class Datapenyedia extends CI_Controller
 		$this->load->view('js_folder/pemilik_perusahaan/file_public');
 	}
 
+	public function get_data_pemilik_manajerial()
+	{
+		$id_vendor = $this->session->userdata('id_vendor');
+		$resultss = $this->M_datapenyedia->gettable_pemilik_manajerial($id_vendor);
+		$data = [];
+		$no = $_POST['start'];
+		foreach ($resultss as $rs) {
+			$row = array();
+			$row[] = ++$no;
+			$row[] = $rs->nik;
+			$row[] = $rs->npwp;
+			$row[] = $rs->nama_pemilik;
+			$row[] = $rs->warganegara;
+			$row[] = $rs->alamat_pemilik;
+			$row[] = $rs->saham;
+			if ($rs->sts_validasi == 1 || $rs->sts_validasi == 0) {
+				$row[] = '<span class="badge bg-secondary">Belum Tervalidasi</span>';
+			} else {
+				$row[] = '<span class="badge bg-success">Sudah Tervalidasi</span>';
+			}
+			$row[] = '<a  href="javascript:;" class="btn btn-info btn-sm" onClick="by_id_pemilik_manajerial(' . "'" . $rs->id_pemilik . "','edit'" . ')"><i class="fa-solid fa-users-viewfinder px-1"></i> View</a>
+			<a  href="javascript:;" class="btn btn-danger btn-sm" onClick="by_id_pemilik_manajerial(' . "'" . $rs->id_pemilik . "','hapus'" . ')"><i class="fas fa fa-trash"></i> Delete</a>';
+			$data[] = $row;
+		}
+		$output = array(
+			"draw" => $_POST['draw'],
+			"recordsTotal" => $this->M_datapenyedia->count_all_data_pemilik_manajerial($id_vendor),
+			"recordsFiltered" => $this->M_datapenyedia->count_filtered_data_pemilik_manajerial($id_vendor),
+			"data" => $data
+		);
+		$this->output->set_content_type('application/json')->set_output(json_encode($output));
+	}
+
 
 	public function get_data_excel_pemilik_manajerial()
 	{
@@ -1357,8 +1390,7 @@ class Datapenyedia extends CI_Controller
 			$row[] = $rs->warganegara;
 			$row[] = $rs->saham;
 			$row[] = '<a href=' . base_url('/' . $file_path . '/' . $rs->file_ktp) . '>' . '<img width="30px" src=' . base_url('assets/img/pdf.png') . ' >' . '</a>';
-			$row[] = '<a href=' . base_url('/' . $file_path . '/' . $rs->file_bpjs) . '>' . '<img width="30px" src=' . base_url('assets/img/pdf.png') . ' >' . '</a>';
-			$row[] = '<a href=' . base_url('/' . $file_path . '/' . $rs->file_sk_pengukuhan) . '>' . '<img width="30px" src=' . base_url('assets/img/pdf.png') . ' >' . '</a>';
+			$row[] = '<a href=' . base_url('/' . $file_path . '/' . $rs->file_npwp) . '>' . '<img width="30px" src=' . base_url('assets/img/pdf.png') . ' >' . '</a>';
 			$row[] = '<a  href="javascript:;" class="btn btn-warning btn-sm d-md-block" onClick="by_id_excel_pemilik_manajerial(' . "'" . $rs->id_pemilik . "','edit'" . ')"><i class="fa fa-edit"></i></a>
 			<a  href="javascript:;" class="btn btn-danger btn-sm d-md-block" onClick="by_id_excel_pemilik_manajerial(' . "'" . $rs->id_pemilik . "','hapus'" . ')"><i class="fas fa fa-trash"></i></a>';
 			$data[] = $row;
@@ -1373,6 +1405,8 @@ class Datapenyedia extends CI_Controller
 	}
 
 
+
+
 	function by_id_excel_pemilik_menajerial($id_pemilik)
 	{
 		$response = [
@@ -1381,11 +1415,10 @@ class Datapenyedia extends CI_Controller
 		$this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 
-	public function edit_excel_pemilik_manajerial()
+	public function buat_excel_pemilik_manajerial()
 	{
 		$id_vendor = $this->session->userdata('id_vendor');
 		$nama_usaha = $this->session->userdata('nama_usaha');
-
 		$id_pemilik = $this->input->post('id_pemilik');
 		$nik = $this->input->post('nik');
 		$nama_pemilik = $this->input->post('nama_pemilik');
@@ -1394,6 +1427,12 @@ class Datapenyedia extends CI_Controller
 		$npwp = $this->input->post('npwp');
 		$warganegara = $this->input->post('warganegara');
 		$saham = $this->input->post('saham');
+		$id = $this->uuid->v4();
+		$id = str_replace('-', '', $id);
+		// seeting enkrip dokumen
+		$chiper = "AES-128-ECB";
+		$secret_token_dokumen1 = 'jmto.1' . $id;
+		$secret_token_dokumen2 = 'jmto.2' . $id;
 		// SETTING PATH 
 		$date = date('Y');
 		if (!is_dir('file_vms/' . $nama_usaha . '/Pemilik-' . $date)) {
@@ -1406,11 +1445,60 @@ class Datapenyedia extends CI_Controller
 		if ($this->upload->do_upload('file_ktp')) {
 			$fileDataKtp = $this->upload->data();
 		}
-		if ($this->upload->do_upload('file_bpjs')) {
+		if ($this->upload->do_upload('file_npwp')) {
 			$fileData_bpjs = $this->upload->data();
 		}
-		if ($this->upload->do_upload('file_sk_pengukuhan')) {
-			$fileData_sk = $this->upload->data();
+		$upload = [
+			'id_vendor' => $id_vendor,
+			'id_url' => $id,
+			'nik' => $nik,
+			'nama_pemilik' => $nama_pemilik,
+			'jns_pemilik' => $jns_pemilik,
+			'alamat_pemilik' => $alamat_pemilik,
+			'npwp' => $npwp,
+			'warganegara' => $warganegara,
+			'saham' => $saham,
+			'file_ktp' => openssl_encrypt($fileDataKtp['file_name'], $chiper, $secret_token_dokumen1),
+			'file_npwp' => openssl_encrypt($fileData_bpjs['file_name'], $chiper, $secret_token_dokumen2),
+			'sts_token_dokumen_pemilik' => 1,
+		];
+		$this->M_datapenyedia->tambah_tbl_vendor_pemilik($upload);
+		$this->output->set_content_type('application/json')->set_output(json_encode('success'));
+	}
+
+
+	public function edit_excel_pemilik_manajerial()
+	{
+		$id_vendor = $this->session->userdata('id_vendor');
+		$nama_usaha = $this->session->userdata('nama_usaha');
+
+		$id_pemilik = $this->input->post('id_pemilik');
+		$get_row_enkrip = $this->M_datapenyedia->get_row_excel_pemilik_manajerial($id_pemilik);
+		$nik = $this->input->post('nik');
+		$nama_pemilik = $this->input->post('nama_pemilik');
+		$jns_pemilik = $this->input->post('jns_pemilik');
+		$alamat_pemilik = $this->input->post('alamat_pemilik');
+		$npwp = $this->input->post('npwp');
+		$warganegara = $this->input->post('warganegara');
+		$saham = $this->input->post('saham');
+		// seeting enkrip dokumen
+		$chiper = "AES-128-ECB";
+		$secret_token_dokumen1 = 'jmto.1' . $get_row_enkrip['id_url'];
+		$secret_token_dokumen2 = 'jmto.2' . $get_row_enkrip['id_url'];
+		// SETTING PATH 
+		$date = date('Y');
+		if (!is_dir('file_vms/' . $nama_usaha . '/Pemilik-' . $date)) {
+			mkdir('file_vms/' . $nama_usaha . '/Pemilik-' . $date, 0777, TRUE);
+		}
+		$config['upload_path'] = './file_vms/' . $nama_usaha . '/Pemilik-' . $date;
+		$config['allowed_types'] = 'pdf';
+		$config['max_size'] = 0;
+		$this->load->library('upload', $config);
+		if ($this->upload->do_upload('file_ktp')) {
+			$fileDataKtp = $this->upload->data();
+		}
+		if ($this->upload->do_upload('file_npwp')) {
+			$fileData_bpjs = $this->upload->data();
 		}
 		$where = [
 			'id_pemilik' => $id_pemilik
@@ -1424,19 +1512,83 @@ class Datapenyedia extends CI_Controller
 			'npwp' => $npwp,
 			'warganegara' => $warganegara,
 			'saham' => $saham,
-			'file_ktp' => $fileDataKtp['file_name'],
-			'file_bpjs' => $fileData_bpjs['file_name'],
-			'file_sk_pengukuhan' => $fileData_sk['file_name']
+			'file_ktp' => openssl_encrypt($fileDataKtp['file_name'], $chiper, $secret_token_dokumen1),
+			'file_npwp' => openssl_encrypt($fileData_bpjs['file_name'], $chiper, $secret_token_dokumen2),
+			'sts_token_dokumen_pemilik' => 1,
 		];
 		$this->M_datapenyedia->update_excel_pemilik_manajerial($upload, $where);
+		$this->output->set_content_type('application/json')->set_output(json_encode('success'));
+	}
+
+
+	public function dekrip_enkrip_pemilik($id_url)
+	{
+		$type = $this->input->post('type');
+		$get_row_enkrip = $this->M_datapenyedia->get_row_excel_pemilik_manajerial_enkription($id_url);
+		$chiper = "AES-128-ECB";
+		$secret_token_dokumen1 = 'jmto.1' . $get_row_enkrip['id_url'];
+		$secret_token_dokumen2 = 'jmto.2' . $get_row_enkrip['id_url'];
+		$where = [
+			'id_url' => $id_url
+		];
+		if ($type == 'dekrip') {
+			$file_ktp = openssl_decrypt($get_row_enkrip['file_ktp'], $chiper, $secret_token_dokumen1);
+			$file_npwp = openssl_decrypt($get_row_enkrip['file_npwp'], $chiper, $secret_token_dokumen2);
+			$data = [
+				'sts_token_dokumen_pemilik' => 2,
+				'file_ktp' => $file_ktp,
+				'file_npwp' => $file_npwp,
+			];
+		} else {
+			$file_ktp = openssl_encrypt($get_row_enkrip['file_ktp'], $chiper, $secret_token_dokumen1);
+			$file_npwp = openssl_encrypt($get_row_enkrip['file_npwp'], $chiper, $secret_token_dokumen2);
+			$data = [
+				'sts_token_dokumen_pemilik' => 1,
+				'file_ktp' => $file_ktp,
+				'file_npwp' => $file_npwp,
+			];
+		}
+		$this->M_datapenyedia->update_excel_pemilik_manajerial_enkription($where, $data);
+		$response = [
+			'row_excel_pemilik_manajerial' => $this->M_datapenyedia->get_row_excel_pemilik_manajerial($get_row_enkrip['id_pemilik']),
+		];
+		$this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
+	public function url_download_pemilik()
+	{
+		$id_url = $this->uri->segment(3);
+		$type = $this->uri->segment(4);
+		if ($id_url == '') {
+			// tendang not found
+		}
+
+		$get_row_enkrip = $this->M_datapenyedia->get_row_excel_pemilik_manajerial_enkription($id_url);
+		if ($type == 'pemilik_ktp') {
+			$fileDownload = $get_row_enkrip['file_ktp'];
+		}
+		if ($type == 'pemilik_bpjs') {
+			$fileDownload = $get_row_enkrip['file_npwp'];
+		}
+		$id_vendor = $get_row_enkrip['id_vendor'];
+		$row_vendor = $this->M_datapenyedia->get_row_vendor($id_vendor);
+		$date = date('Y');
+		return force_download('file_vms/' . $row_vendor['nama_usaha'] . '/Pemilik-' . $date . '/' . $fileDownload, NULL);
+	}
+
+
+	public function hapus_row_import_excel_pemilik($id_url)
+	{
+		$where = [
+			'id_url' => $id_url
+		];
+		$this->M_datapenyedia->delete_import_excel_pemilik($where);
 		$this->output->set_content_type('application/json')->set_output(json_encode('success'));
 	}
 
 	function import_pemilik_perusahaan()
 	{
 		$id_vendor = $this->session->userdata('id_vendor');
-		$id = $this->uuid->v4();
-		$id = str_replace('-', '', $id);
 
 		$config['upload_path'] = './uploads/';
 		$config['allowed_types'] = 'xlsx|xls';
@@ -1450,6 +1602,8 @@ class Datapenyedia extends CI_Controller
 				$numRow = 1;
 				foreach ($sheet->getRowIterator() as $row) {
 					if ($numRow > 2) {
+						$id = $this->uuid->v4();
+						$id = str_replace('-', '', $id);
 						$data = array(
 							'id_vendor' => $id_vendor,
 							'id_url' => $id,
@@ -1479,11 +1633,8 @@ class Datapenyedia extends CI_Controller
 			$this->output->set_content_type('application/json')->set_output(json_encode($response));
 		}
 	}
-
-
 	public function hapus_import_excel_pemilik()
 	{
-
 		$id_vendor = $this->session->userdata('id_vendor');
 		$where = [
 			'id_vendor' => $id_vendor
@@ -1528,7 +1679,7 @@ class Datapenyedia extends CI_Controller
 			];
 		}
 
-	
+
 		$this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 
