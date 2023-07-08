@@ -128,27 +128,33 @@
     <div class="wrapper">
         <?php if ($this->session->flashdata('salah')) { ?>
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
-
-                <?= $this->session->flashdata('salah'); ?>
+                <?php if ($this->session->flashdata('email_salah')) {
+                    echo '  <div class="alert alert-warning alert-dismissible">
+               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+               <h5><i class="icon fas fa-exclamation-triangle"></i> Maaf!</h5>';
+                    echo  $this->session->flashdata('email_salah');
+                    echo ' </div>';
+                } ?>
+                <?php if ($this->session->flashdata('success')) {
+                    echo '  <div class="alert alert-success alert-dismissible">
+               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+               <h5><i class="icon fas fa-exclamation-triangle"></i> Permintaan Ubah Password Berhasil Cek Email Anda Untuk Mengubah Password Anda !</h5>';
+                    echo  $this->session->flashdata('success');
+                    echo ' </div>';
+                } ?>
             </div>
         <?php } ?>
         <div class="logo">
             <img src="https://survey.jasamarga.co.id/landing/images/logo.png" alt="">
         </div>
         <div class="text-center mt-4 name">
-            Login <br>
-            Penyedia
+            Lupa Password <br><br>
         </div>
-        <?= form_open('auth'); ?>
+        <?= form_open('auth/kirim_lupa_password'); ?>
 
         <div class="form-field d-flex align-items-center">
             <i class="fas fa fa-user"></i>
             <input type="text" name="userName" id="userName" placeholder="Email Atau Npwp">
-        </div>
-        <div class="form-field d-flex align-items-center">
-            <i class="fas fa fa-key"></i>
-            <input type="password" name="password" id="myInput" placeholder="Password">
-            <a href="javascript:;" onclick="myFunction()"><i class="fas fa fa-eye" style="margin-right:10px"></i></a>
         </div>
         <div class="mt-2" style="margin-left: -10px;">
             <center>
@@ -156,12 +162,8 @@
                 <?php echo $script; ?>
             </center>
         </div>
-        <button class="btn mt-3" type="submit">Login</button>
-
+        <button class="btn mt-3" type="submit">Kirim</button>
         <?= form_close(); ?>
-        <div class="text-center fs-6">
-            <a class="btn text-white mt-2" href="<?= base_url('auth/lupa_password')?>">Forgot Password</a>
-        </div>
     </div>
 </body>
 <script>
