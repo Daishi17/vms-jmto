@@ -126,24 +126,20 @@
 
 <body>
     <div class="wrapper">
-        <?php if ($this->session->flashdata('salah')) { ?>
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                <?php if ($this->session->flashdata('email_salah')) {
-                    echo '  <div class="alert alert-warning alert-dismissible">
+        <?php if ($this->session->flashdata('email_salah')) {
+            echo '  <div class="alert alert-warning alert-dismissible">
                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                <h5><i class="icon fas fa-exclamation-triangle"></i> Maaf!</h5>';
-                    echo  $this->session->flashdata('email_salah');
-                    echo ' </div>';
-                } ?>
-                <?php if ($this->session->flashdata('success')) {
-                    echo '  <div class="alert alert-success alert-dismissible">
+            echo  $this->session->flashdata('email_salah');
+            echo ' </div>';
+        } ?>
+        <?php if ($this->session->flashdata('success')) {
+            echo '  <div class="alert alert-success alert-dismissible">
                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-               <h5><i class="icon fas fa-exclamation-triangle"></i> Permintaan Ubah Password Berhasil Cek Email Anda Untuk Mengubah Password Anda !</h5>';
-                    echo  $this->session->flashdata('success');
-                    echo ' </div>';
-                } ?>
-            </div>
-        <?php } ?>
+               <h5><i class="icon fas fa-exclamation-triangle"></i></h5>';
+            echo  $this->session->flashdata('success');
+            echo ' </div>';
+        } ?>
         <div class="logo">
             <img src="https://survey.jasamarga.co.id/landing/images/logo.png" alt="">
         </div>

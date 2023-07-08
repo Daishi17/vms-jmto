@@ -55,7 +55,7 @@ class Auth extends CI_Controller
 					];
 					$data['widget'] = $this->recaptcha->getWidget();
 					$data['script'] = $this->recaptcha->getScriptTag();
-					$this->session->set_flashdata('userName', 'Email Atau Npwp Salah');
+					$this->session->set_flashdata('email_salah', 'Email Atau Npwp Wajib Di Isi');
 					redirect('auth/lupa_password');
 				} else {
 					$data['widget'] = $this->recaptcha->getWidget();
@@ -72,7 +72,6 @@ class Auth extends CI_Controller
 					$this->session->set_userdata('userName', $userName);
 					$row_user = $this->Auth_model->login($userName);
 					$email = $row_user->email;
-					$this->session->set_flashdata('success', 'Email : ' . $email . ' Ganti Password Berhasil Silakan Check Email Anda Untuk Mengetahui Link Ubah Password');
 					// START EMAIL SEND TYPE
 					$type_send_email = 'lupa_password';
 					$data_send_email = [
@@ -80,6 +79,7 @@ class Auth extends CI_Controller
 						'token_lupa_password' => $randomString
 					];
 					$this->email_send->sen_row_email($type_send_email, $data_send_email);
+					$this->session->set_flashdata('success', 'Ganti Password Berhasil Silakan Check Email Anda Untuk Mengetahui Link Ubah Password');
 					redirect('auth/lupa_password');
 					// END EMAIL SEND TYPE
 				}
@@ -112,12 +112,13 @@ class Auth extends CI_Controller
 					$this->Auth_model->update_password($data, $username);
 					$this->session->set_flashdata('success', 'Anda Berhasil Ubah Password Silakan Login Kembali');
 					redirect(base_url('auth/buat_password/'. $this->session->userdata('token_lupa_password')));
+					$this->session->sess_destroy();
 				}
 			}
 		}
 		$data['widget'] = $this->recaptcha->getWidget();
 		$data['script'] = $this->recaptcha->getScriptTag();
-		$this->load->view('auth/ubah_password', $data);
+		$this->load->view('auth/ubah_password',$data);
 	}
 
 
