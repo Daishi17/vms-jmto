@@ -104,7 +104,7 @@ class Auth extends CI_Controller
 					$this->session->set_flashdata('error', 'Password Tidak Sama');
 					redirect(base_url('auth/buat_password/'. $this->session->userdata('token_lupa_password')));
 				} else {
-					$username = $this->session->userdata('userName');;
+					$username = $this->session->userdata('userName');
 					$password = $this->input->post('password');
 					$data = [
 						'password' => password_hash($password, PASSWORD_DEFAULT),
