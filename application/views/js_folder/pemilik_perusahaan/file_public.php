@@ -96,6 +96,8 @@
             success: function(response) {
                 if (type == 'edit') {
                     modal_edit_excel_pemilik_manajerial.modal('show');
+                    $('[name="type_edit_pemilik"]').val('edit_excel');
+                    $('[name="validasi_enkripsi_pemilik"]').val(response['row_excel_pemilik_manajerial'].sts_token_dokumen_pemilik);
                     if (response['row_excel_pemilik_manajerial']['sts_token_dokumen_pemilik'] == 1) {
                         $('.button_enkrip_pemilik').html('<a href="javascript:;"  onclick="DekripEnkrip_pemilik(\'' + response['row_excel_pemilik_manajerial'].id_url + '\'' + ',' + '\'' + 'dekrip' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-lock-open mr-2"></i> Dekripsi Dokumen</a>');
                     } else {
@@ -162,6 +164,7 @@
                     success: function(response) {
                         Swal.fire('Good job!', 'Data Beharhasil Dihapus!', 'success');
                         reloaddata_excel_pemilik_manajerial()
+                        
                     }
                 })
             }
@@ -169,13 +172,15 @@
     }
 
     function DekripEnkrip_pemilik(id_url, type) {
+        var type_edit_pemilik = $('[name="type_edit_pemilik"]').val();
         if (type == 'dekrip') {
             $.ajax({
                 method: "POST",
                 url: '<?= base_url('datapenyedia/dekrip_enkrip_pemilik/') ?>' + id_url,
                 dataType: "JSON",
                 data: {
-                    type: type
+                    type: type,
+                    type_edit_pemilik: type_edit_pemilik
                 },
                 success: function(response) {
                     let timerInterval
@@ -194,15 +199,27 @@
                         willClose: () => {
                             clearInterval(timerInterval)
                             Swal.fire('Dokumen Berhasil Di Dekripsi', '', 'success');
-                            console.log(response['row_excel_pemilik_manajerial']);
-                            if (response['row_excel_pemilik_manajerial']['sts_token_dokumen_pemilik'] == 1) {
-                                $('.button_enkrip_pemilik').html('<a href="javascript:;"  onclick="DekripEnkrip_pemilik(\'' + response['row_excel_pemilik_manajerial'].id_url + '\'' + ',' + '\'' + 'dekrip' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-lock-open mr-2"></i> Dekripsi Dokumen</a>');
+                            if (response['type_edit_pemilik'] == 'edit_excel') {
+                                $('[name="validasi_enkripsi_pemilik"]').val(response['row_excel_pemilik_manajerial'].sts_token_dokumen_pemilik);
+                                if (response['row_excel_pemilik_manajerial']['sts_token_dokumen_pemilik'] == 1) {
+                                    $('.button_enkrip_pemilik').html('<a href="javascript:;"  onclick="DekripEnkrip_pemilik(\'' + response['row_excel_pemilik_manajerial'].id_url + '\'' + ',' + '\'' + 'dekrip' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-lock-open mr-2"></i> Dekripsi Dokumen</a>');
+                                } else {
+                                    $('.button_enkrip_pemilik').html('<a href="javascript:;" onclick="DekripEnkrip_pemilik(\'' + response['row_excel_pemilik_manajerial'].id_url + '\'' + ',' + '\'' + 'enkrip' + '\')" class="btn btn-success btn-sm"><i class="fas fa-lock mr-2"></i> Enkripsi Dokumen</a>');
+                                }
+                                $('.button_nama_file_ktp').html('<a href="javascript:;"  onclick="Download_pemilik(\'' + response['row_excel_pemilik_manajerial'].id_url + '\'' + ',' + '\'' + 'pemilik_ktp' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-file mr-2"></i> ' + response['row_excel_pemilik_manajerial'].file_ktp + '</a>');
+                                $('.button_nama_file_npwp').html('<a href="javascript:;"  onclick="Download_pemilik(\'' + response['row_excel_pemilik_manajerial'].id_url + '\'' + ',' + '\'' + 'pemilik_bpjs' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-file mr-2"></i> ' + response['row_excel_pemilik_manajerial'].file_npwp + '</a>');
+                                reloaddata_excel_pemilik_manajerial();
                             } else {
-                                $('.button_enkrip_pemilik').html('<a href="javascript:;" onclick="DekripEnkrip_pemilik(\'' + response['row_excel_pemilik_manajerial'].id_url + '\'' + ',' + '\'' + 'enkrip' + '\')" class="btn btn-success btn-sm"><i class="fas fa-lock mr-2"></i> Enkripsi Dokumen</a>');
+                                $('[name="validasi_enkripsi_pemilik"]').val(response['row_pemilik_manajerial'].sts_token_dokumen_pemilik);
+                                if (response['row_pemilik_manajerial']['sts_token_dokumen_pemilik'] == 1) {
+                                    $('.button_enkrip_pemilik').html('<a href="javascript:;"  onclick="DekripEnkrip_pemilik(\'' + response['row_pemilik_manajerial'].id_url + '\'' + ',' + '\'' + 'dekrip' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-lock-open mr-2"></i> Dekripsi Dokumen</a>');
+                                } else {
+                                    $('.button_enkrip_pemilik').html('<a href="javascript:;" onclick="DekripEnkrip_pemilik(\'' + response['row_pemilik_manajerial'].id_url + '\'' + ',' + '\'' + 'enkrip' + '\')" class="btn btn-success btn-sm"><i class="fas fa-lock mr-2"></i> Enkripsi Dokumen</a>');
+                                }
+                                $('.button_nama_file_ktp').html('<a href="javascript:;"  onclick="Download_pemilik(\'' + response['row_pemilik_manajerial'].id_url + '\'' + ',' + '\'' + 'pemilik_ktp' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-file mr-2"></i> ' + response['row_pemilik_manajerial'].file_ktp + '</a>');
+                                $('.button_nama_file_npwp').html('<a href="javascript:;"  onclick="Download_pemilik(\'' + response['row_pemilik_manajerial'].id_url + '\'' + ',' + '\'' + 'pemilik_bpjs' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-file mr-2"></i> ' + response['row_pemilik_manajerial'].file_npwp + '</a>');
+                                reloaddata_pemilik_manajerial();
                             }
-                            $('.button_nama_file_ktp').html('<a href="javascript:;"  onclick="Download_pemilik(\'' + response['row_excel_pemilik_manajerial'].id_url + '\'' + ',' + '\'' + 'pemilik_ktp' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-file mr-2"></i> ' + response['row_excel_pemilik_manajerial'].file_ktp + '</a>');
-                            $('.button_nama_file_npwp').html('<a href="javascript:;"  onclick="Download_pemilik(\'' + response['row_excel_pemilik_manajerial'].id_url + '\'' + ',' + '\'' + 'pemilik_bpjs' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-file mr-2"></i> ' + response['row_excel_pemilik_manajerial'].file_npwp + '</a>');
-                            reloaddata_excel_pemilik_manajerial();
                         }
                     }).then((result) => {
                         /* Read more about handling dismissals below */
@@ -218,7 +235,8 @@
                 url: '<?= base_url('datapenyedia/dekrip_enkrip_pemilik/') ?>' + id_url,
                 dataType: "JSON",
                 data: {
-                    type: type
+                    type: type,
+                    type_edit_pemilik: type_edit_pemilik
                 },
                 success: function(response) {
                     let timerInterval
@@ -237,15 +255,27 @@
                         willClose: () => {
                             clearInterval(timerInterval)
                             Swal.fire('Dokumen Berhasil Di Enkripsi', '', 'success')
-                            console.log(response['row_excel_pemilik_manajerial']);
-                            if (response['row_excel_pemilik_manajerial']['sts_token_dokumen_pemilik'] == 1) {
-                                $('.button_enkrip_pemilik').html('<a href="javascript:;"  onclick="DekripEnkrip_pemilik(\'' + response['row_excel_pemilik_manajerial'].id_url + '\'' + ',' + '\'' + 'dekrip' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-lock-open mr-2"></i> Dekripsi Dokumen</a>');
+                            if (response['type_edit_pemilik'] == 'edit_excel') {
+                                $('[name="validasi_enkripsi_pemilik"]').val(response['row_excel_pemilik_manajerial'].sts_token_dokumen_pemilik);
+                                if (response['row_excel_pemilik_manajerial']['sts_token_dokumen_pemilik'] == 1) {
+                                    $('.button_enkrip_pemilik').html('<a href="javascript:;"  onclick="DekripEnkrip_pemilik(\'' + response['row_excel_pemilik_manajerial'].id_url + '\'' + ',' + '\'' + 'dekrip' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-lock-open mr-2"></i> Dekripsi Dokumen</a>');
+                                } else {
+                                    $('.button_enkrip_pemilik').html('<a href="javascript:;" onclick="DekripEnkrip_pemilik(\'' + response['row_excel_pemilik_manajerial'].id_url + '\'' + ',' + '\'' + 'enkrip' + '\')" class="btn btn-success btn-sm"><i class="fas fa-lock mr-2"></i> Enkripsi Dokumen</a>');
+                                }
+                                $('.button_nama_file_ktp').html('<a href="javascript:;"  onclick="Download_pemilik(\'' + response['row_excel_pemilik_manajerial'].id_url + '\'' + ',' + '\'' + 'pemilik_ktp' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-file mr-2"></i> ' + response['row_excel_pemilik_manajerial'].file_ktp + '</a>');
+                                $('.button_nama_file_npwp').html('<a href="javascript:;"  onclick="Download_pemilik(\'' + response['row_excel_pemilik_manajerial'].id_url + '\'' + ',' + '\'' + 'pemilik_bpjs' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-file mr-2"></i> ' + response['row_excel_pemilik_manajerial'].file_npwp + '</a>');
+                                reloaddata_excel_pemilik_manajerial();
                             } else {
-                                $('.button_enkrip_pemilik').html('<a href="javascript:;" onclick="DekripEnkrip_pemilik(\'' + response['row_excel_pemilik_manajerial'].id_url + '\'' + ',' + '\'' + 'enkrip' + '\')" class="btn btn-success btn-sm"><i class="fas fa-lock mr-2"></i> Enkripsi Dokumen</a>');
+                                $('[name="validasi_enkripsi_pemilik"]').val(response['row_pemilik_manajerial'].sts_token_dokumen_pemilik);
+                                if (response['row_pemilik_manajerial']['sts_token_dokumen_pemilik'] == 1) {
+                                    $('.button_enkrip_pemilik').html('<a href="javascript:;"  onclick="DekripEnkrip_pemilik(\'' + response['row_pemilik_manajerial'].id_url + '\'' + ',' + '\'' + 'dekrip' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-lock-open mr-2"></i> Dekripsi Dokumen</a>');
+                                } else {
+                                    $('.button_enkrip_pemilik').html('<a href="javascript:;" onclick="DekripEnkrip_pemilik(\'' + response['row_pemilik_manajerial'].id_url + '\'' + ',' + '\'' + 'enkrip' + '\')" class="btn btn-success btn-sm"><i class="fas fa-lock mr-2"></i> Enkripsi Dokumen</a>');
+                                }
+                                $('.button_nama_file_ktp').html('<a href="javascript:;"  onclick="Download_pemilik(\'' + response['row_pemilik_manajerial'].id_url + '\'' + ',' + '\'' + 'pemilik_ktp' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-file mr-2"></i> ' + response['row_pemilik_manajerial'].file_ktp + '</a>');
+                                $('.button_nama_file_npwp').html('<a href="javascript:;"  onclick="Download_pemilik(\'' + response['row_pemilik_manajerial'].id_url + '\'' + ',' + '\'' + 'pemilik_bpjs' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-file mr-2"></i> ' + response['row_pemilik_manajerial'].file_npwp + '</a>');
+                                reloaddata_pemilik_manajerial();
                             }
-                            $('.button_nama_file_ktp').html('<a href="javascript:;"  onclick="Download_pemilik(\'' + response['row_excel_pemilik_manajerial'].id_url + '\'' + ',' + '\'' + 'pemilik_ktp' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-file mr-2"></i> ' + response['row_excel_pemilik_manajerial'].file_ktp + '</a>');
-                            $('.button_nama_file_npwp').html('<a href="javascript:;"  onclick="Download_pemilik(\'' + response['row_excel_pemilik_manajerial'].id_url + '\'' + ',' + '\'' + 'pemilik_bpjs' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-file mr-2"></i> ' + response['row_excel_pemilik_manajerial'].file_npwp + '</a>');
-                            reloaddata_excel_pemilik_manajerial();
                         }
                     }).then((result) => {
                         /* Read more about handling dismissals below */
@@ -265,40 +295,12 @@
     }
 
 
-    // edit
-
-
-    var form_edit_excel_pemilik_manajerial = $('#form_edit_excel_pemilik_manajerial');
-    var modal_edit_excel_pemilik_manajerial = $('#modal_edit_excel_pemilik_manajerial');
-    form_edit_excel_pemilik_manajerial.on('submit', function(e) {
-        e.preventDefault();
-        $.ajax({
-            url: "<?php echo base_url(); ?>datapenyedia/edit_excel_pemilik_manajerial",
-            method: "POST",
-            data: new FormData(this),
-            contentType: false,
-            cache: false,
-            processData: false,
-            beforeSend: function() {
-                $('.btn_simpan').attr('disabled', 'disabled');
-            },
-            success: function(response) {
-                modal_edit_excel_pemilik_manajerial.modal('hide')
-                Swal.fire('Good job!', 'Data Beharhasil Di Edit!', 'success');
-                reloaddata_excel_pemilik_manajerial()
-                $('.btn_simpan').attr('disabled', false);
-                form_edit_excel_pemilik_manajerial[0].reset();
-            }
-        });
-    });
-
-
     var form_simpan_manajerial_pemilik = $('#form_simpan_manajerial_pemilik');
     var modal_xl_pemilik = $('#modal-xl-pemilik');
     form_simpan_manajerial_pemilik.on('submit', function(e) {
         e.preventDefault();
         $.ajax({
-            url: "<?php echo base_url(); ?>datapenyedia/buat_excel_pemilik_manajerial",
+            url: "<?php echo base_url(); ?>datapenyedia/buat_pemilik_manajerial",
             method: "POST",
             data: new FormData(this),
             contentType: false,
@@ -316,6 +318,115 @@
             }
         });
     });
+
+    function by_id_pemilik_manajerial(id_pemilik, type) {
+        var modal_edit_excel_pemilik_manajerial = $('#modal_edit_excel_pemilik_manajerial');
+        if (type == 'edit') {
+            saveData = 'edit';
+        }
+        if (type == 'hapus') {
+            saveData = 'hapus';
+        }
+        if (type == 'upload_ktp') {
+            saveData = 'upload_ktp';
+        }
+        if (type == 'upload_bpjs') {
+            saveData = 'upload_bpjs';
+        }
+
+        $.ajax({
+            type: "GET",
+            url: '<?= base_url('datapenyedia/by_id_pemilik_manajerial/') ?>' + id_pemilik,
+            dataType: "JSON",
+            success: function(response) {
+                if (type == 'edit') {
+                    modal_edit_excel_pemilik_manajerial.modal('show');
+                    $('[name="type_edit_pemilik"]').val('edit_biasa');
+                    $('[name="validasi_enkripsi_pemilik"]').val(response['row_pemilik_manajerial'].sts_token_dokumen_pemilik);
+                    if (response['row_pemilik_manajerial']['sts_token_dokumen_pemilik'] == 1) {
+                        $('.button_enkrip_pemilik').html('<a href="javascript:;"  onclick="DekripEnkrip_pemilik(\'' + response['row_pemilik_manajerial'].id_url + '\'' + ',' + '\'' + 'dekrip' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-lock-open mr-2"></i> Dekripsi Dokumen</a>');
+                    } else {
+                        $('.button_enkrip_pemilik').html('<a href="javascript:;" onclick="DekripEnkrip_pemilik(\'' + response['row_pemilik_manajerial'].id_url + '\'' + ',' + '\'' + 'enkrip' + '\')" class="btn btn-success btn-sm"><i class="fas fa-lock mr-2"></i> Enkripsi Dokumen</a>');
+                    }
+                    $('.button_nama_file_ktp').html('<a href="javascript:;"  onclick="Download_pemilik(\'' + response['row_pemilik_manajerial'].id_url + '\'' + ',' + '\'' + 'pemilik_ktp' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-file mr-2"></i> ' + response['row_pemilik_manajerial'].file_ktp + '</a>');
+                    $('.button_nama_file_npwp').html('<a href="javascript:;"  onclick="Download_pemilik(\'' + response['row_pemilik_manajerial'].id_url + '\'' + ',' + '\'' + 'pemilik_bpjs' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-file mr-2"></i> ' + response['row_pemilik_manajerial'].file_npwp + '</a>');
+                    $('[name="id_pemilik"]').val(response['row_pemilik_manajerial'].id_pemilik);
+                    $('[name="id_url"]').val(response['row_pemilik_manajerial'].id_url);
+                    $('[name="nik"]').val(response['row_pemilik_manajerial'].nik);
+                    $('[name="nama_pemilik"]').val(response['row_pemilik_manajerial'].nama_pemilik);
+                    $('[name="jns_pemilik"]').val(response['row_pemilik_manajerial'].jns_pemilik);
+                    $('[name="alamat_pemilik"]').val(response['row_pemilik_manajerial'].alamat_pemilik);
+                    $('[name="npwp"]').val(response['row_pemilik_manajerial'].npwp);
+                    $('[name="warganegara"]').val(response['row_pemilik_manajerial'].warganegara);
+                    $('[name="saham"]').val(response['row_pemilik_manajerial'].saham);
+                    $('[name="file_ktp"]').val(response['row_pemilik_manajerial'].file_ktp);
+                    $('[name="file_npwp"]').val(response['row_pemilik_manajerial'].file_npwp);
+                } else if (type == 'hapus') {
+                    Question_hapus_pemilik(response['row_pemilik_manajerial'].id_url, response['row_pemilik_manajerial'].nama_pemilik);
+                } else {
+
+                }
+            }
+        })
+    }
+
+    function Question_hapus_pemilik(id_url, nama_pemilik) {
+        Swal.fire({
+            title: "Yakin Mau Hapus",
+            text: 'Data' + nama_pemilik + 'Ini Mau Di hapus?',
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    type: "POST",
+                    url: '<?= base_url('datapenyedia/hapus_row_pemilik/') ?>' + id_url,
+                    dataType: "JSON",
+                    success: function(response) {
+                        Swal.fire('Good job!', 'Data Beharhasil Dihapus!', 'success');
+                        reloaddata_pemilik_manajerial()
+                    }
+                })
+            }
+        });
+    }
+
+
+    // edit
+
+
+    var form_edit_excel_pemilik_manajerial = $('#form_edit_excel_pemilik_manajerial');
+    var modal_edit_excel_pemilik_manajerial = $('#modal_edit_excel_pemilik_manajerial');
+    form_edit_excel_pemilik_manajerial.on('submit', function(e) {
+        e.preventDefault();
+        var validasi_enkripsi_pemilik = $('[name="validasi_enkripsi_pemilik"]').val();
+       if (validasi_enkripsi_pemilik == 2) {
+        Swal.fire('Waduh Maaf!', 'Enkripsi File Terlebih Dahulu Yaa!', 'warning');
+       } else {
+        $.ajax({
+            url: "<?php echo base_url(); ?>datapenyedia/edit_excel_pemilik_manajerial",
+            method: "POST",
+            data: new FormData(this),
+            contentType: false,
+            cache: false,
+            processData: false,
+            beforeSend: function() {
+                $('.btn_simpan').attr('disabled', 'disabled');
+            },
+            success: function(response) {
+                modal_edit_excel_pemilik_manajerial.modal('hide')
+                Swal.fire('Good job!', 'Data Beharhasil Di Edit!', 'success');
+                reloaddata_excel_pemilik_manajerial()
+                reloaddata_pemilik_manajerial();
+                $('.btn_simpan').attr('disabled', false);
+                form_edit_excel_pemilik_manajerial[0].reset();
+            }
+        });
+       }
+    });
+
+
 
 
 
@@ -341,6 +452,7 @@
                 } else {
                     Swal.fire('Maaf!', 'Kesalahan', 'warning');
                     reloaddata_excel_pemilik_manajerial()
+                    reloaddata_pemilik_manajerial();
                     form_import_excel[0].reset();
                 }
             }
@@ -359,6 +471,7 @@
                 Swal.fire('Good job!', 'Data Beharhasil Simpan!', 'success');
                 form_import_excel[0].reset();
                 reloaddata_excel_pemilik_manajerial();
+                reloaddata_pemilik_manajerial();
                 if (response['validasi']) {
                     $('.data_tervalidasi').css('display', 'block');
                     setTimeout(() => {
@@ -379,4 +492,32 @@
             }
         })
     }
+</script>
+
+<!-- INI UNTUK PENGURUS -->
+<script>
+    var form_simpan_manajerial_pengurus = $('#form_simpan_manajerial_pengurus');
+    var modal_xl_pengurus = $('#modal-xl-pengurus');
+    form_simpan_manajerial_pengurus.on('submit', function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: "<?php echo base_url(); ?>datapenyedia/buat_pengurus_manajerial",
+            method: "POST",
+            data: new FormData(this),
+            contentType: false,
+            cache: false,
+            processData: false,
+            beforeSend: function() {
+                $('.btn_simpan').attr('disabled', 'disabled');
+            },
+            success: function(response) {
+                modal_xl_pengurus.modal('hide')
+                Swal.fire('Good job!', 'Data Beharhasil Di Buat!', 'success');
+                // reloaddata_pengurus_manajerial()
+                $('.btn_simpan').attr('disabled', false);
+                form_simpan_manajerial_pengurus[0].reset();
+            }
+        });
+    });
+
 </script>

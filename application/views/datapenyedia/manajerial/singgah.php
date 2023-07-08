@@ -65,12 +65,6 @@
                                                     </div>&nbsp;
                                                     <span>||</span>&nbsp;
                                                     <div class="bd-highlight">
-                                                        <button type="button" class="btn btn-success btn-sm shadow-lg">
-                                                            <i class="fa-solid fa-file-export px-1"></i>
-                                                            Export Excel
-                                                        </button>
-                                                    </div>&nbsp;
-                                                    <div class="bd-highlight">
                                                         <button type="button" class="btn btn-secondary btn-sm shadow-lg" data-bs-toggle="modal" data-bs-target="#modalImportPemilik">
                                                             <i class="fa-solid fa-cloud-arrow-up px-1"></i>
                                                             Import Excel
@@ -82,7 +76,7 @@
                                                     <table id="data_pemilik_manajerial" class="table table-sm table-bordered table-striped">
                                                         <thead class="bg-secondary">
                                                             <tr>
-                                                            <th style="width:7%;"><small class="text-white">No</small></th>
+                                                                <th style="width:7%;"><small class="text-white">No</small></th>
                                                                 <th style="width:10%;"><small class="text-white">NIK/Paspor</small></th>
                                                                 <th style="width:15%;"><small class="text-white">NPWP</small></th>
                                                                 <th style="width:15%;"><small class="text-white">Nama</small></th>
@@ -100,7 +94,7 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            
+
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -123,12 +117,6 @@
                                                     </div>&nbsp;
                                                     <span>||</span>&nbsp;
                                                     <div class="bd-highlight">
-                                                        <button type="button" class="btn btn-success btn-sm shadow-lg">
-                                                            <i class="fa-solid fa-file-export px-1"></i>
-                                                            Export Excel
-                                                        </button>
-                                                    </div>&nbsp;
-                                                    <div class="bd-highlight">
                                                         <button type="button" class="btn btn-secondary btn-sm shadow-lg">
                                                             <i class="fa-solid fa-cloud-arrow-up px-1"></i>
                                                             Import Excel
@@ -140,7 +128,7 @@
                                                     <table class="table table-sm table-bordered table-striped">
                                                         <thead class="bg-secondary">
                                                             <tr class="shadow-lg">
-                                                            <th style="width:5%;"><small class="text-white">No</small></th>
+                                                                <th style="width:5%;"><small class="text-white">No</small></th>
                                                                 <th style="width:5%;"><small class="text-white">NIK/Paspor</small></th>
                                                                 <th style="width:7%;"><small class="text-white">NPWP</small></th>
                                                                 <th style="width:25%;"><small class="text-white">Nama</small></th>
@@ -164,7 +152,7 @@
                                                         </thead>
                                                         <tbody>
                                                             <tr class="shadow-lg">
-                                                            <td><small>No</small></td>
+                                                                <td><small>No</small></td>
                                                                 <td><small>1234567890123456</small></td>
                                                                 <td><small>12345678901234567</small></td>
                                                                 <td><small>Ahmad Fikri Zulfikar</small></td>
@@ -327,7 +315,7 @@
                                         <td class="col-sm-3">
                                             <input type="file" name="file_ktp" id="file" accept=".pdf">
                                         </td>
-                                      
+
                                     </tr>
                                     <tr>
                                         <td class="col-sm-2 bg-light">
@@ -336,9 +324,9 @@
                                         <td class="col-sm-3">
                                             <input type="file" name="file_npwp" id="file" accept=".pdf">
                                         </td>
-                                       
+
                                     </tr>
-                                   
+
                                     <hr>
                                     <tr>
                                         <td class="col-sm-12" colspan="4">
@@ -380,14 +368,11 @@
                                 </span>
                             </div>
                             <div class="bd-highlight">
-                                <button type="button" class="btn btn-warning btn-sm shadow-lg" disabled>
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                    Edit Data
-                                </button>
+                               
                             </div>
                         </div>
                         <div class="card-body">
-                            <form>
+                            <form id="form_simpan_manajerial_pengurus" method="post" enctype="multipart/form-data">
                                 <table class="table table-sm">
                                     <tr>
                                         <td class="col-sm-2 bg-light">
@@ -397,7 +382,7 @@
                                             <div class="col-sm-12">
                                                 <div class="input-group mb-2">
                                                     <span class="input-group-text"><i class="fa-solid fa-address-card"></i></span>
-                                                    <input type="text" class="form-control" data-inputmask='"mask": "9999999999999999"' data-mask>
+                                                    <input type="text" name="nik_pengurus" class="form-control" data-inputmask='"mask": "9999999999999999"' data-mask>
                                                 </div>
                                             </div>
                                         </td>
@@ -408,7 +393,7 @@
                                             <div class="col-sm-12">
                                                 <div class="input-group mb-2">
                                                     <span class="input-group-text"><i class="fa-solid fa-address-card"></i></span>
-                                                    <input type="text" class="form-control" data-inputmask='"mask": "99.999.999.9-999.999"' data-mask>
+                                                    <input name="npwp_pengurus"  type="text" class="form-control" data-inputmask='"mask": "99.999.999.9-999.999"' data-mask>
                                                 </div>
                                             </div>
                                         </td>
@@ -421,7 +406,7 @@
                                             <div class="col-sm-12">
                                                 <div class="input-group mb-2">
                                                     <span class="input-group-text"><i class="fa-solid fa-user-pen"></i></span>
-                                                    <input type="text" class="form-control">
+                                                    <input name="nama_pengurus" type="text" class="form-control">
                                                 </div>
                                             </div>
                                         </td>
@@ -432,7 +417,7 @@
                                             <div class="col-sm-12">
                                                 <div class="input-group mb-2">
                                                     <span class="input-group-text"><i class="fa-solid fa-bars"></i></span>
-                                                    <select class="form-select" aria-label="Default select example">
+                                                    <select name="warganegara" class="form-select" aria-label="Default select example">
                                                         <option selected>Indonesia</option>
                                                         <option>Asing</option>
                                                     </select>
@@ -448,7 +433,7 @@
                                             <div class="col-sm-12">
                                                 <div class="input-group mb-2">
                                                     <span class="input-group-text"><i class="fa-solid fa-user-tie"></i></span>
-                                                    <input type="text" class="form-control">
+                                                    <input name="jabatan_pengurus" type="text" class="form-control">
                                                 </div>
                                             </div>
                                         </td>
@@ -457,7 +442,7 @@
                                         </td>
                                         <td class="col-sm-3">
                                             <div class="col-sm-12 mb-3">
-                                                <input type="date" id="date"><small>-</small><input type="date" id="date">
+                                                <input type="date" name="jabatan_mulai" id="date"><small>-</small><input name="jabatan_selesai" type="date" id="date">
                                             </div>
                                         </td>
                                     </tr>
@@ -469,7 +454,7 @@
                                             <div class="col-sm-12">
                                                 <div class="input-group mb-2">
                                                     <span class="input-group-text"><i class="fa-solid fa-road"></i></span>
-                                                    <input type="text" class="form-control">
+                                                    <textarea name="alamat_pengurus" type="text" class="form-control"></textarea>
                                                 </div>
                                             </div>
                                         </td>
@@ -479,7 +464,7 @@
                                             <label class="form-label col-form-label-sm"><b>Upload File KTP</b></label>
                                         </td>
                                         <td class="col-sm-3">
-                                            <input type="file" id="file" accept=".pdf">
+                                            <input type="file" name="file_ktp_pengurus" id="file" accept=".pdf">
                                         </td>
                                         <td class="col-sm-2 bg-light">
                                             <button type="button" class="btn btn-info btn-sm text-start col-sm-12 shadow-lg">
@@ -488,13 +473,6 @@
                                             </button>
                                         </td>
                                         <td class="col-sm-3">
-                                            <small>
-                                                <span class="badge bg-secondary">Belum Tervalidasi</span>
-                                            </small>
-                                            <button type="button" class="btn btn-warning btn-sm shadow-lg" disabled>
-                                                <i class="fa-solid fa-lock-open px-1"></i>
-                                                Dekripsi File
-                                            </button>
                                         </td>
                                     </tr>
                                     <tr>
@@ -502,7 +480,7 @@
                                             <label class="form-label col-form-label-sm"><b>Upload File NPWP</b></label>
                                         </td>
                                         <td class="col-sm-3">
-                                            <input type="file" id="file" accept=".pdf">
+                                            <input type="file" name="file_npwp_pengurus" id="file" accept=".pdf">
                                         </td>
                                         <td class="col-sm-2 bg-light">
                                             <button type="button" class="btn btn-info btn-sm text-start col-sm-12 shadow-lg">
@@ -511,13 +489,6 @@
                                             </button>
                                         </td>
                                         <td class="col-sm-3">
-                                            <small>
-                                                <span class="badge bg-secondary">Belum Tervalidasi</span>
-                                            </small>
-                                            <button type="button" class="btn btn-warning btn-sm shadow-lg" disabled>
-                                                <i class="fa-solid fa-lock-open px-1"></i>
-                                                Dekripsi File
-                                            </button>
                                         </td>
                                     </tr>
                                     <hr>
@@ -527,7 +498,7 @@
                                                 <i class="fa-solid fa-angles-left px-1"></i>
                                                 Close
                                             </button>
-                                            <button type="button" class="btn btn-success btn-sm shadow-lg" disabled>
+                                            <button type="submit" class="btn btn-success btn-sm shadow-lg btn-simpan">
                                                 <i class="fa-solid fa-floppy-disk px-1"></i>
                                                 Save Changes
                                             </button>
@@ -565,6 +536,10 @@
 
                                     </div>
                                     <div class="col-md-4">
+                                        <center>
+                                            <a href="<?= base_url('format_excel/FORMAT EXCEL DATA PEMILIK PERUSAHAAN DRT JMTO.xlsx') ?>" class="btn btn-success"> <img src="<?= base_url('assets/excel.png') ?>" style="width: 20px;" alt=""> Download Format Excel</a>
+                                        </center>
+                                        <br>
                                         <form action="javascript:;" id="form_import_excel" enctype="multipart/form-data" method="post">
                                             <div class="input-group">
                                                 <input type="file" class="form-control form-control-sm" id="importexcel" aria-describedby="inputGroupFileAddon04" accept=".xlsx,.xls" name="importexcel" aria-label="Upload" required>
@@ -607,7 +582,7 @@
                                         <table id="data_excel_pemilik_manajerial" style="width: 100%;font-size:12px" class="table table-bordered">
                                             <thead class="bg-secondary" style="text-align: center;">
                                                 <tr>
-                                                    <th>
+                                                    <th class="text-white">
                                                         No
                                                     </th>
                                                     <th>
@@ -638,7 +613,7 @@
                                                             <div class="text-center"> File NPWP</div>
                                                         </small>
                                                     </th>
-                                                   
+
                                                     <th>
                                                         <small class="text-white">
                                                             <div class="text-center"> Aksi </div>
@@ -688,6 +663,8 @@
                     <div class="card-body">
                         <form id="form_edit_excel_pemilik_manajerial" enctype="multipart/form-data">
                             <input type="hidden" name="id_pemilik">
+                            <input type="hidden" name="type_edit_pemilik">
+                            <input type="hidden" name="validasi_enkripsi_pemilik">
                             <table class="table table-sm">
                                 <tr>
                                     <td class="col-sm-2 bg-light">
@@ -809,19 +786,19 @@
                                         </div>
                                     </td>
                                     <td>
-                                       <div class="button_enkrip_pemilik">
+                                        <div class="button_enkrip_pemilik">
 
-                                       </div>
+                                        </div>
                                     </td>
                                 </tr>
                                 <hr>
                                 <tr>
-                                    <td class="col-sm-12" colspan="4">
+                                    <td class="col-sm-10" colspan="4">
                                         <button type="button" class="btn btn-danger btn-sm shadow-lg" data-bs-dismiss="modal">
                                             <i class="fa-solid fa-angles-left px-1"></i>
                                             Close
                                         </button>
-                                        <button type="submit" class="btn btn-success btn-sm shadow-lg btn_simpan">
+                                        <button type="submit" class="btn btn-success btn-sm shadow-lg btn_simpan btn_edit_biasa">
                                             <i class="fa-solid fa-floppy-disk px-1"></i>
                                             Save Changes
                                         </button>

@@ -720,7 +720,14 @@ class M_datapenyedia extends CI_Model
         return $this->db->count_all_results();
     }
 
-
+    public function get_row_pemilik_manajerial($id_pemilik)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_vendor_pemilik');
+        $this->db->where('tbl_vendor_pemilik.id_pemilik', $id_pemilik);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
 
 
 
@@ -803,6 +810,11 @@ class M_datapenyedia extends CI_Model
         return $this->db->affected_rows();
     }
 
+    public function update_pemilik_manajerial($data, $where)
+    {
+        $this->db->update('tbl_vendor_pemilik', $data, $where);
+        return $this->db->affected_rows();
+    }
     public function get_result_excel_pemilik_manajerial($id_vendor, $cek_table)
     {
         $this->db->select('*');
@@ -859,7 +871,16 @@ class M_datapenyedia extends CI_Model
         $query = $this->db->get();
         return $query->row_array();
     }
-    
+
+    public function get_row_pemilik_manajerial_enkription($id_url)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_vendor_pemilik');
+        $this->db->where('tbl_vendor_pemilik.id_url', $id_url);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
 
     public function update_excel_pemilik_manajerial_enkription($where, $data)
     {
@@ -867,6 +888,11 @@ class M_datapenyedia extends CI_Model
         return $this->db->affected_rows();
     }
 
+    public function update_pemilik_manajerial_enkription($where, $data)
+    {
+        $this->db->update('tbl_vendor_pemilik', $data, $where);
+        return $this->db->affected_rows();
+    }
 
 
 
@@ -876,10 +902,25 @@ class M_datapenyedia extends CI_Model
         return $this->db->affected_rows();
     }
 
+    function delete_pemilik($where)
+    {
+        $this->db->delete('tbl_vendor_pemilik', $where);
+        return $this->db->affected_rows();
+    }
+
 
     public function tambah_tbl_vendor_pemilik($data)
     {
         $this->db->insert('tbl_vendor_pemilik', $data);
+        return $this->db->affected_rows();
+    }
+
+    // INI UNTUK PENGURUS
+
+    
+    public function tambah_tbl_vendor_pengurus($data)
+    {
+        $this->db->insert('tbl_vendor_pengurus', $data);
         return $this->db->affected_rows();
     }
 

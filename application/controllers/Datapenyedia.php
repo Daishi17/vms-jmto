@@ -1371,6 +1371,25 @@ class Datapenyedia extends CI_Controller
 	}
 
 
+	function by_id_pemilik_manajerial($id_pemilik)
+	{
+		$response = [
+			'row_pemilik_manajerial' => $this->M_datapenyedia->get_row_pemilik_manajerial($id_pemilik),
+		];
+		$this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
+	public function hapus_row_pemilik($id_url)
+	{
+		$where = [
+			'id_url' => $id_url
+		];
+		$this->M_datapenyedia->delete_pemilik($where);
+		$this->output->set_content_type('application/json')->set_output(json_encode('success'));
+	}
+
+
+
 	public function get_data_excel_pemilik_manajerial()
 	{
 		$id_vendor = $this->session->userdata('id_vendor');
@@ -1415,7 +1434,7 @@ class Datapenyedia extends CI_Controller
 		$this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 
-	public function buat_excel_pemilik_manajerial()
+	public function buat_pemilik_manajerial()
 	{
 		$id_vendor = $this->session->userdata('id_vendor');
 		$nama_usaha = $this->session->userdata('nama_usaha');
@@ -1446,7 +1465,7 @@ class Datapenyedia extends CI_Controller
 			$fileDataKtp = $this->upload->data();
 		}
 		if ($this->upload->do_upload('file_npwp')) {
-			$fileData_bpjs = $this->upload->data();
+			$fileData_npwp = $this->upload->data();
 		}
 		$upload = [
 			'id_vendor' => $id_vendor,
@@ -1459,7 +1478,7 @@ class Datapenyedia extends CI_Controller
 			'warganegara' => $warganegara,
 			'saham' => $saham,
 			'file_ktp' => openssl_encrypt($fileDataKtp['file_name'], $chiper, $secret_token_dokumen1),
-			'file_npwp' => openssl_encrypt($fileData_bpjs['file_name'], $chiper, $secret_token_dokumen2),
+			'file_npwp' => openssl_encrypt($fileData_npwp['file_name'], $chiper, $secret_token_dokumen2),
 			'sts_token_dokumen_pemilik' => 1,
 		];
 		$this->M_datapenyedia->tambah_tbl_vendor_pemilik($upload);
@@ -1471,9 +1490,13 @@ class Datapenyedia extends CI_Controller
 	{
 		$id_vendor = $this->session->userdata('id_vendor');
 		$nama_usaha = $this->session->userdata('nama_usaha');
-
 		$id_pemilik = $this->input->post('id_pemilik');
-		$get_row_enkrip = $this->M_datapenyedia->get_row_excel_pemilik_manajerial($id_pemilik);
+		$type_edit_pemilik = $this->input->post('type_edit_pemilik');
+		if ($type_edit_pemilik == 'edit_excel') {
+			$get_row_enkrip = $this->M_datapenyedia->get_row_excel_pemilik_manajerial($id_pemilik);
+		} else {
+			$get_row_enkrip = $this->M_datapenyedia->get_row_pemilik_manajerial($id_pemilik);
+		}
 		$nik = $this->input->post('nik');
 		$nama_pemilik = $this->input->post('nama_pemilik');
 		$jns_pemilik = $this->input->post('jns_pemilik');
@@ -1496,9 +1519,17 @@ class Datapenyedia extends CI_Controller
 		$this->load->library('upload', $config);
 		if ($this->upload->do_upload('file_ktp')) {
 			$fileDataKtp = $this->upload->data();
+			$post_file_ktp = openssl_encrypt($fileDataKtp['file_name'], $chiper, $secret_token_dokumen1);
+		} else {
+			$fileDataKtp = $get_row_enkrip['file_ktp'];
+			$post_file_ktp = $fileDataKtp;
 		}
 		if ($this->upload->do_upload('file_npwp')) {
-			$fileData_bpjs = $this->upload->data();
+			$fileData_npwp = $this->upload->data();
+			$post_file_npwp = openssl_encrypt($fileData_npwp['file_name'], $chiper, $secret_token_dokumen2);
+		} else {
+			$fileData_npwp = $get_row_enkrip['file_npwp'];
+			$post_file_npwp = $fileData_npwp;
 		}
 		$where = [
 			'id_pemilik' => $id_pemilik
@@ -1512,11 +1543,16 @@ class Datapenyedia extends CI_Controller
 			'npwp' => $npwp,
 			'warganegara' => $warganegara,
 			'saham' => $saham,
-			'file_ktp' => openssl_encrypt($fileDataKtp['file_name'], $chiper, $secret_token_dokumen1),
-			'file_npwp' => openssl_encrypt($fileData_bpjs['file_name'], $chiper, $secret_token_dokumen2),
+			'file_ktp' => $post_file_ktp,
+			'file_npwp' => $post_file_npwp,
 			'sts_token_dokumen_pemilik' => 1,
 		];
-		$this->M_datapenyedia->update_excel_pemilik_manajerial($upload, $where);
+		if ($type_edit_pemilik == 'edit_excel') {
+			$this->M_datapenyedia->update_excel_pemilik_manajerial($upload, $where);
+		} else {
+			$this->M_datapenyedia->update_pemilik_manajerial($upload, $where);
+		}
+
 		$this->output->set_content_type('application/json')->set_output(json_encode('success'));
 	}
 
@@ -1524,7 +1560,12 @@ class Datapenyedia extends CI_Controller
 	public function dekrip_enkrip_pemilik($id_url)
 	{
 		$type = $this->input->post('type');
-		$get_row_enkrip = $this->M_datapenyedia->get_row_excel_pemilik_manajerial_enkription($id_url);
+		$type_edit_pemilik = $this->input->post('type_edit_pemilik');
+		if ($type_edit_pemilik == 'edit_excel') {
+			$get_row_enkrip = $this->M_datapenyedia->get_row_excel_pemilik_manajerial_enkription($id_url);
+		} else {
+			$get_row_enkrip = $this->M_datapenyedia->get_row_pemilik_manajerial_enkription($id_url);
+		}
 		$chiper = "AES-128-ECB";
 		$secret_token_dokumen1 = 'jmto.1' . $get_row_enkrip['id_url'];
 		$secret_token_dokumen2 = 'jmto.2' . $get_row_enkrip['id_url'];
@@ -1548,9 +1589,15 @@ class Datapenyedia extends CI_Controller
 				'file_npwp' => $file_npwp,
 			];
 		}
-		$this->M_datapenyedia->update_excel_pemilik_manajerial_enkription($where, $data);
+		if ($type_edit_pemilik == 'edit_excel') {
+			$this->M_datapenyedia->update_excel_pemilik_manajerial_enkription($where, $data);
+		} else {
+			$this->M_datapenyedia->update_pemilik_manajerial_enkription($where, $data);
+		}
 		$response = [
+			'type_edit_pemilik' => $type_edit_pemilik,
 			'row_excel_pemilik_manajerial' => $this->M_datapenyedia->get_row_excel_pemilik_manajerial($get_row_enkrip['id_pemilik']),
+			'row_pemilik_manajerial' => $this->M_datapenyedia->get_row_pemilik_manajerial($get_row_enkrip['id_pemilik']),
 		];
 		$this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
@@ -1562,12 +1609,11 @@ class Datapenyedia extends CI_Controller
 		if ($id_url == '') {
 			// tendang not found
 		}
-
 		$get_row_enkrip = $this->M_datapenyedia->get_row_excel_pemilik_manajerial_enkription($id_url);
 		if ($type == 'pemilik_ktp') {
 			$fileDownload = $get_row_enkrip['file_ktp'];
 		}
-		if ($type == 'pemilik_bpjs') {
+		if ($type == 'pemilik_npwp') {
 			$fileDownload = $get_row_enkrip['file_npwp'];
 		}
 		$id_vendor = $get_row_enkrip['id_vendor'];
@@ -1681,6 +1727,61 @@ class Datapenyedia extends CI_Controller
 
 
 		$this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
+
+
+	// INI UNTUK BAGIAN PENGURUS
+	public function buat_pengurus_manajerial()
+	{
+		$id_vendor = $this->session->userdata('id_vendor');
+		$nama_usaha = $this->session->userdata('nama_usaha');
+		$nik = $this->input->post('nik_pengurus');
+		$nama_pengurus = $this->input->post('nama_pengurus');
+		$jabatan_pengurus = $this->input->post('jabatan_pengurus');
+		$alamat_pengurus = $this->input->post('alamat_pengurus');
+		$npwp = $this->input->post('npwp_pengurus');
+		$warganegara = $this->input->post('warganegara_pengurus');
+		$jabatan_mulai = $this->input->post('jabatan_mulai');
+		$jabatan_selesai = $this->input->post('jabatan_selesai');
+		$id = $this->uuid->v4();
+		$id = str_replace('-', '', $id);
+		// seeting enkrip dokumen
+		$chiper = "AES-128-ECB";
+		$secret_token_dokumen1 = 'jmto.1' . $id;
+		$secret_token_dokumen2 = 'jmto.2' . $id;
+		// SETTING PATH 
+		$date = date('Y');
+		if (!is_dir('file_vms/' . $nama_usaha . '/Pengurus-' . $date)) {
+			mkdir('file_vms/' . $nama_usaha . '/Pengurus-' . $date, 0777, TRUE);
+		}
+		$config['upload_path'] = './file_vms/' . $nama_usaha . '/Pengurus-' . $date;
+		$config['allowed_types'] = 'pdf';
+		$config['max_size'] = 0;
+		$this->load->library('upload', $config);
+		if ($this->upload->do_upload('file_ktp_pengurus')) {
+			$fileDataKtp = $this->upload->data();
+		}
+		if ($this->upload->do_upload('file_npwp_pengurus')) {
+			$fileData_npwp = $this->upload->data();
+		}
+		$upload = [
+			'id_vendor' => $id_vendor,
+			'id_url' => $id,
+			'nik' => $nik,
+			'nama_pengurus' => $nama_pengurus,
+			'jabatan_pengurus' => $jabatan_pengurus,
+			'alamat_pengurus' => $alamat_pengurus,
+			'npwp' => $npwp,
+			'warganegara' => $warganegara,
+			'jabatan_mulai' => $jabatan_mulai,
+			'jabatan_selesai' => $jabatan_selesai,
+			'file_ktp_pengurus' => openssl_encrypt($fileDataKtp['file_name'], $chiper, $secret_token_dokumen1),
+			'file_npwp_pengurus' => openssl_encrypt($fileData_npwp['file_name'], $chiper, $secret_token_dokumen2),
+			'sts_token_dokumen_pengurus' => 1,
+		];
+		$this->M_datapenyedia->tambah_tbl_vendor_pengurus($upload);
+		$this->output->set_content_type('application/json')->set_output(json_encode('success'));
 	}
 
 	// end crud manajerial
