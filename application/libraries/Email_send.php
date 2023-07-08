@@ -20,6 +20,10 @@ class Email_send
             $email = $data['email'];
             $token_regis = $data['token_regis'];
             $base_url = base_url('registrasi/identitas/' . $token_regis);
+        } else if ($type == 'lupa_password') {
+            $email = $data['email'];
+            $token_lupa_password = $data['token_lupa_password'];
+            $base_url = base_url('auth/buat_password/' . $token_lupa_password);
         } else {
         }
         $config = array(
@@ -41,11 +45,20 @@ class Email_send
         $this->ci->email->to($email); // Ganti dengan email tujuan
 
         // Subject email
-        $this->ci->email->subject('E-PROCUREMENT JMTO :  REGISTRASI');
+        if ($type == 'lupa_password') {
+            $this->ci->email->subject('E-PROCUREMENT JMTO :  UBAH PASSWORD');
 
-        // Isi email
-        $this->ci->email->message("Silakan Klik Link Ini $base_url Untuk Melakukan Prosess Pendaftaran Selanjutnya ");
+            // Isi email
+            $this->ci->email->message("Silakan Klik Link Ini $base_url Untuk Melakukan Prosess Pengubahan Password Anda");
 
-        $this->ci->email->send();
+            $this->ci->email->send();
+        } else {
+            $this->ci->email->subject('E-PROCUREMENT JMTO :  REGISTRASI');
+
+            // Isi email
+            $this->ci->email->message("Silakan Klik Link Ini $base_url Untuk Melakukan Prosess Pendaftaran Selanjutnya ");
+
+            $this->ci->email->send();
+        }
     }
 }

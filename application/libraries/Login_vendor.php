@@ -14,7 +14,6 @@ class Login_vendor
 
     public function login($username_vendor, $password_vendor)
     {
-
         $cek = $this->ci->Auth_model->login($username_vendor);
         if (!$cek->email) {
             $this->ci->session->set_flashdata('salah', 'Penyedia Tidak Terdaftar!');

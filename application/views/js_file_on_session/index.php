@@ -1,5 +1,5 @@
 <?php if ($type == 'izin_usaha') { ?>
-    <script src="<?= base_url('js_folder/izin_usaha///file_public.js') ?>"></script>
+    <script src="<?= base_url('js_folder/izin_usaha/file_public.js') ?>"></script>
     <script src="<?= base_url('js_folder/siup/file_public.js') ?>"></script>
     <script src="<?= base_url('js_folder/sbu//file_public.js') ?>"></script>
     <script src="<?= base_url('js_folder/siujk/file_public.js') ?>"></script>

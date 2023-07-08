@@ -46,15 +46,19 @@
 <input type="hidden" name="url_hapus_kbli_sbu" value="<?= base_url('datapenyedia/hapus_kbli_sbu') ?>">
 <!-- end link post nib -->
 
-
-
 <!-- link post siujk -->
 <!-- siujk -->
 <input type="hidden" name="url_dekrip_siujk" value="<?= base_url('datapenyedia/dekrip_siujk') ?>">
 <input type="hidden" name="url_encryption_siujk" value="<?= base_url('datapenyedia/encryption_siujk/') ?>">
 <input type="hidden" name="url_download_siujk" value="<?= base_url('datapenyedia/url_download_siujk/') ?>">
 <input type="hidden" value="<?= base_url('datapenyedia/add_siujk') ?>" name="url_post_siujk">
-<!-- end link post siujk -->
+<!-- kbli siujk-->
+<input type="hidden" name="url_tambah_kbli_siujk" value="<?= base_url('datapenyedia/tambah_kbli_siujk') ?>">
+<input type="hidden" name="url_table_kbli_siujk" value="<?= base_url('datapenyedia/get_data_kbli_siujk') ?>">
+<input type="hidden" name="url_byid_kbli_siujk" value="<?= base_url('datapenyedia/get_byid_kbli_siujk/') ?>">
+<input type="hidden" name="url_edit_kbli_siujk" value="<?= base_url('datapenyedia/edit_kbli_siujk') ?>">
+<input type="hidden" name="url_hapus_kbli_siujk" value="<?= base_url('datapenyedia/hapus_kbli_siujk') ?>">
+<!-- end link post nib -->
 
 
 

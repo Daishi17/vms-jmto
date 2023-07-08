@@ -22,7 +22,7 @@
         }
 
         body {
-            background-image: url("<?= base_url('assets/img/login_vms.jpg')?>");
+            background-image: url("<?= base_url('assets/img/login_vms.jpg') ?>");
             background-color: #cccccc;
             /* Full height */
             height: 100%;
@@ -136,23 +136,31 @@
             <img src="https://survey.jasamarga.co.id/landing/images/logo.png" alt="">
         </div>
         <div class="text-center mt-4 name">
-           Login <br>
+            Login <br>
             Penyedia
         </div>
-        <form class="p-3 mt-3" action="<?= base_url('auth') ?>" method="post">
-            <div class="form-field d-flex align-items-center">
-                <i class="fas fa fa-user"></i>
-                <input type="text" name="userName" id="userName" placeholder="Email Atau Npwp">
-            </div>
-            <div class="form-field d-flex align-items-center">
-                <i class="fas fa fa-key"></i>
-                <input type="password" name="password" id="myInput" placeholder="Password">
-                <a href="javascript:;" onclick="myFunction()"><i class="fas fa fa-eye" style="margin-right:10px"></i></a>
-            </div>
-            <button class="btn mt-3" type="submit">Login</button>
-        </form>
+        <?= form_open('auth'); ?>
+
+        <div class="form-field d-flex align-items-center">
+            <i class="fas fa fa-user"></i>
+            <input type="text" name="userName" id="userName" placeholder="Email Atau Npwp">
+        </div>
+        <div class="form-field d-flex align-items-center">
+            <i class="fas fa fa-key"></i>
+            <input type="password" name="password" id="myInput" placeholder="Password">
+            <a href="javascript:;" onclick="myFunction()"><i class="fas fa fa-eye" style="margin-right:10px"></i></a>
+        </div>
+        <div class="mt-2" style="margin-left: -10px;">
+            <center>
+                <?php echo $widget; ?>
+                <?php echo $script; ?>
+            </center>
+        </div>
+        <button class="btn mt-3" type="submit">Login</button>
+
+        <?= form_close(); ?>
         <div class="text-center fs-6">
-            <a href="login.php">Login Qr ?</a>
+            <a class="btn text-white mt-2" href="<?= base_url('auth/lupa_password')?>">Forgot Password</a>
         </div>
     </div>
 </body>
