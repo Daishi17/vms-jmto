@@ -1480,14 +1480,13 @@ class Datapenyedia extends CI_Controller
 				'error' => 'error',
 			];
 			$this->output->set_content_type('application/json')->set_output(json_encode($response));
-
 		}
 	}
 
 
 	public function hapus_import_excel_pemilik()
 	{
-		
+
 		$id_vendor = $this->session->userdata('id_vendor');
 		$where = [
 			'id_vendor' => $id_vendor
@@ -1504,20 +1503,20 @@ class Datapenyedia extends CI_Controller
 		$cek_table_excel_validasi = $this->M_datapenyedia->result_excel_pemilik($id_vendor);
 		$result = $this->M_datapenyedia->get_result_excel_pemilik_manajerial($id_vendor, $cek_table);
 		$data_tervalidasi = $this->M_datapenyedia->get_result_validasi_excel_pemilik_manajerial($id_vendor, $cek_table_excel_validasi);
-		
-		
+
+
 		foreach ($cek_table_excel_validasi as $key => $value) {
 			$row_cek_table = $this->M_datapenyedia->get_row_pemilik_manajerial($id_vendor);
-			foreach ($row_cek_table as $key => $value2) {
-				if ($value2['nik'] == $value['nik']) {
-					echo('ada');
-				} else {
-					echo('gak Ada');
-				}
+		}
+		foreach ($row_cek_table as $key => $value2) {
+			if ($value2['nik'] == $value['nik']) {
+				echo ('ada');
+			} else {
+				echo ('gak Ada');
 			}
 		}
 		die;
-		
+
 		foreach ($result as $key => $value) {
 			$data = [
 				'id_vendor' => $value['id_vendor'],
@@ -1910,4 +1909,53 @@ class Datapenyedia extends CI_Controller
 		return force_download('file_vms/' . $row_vendor['nama_usaha'] . '/NPWP-' . $date . '/' . $get_row_enkrip['file_dokumen'], NULL);
 	}
 	// end crud pajak
+
+	// CRUD NERACA
+	function get_neraca_keuangan()
+	{
+		$result = $this->M_datapenyedia->gettable_rekanan_neraca();
+		$data = [];
+		$no = $_POST['start'];
+		foreach ($result as $rs) {
+
+			$row = array();
+			$row[] = ++$no;
+			$row[] = $rs->tahun_laporan1;
+			$row[] = $rs->tahun_laporan1;
+			$row[] = $rs->uraian;
+			$row[] = $rs->tanggal_laporan;
+			if ($rs->sts_upload_dokumen == 1) {
+				$row[] = '<small><span class="badge bg-success text-white">Sudah Upload Dokumen</span></small>';
+			} else {
+				$row[] = '<small><span class="badge bg-warning text-white">Belum Upload Dokumen</span></small>';
+			}
+
+			// nanti main kondisi hitung dokumen dimari
+			if ($rs->sts_dokumen_cek == NULL) {
+				$row[] = '<small><span class="badge swatch-orange text-white">Belum Di Periksa</span></small>';
+			} else if ($rs->sts_dokumen_cek == 1) {
+				$row[] = '<small><span class="badge bg-success text-white">Sudah Valid</span></small>';
+			} else if ($rs->sts_dokumen_cek == 2) {
+				$row[] = '<small><span class="badge bg-danger text-white">Belum Valid</span></small>';
+			}
+
+			$row[] = '<a href="' . base_url('validator/rekanan_neraca/cek_dokumen/' . $rs->id_url_vendor) . '" class="btn btn-warning btn-block btn-sm shadow-lg" ><i class="fa-solid fa-share-from-square px-1"></i> Cek Dokumen</a><br>
+            <a href="javascript:;" class="btn btn-success btn-block btn-sm shadow-lg" onClick="byid_vendor(' . "'" . $rs->id_url_vendor . "','terima'" . ')"> <i class="fa-solid fa-envelope px-1"></i> Pesan</a> <a href="javascript:;" class="btn btn-primary btn-block btn-sm shadow-lg" onClick="byid_vendor(' . "'" . $rs->id_url_vendor . "','tolak'" . ')"> <i class="fa-solid fa-paper-plane px-1"></i> Undang</a>';
+
+			$data[] = $row;
+		}
+		$output = array(
+			"draw" => $_POST['draw'],
+			"recordsTotal" => $this->M_datapenyedia->count_all_rekanan_neraca(),
+			"recordsFiltered" => $this->M_datapenyedia->count_filtered_rekanan_neraca(),
+			"data" => $data
+		);
+		$this->output->set_content_type('application/json')->set_output(json_encode($output));
+	}
+
+	function add_neraca()
+	{
+	}
+
+	// END CRUD NERACA
 }

@@ -15,6 +15,12 @@
     <input type="hidden" name="url_post_npwp" value="<?= base_url('datapenyedia/add_npwp') ?>">
     <!-- END NPWP -->
 
+    <!-- neraca -->
+    <input type="hidden" name="url_encryption_neraca" value="<?= base_url('datapenyedia/encryption_neraca/') ?>">
+    <input type="hidden" name="url_download_neraca" value="<?= base_url('datapenyedia/url_download_neraca/') ?>">
+    <input type="hidden" name="url_post_neraca" value="<?= base_url('datapenyedia/add_neraca') ?>">
+    <!-- END neraca -->
+
     <div class="row">
         <div class="col">
             <div class="card border-primary">
@@ -349,12 +355,16 @@
                                                     </div>
                                                 </div>
                                                 <div class="card-body">
-                                                    <table id="example1" class="table table-sm table-bordered table-striped">
+                                                    <input type="text" name="get_neraca_keuangan" value="<?= base_url('datapenyedia/get_neraca_keuangan/') ?>">
+                                                    <table id="tbl_neraca_keuangan" class="table table-sm table-bordered table-striped">
                                                         <thead class="bg-dark">
                                                             <tr class="shadow-lg">
-                                                                <th style="width:10%;"><small class="text-white">Tahun Laporan</small></th>
+                                                                <th style="width:10%;"><small class="text-white">No</small></th>
+                                                                <th style="width:10%;"><small class="text-white">Tahun Laporan 1</small></th>
+                                                                <th style="width:10%;"><small class="text-white">Tahun Laporan 2</small></th>
                                                                 <th style="width:20%;"><small class="text-white">Nama Akuntan Publik</small></th>
-                                                                <th style="width:10%;"><small class="text-white">Jenis Laporan</small></th>
+                                                                <th style="width:10%;"><small class="text-white">Tanggal Laporan</small></th>
+                                                                <th style="width:10%;"><small class="text-white">Status Validasi</small></th>
                                                                 <th style="width:15%;"><small class="text-white">
                                                                         <div class="text-center">File Neraca</div>
                                                                     </small></th>
@@ -367,7 +377,7 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr class="shadow-lg">
+                                                            <!-- <tr class="shadow-lg">
                                                                 <td><small>2022</small></td>
                                                                 <td><small>PT. Ortex</small></td>
                                                                 <td><small>Audit</small></td>
@@ -399,7 +409,7 @@
                                                                         </button>
                                                                     </div>
                                                                 </td>
-                                                            </tr>
+                                                            </tr> -->
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -564,11 +574,11 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <form>
+                            <form id="form_tambah_neraca">
                                 <table class="table table-sm">
                                     <tr>
                                         <td class="col-sm-2 bg-light">
-                                            <label class="form-label col-form-label-sm"><b>Tahun Laporan</b></label>
+                                            <label class="form-label col-form-label-sm"><b>Tahun Laporan 1</b></label>
                                         </td>
                                         <td class="col-sm-3">
                                             <div class="col-sm-8">
@@ -592,68 +602,68 @@
                                     </tr>
                                     <tr>
                                         <td class="col-sm-2 bg-light">
-                                            <label class="form-label col-form-label-sm"><b>Jenis Laporan</b></label>
+                                            <label class="form-label col-form-label-sm"><b>Tahun Laporan 2</b></label>
                                         </td>
                                         <td class="col-sm-3">
-                                            <div class="col-sm-12">
+                                            <div class="col-sm-8">
                                                 <div class="input-group mb-2">
-                                                    <span class="input-group-text"><i class="fa-solid fa-bars"></i></span>
-                                                    <select class="form-select" aria-label="Default select example">
-                                                        <option selected>Audit</option>
-                                                        <option>Tidak Audit</option>
-                                                    </select>
+                                                    <span class="input-group-text"><i class="fa-regular fa-calendar-days"></i></span>
+                                                    <input type="number" class="form-control" placeholder="ex.2023">
                                                 </div>
                                             </div>
+                                        </td>
+                                        <td class="col-sm-2 bg-light">
+                                            <label class="form-label col-form-label-sm"><b>Tanggal Laporan</b></label>
+                                        </td>
+                                        <td class="col-sm-3">
+                                            <div class="col-sm-8">
+                                                <div class="input-group mb-2">
+                                                    <span class="input-group-text"><i class="fa-solid fa-calendar-days"></i></span>
+                                                    <input type="date" id="date" class="form-control">
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <!-- <tr>
+                                        <td class="col-sm-2 bg-light">
+                                            <label class="form-label col-form-label-sm"><b>Upload Neraca Keuangan</b></label>
+                                        </td>
+                                        <td class="col-sm-3">
+                                            <input type="file" id="file" accept=".pdf,.xlsx">
+                                        </td>
+                                        <td class="col-sm-2 bg-light">
+                                            <button type="button" class="btn btn-info btn-sm text-start col-sm-12 shadow-lg">
+                                                <i class="fa-solid fa-file-pdf px-1"></i>
+                                                Nama File .pdf/.xlsx
+                                            </button>
+                                        </td>
+                                        <td class="col-sm-3">
+                                            <small>
+                                                <span class="badge bg-secondary">Belum Tervalidasi</span>
+                                            </small>
+                                            <button type="button" class="btn btn-warning btn-sm shadow-lg" disabled>
+                                                <i class="fa-solid fa-lock-open px-1"></i>
+                                                Dekripsi File
+                                            </button>
+                                        </td>
+                                    </tr> -->
+                                    <tr>
+                                        <td class="col-sm-12" colspan="4">
+                                            <button type="button" class="btn btn-danger btn-sm shadow-lg" data-bs-dismiss="modal">
+                                                <i class="fa-solid fa-angles-left px-1"></i>
+                                                Close
+                                            </button>
+                                            <button type="button" class="btn btn-success btn-sm shadow-lg" disabled>
+                                                <i class="fa-solid fa-floppy-disk px-1"></i>
+                                                Save Changes
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
                         </div>
-                        <td class="col-sm-2 bg-light">
-                            <label class="form-label col-form-label-sm"><b>Tanggal Laporan</b></label>
-                        </td>
-                        <td class="col-sm-3">
-                            <div class="col-sm-8">
-                                <div class="input-group mb-2">
-                                    <span class="input-group-text"><i class="fa-solid fa-calendar-days"></i></span>
-                                    <input type="date" id="date" class="form-control">
-                                </div>
-                            </div>
-                        </td>
-                        </tr>
-                        <tr>
-                            <td class="col-sm-2 bg-light">
-                                <label class="form-label col-form-label-sm"><b>Upload Neraca Keuangan</b></label>
-                            </td>
-                            <td class="col-sm-3">
-                                <input type="file" id="file" accept=".pdf,.xlsx">
-                            </td>
-                            <td class="col-sm-2 bg-light">
-                                <button type="button" class="btn btn-info btn-sm text-start col-sm-12 shadow-lg">
-                                    <i class="fa-solid fa-file-pdf px-1"></i>
-                                    Nama File .pdf/.xlsx
-                                </button>
-                            </td>
-                            <td class="col-sm-3">
-                                <small>
-                                    <span class="badge bg-secondary">Belum Tervalidasi</span>
-                                </small>
-                                <button type="button" class="btn btn-warning btn-sm shadow-lg" disabled>
-                                    <i class="fa-solid fa-lock-open px-1"></i>
-                                    Dekripsi File
-                                </button>
                     </div>
-                    </tr>
-                    <tr>
-                        <td class="col-sm-12" colspan="4">
-                            <button type="button" class="btn btn-danger btn-sm shadow-lg" data-bs-dismiss="modal">
-                                <i class="fa-solid fa-angles-left px-1"></i>
-                                Close
-                            </button>
-                            <button type="button" class="btn btn-success btn-sm shadow-lg" disabled>
-                                <i class="fa-solid fa-floppy-disk px-1"></i>
-                                Save Changes
-                            </button>
-                        </td>
-                    </tr>
-                    </table>
-                    </form>
+
                 </div>
             </div>
         </div>
