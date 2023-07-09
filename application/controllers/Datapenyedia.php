@@ -2417,6 +2417,10 @@ class Datapenyedia extends CI_Controller
 		$this->M_datapenyedia->delete_pengurus($where);
 		$this->output->set_content_type('application/json')->set_output(json_encode('success'));
 	}
+
+
+
+
 	// end crud manajerial
 
 	public function sdm()
@@ -2431,7 +2435,373 @@ class Datapenyedia extends CI_Controller
 		$this->load->view('template_menu/header_menu');
 		$this->load->view('datapenyedia/pengalaman/singgah');
 		$this->load->view('template_menu/new_footer');
+		$this->load->view('js_folder/pengalaman_perusahaan/file_public');
 	}
+
+	// INI UNTUK PENGALAMAN
+	public function buat_pengalaman()
+	{
+		$id_vendor = $this->session->userdata('id_vendor');
+		$nama_usaha = $this->session->userdata('nama_usaha');
+		$no_kontrak = $this->input->post('no_kontrak');
+		$nama_pekerjaan = $this->input->post('nama_pekerjaan');
+		$id_jenis_usaha = $this->input->post('id_jenis_usaha');
+		$tanggal_kontrak = $this->input->post('tanggal_kontrak');
+		$instansi_pemberi = $this->input->post('instansi_pemberi');
+		$nilai_kontrak = $this->input->post('nilai_kontrak');
+		$lokasi_pekerjaan = $this->input->post('lokasi_pekerjaan');
+		$id = $this->uuid->v4();
+		$id = str_replace('-', '', $id);
+		// seeting enkrip dokumen
+		$chiper = "AES-128-ECB";
+		$secret_token_dokumen1 = 'jmto.1' . $id;
+		// SETTING PATH 
+		$date = date('Y');
+		if (!is_dir('file_vms/' . $nama_usaha . '/Pengalaman-' . $date)) {
+			mkdir('file_vms/' . $nama_usaha . '/Pengalaman-' . $date, 0777, TRUE);
+		}
+		$config['upload_path'] = './file_vms/' . $nama_usaha . '/Pengalaman-' . $date;
+		$config['allowed_types'] = 'pdf';
+		$config['max_size'] = 0;
+		$this->load->library('upload', $config);
+		if ($this->upload->do_upload('file_kontrak_pengalaman')) {
+			$file_kontrak_pengalaman = $this->upload->data();
+		}
+		$upload = [
+			'id_vendor' => $id_vendor,
+			'id_url' => $id,
+			'no_kontrak' => $no_kontrak,
+			'nama_pekerjaan' => $nama_pekerjaan,
+			'id_jenis_usaha' => $id_jenis_usaha,
+			'tanggal_kontrak' => $tanggal_kontrak,
+			'instansi_pemberi' => $instansi_pemberi,
+			'nilai_kontrak' => $nilai_kontrak,
+			'lokasi_pekerjaan' => $lokasi_pekerjaan,
+			'file_kontrak_pengalaman' => openssl_encrypt($file_kontrak_pengalaman['file_name'], $chiper, $secret_token_dokumen1),
+			'sts_token_dokumen_pengalaman' => 1,
+		];
+		$this->M_datapenyedia->tambah_tbl_pengalaman($upload);
+		$this->output->set_content_type('application/json')->set_output(json_encode('success'));
+	}
+
+
+	function import_pengalaman_perusahaan()
+	{
+		$id_vendor = $this->session->userdata('id_vendor');
+		$config['upload_path'] = './uploads/';
+		$config['allowed_types'] = 'xlsx|xls';
+		$config['file_name'] = 'doc' . time();
+		$this->load->library('upload', $config);
+		if ($this->upload->do_upload('importexcel')) {
+			$file = $this->upload->data();
+			$reader = ReaderEntityFactory::createXLSXReader();
+			$reader->open('uploads/' . $file['file_name']);
+			foreach ($reader->getSheetIterator() as $sheet) {
+				$numRow = 1;
+				foreach ($sheet->getRowIterator() as $row) {
+					if ($numRow > 2) {
+						$id = $this->uuid->v4();
+						$id = str_replace('-', '', $id);
+						$data = array(
+							'id_vendor' => $id_vendor,
+							'id_url' => $id,
+							'no_kontrak' => $row->getCellAtIndex(0),
+							'nama_pekerjaan' => $row->getCellAtIndex(1),
+							'tanggal_kontrak' => $row->getCellAtIndex(2),
+							'id_jenis_usaha' => $row->getCellAtIndex(3),
+							'nilai_kontrak' => $row->getCellAtIndex(4),
+							'instansi_pemberi' => $row->getCellAtIndex(5),
+							'lokasi_pekerjaan' => $row->getCellAtIndex(6),
+						);
+						$this->M_datapenyedia->insert_pengalaman($data);
+					}
+					$numRow++;
+				}
+				$reader->close();
+				unlink('uploads/' . $file['file_name']);
+				$response = [
+					'message' => 'Data Berhasil Di Upload',
+				];
+				$this->output->set_content_type('application/json')->set_output(json_encode($response));
+			}
+		} else {
+			$response = [
+				'error' => 'error',
+			];
+			$this->output->set_content_type('application/json')->set_output(json_encode($response));
+		}
+	}
+	public function get_data_pengalaman_manajerial()
+	{
+		$id_vendor = $this->session->userdata('id_vendor');
+		$resultss = $this->M_datapenyedia->gettable_pengalaman_manajerial($id_vendor);
+		$data = [];
+		$no = $_POST['start'];
+		foreach ($resultss as $rs) {
+			$row = array();
+			$row[] = ++$no;
+			$row[] = $rs->no_kontrak;
+			$row[] = $rs->tanggal_kontrak;
+			$row[] = $rs->nama_pekerjaan;
+			$row[] = $rs->nilai_kontrak;
+			$row[] = $rs->id_jenis_usaha;
+			$row[] = $rs->instansi_pemberi;
+			$row[] = $rs->lokasi_pekerjaan;
+			if ($rs->sts_validasi == 1) {
+				$row[] = '<span class="badge bg-success">Sudah Tervalidasi</span>';
+			} else if ($rs->sts_validasi == null) {
+				$row[] = '<span class="badge bg-secondary">Belum Tervalidasi</span>';
+			} else {
+				$row[] = '<span class="badge bg-danger">Revisi</span>';
+			}
+			$row[] = '<a  href="javascript:;" class="btn btn-info btn-sm" onClick="by_id_pengalaman_manajerial(' . "'" . $rs->id_pengalaman . "','edit'" . ')"><i class="fa-solid fa-users-viewfinder px-1"></i> View</a>
+			<a  href="javascript:;" class="btn btn-danger btn-sm" onClick="by_id_pengalaman_manajerial(' . "'" . $rs->id_pengalaman . "','hapus'" . ')"><i class="fas fa fa-trash"></i> Delete</a>';
+			$data[] = $row;
+		}
+		$output = array(
+			"draw" => $_POST['draw'],
+			"recordsTotal" => $this->M_datapenyedia->count_all_data_pengalaman_manajerial($id_vendor),
+			"recordsFiltered" => $this->M_datapenyedia->count_filtered_data_pengalaman_manajerial($id_vendor),
+			"data" => $data
+		);
+		$this->output->set_content_type('application/json')->set_output(json_encode($output));
+	}
+	public function get_data_excel_pengalaman_manajerial()
+	{
+		$id_vendor = $this->session->userdata('id_vendor');
+		$resultss = $this->M_datapenyedia->gettable_excel_pengalaman_manajerial($id_vendor);
+		$data = [];
+		$no = $_POST['start'];
+		$nama_usaha = $this->session->userdata('nama_usaha');
+		$date = date('Y');
+		$file_path = 'file_vms/' . $nama_usaha . '/Pengalaman-' . $date;
+		foreach ($resultss as $rs) {
+			$row = array();
+			$row[] = ++$no;
+			$row[] = $rs->no_kontrak;
+			$row[] = $rs->tanggal_kontrak;
+			$row[] = $rs->nama_pekerjaan;
+			$row[] = $rs->nilai_kontrak;
+			$row[] = $rs->id_jenis_usaha;
+			$row[] = $rs->instansi_pemberi;
+			$row[] = $rs->lokasi_pekerjaan;
+			$row[] = '<a  href="javascript:;" class="btn btn-warning btn-sm d-md-block" onClick="by_id_excel_pengalaman_manajerial(' . "'" . $rs->id_pengalaman . "','edit'" . ')"><i class="fa fa-edit"></i></a>
+				<a  href="javascript:;" class="btn btn-danger btn-sm d-md-block" onClick="by_id_excel_pengalaman_manajerial(' . "'" . $rs->id_pengalaman . "','hapus'" . ')"><i class="fas fa fa-trash"></i></a>';
+			$data[] = $row;
+		}
+		$output = array(
+			"draw" => $_POST['draw'],
+			"recordsTotal" => $this->M_datapenyedia->count_all_data_excel_pengalaman_manajerial($id_vendor),
+			"recordsFiltered" => $this->M_datapenyedia->count_filtered_data_excel_pengalaman_manajerial($id_vendor),
+			"data" => $data
+		);
+		$this->output->set_content_type('application/json')->set_output(json_encode($output));
+	}
+
+	function by_id_excel_pengalaman_menajerial($id_pengalaman)
+	{
+		$response = [
+			'row_excel_pengalaman_manajerial' => $this->M_datapenyedia->get_row_excel_pengalaman_manajerial($id_pengalaman),
+		];
+		$this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
+	public function edit_excel_pengalaman_manajerial()
+	{
+		$id_vendor = $this->session->userdata('id_vendor');
+		$nama_usaha = $this->session->userdata('nama_usaha');
+		$id_pengalaman = $this->input->post('id_pengalaman');
+		$type_edit_pengalaman = $this->input->post('type_edit_pengalaman');
+		if ($type_edit_pengalaman == 'edit_excel') {
+			$get_row_enkrip = $this->M_datapenyedia->get_row_excel_pengalaman_manajerial($id_pengalaman);
+		} else {
+			$get_row_enkrip = $this->M_datapenyedia->get_row_pengalaman_manajerial($id_pengalaman);
+		}
+		$no_kontrak = $this->input->post('no_kontrak');
+		$nama_pekerjaan = $this->input->post('nama_pekerjaan');
+		$id_jenis_usaha = $this->input->post('id_jenis_usaha');
+		$tanggal_kontrak = $this->input->post('tanggal_kontrak');
+		$instansi_pemberi = $this->input->post('instansi_pemberi');
+		$nilai_kontrak = $this->input->post('nilai_kontrak');
+		$lokasi_pekerjaan = $this->input->post('lokasi_pekerjaan');
+		// seeting enkrip dokumen
+		$chiper = "AES-128-ECB";
+		$secret_token_dokumen1 = 'jmto.1' . $get_row_enkrip['id_url'];
+		// SETTING PATH 
+		$date = date('Y');
+		if (!is_dir('file_vms/' . $nama_usaha . '/Pengalaman-' . $date)) {
+			mkdir('file_vms/' . $nama_usaha . '/Pengalaman-' . $date, 0777, TRUE);
+		}
+		$config['upload_path'] = './file_vms/' . $nama_usaha . '/Pengalaman-' . $date;
+		$config['allowed_types'] = 'pdf';
+		$config['max_size'] = 0;
+		$this->load->library('upload', $config);
+		if ($this->upload->do_upload('file_kontrak_pengalaman')) {
+			$fileDataKontrak = $this->upload->data();
+			$post_file_kontrak_pengalaman = openssl_encrypt($fileDataKontrak['file_name'], $chiper, $secret_token_dokumen1);
+		} else {
+			$fileDataKontrak = $get_row_enkrip['file_kontrak_pengalaman'];
+			$post_file_kontrak_pengalaman = $fileDataKontrak;
+		}
+		$where = [
+			'id_pengalaman' => $id_pengalaman
+		];
+		$upload = [
+			'id_vendor' => $id_vendor,
+			'no_kontrak' => $no_kontrak,
+			'nama_pekerjaan' => $nama_pekerjaan,
+			'id_jenis_usaha' => $id_jenis_usaha,
+			'tanggal_kontrak' => $tanggal_kontrak,
+			'instansi_pemberi' => $instansi_pemberi,
+			'nilai_kontrak' => $nilai_kontrak,
+			'lokasi_pekerjaan' => $lokasi_pekerjaan,
+			'file_kontrak_pengalaman' => $post_file_kontrak_pengalaman,
+			'sts_token_dokumen_pengalaman' => 1,
+		];
+		if ($type_edit_pengalaman == 'edit_excel') {
+			$this->M_datapenyedia->update_excel_pengalaman_manajerial($upload, $where);
+		} else {
+			$this->M_datapenyedia->update_pengalaman_manajerial($upload, $where);
+		}
+
+		$this->output->set_content_type('application/json')->set_output(json_encode('success'));
+	}
+
+
+	public function hapus_row_import_excel_pengalaman($id_url)
+	{
+		$where = [
+			'id_url' => $id_url
+		];
+		$this->M_datapenyedia->delete_import_excel_pengalaman($where);
+		$this->output->set_content_type('application/json')->set_output(json_encode('success'));
+	}
+	public function hapus_import_excel_pengalaman()
+	{
+		$id_vendor = $this->session->userdata('id_vendor');
+		$where = [
+			'id_vendor' => $id_vendor
+		];
+		$this->M_datapenyedia->delete_import_excel_pengalaman($where);
+		$this->output->set_content_type('application/json')->set_output(json_encode('success'));
+	}
+
+
+	public function dekrip_enkrip_pengalaman($id_url)
+	{
+		$type = $this->input->post('type');
+		$type_edit_pengalaman = $this->input->post('type_edit_pengalaman');
+		if ($type_edit_pengalaman == 'edit_excel') {
+			$get_row_enkrip = $this->M_datapenyedia->get_row_excel_pengalaman_manajerial_enkription($id_url);
+		} else {
+			$get_row_enkrip = $this->M_datapenyedia->get_row_pengalaman_manajerial_enkription($id_url);
+		}
+		$chiper = "AES-128-ECB";
+		$secret_token_dokumen1 = 'jmto.1' . $get_row_enkrip['id_url'];
+		$where = [
+			'id_url' => $id_url
+		];
+		if ($type == 'dekrip') {
+			$file_kontrak_pengalaman = openssl_decrypt($get_row_enkrip['file_kontrak_pengalaman'], $chiper, $secret_token_dokumen1);
+			$data = [
+				'sts_token_dokumen_pengalaman' => 2,
+				'file_kontrak_pengalaman' => $file_kontrak_pengalaman,
+			];
+		} else {
+			$file_kontrak_pengalaman = openssl_encrypt($get_row_enkrip['file_kontrak_pengalaman'], $chiper, $secret_token_dokumen1);
+			$data = [
+				'sts_token_dokumen_pengalaman' => 1,
+				'file_kontrak_pengalaman' => $file_kontrak_pengalaman,
+			];
+		}
+		if ($type_edit_pengalaman == 'edit_excel') {
+			$this->M_datapenyedia->update_excel_pengalaman_manajerial_enkription($where, $data);
+		} else {
+			$this->M_datapenyedia->update_pengalaman_manajerial_enkription($where, $data);
+		}
+		$response = [
+			'type_edit_pengalaman' => $type_edit_pengalaman,
+			'row_excel_pengalaman_manajerial' => $this->M_datapenyedia->get_row_excel_pengalaman_manajerial($get_row_enkrip['id_pengalaman']),
+			'row_pengalaman_manajerial' => $this->M_datapenyedia->get_row_pengalaman_manajerial($get_row_enkrip['id_pengalaman']),
+		];
+		$this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
+	public function url_download_pengalaman()
+	{
+		$id_url = $this->uri->segment(3);
+		$type = $this->uri->segment(4);
+		if ($id_url == '') {
+			// tendang not found
+		}
+		$get_row_enkrip = $this->M_datapenyedia->get_row_excel_pengalaman_manajerial_enkription($id_url);
+		if ($type == 'pengalaman_kontrak') {
+			$fileDownload = $get_row_enkrip['file_kontrak_pengalaman'];
+		}
+		$id_vendor = $get_row_enkrip['id_vendor'];
+		$row_vendor = $this->M_datapenyedia->get_row_vendor($id_vendor);
+		$date = date('Y');
+		return force_download('file_vms/' . $row_vendor['nama_usaha'] . '/Pengalaman-' . $date . '/' . $fileDownload, NULL);
+	}
+
+	public function simpan_import_excel_pengalaman()
+	{
+		$id_vendor = $this->session->userdata('id_vendor');
+		$cek_table = $this->M_datapenyedia->get_result_pengalaman_manajerial($id_vendor);
+		$cek_table_excel_validasi = $this->M_datapenyedia->result_excel_pengalaman($id_vendor);
+		$result = $this->M_datapenyedia->get_result_excel_pengalaman_manajerial($id_vendor, $cek_table);
+		$data_tervalidasi = $this->M_datapenyedia->get_result_validasi_excel_pengalaman_manajerial($id_vendor, $cek_table_excel_validasi);
+		foreach ($result as $key => $value) {
+			$data = [
+				'id_vendor' => $value['id_vendor'],
+				'id_url' => $value['id_url'],
+				'no_kontrak' => $value['no_kontrak'],
+				'nama_pekerjaan' => $value['nama_pekerjaan'],
+				'id_jenis_usaha' => $value['id_jenis_usaha'],
+				'tanggal_kontrak' => $value['tanggal_kontrak'],
+				'instansi_pemberi' => $value['instansi_pemberi'],
+				'nilai_kontrak' => $value['nilai_kontrak'],
+				'lokasi_pekerjaan' => $value['lokasi_pekerjaan'],
+			];
+			$this->M_datapenyedia->tambah_tbl_vendor_pengalaman($data);
+		}
+		$where = [
+			'id_vendor' => $id_vendor
+		];
+		$this->M_datapenyedia->delete_import_excel_pengalaman($where);
+		if ($data_tervalidasi == null) {
+			$response = [
+				'error' => 'maaf'
+			];
+		} else {
+			$response = [
+				'validasi' => $data_tervalidasi,
+			];
+		}
+
+
+		$this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
+
+	function by_id_pengalaman_manajerial($id_pengalaman)
+	{
+		$response = [
+			'row_pengalaman_manajerial' => $this->M_datapenyedia->get_row_pengalaman_manajerial($id_pengalaman),
+		];
+		$this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
+	public function hapus_row_pengalaman($id_url)
+	{
+		$where = [
+			'id_url' => $id_url
+		];
+		$this->M_datapenyedia->delete_pengalaman($where);
+		$this->output->set_content_type('application/json')->set_output(json_encode('success'));
+	}
+
+
 
 	// crud pajak
 
@@ -2446,6 +2816,287 @@ class Datapenyedia extends CI_Controller
 		$this->load->view('datapenyedia/pajak/file_public');
 	}
 
+	function buat_excel_format_neraca()
+	{
+		$jenis_laporan_1 = $this->input->post('jenis_laporan_1');
+		$nilai_tahun_kolom_1_1 = $this->input->post('nilai_tahun_kolom_1_1');
+		$nilai_tahun_kolom_2_1 = $this->input->post('nilai_tahun_kolom_2_1');
+
+		// batas
+		$jenis_laporan_2 = $this->input->post('jenis_laporan_2');
+		$nilai_tahun_kolom_1_2 = $this->input->post('nilai_tahun_kolom_1_2');
+		$nilai_tahun_kolom_2_2 = $this->input->post('nilai_tahun_kolom_2_2');
+		// batas
+		$jenis_laporan_3 = $this->input->post('jenis_laporan_3');
+		$nilai_tahun_kolom_1_3 = $this->input->post('nilai_tahun_kolom_1_3');
+		$nilai_tahun_kolom_2_3 = $this->input->post('nilai_tahun_kolom_2_3');
+
+		// batas
+		// 4
+		$jenis_laporan_4 = $this->input->post('jenis_laporan_4');
+		$nilai_tahun_kolom_1_4 = $this->input->post('nilai_tahun_kolom_1_4');
+		$nilai_tahun_kolom_2_4 = $this->input->post('nilai_tahun_kolom_2_4');
+
+		// batas
+		// 5
+		$jenis_laporan_5 = $this->input->post('jenis_laporan_5');
+		$nilai_tahun_kolom_1_5 = $this->input->post('nilai_tahun_kolom_1_5');
+		$nilai_tahun_kolom_2_5 = $this->input->post('nilai_tahun_kolom_2_5');
+
+		// batas
+		// 6
+		$jenis_laporan_6 = $this->input->post('jenis_laporan_6');
+		$nilai_tahun_kolom_1_6 = $this->input->post('nilai_tahun_kolom_1_6');
+		$nilai_tahun_kolom_2_6 = $this->input->post('nilai_tahun_kolom_2_6');
+
+		// 7
+		$jenis_laporan_7 = $this->input->post('jenis_laporan_7');
+		$nilai_tahun_kolom_1_7 = $this->input->post('nilai_tahun_kolom_1_7');
+		$nilai_tahun_kolom_2_7 = $this->input->post('nilai_tahun_kolom_2_7');
+		// 8
+		$jenis_laporan_8 = $this->input->post('jenis_laporan_8');
+		$nilai_tahun_kolom_1_8 = $this->input->post('nilai_tahun_kolom_1_8');
+		$nilai_tahun_kolom_2_8 = $this->input->post('nilai_tahun_kolom_2_8');
+		$data = [
+			'jenis_laporan_1' => $jenis_laporan_1,
+			'nilai_tahun_kolom_1_1' => $nilai_tahun_kolom_1_1,
+			'nilai_tahun_kolom_2_1' => $nilai_tahun_kolom_2_1,
+			// batas
+			'jenis_laporan_2' => $jenis_laporan_2,
+			'nilai_tahun_kolom_1_2' => $nilai_tahun_kolom_1_2,
+			'nilai_tahun_kolom_2_2' => $nilai_tahun_kolom_2_2,
+			// batas
+			// 3
+			'jenis_laporan_3' => $jenis_laporan_3,
+			'nilai_tahun_kolom_1_3' => $nilai_tahun_kolom_1_3,
+			'nilai_tahun_kolom_2_3' => $nilai_tahun_kolom_2_3,
+			// 4
+			'jenis_laporan_4' => $jenis_laporan_4,
+			'nilai_tahun_kolom_1_4' => $nilai_tahun_kolom_1_4,
+			'nilai_tahun_kolom_2_4' => $nilai_tahun_kolom_2_4,
+			// 5
+			'jenis_laporan_5' => $jenis_laporan_5,
+			'nilai_tahun_kolom_1_5' => $nilai_tahun_kolom_1_5,
+			'nilai_tahun_kolom_2_5' => $nilai_tahun_kolom_2_5,
+			// 6
+			'jenis_laporan_6' => $jenis_laporan_6,
+			'nilai_tahun_kolom_1_6' => $nilai_tahun_kolom_1_6,
+			'nilai_tahun_kolom_2_6' => $nilai_tahun_kolom_2_6,
+			// 7
+			'jenis_laporan_7' => $jenis_laporan_7,
+			'nilai_tahun_kolom_1_7' => $nilai_tahun_kolom_1_7,
+			'nilai_tahun_kolom_2_7' => $nilai_tahun_kolom_2_7,
+			// 8
+			'jenis_laporan_8' => $jenis_laporan_8,
+			'nilai_tahun_kolom_1_8' => $nilai_tahun_kolom_1_8,
+			'nilai_tahun_kolom_2_8' => $nilai_tahun_kolom_2_8,
+		];
+		$this->load->view('datapenyedia/pajak/export_format_excel', $data);
+		// $this->output->set_content_type('application/json')->set_output(json_encode($data));
+	}
+
+
+	public function simpan_neraca_keuangan()
+	{
+		$id_vendor = $this->session->userdata('id_vendor');
+		$nama_usaha = $this->session->userdata('nama_usaha');
+		$nama_akuntan_public = $this->input->post('nama_akuntan_public');
+		$tangga_laporan = $this->input->post('tangga_laporan');
+		$id = $this->uuid->v4();
+		$id = str_replace('-', '', $id);
+		// seeting enkrip dokumen
+		$chiper = "AES-128-ECB";
+		$secret_token_dokumen1 = 'jmto.1' . $id;
+		$secret_token_dokumen2 = 'jmto.2' . $id;
+		// SETTING PATH 
+		$date = date('Y');
+		if (!is_dir('file_vms/' . $nama_usaha . '/Neraca-' . $date)) {
+			mkdir('file_vms/' . $nama_usaha . '/Neraca-' . $date, 0777, TRUE);
+		}
+		$config['upload_path'] = './file_vms/' . $nama_usaha . '/Neraca-' . $date;
+		$config['allowed_types'] = 'pdf|xlsx|xls';
+		$config['max_size'] = 0;
+		$this->load->library('upload', $config);
+		if ($this->upload->do_upload('file_dokumen_neraca')) {
+			$filedata_neraca = $this->upload->data();
+		}
+		if ($this->upload->do_upload('file_dokumen_sertifikat')) {
+			$filedata_serfikat = $this->upload->data();
+		}
+		$upload = [
+			'id_vendor' => $id_vendor,
+			'id_url_neraca' => $id,
+			'nama_akuntan_public' => $nama_akuntan_public,
+			'tangga_laporan' => $tangga_laporan,
+			'file_dokumen_neraca' => openssl_encrypt($filedata_neraca['file_name'], $chiper, $secret_token_dokumen1),
+			'file_dokumen_sertifikat' => openssl_encrypt($filedata_serfikat['file_name'], $chiper, $secret_token_dokumen2),
+			'sts_token_dokumen' => 1,
+		];
+		$this->M_datapenyedia->tambah_tbl_vendor_neraca($upload);
+		$response = [
+			'message' => 'success'
+		];
+		$this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
+	public function edit_neraca_keuangan()
+	{
+		$id_vendor = $this->session->userdata('id_vendor');
+		$nama_usaha = $this->session->userdata('nama_usaha');
+		$id_neraca = $this->input->post('id_neraca');
+		$get_row_enkrip = $this->M_datapenyedia->get_row_neraca($id_neraca);
+		$nama_akuntan_public = $this->input->post('nama_akuntan_public');
+		$tangga_laporan = $this->input->post('tangga_laporan');
+		// seeting enkrip dokumen
+		$chiper = "AES-128-ECB";
+		$secret_token_dokumen1 = 'jmto.1' . $get_row_enkrip['id_url_neraca'];
+		$secret_token_dokumen2 = 'jmto.2' . $get_row_enkrip['id_url_neraca'];
+		// SETTING PATH 
+		$date = date('Y');
+		if (!is_dir('file_vms/' . $nama_usaha . '/Neraca-' . $date)) {
+			mkdir('file_vms/' . $nama_usaha . '/Neraca-' . $date, 0777, TRUE);
+		}
+		$config['upload_path'] = './file_vms/' . $nama_usaha . '/Neraca-' . $date;
+		$config['allowed_types'] = 'pdf|xlsx|xls';
+		$config['max_size'] = 0;
+		$this->load->library('upload', $config);
+		if ($this->upload->do_upload('file_dokumen_neraca')) {
+			$fileDataKtp = $this->upload->data();
+			$post_file_dokumen_neraca = openssl_encrypt($fileDataKtp['file_name'], $chiper, $secret_token_dokumen1);
+		} else {
+			$fileDataKtp = $get_row_enkrip['file_dokumen_neraca'];
+			$post_file_dokumen_neraca = $fileDataKtp;
+		}
+		if ($this->upload->do_upload('file_dokumen_sertifikat')) {
+			$fileData_npwp = $this->upload->data();
+			$post_file_dokumen_sertifikat = openssl_encrypt($fileData_npwp['file_name'], $chiper, $secret_token_dokumen2);
+		} else {
+			$fileData_npwp = $get_row_enkrip['file_dokumen_sertifikat'];
+			$post_file_dokumen_sertifikat = $fileData_npwp;
+		}
+		$where = [
+			'id_neraca' => $id_neraca
+		];
+		$upload = [
+			'id_vendor' => $id_vendor,
+			'nama_akuntan_public' => $nama_akuntan_public,
+			'tangga_laporan' => $tangga_laporan,
+			'sts_token_dokumen' => 1,
+			'file_dokumen_neraca' => $post_file_dokumen_neraca,
+			'file_dokumen_sertifikat' => $post_file_dokumen_sertifikat,
+		];
+		$this->M_datapenyedia->update_neraca($upload, $where);
+
+		$this->output->set_content_type('application/json')->set_output(json_encode('success'));
+	}
+
+
+
+
+	public function get_table_nerca_keuangan()
+	{
+		$id_vendor = $this->session->userdata('id_vendor');
+		$resultss = $this->M_datapenyedia->gettable_neraca_keuangan($id_vendor);
+		$data = [];
+		$no = $_POST['start'];
+		$nama_usaha = $this->session->userdata('nama_usaha');
+		$date = date('Y');
+		$file_path = 'file_vms/' . $nama_usaha . '/Neraca-' . $date;
+		foreach ($resultss as $rs) {
+			$row = array();
+			$row[] = ++$no;
+			$row[] = $rs->tangga_laporan;
+			$row[] = $rs->nama_akuntan_public;
+			if ($rs->sts_validasi == 1) {
+				$row[] = '<span class="badge bg-success">Sudah Tervalidasi</span>';
+			} else if ($rs->sts_validasi == null) {
+				$row[] = '<span class="badge bg-secondary">Belum Tervalidasi</span>';
+			} else {
+				$row[] = '<span class="badge bg-danger">Revisi</span>';
+			}
+			$row[] = '<a  href="javascript:;" class="btn btn-info btn-sm d-md-block" onClick="by_id_neraca_keuangan(' . "'" . $rs->id_neraca . "','edit'" . ')"><i class="fa-solid fa-users-viewfinder px-1"></i> View</a>
+			<a  href="javascript:;" class="btn btn-danger btn-sm d-md-block" onClick="by_id_neraca_keuangan(' . "'" . $rs->id_neraca . "','hapus'" . ')"><i class="fas fa fa-trash"></i> Delete</a>';
+			$data[] = $row;
+		}
+		$output = array(
+			"draw" => $_POST['draw'],
+			"recordsTotal" => $this->M_datapenyedia->count_all_data_neraca_keuangan($id_vendor),
+			"recordsFiltered" => $this->M_datapenyedia->count_filtered_data_neraca_keuangan($id_vendor),
+			"data" => $data
+		);
+		$this->output->set_content_type('application/json')->set_output(json_encode($output));
+	}
+
+	function by_id_neraca($id_neraca)
+	{
+		$response = [
+			'row_neraca' => $this->M_datapenyedia->get_row_neraca($id_neraca),
+		];
+		$this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
+	public function dekrip_enkrip_neraca($id_url_neraca)
+	{
+		$type = $this->input->post('type');
+		$get_row_enkrip = $this->M_datapenyedia->get_row_neraca_enkrip($id_url_neraca);
+		$chiper = "AES-128-ECB";
+		$secret_token_dokumen1 = 'jmto.1' . $get_row_enkrip['id_url_neraca'];
+		$secret_token_dokumen2 = 'jmto.2' . $get_row_enkrip['id_url_neraca'];
+		$where = [
+			'id_url_neraca' => $id_url_neraca
+		];
+		if ($type == 'dekrip') {
+			$file_dokumen_neraca = openssl_decrypt($get_row_enkrip['file_dokumen_neraca'], $chiper, $secret_token_dokumen1);
+			$file_dokumen_sertifikat = openssl_decrypt($get_row_enkrip['file_dokumen_sertifikat'], $chiper, $secret_token_dokumen2);
+			$data = [
+				'sts_token_dokumen' => 2,
+				'file_dokumen_neraca' => $file_dokumen_neraca,
+				'file_dokumen_sertifikat' => $file_dokumen_sertifikat,
+			];
+		} else {
+			$file_dokumen_neraca = openssl_encrypt($get_row_enkrip['file_dokumen_neraca'], $chiper, $secret_token_dokumen1);
+			$file_dokumen_sertifikat = openssl_encrypt($get_row_enkrip['file_dokumen_sertifikat'], $chiper, $secret_token_dokumen2);
+			$data = [
+				'sts_token_dokumen' => 1,
+				'file_dokumen_neraca' => $file_dokumen_neraca,
+				'file_dokumen_sertifikat' => $file_dokumen_sertifikat,
+			];
+		}
+		$this->M_datapenyedia->update_neraca_enkrip($where, $data);
+		$response = [
+			'row_neraca' => $this->M_datapenyedia->get_row_neraca($get_row_enkrip['id_neraca']),
+		];
+		$this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
+
+	public function url_download_neraca()
+	{
+		$id_url_neraca = $this->uri->segment(3);
+		$type = $this->uri->segment(4);
+		if ($id_url_neraca == '') {
+			// tendang not found
+		}
+		$get_row_enkrip = $this->M_datapenyedia->get_row_neraca_enkrip($id_url_neraca);
+		if ($type == 'neraca_dokumen') {
+			$fileDownload = $get_row_enkrip['file_dokumen_neraca'];
+		}
+		if ($type == 'neraca_sertifikat') {
+			$fileDownload = $get_row_enkrip['file_dokumen_sertifikat'];
+		}
+		$id_vendor = $get_row_enkrip['id_vendor'];
+		$row_vendor = $this->M_datapenyedia->get_row_vendor($id_vendor);
+		$date = date('Y');
+		return force_download('file_vms/' . $row_vendor['nama_usaha'] . '/Neraca-' . $date . '/' . $fileDownload, NULL);
+	}
+	public function hapus_row_neraca($id_url_neraca)
+	{
+		$where = [
+			'id_url_neraca' => $id_url_neraca
+		];
+		$this->M_datapenyedia->delete_neraca($where);
+		$this->output->set_content_type('application/json')->set_output(json_encode('success'));
+	}
 	public function get_row_global_pajak($id_url_vendor)
 	{
 		$token = $this->input->post('secret_token');

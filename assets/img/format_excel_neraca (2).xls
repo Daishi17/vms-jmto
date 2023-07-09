@@ -1,0 +1,107 @@
+
+<style>
+    #cetak_table {
+        font-family: Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+        text-align: center;
+    }
+
+    #cetak_table td,
+    #cetak_table th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    #cetak_table tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    #cetak_table tr:hover {
+        background-color: #ddd;
+    }
+
+    #cetak_table th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #04AA6D;
+        color: white;
+    }
+</style>
+
+<table id="cetak_table" class="table table-bordered">
+    <thead>
+        <tr>
+            <th>NO</th>
+            <th>Uraian</th>
+            <th>Jenis Laporan</th>
+            <th>Tahun 2022 (Rp.)</th>
+            <th>Tahun 2023 (Rp.)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>Penjelasan/Opini dari Auditor Kantor Akuntan Publik</td>
+            <td>Tidak Audit</td>
+            <td>20000</td>
+            <td>20000</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Jumlah Kas dan Bank</td>
+            <td>Audit</td>
+            <td>20000</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Total Hutang</td>
+            <!-- 3 -->
+            <td>Audit</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Total Ekuitas</td>
+            <!-- 4 -->
+            <td>Audit</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>Total Aktiva Lancar</td>
+            <!-- 5 -->
+            <td>Audit</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>Total Hutang Lancar</td>
+            <!-- 6 -->
+            <td>Audit</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>Laba Usaha</td>
+            <!-- 7 -->
+            <td>Audit</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>EBITDA (Laba Usaha + Beban Penyusutan)</td>
+            <!-- 8 -->
+            <td>Audit</td>
+            <td></td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>

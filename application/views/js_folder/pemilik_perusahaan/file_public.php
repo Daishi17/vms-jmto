@@ -5,7 +5,7 @@
         var url_data_excel_pemilik_manajerial = $('[name="url_data_excel_pemilik_manajerial"]').val();
         data_excel_pemilik_manajerial.DataTable({
             "ordering": true,
-            "autoWidth": true,
+            "autoWidth": false,
             "processing": true,
             "serverSide": true,
             "bDestroy": true,
@@ -42,7 +42,7 @@
         // var url_data_pemilik_manajerial = $('[name="url_data_pemilik_manajerial"]').val();
         data_pemilik_manajerial.DataTable({
             "ordering": true,
-            "autoWidth": true,
+            "autoWidth": false,
             "processing": true,
             "serverSide": true,
             "bDestroy": true,
@@ -496,13 +496,12 @@
 
 <!-- INI UNTUK PENGURUS -->
 <script>
-
-var data_pengurus_manajerial = $('#data_pengurus_manajerial')
+    var data_pengurus_manajerial = $('#data_pengurus_manajerial')
     $(document).ready(function() {
         // var url_data_pengurus_manajerial = $('[name="url_data_pengurus_manajerial"]').val();
         data_pengurus_manajerial.DataTable({
             "ordering": true,
-            "autoWidth": true,
+            "autoWidth": false,
             "processing": true,
             "serverSide": true,
             "bDestroy": true,
@@ -567,7 +566,7 @@ var data_pengurus_manajerial = $('#data_pengurus_manajerial')
         var url_data_excel_pengurus_manajerial = $('[name="url_data_excel_pengurus_manajerial"]').val();
         data_excel_pengurus_manajerial.DataTable({
             "ordering": true,
-            "autoWidth": true,
+            "autoWidth": false,
             "processing": true,
             "serverSide": true,
             "bDestroy": true,
@@ -914,7 +913,7 @@ var data_pengurus_manajerial = $('#data_pengurus_manajerial')
 
     }
 
-    
+
     function by_id_pengurus_manajerial(id_pengurus, type) {
         var modal_edit_excel_pengurus_manajerial = $('#modal_edit_excel_pengurus_manajerial');
         if (type == 'edit') {
@@ -988,5 +987,4 @@ var data_pengurus_manajerial = $('#data_pengurus_manajerial')
             }
         });
     }
-
 </script>

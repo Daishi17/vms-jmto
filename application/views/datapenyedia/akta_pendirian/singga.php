@@ -35,7 +35,6 @@
                         <small>3. Semua dokumen wajib di upload dengan format file pdf, jika dokumen file lebih dari satu, harus di buat menjadi satu dokumen file pdf.</small><br>
                         <small>4. Jika salah upload atau status dokumen file <span class="text-danger"><b>tidak valid</b></span>, klik tombol <b>Edit Changes</b> untuk melakukan upload file dokumen yang terbaru atau file dokumen revisi.</small><br>
                         <small>5. Jika dokumen file sudah terenkripsi, untuk mendownload dan membuka dokumen file, mengklik tombol <b>dekripsi</b> dan masukan <b>token</b> yang keluar dalam form pop up dekripsi dokumen file.</small><br>
-                        <small>6. Kualifikasi usaha automatis terisi sesuai dengan <b>jumlah setor modal</b><span class="text-primary"> (sesuai dengan syarat dan kententuan JMTO)</span> pada akta pendirian atau akta perubahan terakhir.</small><br>
                     </div>
                     <div class="card border-danger shadow-lg">
                         <div class="card-header bg-danger border-danger">

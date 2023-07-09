@@ -188,6 +188,11 @@
         tanpa_rupiah1.value = formatRupiah(this.value);
     });
 
+    var rupiahku = $('.rupiahku');
+    rupiahku.addEventListener('keyup', function(e) {
+        rupiahku.value = formatRupiah(this.value);
+    });
+
     /* Dengan Rupiah */
     var dengan_rupiah = document.getElementById('dengan-rupiah');
     dengan_rupiah.addEventListener('keyup', function(e) {

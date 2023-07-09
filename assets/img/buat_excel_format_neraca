@@ -1,0 +1,101 @@
+
+<style>
+    #cetak_table {
+        font-family: Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+        text-align: center;
+    }
+
+    #cetak_table td,
+    #cetak_table th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    #cetak_table tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    #cetak_table tr:hover {
+        background-color: #ddd;
+    }
+
+    #cetak_table th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #04AA6D;
+        color: white;
+    }
+</style>
+
+<table id="cetak_table" class="table table-bordered">
+    <thead>
+        <tr>
+            <th>NO</th>
+            <th>Uraian</th>
+            <th>Jenis Laporan</th>
+            <th>Tahun 2022 (Rp.)</th>
+            <th>Tahun 2023 (Rp.)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>Penjelasan/Opini dari Auditor Kantor Akuntan Publik</td>
+            <td>Tidak Audit</td>
+            <td><label for="" id="nilai_tahun_kolom_1_1"></label></td>
+            <td><label for="" id="nilai_tahun_kolom_2_1"></label></td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td class="tg-za14">Jumlah Kas dan Bank</td>
+            <td><label for="" id="jenis_laporan_2"></label></td>
+            <td><label for="" id="nilai_tahun_kolom_1_2"></label></td>
+            <td><label for="" id="nilai_tahun_kolom_2_2"></label></td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td class="tg-za14">Total Hutang</td>
+            <td><label for="" id="jenis_laporan_3"></label></td>
+            <td><label for="" id="nilai_tahun_kolom_1_3"></label></td>
+            <td><label for="" id="nilai_tahun_kolom_2_3"></label></td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td class="tg-za14">Total Ekuitas</td>
+            <td><label for="" id="jenis_laporan_4"></label></td>
+            <td><label for="" id="nilai_tahun_kolom_1_4"></label></td>
+            <td><label for="" id="nilai_tahun_kolom_2_4"></label></td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td class="tg-za14">Total Aktiva Lancar</td>
+            <td><label for="" id="jenis_laporan_5"></label></td>
+            <td><label for="" id="nilai_tahun_kolom_1_5"></label></td>
+            <td><label for="" id="nilai_tahun_kolom_2_5"></label></td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td class="tg-za14">Total Hutang Lancar</td>
+            <td><label for="" id="jenis_laporan_6"></label></td>
+            <td><label for="" id="nilai_tahun_kolom_1_6"></label></td>
+            <td><label for="" id="nilai_tahun_kolom_2_6"></label></td>
+        </tr>
+        <tr>
+            <td class="tg-0lax">7</td>
+            <td class="tg-7zrl">Laba Usaha</td>
+            <td><label for="" id="jenis_laporan_7"></label></td>
+            <td><label for="" id="nilai_tahun_kolom_1_7"></label></td>
+            <td><label for="" id="nilai_tahun_kolom_2_7"></label></td>
+        </tr>
+        <tr>
+            <td class="tg-0lax">8</td>
+            <td class="tg-7zrl">EBITDA (Laba Usaha + Beban Penyusutan)</td>
+            <td><label for="" id="jenis_laporan_8"></label></td>
+            <td><label for="" id="nilai_tahun_kolom_1_8"></label></td>
+            <td><label for="" id="nilai_tahun_kolom_2_8"></label></td>
+        </tr>
+    </tbody>
+</table>

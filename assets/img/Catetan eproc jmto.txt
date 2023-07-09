@@ -1,0 +1,19 @@
+
+izin perusahaan
+kbli 2017 - 2022
+sbu ambil data kadin dan pupr
+siujk sbu dari data sbu kadin dan pupr juga
+
+pemilik dan pengurus perusahaan
+file sk pengukuhan dihapus
+file bpjs diganti npwp
+
+pengalaman perusahaan
+file bast di hapus
+
+neraca keuangan
+tambahkan file upload file sertifikat 	
+hanya upload excel
+
+tambahkan 1 tab laporan keuangan
+upload laporan auditor dan laporan keuangan
