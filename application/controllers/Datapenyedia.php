@@ -15,6 +15,7 @@ class Datapenyedia extends CI_Controller
 		$this->load->model('M_datapenyedia/M_datapenyedia');
 		$this->load->model('M_jenis_usaha/M_jenis_usaha');
 		$this->load->model('Wilayah/Wilayah_model');
+		$this->load->model('M_dashboard/M_dashboard');
 		$this->load->helper('download');
 		$id_vendor = $this->session->userdata('id_vendor');
 		if (!$id_vendor) {
@@ -36,11 +37,16 @@ class Datapenyedia extends CI_Controller
 		$data['get_jenis_usaha']  = $this->M_jenis_usaha->get_result_jenis_usaha();
 		$data['provinsi']  = $this->Wilayah_model->getProvinsi();
 		$data['type']  = 'izin_usaha';
+		$id_vendor = $this->session->userdata('id_vendor');
+        $data['row_vendor'] = $this->M_dashboard->get_row_vendor($id_vendor);
+        $data['kualifikasi'] = str_split($data['row_vendor']['id_jenis_usaha']);
 		$this->load->view('template_menu/header_menu');
 		$this->load->view('datapenyedia/identitas/index', $data);
 		$this->load->view('template_menu/new_footer');
 		$this->load->view('js_file_on_session/index', $data);
 	}
+
+
 
 	public function izin_usaha()
 	{
