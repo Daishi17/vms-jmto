@@ -3056,6 +3056,7 @@ class Datapenyedia extends CI_Controller
 				'file_dokumen_neraca' => $file_dokumen_neraca,
 				'file_dokumen_sertifikat' => $file_dokumen_sertifikat,
 			];
+			// st
 		} else {
 			$file_dokumen_neraca = openssl_encrypt($get_row_enkrip['file_dokumen_neraca'], $chiper, $secret_token_dokumen1);
 			$file_dokumen_sertifikat = openssl_encrypt($get_row_enkrip['file_dokumen_sertifikat'], $chiper, $secret_token_dokumen2);
