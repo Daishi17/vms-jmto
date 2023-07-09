@@ -496,8 +496,7 @@
 
 <!-- INI UNTUK PENGURUS -->
 <script>
-
-var data_pengurus_manajerial = $('#data_pengurus_manajerial')
+    var data_pengurus_manajerial = $('#data_pengurus_manajerial')
     $(document).ready(function() {
         // var url_data_pengurus_manajerial = $('[name="url_data_pengurus_manajerial"]').val();
         data_pengurus_manajerial.DataTable({
@@ -914,7 +913,7 @@ var data_pengurus_manajerial = $('#data_pengurus_manajerial')
 
     }
 
-    
+
     function by_id_pengurus_manajerial(id_pengurus, type) {
         var modal_edit_excel_pengurus_manajerial = $('#modal_edit_excel_pengurus_manajerial');
         if (type == 'edit') {
@@ -988,5 +987,4 @@ var data_pengurus_manajerial = $('#data_pengurus_manajerial')
             }
         });
     }
-
 </script>

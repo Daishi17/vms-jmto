@@ -1488,6 +1488,7 @@ class M_datapenyedia extends CI_Model
         $this->db->where('tbl_vendor_spt.id_vendor', $id_vendor);
         return $this->db->count_all_results();
     }
+
     public function tambah_spt($data)
     {
         $this->db->insert('tbl_vendor_spt', $data);
@@ -1517,4 +1518,96 @@ class M_datapenyedia extends CI_Model
         return $query->row_array();
     }
     // END CRUD SPT
+
+    // crud keuangan
+    function tambah_keuangan($data)
+    {
+        $this->db->insert('tbl_vendor_keuangan', $data);
+        return $this->db->affected_rows();
+    }
+
+    var $order_keuangan =  array('id_vendor_keuangan', 'tahun_lapor', 'file_laporan_auditor', 'file_laporan_keuangan', 'sts_validasi', 'id_vendor_keuangan');
+    private function _get_data_query_keuangan($id_vendor)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_vendor_keuangan');
+        $this->db->where('tbl_vendor_keuangan.id_vendor', $id_vendor);
+        $i = 0;
+        foreach ($this->order as $item) // looping awal
+        {
+            if ($_POST['search']['value']) // jika datatable mengirimkan pencarian dengan metode POST
+            {
+
+                if ($i === 0) // looping awal
+                {
+                    $this->db->group_start();
+                    $this->db->like($item, $_POST['search']['value']);
+                } else {
+                    $this->db->or_like(
+                        $item,
+                        $_POST['search']['value']
+                    );
+                }
+
+                if (count($this->order_keuangan) - 1 == $i)
+                    $this->db->group_end();
+            }
+            $i++;
+        }
+        if (isset($_POST['order'])) {
+            $this->db->order_by($this->order_keuangan[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        } else {
+            $this->db->order_by('tbl_vendor_keuangan.id_vendor', 'ASC');
+        }
+    }
+
+    public function gettable_keuangan($id_vendor) //nam[ilin data pake ini
+    {
+        $this->_get_data_query_keuangan($id_vendor); //ambil data dari get yg di atas
+        if ($_POST['length'] != -1) {
+            $this->db->limit($_POST['length'], $_POST['start']);
+        }
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function count_filtered_keuangan($id_vendor)
+    {
+        $this->_get_data_query_keuangan($id_vendor); //ambil data dari get yg di atas
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    public function count_all_keuangan($id_vendor)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_vendor_keuangan');
+        $this->db->where('tbl_vendor_keuangan.id_vendor', $id_vendor);
+        return $this->db->count_all_results();
+    }
+
+
+    public function get_row_keuangan_url($id_url)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_vendor_keuangan');
+        $this->db->where('tbl_vendor_keuangan.id_url', $id_url);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
+    public function get_row_keuangan($id_vendor)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_vendor_keuangan');
+        $this->db->where('tbl_vendor_keuangan.id_vendor', $id_vendor);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
+    public function update_keuangan($data, $where)
+    {
+        $this->db->update('tbl_vendor_keuangan', $data, $where);
+    }
+    // end crud keuangan
 }
