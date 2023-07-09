@@ -38,12 +38,73 @@ class Datapenyedia extends CI_Controller
 		$data['provinsi']  = $this->Wilayah_model->getProvinsi();
 		$data['type']  = 'izin_usaha';
 		$id_vendor = $this->session->userdata('id_vendor');
-        $data['row_vendor'] = $this->M_dashboard->get_row_vendor($id_vendor);
-        $data['kualifikasi'] = str_split($data['row_vendor']['id_jenis_usaha']);
+		$data['row_vendor'] = $this->M_dashboard->get_row_vendor($id_vendor);
+		$data['kualifikasi'] = str_split($data['row_vendor']['id_jenis_usaha']);
 		$this->load->view('template_menu/header_menu');
 		$this->load->view('datapenyedia/identitas/index', $data);
 		$this->load->view('template_menu/new_footer');
 		$this->load->view('js_file_on_session/index', $data);
+	}
+
+	function simpan_penyedia()
+	{
+		$id_vendor = $this->session->userdata('id_vendor');
+		$bentuk_usaha = $this->input->post('bentuk_usaha');
+		$nama_usaha = $this->input->post('nama_usaha');
+		$kualifikasi_usaha = $this->input->post('kualifikasi_usaha');
+		$alamat = $this->input->post('alamat');
+		$id_provinsi = $this->input->post('id_provinsi');
+		$id_kabupaten = $this->input->post('id_kabupaten');
+		$id_kecamatan = $this->input->post('id_kecamatan');
+		$kelurahan = $this->input->post('kelurahan');
+		$kode_pos = $this->input->post('kode_pos');
+		$no_telpon = $this->input->post('no_telpon');
+		$sts_kantor_cabang = $this->input->post('sts_kantor_cabang');
+		$alamat_kantor_cabang = $this->input->post('alamat_kantor_cabang');
+		$alasan_perubahan = $this->input->post('alasan_perubahan');
+		$jenis_usaha = $this->input->post('jenis_usaha[]');
+		$where = [
+			'id_vendor' => $id_vendor
+		];
+		if ($jenis_usaha) {
+			$data_vendor = [
+				'nama_usaha' => $nama_usaha,
+				'bentuk_usaha' => $bentuk_usaha,
+				'kualifikasi_usaha' => $kualifikasi_usaha,
+				'alamat' => $alamat,
+				'id_provinsi' => $id_provinsi,
+				'id_kabupaten' => $id_kabupaten,
+				'id_kecamatan' => $id_kecamatan,
+				'kelurahan' => $kelurahan,
+				'kode_pos' => $kode_pos,
+				'no_telpon' => $no_telpon,
+				'sts_kantor_cabang' => $sts_kantor_cabang,
+				'alasan_perubahan' => $alasan_perubahan,
+				'alamat_kantor_cabang' => $alamat_kantor_cabang,
+				'id_jenis_usaha' => implode("", $jenis_usaha)
+	
+			];
+		} else {
+			$data_vendor = [
+				'nama_usaha' => $nama_usaha,
+				'bentuk_usaha' => $bentuk_usaha,
+				'kualifikasi_usaha' => $kualifikasi_usaha,
+				'alamat' => $alamat,
+				'id_provinsi' => $id_provinsi,
+				'id_kabupaten' => $id_kabupaten,
+				'id_kecamatan' => $id_kecamatan,
+				'kelurahan' => $kelurahan,
+				'kode_pos' => $kode_pos,
+				'no_telpon' => $no_telpon,
+				'sts_kantor_cabang' => $sts_kantor_cabang,
+				'alasan_perubahan' => $alasan_perubahan,
+				'alamat_kantor_cabang' => $alamat_kantor_cabang,
+	
+			];
+		}
+
+		$this->M_datapenyedia->update_vendor($data_vendor, $where);
+		$this->output->set_content_type('application/json')->set_output(json_encode('success'));
 	}
 
 
@@ -3109,7 +3170,7 @@ class Datapenyedia extends CI_Controller
 		$this->M_datapenyedia->delete_neraca($where);
 		$this->output->set_content_type('application/json')->set_output(json_encode('success'));
 	}
-	
+
 	public function get_row_global_pajak($id_url_vendor)
 	{
 		$token = $this->input->post('secret_token');

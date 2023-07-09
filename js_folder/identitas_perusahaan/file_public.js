@@ -32,3 +32,26 @@ function myFunction() {
       x.type = "password";
   }
 }
+
+var simpan_identitas_vendor = $('#simpan_identitas_vendor');
+var url_simpan_identitas_vendor = $('[name="url_simpan_identitas_vendor"]').val();
+simpan_identitas_vendor.on('submit', function(e) {
+    e.preventDefault();
+    $.ajax({
+        url: url_simpan_identitas_vendor,
+        method: "POST",
+        data: new FormData(this),
+        contentType: false,
+        cache: false,
+        processData: false,
+        beforeSend: function() {
+            $('.btn_simpan').attr('disabled', 'disabled');
+        },
+        success: function(response) {
+            Swal.fire('Good job!', 'Data Beharhasil Di Update!', 'success');
+            $('.btn_simpan').attr('disabled', false);
+            simpan_identitas_vendor[0].reset();
+            location.reload()
+        }
+    });
+});

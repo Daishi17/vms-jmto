@@ -4,6 +4,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class M_datapenyedia extends CI_Model
 {
 
+    public function update_vendor($data, $where)
+    {
+        $this->db->update('tbl_vendor', $data, $where);
+        return $this->db->affected_rows();
+    }
+
     public function get_provinsi()
     {
         $this->db->select('*');
@@ -96,9 +102,9 @@ class M_datapenyedia extends CI_Model
     {
         $this->db->select('*');
         $this->db->from('tbl_vendor');
-        $this->db->join('tbl_provinsi', 'tbl_provinsi.id_provinsi = tbl_vendor.id_provinsi');
-        $this->db->join('tbl_kabupaten', 'tbl_kabupaten.id_kabupaten = tbl_vendor.id_kabupaten');
-        $this->db->join('tbl_kecamatan', 'tbl_kecamatan.id_kecamatan = tbl_vendor.id_kecamatan');
+        // $this->db->join('tbl_provinsi', 'tbl_provinsi.id_provinsi = tbl_vendor.id_provinsi');
+        // $this->db->join('tbl_kabupaten', 'tbl_kabupaten.id_kabupaten = tbl_vendor.id_kabupaten');
+        // $this->db->join('tbl_kecamatan', 'tbl_kecamatan.id_kecamatan = tbl_vendor.id_kecamatan');
         $this->db->where('tbl_vendor.id_url_vendor', $id_url_vendor);
         $query = $this->db->get();
         return $query->row_array();
@@ -1610,6 +1616,10 @@ public function get_result_validasi_excel_pengalaman_manajerial($id_vendor, $cek
         $this->db->where($where);
         return $this->db->affected_rows();
     }
+
+
+
+    
 
     public function get_row_npwp_url($id_url)
     {

@@ -1,4 +1,6 @@
-<input type="text" name="url_simpan_identitas_vendor" value="<?= base_url('datapenyedia/simpan_penyedia') ?>">
+<input type="hidden" name="url_simpan_identitas_vendor" value="<?= base_url('datapenyedia/simpan_penyedia') ?>">
+<input type="hidden" name="url_kabupaten" value="<?= base_url('wilayah/dataKecamatan/') ?>">
+<input type="hidden" name="url_provinsi" value="<?= base_url('registrasi/dataKabupaten/') ?>">
 <main class="container-fluid mt-4">
     <div class="row">
         <div class="col">
@@ -29,12 +31,12 @@
                                     Identitas Perusahaan
                                 </b>
                             </small>
-                            <button type="button" class="btn btn-warning btn-sm">
+                            <!-- <button type="button" class="btn btn-warning btn-sm">
                                 <i class="fa-solid fa-pen-to-square px-1"></i>
                                 Edit Changes
-                            </button>
+                            </button> -->
                         </div>
-                        <form id="simpan_identitas_vendor" method="POST">
+                        <form id="simpan_identitas_vendor" method="POST" enctype="multipart/form-data">
                             <div class="card-body">
                                 <table class="table table-sm">
                                     <tr>
@@ -61,7 +63,7 @@
                                             <div class="col-sm-12">
                                                 <div class="input-group mb-2">
                                                     <span class="input-group-text"><i class="fa-solid fa-building-flag"></i></span>
-                                                    <input type="text" class="form-control" value="<?= $row_vendor['nama_usaha'] ?>" readonly>
+                                                    <input type="text" name="nama_usaha" class="form-control" value="<?= $row_vendor['nama_usaha'] ?>">
                                                 </div>
                                             </div>
                                         </td>
@@ -74,13 +76,13 @@
                                             <div class="col-sm-10">
                                                 <div class="input-group mb-2">
                                                     <span class="input-group-text"><i class="fa-solid fa-building"></i></span>
-                                                    <select class="form-select" aria-label="Default select example" readonly>
+                                                    <select name="bentuk_usaha" class="form-select" aria-label="Default select example">
                                                         <option value="<?= $row_vendor['bentuk_usaha'] ?>"><?= $row_vendor['bentuk_usaha'] ?></option>
-                                                        <option selected>Perseroan Terbatas (PT)</option>
-                                                        <option>Commanditaire Vennootschap (CV)</option>
-                                                        <option>Firma</option>
-                                                        <option>Individu WNI</option>
-                                                        <option>Individu WNA</option>
+                                                        <option value="Perseroan Terbatas (PT)">Perseroan Terbatas (PT)</option>
+                                                        <option value="Commanditaire Vennootschap (CV)">Commanditaire Vennootschap (CV)</option>
+                                                        <option value="Firma">Firma</option>
+                                                        <option value="Individu WNI">Individu WNI</option>
+                                                        <option value="Individu WNA">Individu WNA</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -92,7 +94,7 @@
                                             <div class="col-sm-10">
                                                 <div class="input-group mb-2">
                                                     <span class="input-group-text"><i class="fa-solid fa-angles-right"></i></span>
-                                                    <select class="form-select" aria-label="Default select example" readonly>
+                                                    <select name="kualifikasi_usaha" class="form-select" aria-label="Default select example">
                                                         <option value="<?= $row_vendor['kualifikasi_usaha'] ?>"><?= $row_vendor['kualifikasi_usaha'] ?></option>
                                                         <option>Besar - (B3)</option>
                                                         <option>Besar - (B2)</option>
@@ -116,7 +118,7 @@
                                             <div class="col-sm-8">
                                                 <div class="input-group mb-2">
                                                     <span class="input-group-text"><i class="fa-solid fa-address-card"></i></span>
-                                                    <input type="text" class="form-control" data-inputmask='"mask": "99.999.999.9-999.999"' data-mask readonly value="<?= $row_vendor['npwp'] ?>">
+                                                    <input type="text" class="form-control" data-inputmask='"mask": "99.999.999.9-999.999"' data-mask value="<?= $row_vendor['npwp'] ?>">
                                                 </div>
                                             </div>
                                         </td>
@@ -127,7 +129,7 @@
                                             <div class="col-sm-8">
                                                 <div class="input-group mb-2">
                                                     <span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
-                                                    <input type="text" class="form-control" value="<?= $row_vendor['email'] ?>" readonly>
+                                                    <input type="text" class="form-control" value="<?= $row_vendor['email'] ?>">
                                                 </div>
                                             </div>
                                         </td>
@@ -140,7 +142,7 @@
                                             <div class="col-sm-12">
                                                 <div class="input-group mb-2">
                                                     <span class="input-group-text"><i class="fa-solid fa-road"></i></span>
-                                                    <textarea type="text" class="form-control form-control-sm" readonly> <?= $row_vendor['alamat'] ?> </textarea>
+                                                    <textarea name="alamat" type="text" class="form-control form-control-sm"> <?= $row_vendor['alamat'] ?> </textarea>
                                                 </div>
                                             </div>
                                         </td>
@@ -151,7 +153,7 @@
                                         </td>
                                         <td class="col-sm-4">
                                             <div class="col-sm-10">
-                                                <select name="id_provinsi" required id="provinsitambah" class="form-control select2bs4" disabled>
+                                                <select name="id_provinsi" required id="provinsitambah" class="form-control select2bs4">
                                                     <option value="<?= $row_vendor['id_provinsi'] ?>"><?= $row_vendor['nama_provinsi'] ?></option>
                                                     <?php foreach ($provinsi as $key => $value) { ?>
                                                         <option value="<?= $value['id_provinsi'] ?>"><?= $value['nama_provinsi'] ?></option>
@@ -164,7 +166,7 @@
                                         </td>
                                         <td class="col-sm-4">
                                             <div class="col-sm-10">
-                                                <select name="id_kabupaten" required id="kabupatentambah" class="form-control select2bs4" disabled>
+                                                <select name="id_kabupaten" required id="kabupatentambah" class="form-control select2bs4">
                                                     <option value="<?= $row_vendor['id_kabupaten'] ?>"><?= $row_vendor['nama_kabupaten'] ?></option>
                                                     <option value="">Pilih Kabupaten</option>
                                                 </select>
@@ -177,7 +179,7 @@
                                         </td>
                                         <td class="col-sm-4">
                                             <div class="col-sm-10">
-                                                <select id="multiple4" class="js-states form-control" multiple readonly>
+                                                <select  id="kecamatantambah"  name="id_kecamatan" class="form-control select2bs4">
                                                     <option value="<?= $row_vendor['id_kecamatan'] ?>"><?= $row_vendor['nama_kecamatan'] ?></option>
                                                     <option value="">Pilih Kecamatan</option>
                                                 </select>
@@ -203,7 +205,7 @@
                                             <div class="col-sm-4">
                                                 <div class="input-group mb-2">
                                                     <span class="input-group-text"><i class="fa-solid fa-location-dot"></i></span>
-                                                    <input type="number" class="form-control" value="<?= $row_vendor['kode_pos'] ?>" readonly>
+                                                    <input name="kode_pos" type="number" class="form-control" value="<?= $row_vendor['kode_pos'] ?>">
                                                 </div>
                                             </div>
                                         </td>
@@ -214,7 +216,7 @@
                                             <div class="col-sm-5">
                                                 <div class="input-group mb-2">
                                                     <span class="input-group-text"><i class="fa-solid fa-phone-volume"></i></span>
-                                                    <input type="number" class="form-control" value="<?= $row_vendor['no_telpon'] ?>" readonly>
+                                                    <input name="no_telpon" type="number" class="form-control" value="<?= $row_vendor['no_telpon'] ?>">
                                                 </div>
                                             </div>
                                         </td>
@@ -227,7 +229,7 @@
                                             <div class="col-sm-4">
                                                 <div class="input-group mb-2">
                                                     <span class="input-group-text"><i class="fa-solid fa-arrow-right-to-city"></i></span>
-                                                    <select class="form-select" aria-label="Default select example" readonly>
+                                                    <select name="sts_kantor_cabang" class="form-select" aria-label="Default select example">
                                                         <?php if ($row_vendor['sts_kantor_cabang'] == 1) { ?>
                                                             <option value="<?= $row_vendor['sts_kantor_cabang'] ?>">
                                                                 <?php if ($row_vendor['sts_kantor_cabang'] == 1) { ?>
@@ -266,7 +268,7 @@
                                                     <?php if ($row_vendor['sts_kantor_cabang'] == 1) { ?>
                                                         <textarea name="alamat_kantor_cabang" type="text" class="form-control form-control-sm"><?= $row_vendor['alamat_kantor_cabang'] ?></textarea>
                                                     <?php   } else { ?>
-                                                        <textarea name="alamat_kantor_cabang" readonly type="text" class="form-control form-control-sm"></textarea>
+                                                        <textarea name="alamat_kantor_cabang" type="text" class="form-control form-control-sm"></textarea>
                                                     <?php  }
                                                     ?>
                                                 </div>
@@ -281,7 +283,7 @@
                                             <div class="col-sm-12">
                                                 <div class="input-group mb-2">
                                                     <span class="input-group-text"><i class="fa-solid fa-user-pen"></i></span>
-                                                    <input type="text" value="<?= $row_vendor['alasan_perubahan'] ?>" name="alasan_perubahan" class="form-control" readonly>
+                                                    <input type="text" value="<?= $row_vendor['alasan_perubahan'] ?>" name="alasan_perubahan" class="form-control">
                                                 </div>
                                             </div>
                                         </td>
@@ -293,7 +295,7 @@
                                     <i class="fa-solid fa-angles-left px-1"></i>
                                     Go Back
                                 </button>&nbsp;
-                                <button type="button" class="btn btn-success btn-sm" readonly>
+                                <button type="submit" class="btn btn-success btn-sm btn_simpan">
                                     <i class="fa-solid fa-share-from-square px-1"></i>
                                     Save Changes
                                 </button>
