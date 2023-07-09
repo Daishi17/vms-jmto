@@ -2814,6 +2814,8 @@ class Datapenyedia extends CI_Controller
 		$this->load->view('datapenyedia/pajak/singgah', $data);
 		$this->load->view('template_menu/new_footer');
 		$this->load->view('datapenyedia/pajak/file_public');
+		$this->load->view('datapenyedia/pajak/file_public_neraca');
+		$this->load->view('datapenyedia/pajak/file_public_spt');
 	}
 
 	function buat_excel_format_neraca()
@@ -3104,14 +3106,17 @@ class Datapenyedia extends CI_Controller
 		$id_vendor = $row_vendor['id_vendor'];
 		$row_sppkp = $this->M_datapenyedia->get_row_sppkp($id_vendor);
 		$row_npwp = $this->M_datapenyedia->get_row_npwp($id_vendor);
-		// $row_sbu = $this->M_datapenyedia->get_row_sbu($id_vendor);
+		$row_neraca = $this->M_datapenyedia->get_row_neraca($id_vendor);
+		$row_spt = $this->M_datapenyedia->get_row_spt($id_vendor);
 		// $row_siujk = $this->M_datapenyedia->get_row_siujk($id_vendor);
 		if ($token == $row_vendor['token_scure_vendor']) {
 			$response = [
 				'row_vendor' => $row_vendor,
 				'row_sppkp' => $row_sppkp,
 				'row_npwp' => $row_npwp,
-				// 'row_sbu' => $row_sbu,
+				'row_neraca' => $row_neraca,
+				'row_spt' => $row_spt,
+				'id_vendor' => 	$id_vendor
 				// 'row_siujk' => $row_siujk
 			];
 			$this->output->set_content_type('application/json')->set_output(json_encode($response));
@@ -3436,4 +3441,344 @@ class Datapenyedia extends CI_Controller
 		return force_download('file_vms/' . $row_vendor['nama_usaha'] . '/NPWP-' . $date . '/' . $get_row_enkrip['file_dokumen'], NULL);
 	}
 	// end crud pajak
+
+	// CRUD NERACA
+	function get_neraca_keuangan($id_vendor)
+	{
+		$result = $this->M_datapenyedia->gettable_neraca_keuangan($id_vendor);
+		$data = [];
+		$no = $_POST['start'];
+		foreach ($result as $rs) {
+
+			$row = array();
+			$row[] = ++$no;
+			$row[] = $rs->tahun_laporan1;
+			$row[] = $rs->tahun_laporan1;
+			$row[] = $rs->uraian;
+			$row[] = $rs->tanggal_laporan;
+			if ($rs->sts_upload_dokumen == 1) {
+				$row[] = '<small><span class="badge bg-success text-white">Sudah Upload Dokumen</span></small>';
+			} else {
+				$row[] = '<small><span class="badge bg-warning text-white">Belum Upload Dokumen</span></small>';
+			}
+			// nanti main kondisi hitung dokumen dimari
+			if ($rs->sts_validasi == NULL) {
+				$row[] = '<small><span class="badge swatch-orange text-white">Belum Di Periksa</span></small>';
+			} else if ($rs->sts_validasi == 1) {
+				$row[] = '<small><span class="badge bg-success text-white">Sudah Valid</span></small>';
+			} else if ($rs->sts_validasi == 2) {
+				$row[] = '<small><span class="badge bg-danger text-white">Belum Valid</span></small>';
+			}
+
+			$row[] = '<a href="' . base_url('validator/rekanan_neraca/cek_dokumen/' . $rs->id_neraca) . '" class="btn btn-warning btn-block btn-sm shadow-lg" ><i class="fa-solid fa-share-from-square px-1"></i> Cek Dokumen</a><br>
+            <a href="javascript:;" class="btn btn-success btn-block btn-sm shadow-lg" onClick="byid_vendor(' . "'" . $rs->id_neraca . "','terima'" . ')"> <i class="fa-solid fa-envelope px-1"></i> Pesan</a> <a href="javascript:;" class="btn btn-primary btn-block btn-sm shadow-lg" onClick="byid_vendor(' . "'" . $rs->id_neraca . "','tolak'" . ')"> <i class="fa-solid fa-paper-plane px-1"></i> Undang</a>';
+
+			$data[] = $row;
+		}
+		$output = array(
+			"draw" => $_POST['draw'],
+			"recordsTotal" => $this->M_datapenyedia->count_all_neraca_keuangan($id_vendor),
+			"recordsFiltered" => $this->M_datapenyedia->count_filtered_neraca_keuangan($id_vendor),
+			"data" => $data
+		);
+		$this->output->set_content_type('application/json')->set_output(json_encode($output));
+	}
+
+	function add_neraca()
+	{
+	}
+
+	// END CRUD NERACA
+
+
+	// CRUD SPT
+
+	function get_spt($id_vendor)
+	{
+		$result = $this->M_datapenyedia->gettable_spt($id_vendor);
+		$data = [];
+		$no = $_POST['start'];
+		foreach ($result as $rs) {
+
+			$row = array();
+			$row[] = ++$no;
+			$row[] = $rs->nomor_surat;
+			$row[] = $rs->tahun_lapor;
+			$row[] = $rs->jenis_spt;
+			$row[] = $rs->tgl_penyampaian;
+			if ($rs->sts_token_dokumen == 1) {
+				$row[] = $rs->file_dokumen;
+			} else {
+				$row[] = '<a href="javascript:;" style="white-space: nowrap;width: 200px;overflow: hidden;text-overflow: ellipsis;" onclick="DownloadFile_spt(\'' . $rs->id_url . '\')" class="btn btn-sm btn-warning btn-block">' . $rs->file_dokumen . '</a>';
+			}
+			// nanti main kondisi hitung dokumen dimari
+			if ($rs->sts_validasi == NULL) {
+				$row[] = '<small><span class="badge bg-secondary">Belum Di Periksa</span></small>';
+			} else if ($rs->sts_validasi == 1) {
+				$row[] = '<small><span class="badge bg-success text-white">Sudah Valid</span></small>';
+			} else if ($rs->sts_validasi == 2) {
+				$row[] = '<small><span class="badge bg-danger text-white">Belum Valid</span></small>';
+			}
+
+			if ($rs->sts_token_dokumen == 1) {
+				$row[] = '<center><a href="javascript:;" class="btn btn-info btn-sm shadow-lg" onClick="byid_spt(' . "'" . $rs->id_url . "','lihat'" . ')"><i class="fa-solid fa-search px-1"></i> Lihat</a>
+            	<a href="javascript:;" class="btn btn-warning btn-sm shadow-lg" onClick="byid_spt(' . "'" . $rs->id_url . "','dekrip'" . ')">  <i class="fa-solid fa-lock-open px-1"></i> Dekrip</a></center>';
+			} else {
+				$row[] = '<center><a href="javascript:;" class="btn btn-info btn-sm shadow-lg" onClick="byid_spt(' . "'" . $rs->id_url . "','lihat'" . ')"><i class="fa-solid fa-search px-1"></i> Lihat</a>
+            	<a href="javascript:;" class="btn btn-success btn-sm shadow-lg" onClick="byid_spt(' . "'" . $rs->id_url . "','enkrip'" . ')">  <i class="fa-solid fa-lock px-1"></i> Enkrip</a></center>';
+			}
+
+
+			$data[] = $row;
+		}
+		$output = array(
+			"draw" => $_POST['draw'],
+			"recordsTotal" => $this->M_datapenyedia->count_all_spt($id_vendor),
+			"recordsFiltered" => $this->M_datapenyedia->count_filtered_spt($id_vendor),
+			"data" => $data
+		);
+		$this->output->set_content_type('application/json')->set_output(json_encode($output));
+	}
+
+	function add_spt()
+	{
+		$id_vendor = $this->session->userdata('id_vendor');
+		$nama_usaha = $this->session->userdata('nama_usaha');
+		$row_spt = $this->M_datapenyedia->get_row_spt($id_vendor);
+		$id_url = $this->input->post('id_url');
+
+		$id = $this->uuid->v4();
+		$id = str_replace('-', '', $id);
+		$token = $this->token->data_token();
+		// post
+		$no_surat = $this->input->post('nomor_surat');
+		$tahun_lapor = $this->input->post('tahun_lapor');
+		$jenis_spt = $this->input->post('jenis_spt');
+		$tgl_penyampaian = $this->input->post('tgl_penyampaian');
+		$password_dokumen = '1234';
+
+		// SETTING PATH 
+		$date = date('Y');
+		if (!is_dir('file_vms/' . $nama_usaha . '/SPT-' . $date)) {
+			mkdir('file_vms/' . $nama_usaha . '/SPT-' . $date, 0777, TRUE);
+		}
+
+		$config['upload_path'] = './file_vms/' . $nama_usaha . '/SPT-' . $date;
+		$config['allowed_types'] = 'pdf';
+		$config['max_size'] = 0;
+		$config['remove_spaces'] = TRUE;
+		// $config['encrypt_name'] = TRUE;
+
+
+		$this->load->library('upload', $config);
+		if ($this->upload->do_upload('file_dokumen_spt')) {
+			$fileData = $this->upload->data();
+			$file_dokumen = $fileData['file_name'];
+			$chiper = "AES-128-ECB";
+			$secret = $token;
+			$enckrips_string = openssl_encrypt($file_dokumen, $chiper, $secret);
+
+			$upload = [
+				'id_url' => $id,
+				'id_vendor' => $id_vendor,
+				'nomor_surat' => $no_surat,
+				'tahun_lapor' => $tahun_lapor,
+				'jenis_spt' => $jenis_spt,
+				'tgl_penyampaian' => $tgl_penyampaian,
+				'password_dokumen' => $password_dokumen,
+				'file_dokumen' => $enckrips_string,
+				'token_dokumen' => $secret,
+				'sts_token_dokumen' => 1,
+			];
+
+			$this->M_datapenyedia->tambah_spt($upload);
+
+			$response = [
+				'row_spt' => $this->M_datapenyedia->get_row_spt($id_vendor),
+			];
+			$this->output->set_content_type('application/json')->set_output(json_encode($response));
+		} else {
+			$upload = [
+				'id_url' => $id,
+				'id_vendor' => $id_vendor,
+				'nomor_surat' => $no_surat,
+				'tahun_lapor' => $tahun_lapor,
+				'jenis_spt' => $jenis_spt,
+				'tgl_penyampaian' => $tgl_penyampaian,
+			];
+
+			$this->M_datapenyedia->tambah_spt($upload);
+
+			$response = [
+				'row_spt' => $this->M_datapenyedia->get_row_spt($id_vendor),
+			];
+			$this->output->set_content_type('application/json')->set_output(json_encode($response));
+			// redirect(base_url('upload'));
+		}
+	}
+
+
+	function edit_spt()
+	{
+		$id_vendor = $this->session->userdata('id_vendor');
+		$nama_usaha = $this->session->userdata('nama_usaha');
+		$row_spt = $this->M_datapenyedia->get_row_spt($id_vendor);
+		$id_url = $this->input->post('id_url');
+
+		$id = $this->uuid->v4();
+		$id = str_replace('-', '', $id);
+		$token = $this->token->data_token();
+		// post
+		$no_surat = $this->input->post('nomor_surat');
+		$tahun_lapor = $this->input->post('tahun_lapor');
+		$jenis_spt = $this->input->post('jenis_spt');
+		$tgl_penyampaian = $this->input->post('tgl_penyampaian');
+		$password_dokumen = '1234';
+
+		// SETTING PATH 
+		$date = date('Y');
+		if (!is_dir('file_vms/' . $nama_usaha . '/SPT-' . $date)) {
+			mkdir('file_vms/' . $nama_usaha . '/SPT-' . $date, 0777, TRUE);
+		}
+
+		$config['upload_path'] = './file_vms/' . $nama_usaha . '/SPT-' . $date;
+		$config['allowed_types'] = 'pdf';
+		$config['max_size'] = 0;
+		$config['remove_spaces'] = TRUE;
+		// $config['encrypt_name'] = TRUE;
+
+		$this->load->library('upload', $config);
+		if ($this->upload->do_upload('file_dokumen_spt')) {
+			$fileData = $this->upload->data();
+			$file_dokumen = $fileData['file_name'];
+			$chiper = "AES-128-ECB";
+			$secret = $token;
+			$enckrips_string = openssl_encrypt($file_dokumen, $chiper, $secret);
+
+			$upload = [
+				'id_vendor' => $id_vendor,
+				'nomor_surat' => $no_surat,
+				'tahun_lapor' => $tahun_lapor,
+				'jenis_spt' => $jenis_spt,
+				'tgl_penyampaian' => $tgl_penyampaian,
+				'password_dokumen' => $password_dokumen,
+				'file_dokumen' => $enckrips_string,
+				'token_dokumen' => $secret,
+				'sts_token_dokumen' => 1,
+			];
+			$where = [
+				'id_url' => $id_url
+			];
+
+			// var_dump($upload, $where);
+			// die;
+			$this->M_datapenyedia->update_spt($upload, $where);
+
+			$response = [
+				'row_spt' => $this->M_datapenyedia->get_row_spt($id_vendor),
+			];
+			$this->output->set_content_type('application/json')->set_output(json_encode($response));
+		} else {
+			$upload = [
+				'id_vendor' => $id_vendor,
+				'nomor_surat' => $no_surat,
+				'tahun_lapor' => $tahun_lapor,
+				'jenis_spt' => $jenis_spt,
+				'tgl_penyampaian' => $tgl_penyampaian,
+			];
+			$where = [
+				'id_url' => $id_url
+			];
+
+			$this->M_datapenyedia->update_spt($upload, $where);
+
+			$response = [
+				'row_spt' => $this->M_datapenyedia->get_row_spt($id_vendor),
+			];
+			$this->output->set_content_type('application/json')->set_output(json_encode($response));
+			// redirect(base_url('upload'));
+		}
+	}
+
+	function get_spt_by_id($id_url_vendor)
+	{
+		$row_spt = $this->M_datapenyedia->get_row_spt_url($id_url_vendor);
+		$response = [
+			'row_spt' => $row_spt
+		];
+		$this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
+	public function encryption_spt($id_url)
+	{
+		$id_url = $this->input->post('id_url_spt');
+		$token_dokumen = $this->input->post('token_dokumen');
+		// $secret_token = $this->input->post('secret_token');
+
+		$type = $this->input->post('type');
+
+		$get_row_enkrip = $this->M_datapenyedia->get_row_spt_url($id_url);
+		// $id_vendor = $get_row_enkrip['id_vendor'];
+		// $row_vendor = $this->M_datapenyedia->get_row_vendor($id_vendor);
+		$chiper = "AES-128-ECB";
+		$secret_token_dokumen = $get_row_enkrip['token_dokumen'];
+
+		if ($type == 'enkrip') {
+
+			$encryption_string = openssl_encrypt($get_row_enkrip['file_dokumen'], $chiper, $secret_token_dokumen);
+			$where = [
+				'id_url' => $id_url
+			];
+			$data = [
+				'sts_token_dokumen' => 1,
+				'file_dokumen' => $encryption_string,
+			];
+			if ($token_dokumen == $secret_token_dokumen) {
+				$response = [
+					'message' => 'success'
+				];
+				$this->M_datapenyedia->update_spt($data, $where);
+			} else {
+				$response = [
+					'maaf' => 'Maaf Anda Memerlukan Token Yang Valid',
+				];
+			}
+		} else {
+			$encryption_string = openssl_decrypt($get_row_enkrip['file_dokumen'], $chiper, $secret_token_dokumen);
+			$where = [
+				'id_url' => $id_url
+			];
+			$data = [
+				'sts_token_dokumen' => 2,
+				'file_dokumen' => $encryption_string,
+			];
+			if ($token_dokumen == $secret_token_dokumen) {
+				$response = [
+					'message' => 'success'
+				];
+				$this->M_datapenyedia->update_spt($data, $where);
+			} else {
+				$response = [
+					'maaf' => 'Maaf Anda Memerlukan Token Yang Valid',
+				];
+			}
+		}
+
+		$this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
+	public function url_download_spt($id_url)
+	{
+		if ($id_url == '') {
+			// tendang not found
+		}
+		$get_row_enkrip = $this->M_datapenyedia->get_row_spt_url($id_url);
+		$id_vendor = $get_row_enkrip['id_vendor'];
+		$row_vendor = $this->M_datapenyedia->get_row_vendor($id_vendor);
+		$date = date('Y');
+		// $nama_file = $get_row_enkrip['nomor_surat'];
+		// $file_dokumen = $get_row_enkrip['file_dokumen'];
+		return force_download('file_vms/' . $row_vendor['nama_usaha'] . '/SPT-' . $date . '/' . $get_row_enkrip['file_dokumen'], NULL);
+	}
+	// END CRUD SPT
 }
