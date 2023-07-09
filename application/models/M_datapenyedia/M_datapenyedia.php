@@ -1358,7 +1358,6 @@ class M_datapenyedia extends CI_Model
 
     // crud neraca keuangan
     var $order =  array('id_neraca', 'tahun_laporan1', 'tahun_laporan2', 'uraian', 'kualifikasi_usaha', 'tgl_daftar', 'id_vendor');
-    // get nib
     private function _get_data_query_neraca_keuangan($id_vendor)
     {
         $this->db->select('*');
@@ -1427,4 +1426,95 @@ class M_datapenyedia extends CI_Model
         return $query->row_array();
     }
     // end neraca keuangan
+
+    // CRUD SPT
+
+    var $order_spt =  array('id_vendor_spt', 'nomor_surat', 'tahun_lapor', 'jenis_spt', 'tgl_penyampaian', 'file_dokumen', 'sts_validasi', 'id_vendor_spt');
+    private function _get_data_query_spt($id_vendor)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_vendor_spt');
+        $this->db->where('tbl_vendor_spt.id_vendor', $id_vendor);
+        $i = 0;
+        foreach ($this->order as $item) // looping awal
+        {
+            if ($_POST['search']['value']) // jika datatable mengirimkan pencarian dengan metode POST
+            {
+
+                if ($i === 0) // looping awal
+                {
+                    $this->db->group_start();
+                    $this->db->like($item, $_POST['search']['value']);
+                } else {
+                    $this->db->or_like(
+                        $item,
+                        $_POST['search']['value']
+                    );
+                }
+
+                if (count($this->order_spt) - 1 == $i)
+                    $this->db->group_end();
+            }
+            $i++;
+        }
+        if (isset($_POST['order'])) {
+            $this->db->order_by($this->order_spt[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        } else {
+            $this->db->order_by('tbl_vendor_spt.id_vendor', 'ASC');
+        }
+    }
+
+    public function gettable_spt($id_vendor) //nam[ilin data pake ini
+    {
+        $this->_get_data_query_spt($id_vendor); //ambil data dari get yg di atas
+        if ($_POST['length'] != -1) {
+            $this->db->limit($_POST['length'], $_POST['start']);
+        }
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function count_filtered_spt($id_vendor)
+    {
+        $this->_get_data_query_spt($id_vendor); //ambil data dari get yg di atas
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    public function count_all_spt($id_vendor)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_vendor_spt');
+        $this->db->where('tbl_vendor_spt.id_vendor', $id_vendor);
+        return $this->db->count_all_results();
+    }
+    public function tambah_spt($data)
+    {
+        $this->db->insert('tbl_vendor_spt', $data);
+        return $this->db->affected_rows();
+    }
+
+    public function update_spt($data, $where)
+    {
+        $this->db->update('tbl_vendor_spt', $data, $where);
+    }
+
+    public function get_row_spt_url($id_url)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_vendor_spt');
+        $this->db->where('tbl_vendor_spt.id_url', $id_url);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
+    public function get_row_spt($id_vendor)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_vendor_spt');
+        $this->db->where('tbl_vendor_spt.id_vendor', $id_vendor);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+    // END CRUD SPT
 }

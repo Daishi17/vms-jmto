@@ -15,7 +15,6 @@
             },
             success: function(response) {
                 var get_neraca_keuangan = $('[name="get_neraca_keuangan"]').val()
-                console.log(get_neraca_keuangan + response['id_vendor']);
                 $(document).ready(function() {
                     $('#tbl_neraca_keuangan').DataTable({
                         "responsive": true,
