@@ -299,9 +299,12 @@
                                                     </div>
                                                 </div>
                                                 <div class="card-body">
-                                                    <table class="table table-sm table-bordered table-striped">
+                                                    <input type="hidden" name="get_spt" value="<?= base_url('datapenyedia/get_spt/') ?>">
+                                                    <input type="hidden" name="url_get_spt_by_id" value="<?= base_url('datapenyedia/get_spt_by_id/') ?>">
+                                                    <table id="tbl_spt" class="table table-sm table-bordered table-striped">
                                                         <thead class="bg-dark">
                                                             <tr class="shadow-lg">
+                                                                <th style="width:5%;"><small class="text-white">No</small></th>
                                                                 <th style="width:10%;"><small class="text-white">Nomor TTE/SPT</small></th>
                                                                 <th style="width:10%;"><small class="text-white">Tahun SPT</small></th>
                                                                 <th style="width:10%;"><small class="text-white">Jenis SPT</small></th>
@@ -319,7 +322,7 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr class="shadow-lg">
+                                                            <!-- <tr class="shadow-lg">
                                                                 <td><small>1234567890123456</small></td>
                                                                 <td><small>2021</small></td>
                                                                 <td><small>177OS</small></td>
@@ -352,7 +355,7 @@
                                                                         </button>
                                                                     </div>
                                                                 </td>
-                                                            </tr>
+                                                            </tr> -->
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -442,7 +445,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="tab-pane fade" id="nav-neraca" role="tabpanel" aria-labelledby="nav-neraca-tab">
                                             <div class="card border-dark shadow-sm">
                                                 <div class="card-header border-dark d-flex bd-highlight">
@@ -481,7 +483,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -491,134 +492,6 @@
             </div>
         </div>
     </div>
-    <div class="modal" tabindex="-1" id="modal-xl-spt">
-        <div class="modal-dialog modal-dialog-scrollable modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <a class="navbar-brand">
-                        <img src="<?php echo base_url(); ?>/assets/brand/jm1.png" alt="" width="25" height="25" class="d-inline-block align-text-top">
-                        <b><span class="text-primary">Jasamarga Tollroad Operator</span></b>
-                    </a>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="card border-dark shadow-lg">
-                        <div class="card-header bg-dark d-flex bd-highlight">
-                            <div class="flex-grow-1 bd-highlight">
-                                <span class="text-white">
-                                    <i class="fa-solid fa-align-justify px-1"></i>
-                                    <small><strong>Form Data - Surat Pemberitahuan Tahunan (SPT)</strong></small>
-                                </span>
-                            </div>
-                            <div class="bd-highlight">
-                                <button type="button" class="btn btn-warning btn-sm shadow-lg" disabled>
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                    Edit Data
-                                </button>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <form>
-                                <table class="table table-sm">
-                                    <tr>
-                                        <td class="col-sm-2 bg-light">
-                                            <label class="form-label col-form-label-sm"><b>No. TTE/SPT</b></label>
-                                        </td>
-                                        <td class="col-sm-3">
-                                            <div class="col-sm-12">
-                                                <div class="input-group mb-2">
-                                                    <span class="input-group-text"><i class="fa-solid fa-barcode"></i></span>
-                                                    <input type="text" class="form-control">
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="col-sm-2 bg-light">
-                                            <label class="form-label col-form-label-sm"><b>Tahun Lapor</b></label>
-                                        </td>
-                                        <td class="col-sm-3">
-                                            <div class="col-sm-8">
-                                                <div class="input-group mb-2">
-                                                    <span class="input-group-text"><i class="fa-regular fa-calendar-days"></i></span>
-                                                    <input type="number" class="form-control" placeholder="ex.2023">
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col-sm-2 bg-light">
-                                            <label class="form-label col-form-label-sm"><b>Jenis SPT</b></label>
-                                        </td>
-                                        <td class="col-sm-3">
-                                            <div class="col-sm-12">
-                                                <div class="input-group mb-2">
-                                                    <span class="input-group-text"><i class="fa-solid fa-bars"></i></span>
-                                                    <select class="form-select" aria-label="Default select example">
-                                                        <option selected>177OS</option>
-                                                        <option>Lainnya</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                        </div>
-                        <td class="col-sm-2 bg-light">
-                            <label class="form-label col-form-label-sm"><b>Tanggal Penyampaian</b></label>
-                        </td>
-                        <td class="col-sm-3">
-                            <div class="col-sm-8">
-                                <div class="input-group mb-2">
-                                    <span class="input-group-text"><i class="fa-solid fa-calendar-days"></i></span>
-                                    <input type="date" id="date" class="form-control">
-                                </div>
-                            </div>
-                        </td>
-                        </tr>
-                        <tr>
-                            <td class="col-sm-2 bg-light">
-                                <label class="form-label col-form-label-sm"><b>Upload File SPT</b></label>
-                            </td>
-                            <td class="col-sm-3">
-                                <input type="file" id="file" accept=".pdf">
-                            </td>
-                            <td class="col-sm-2 bg-light">
-                                <button type="button" class="btn btn-info btn-sm text-start col-sm-12 shadow-lg">
-                                    <i class="fa-solid fa-file-pdf px-1"></i>
-                                    Nama File .pdf
-                                </button>
-                            </td>
-                            <td class="col-sm-3">
-                                <small>
-                                    <span class="badge bg-secondary">Belum Tervalidasi</span>
-                                </small>
-                                <button type="button" class="btn btn-warning btn-sm shadow-lg" disabled>
-                                    <i class="fa-solid fa-lock-open px-1"></i>
-                                    Dekripsi File
-                                </button>
-                    </div>
-                    </tr>
-                    <tr>
-                        <td class="col-sm-12" colspan="4">
-                            <button type="button" class="btn btn-danger btn-sm shadow-lg" data-bs-dismiss="modal">
-                                <i class="fa-solid fa-angles-left px-1"></i>
-                                Close
-                            </button>
-                            <button type="button" class="btn btn-success btn-sm shadow-lg" disabled>
-                                <i class="fa-solid fa-floppy-disk px-1"></i>
-                                Save Changes
-                            </button>
-                        </td>
-                    </tr>
-                    </table>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
-    </div>
-
-
-
-
-
 </main>
 
 
@@ -743,6 +616,7 @@
         </div>
     </div>
 </div>
+
 
 <div class="modal fade" id="modal_enkrip_npwp" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -1271,6 +1145,7 @@
     </div>
 </div>
 <!-- end modal laporan keuangan -->
+
 
 
 <!-- modal neraca -->
