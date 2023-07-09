@@ -1,3 +1,4 @@
+<input type="text" name="url_simpan_identitas_vendor" value="<?= base_url('datapenyedia/simpan_penyedia') ?>">
 <main class="container-fluid mt-4">
     <div class="row">
         <div class="col">
@@ -33,8 +34,8 @@
                                 Edit Changes
                             </button>
                         </div>
-                        <div class="card-body">
-                            <form>
+                        <form id="simpan_identitas_vendor" method="POST">
+                            <div class="card-body">
                                 <table class="table table-sm">
                                     <tr>
                                         <td class="col-sm-1 bg-light">
@@ -42,12 +43,15 @@
                                         </td>
                                         <td class="col-sm-4">
                                             <div class="col-sm-12">
-                                                <select id="multiple" class="js-states form-control" multiple>
-                                                    <option>Jasa Pengadaan Barang</option>
-                                                    <option>Jasa Lainnya</option>
-                                                    <option>Jasa Konstruksi</option>
-                                                    <option>Jasa Konsultasi</option>
+                                                <select id="multiple" class="js-states form-control" multiple name="jenis_usaha[]" style="width: 100%;">
+                                                    <?php foreach ($get_jenis_usaha as $key => $value) { ?>
+                                                        <option value="<?= $value['id_jenis_usaha'] ?>"><?= $value['nama_jenis_usaha'] ?></option>
+                                                    <?php } ?>
                                                 </select>
+                                                <?php foreach ($kualifikasi as $key => $value) { ?>
+                                                    <?php $kualifikasi = $this->M_dashboard->get_kualifikasi_izin($value); ?>
+                                                    <?php echo $kualifikasi['nama_jenis_usaha'] ?> -
+                                                <?php    } ?>
                                             </div>
                                         </td>
                                         <td class="col-sm-2 bg-light">
@@ -57,7 +61,7 @@
                                             <div class="col-sm-12">
                                                 <div class="input-group mb-2">
                                                     <span class="input-group-text"><i class="fa-solid fa-building-flag"></i></span>
-                                                    <input type="text" class="form-control" <?= $row_vendor['nama_usaha'] ?> readonly>
+                                                    <input type="text" class="form-control" value="<?= $row_vendor['nama_usaha'] ?>" readonly>
                                                 </div>
                                             </div>
                                         </td>
@@ -277,24 +281,24 @@
                                             <div class="col-sm-12">
                                                 <div class="input-group mb-2">
                                                     <span class="input-group-text"><i class="fa-solid fa-user-pen"></i></span>
-                                                    <input type="text" class="form-control" readonly>
+                                                    <input type="text" value="<?= $row_vendor['alasan_perubahan'] ?>" name="alasan_perubahan" class="form-control" readonly>
                                                 </div>
                                             </div>
                                         </td>
                                     </tr>
                                 </table>
-                            </form>
-                        </div>
-                        <div class="card-footer d-flex justify-content-start align-items-center">
-                            <button onclick="history.back()" type="button" class="btn btn-secondary btn-sm">
-                                <i class="fa-solid fa-angles-left px-1"></i>
-                                Go Back
-                            </button>&nbsp;
-                            <button type="button" class="btn btn-success btn-sm" readonly>
-                                <i class="fa-solid fa-share-from-square px-1"></i>
-                                Save Changes
-                            </button>
-                        </div>
+                            </div>
+                            <div class="card-footer d-flex justify-content-start align-items-center">
+                                <button onclick="history.back()" type="button" class="btn btn-secondary btn-sm">
+                                    <i class="fa-solid fa-angles-left px-1"></i>
+                                    Go Back
+                                </button>&nbsp;
+                                <button type="button" class="btn btn-success btn-sm" readonly>
+                                    <i class="fa-solid fa-share-from-square px-1"></i>
+                                    Save Changes
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
