@@ -700,7 +700,7 @@
                     </div>
                     <div class="card-body">
                         <form id="form_edit_spt" enctype="multipart/form-data">
-                            <input type="text" name="id_url">
+                            <input type="hidden" name="id_url">
                             <table class="table table-sm">
                                 <tr>
                                     <td class="col-sm-2 bg-light">

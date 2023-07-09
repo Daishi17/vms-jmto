@@ -3103,7 +3103,7 @@ class Datapenyedia extends CI_Controller
 		$this->M_datapenyedia->delete_neraca($where);
 		$this->output->set_content_type('application/json')->set_output(json_encode('success'));
 	}
-	
+
 	public function get_row_global_pajak($id_url_vendor)
 	{
 		$token = $this->input->post('secret_token');
@@ -3853,47 +3853,35 @@ class Datapenyedia extends CI_Controller
 		$chiper = "AES-128-ECB";
 		$secret_token_dokumen = $get_row_enkrip['token_dokumen'];
 
-		if ($type == 'enkrip') {
-
-			$encryption_string = openssl_encrypt($get_row_enkrip['file_dokumen'], $chiper, $secret_token_dokumen);
-			$where = [
-				'id_url' => $id_url
-			];
-			$data = [
-				'sts_token_dokumen' => 1,
-				'file_dokumen' => $encryption_string,
-			];
-			if ($token_dokumen == $secret_token_dokumen) {
-				$response = [
-					'message' => 'success'
-				];
-				$this->M_datapenyedia->update_keuangan($data, $where);
-			} else {
-				$response = [
-					'maaf' => 'Maaf Anda Memerlukan Token Yang Valid',
-				];
-			}
-		} else {
-			$encryption_string = openssl_decrypt($get_row_enkrip['file_dokumen'], $chiper, $secret_token_dokumen);
-			$where = [
-				'id_url' => $id_url
-			];
+		$chiper = "AES-128-ECB";
+		$secret_token_dokumen1 = 'jmto.1' . $get_row_enkrip['id_url'];
+		$secret_token_dokumen2 = 'jmto.2' . $get_row_enkrip['id_url'];
+		$where = [
+			'id_url' => $id_url
+		];
+		if ($type == 'dekrip') {
+			$file_laporan_auditor = openssl_decrypt($get_row_enkrip['file_laporan_auditor'], $chiper, $secret_token_dokumen1);
+			$file_laporan_keuangan = openssl_decrypt($get_row_enkrip['file_laporan_keuangan'], $chiper, $secret_token_dokumen2);
 			$data = [
 				'sts_token_dokumen' => 2,
-				'file_dokumen' => $encryption_string,
+				'file_laporan_auditor' => $file_laporan_auditor,
+				'file_laporan_keuangan' => $file_laporan_keuangan,
 			];
-			if ($token_dokumen == $secret_token_dokumen) {
-				$response = [
-					'message' => 'success'
-				];
-				$this->M_datapenyedia->update_keuangan($data, $where);
-			} else {
-				$response = [
-					'maaf' => 'Maaf Anda Memerlukan Token Yang Valid',
-				];
-			}
+			$this->M_datapenyedia->update_pemilik_manajerial_enkription($where, $data);
+		} else {
+			$file_laporan_auditor = openssl_encrypt($get_row_enkrip['file_laporan_auditor'], $chiper, $secret_token_dokumen1);
+			$file_laporan_keuangan = openssl_encrypt($get_row_enkrip['file_laporan_keuangan'], $chiper, $secret_token_dokumen2);
+			$data = [
+				'sts_token_dokumen' => 1,
+				'file_laporan_auditor' => $file_laporan_auditor,
+				'file_laporan_keuangan' => $file_laporan_keuangan,
+			];
+			$this->M_datapenyedia->update_pemilik_manajerial_enkription($where, $data);
 		}
 
+		$response = [
+			'row_keuangan' => $this->M_datapenyedia->get_row_excel_pemilik_manajerial($get_row_enkrip['id_vendor_keuangan'])
+		];
 		$this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 	// end crud laporan keuangan
