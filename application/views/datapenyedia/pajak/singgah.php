@@ -15,6 +15,26 @@
     <input type="hidden" name="url_post_npwp" value="<?= base_url('datapenyedia/add_npwp') ?>">
     <!-- END NPWP -->
 
+    <!-- neraca -->
+    <input type="hidden" name="url_encryption_neraca" value="<?= base_url('datapenyedia/encryption_neraca/') ?>">
+    <input type="hidden" name="url_download_neraca" value="<?= base_url('datapenyedia/url_download_neraca/') ?>">
+    <input type="hidden" name="url_post_neraca" value="<?= base_url('datapenyedia/add_neraca') ?>">
+    <!-- END neraca -->
+
+    <!-- neraca -->
+    <input type="hidden" name="url_encryption_spt" value="<?= base_url('datapenyedia/encryption_spt/') ?>">
+    <input type="hidden" name="url_download_spt" value="<?= base_url('datapenyedia/url_download_spt/') ?>">
+    <input type="hidden" name="url_post_spt" value="<?= base_url('datapenyedia/add_spt') ?>">
+    <input type="hidden" name="url_edit_spt" value="<?= base_url('datapenyedia/edit_spt') ?>">
+    <!-- END neraca -->
+
+    <!-- keuangan -->
+    <input type="hidden" name="url_encryption_keuangan" value="<?= base_url('datapenyedia/encryption_keuangan/') ?>">
+    <input type="hidden" name="url_download_keuangan" value="<?= base_url('datapenyedia/url_download_keuangan/') ?>">
+    <input type="hidden" name="url_post_keuangan" value="<?= base_url('datapenyedia/add_keuangan') ?>">
+    <input type="hidden" name="url_edit_keuangan" value="<?= base_url('datapenyedia/edit_keuangan') ?>">
+    <!-- END keuangan -->
+
     <div class="row">
         <div class="col">
             <div class="card border-primary">
@@ -74,6 +94,12 @@
                                             <span class="text-dark">
                                                 <i class="fa-regular fa-file-word"></i>
                                                 <small><b>Neraca Keuangan</b></small>
+                                            </span>
+                                        </button>
+                                        <button class="nav-link" id="nav-keuangan-tab" data-bs-toggle="tab" data-bs-target="#nav-keuangan" type="button" role="tab" aria-controls="nav-keuangan" aria-selected="false">
+                                            <span class="text-dark">
+                                                <i class="fa-regular fa-file-word"></i>
+                                                <small><b>Laporan Keuangan</b></small>
                                             </span>
                                         </button>
                                     </div>
@@ -332,7 +358,129 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="tab-pane fade" id="nav-keuangan" role="tabpanel" aria-labelledby="nav-keuangan-tab">
+                                            <div class="card border-dark shadow-sm">
+                                                <div class="card-header border-dark d-flex bd-highlight">
+                                                    <div class="p-1 flex-grow-1 bd-highlight">
+                                                        <span class="text-dark">
+                                                            <i class="fa-regular fa-file-lines px-1"></i>
+                                                            <small><strong>Form Pajak - Laporan Keuangan</strong></small>
+                                                        </span>
+                                                    </div>
+                                                    <div class="bd-highlight">
+                                                        <button type="button" class="btn btn-primary btn-sm shadow-lg" data-bs-toggle="modal" data-bs-target="#modal-xl-keuangan">
+                                                            <i class="fa-solid fa-user-plus px-1"></i>
+                                                            Create Data
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <input type="hidden" name="get_keuangan" value="<?= base_url('datapenyedia/get_keuangan/') ?>">
+                                                    <input type="hidden" name="url_get_keuangan_by_id" value="<?= base_url('datapenyedia/get_keuangan_by_id/') ?>">
+                                                    <div style="overflow-x:auto">
+                                                        <table id="tbl_keuangan" class="table table-sm table-bordered table-striped">
+                                                            <thead class="bg-dark">
+                                                                <tr class="shadow-lg">
+                                                                    <th style="width:5%;"><small class="text-white">No</small></th>
+                                                                    <th style="width:10%;"><small class="text-white">Tahun Laporan</small></th>
 
+                                                                    <th style="width:10%;"><small class="text-white">
+                                                                            <div class="text-center">File Auditor</div>
+                                                                        </small>
+                                                                    </th>
+                                                                    <th style="width:10%;"><small class="text-white">
+                                                                            <div class="text-center">File Keuangan</div>
+                                                                        </small>
+                                                                    </th>
+                                                                    <th style="width:10%;"><small class="text-white">
+                                                                            <div class="text-center">Status Validasi</div>
+                                                                        </small>
+                                                                    </th>
+                                                                    <th style="width:20%;"><small class="text-white">
+                                                                            <div class="text-center">More Options</div>
+                                                                        </small>
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <!-- <tr class="shadow-lg">
+                                                                <td><small>2022</small></td>
+                                                                <td><small>PT. Ortex</small></td>
+                                                                <td><small>Audit</small></td>
+                                                                <td class="col-sm-2 bg-light">
+                                                                    <button type="button" class="btn btn-primary btn-sm text-start col-sm-12 shadow-lg">
+                                                                        <i class="fa-regular fa-file-excel px-1"></i>
+                                                                        Nama File .pdf/xls
+                                                                    </button>
+                                                                </td>
+                                                                <td><small>
+                                                                        <div class="text-center">
+                                                                            <span class="badge bg-secondary">Belum Tervalidasi</span>
+                                                                        </div>
+                                                                    </small>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="text-center">
+                                                                        <button type="button" class="btn btn-info btn-sm shadow-lg" data-bs-toggle="modal" data-bs-target="#modal-xl-neraca">
+                                                                            <i class="fa-solid fa-users-viewfinder px-1"></i>
+                                                                            <small>View</small>
+                                                                        </button>
+                                                                        <button type="button" class="btn btn-warning btn-sm shadow-lg">
+                                                                            <i class="fa-solid fa-lock-open px-1"></i>
+                                                                            <small>Dycrep</small>
+                                                                        </button>
+                                                                        <button type="button" class="btn btn-danger btn-sm shadow-lg">
+                                                                            <i class="fa-solid fa-trash-can px-1"></i>
+                                                                            <small>Delete</small>
+                                                                        </button>
+                                                                    </div>
+                                                                </td>
+                                                            </tr> -->
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane fade" id="nav-neraca" role="tabpanel" aria-labelledby="nav-neraca-tab">
+                                            <div class="card border-dark shadow-sm">
+                                                <div class="card-header border-dark d-flex bd-highlight">
+                                                    <div class="p-1 flex-grow-1 bd-highlight">
+                                                        <span class="text-dark">
+                                                            <i class="fa-regular fa-file-lines px-1"></i>
+                                                            <small><strong>Form Pajak - Neraca Keuangan</strong></small>
+                                                        </span>
+                                                    </div>
+                                                    <div class="bd-highlight">
+                                                        <button type="button" class="btn btn-primary btn-sm shadow-lg" data-bs-toggle="modal" data-bs-target="#modal-xl-neraca">
+                                                            <i class="fa-solid fa-user-plus px-1"></i>
+                                                            Create Data
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <table id="table_nerca_keuangan" class="table table-sm table-bordered table-striped">
+                                                        <thead class="bg-dark">
+                                                            <tr class="shadow-lg">
+                                                                <th style="width:5%;" class="text-white">No</th>
+                                                                <th style="width:10%;"><small class="text-white">Tanggal Laporan</small></th>
+                                                                <th style="width:20%;"><small class="text-white">Nama Akuntan Publik</small></th>
+                                                                <th style="width:10%;"><small class="text-white">
+                                                                        <div class="text-center">Status Validasi</div>
+                                                                    </small></th>
+                                                                <th style="width:10%;"><small class="text-white">
+                                                                        <div class="text-center">More Options</div>
+                                                                    </small></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
 
                                     </div>
                                 </div>
@@ -649,4 +797,814 @@
     </div>
 </div>
 
-<!-- batas -->
+<!-- spt -->
+<div class="modal fade" tabindex="-1" id="modal_edit_spt">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a class="navbar-brand">
+                    <img src="<?php echo base_url(); ?>/assets/brand/jm1.png" alt="" width="25" height="25" class="d-inline-block align-text-top">
+                    <b><span class="text-primary">Jasamarga Tollroad Operator</span></b>
+                </a>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card border-dark shadow-lg">
+                    <div class="card-header bg-dark d-flex bd-highlight">
+                        <div class="flex-grow-1 bd-highlight">
+                            <span class="text-white">
+                                <i class="fa-solid fa-align-justify px-1"></i>
+                                <small><strong>Form Data - Surat Pemberitahuan Tahunan (SPT)</strong></small>
+                            </span>
+                        </div>
+                        <div class="bd-highlight">
+                            <button type="button" class="btn btn-warning btn-sm shadow-lg" onclick="edit_data_spt()">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                                Edit Data
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form id="form_edit_spt" enctype="multipart/form-data">
+                            <input type="text" name="id_url">
+                            <table class="table table-sm">
+                                <tr>
+                                    <td class="col-sm-2 bg-light">
+                                        <label class="form-label col-form-label-sm"><b>No. TTE/SPT</b></label>
+                                    </td>
+                                    <td class="col-sm-3">
+                                        <div class="col-sm-12">
+                                            <div class="input-group mb-2">
+                                                <span class="input-group-text"><i class="fa-solid fa-barcode"></i></span>
+                                                <input name="nomor_surat" id="nomor_surat" type="text" class="form-control" disabled>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="col-sm-2 bg-light">
+                                        <label class="form-label col-form-label-sm"><b>Tahun Lapor</b></label>
+                                    </td>
+                                    <td class="col-sm-3">
+                                        <div class="col-sm-8">
+                                            <div class="input-group mb-2">
+                                                <span class="input-group-text"><i class="fa-regular fa-calendar-days"></i></span>
+                                                <input type="number" name="tahun_lapor" id="tahun_lapor" min="2010" class="form-control" placeholder="ex.2023" disabled>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-sm-2 bg-light">
+                                        <label class="form-label col-form-label-sm"><b>Jenis SPT</b></label>
+                                    </td>
+                                    <td class="col-sm-3">
+                                        <div class="col-sm-12">
+                                            <div class="input-group mb-2">
+                                                <span class="input-group-text"><i class="fa-solid fa-bars"></i></span>
+                                                <select name="jenis_spt" id="jenis_spt" class="form-select" aria-label="Default select example" disabled>
+                                                    <option value="177OS">177OS</option>
+                                                    <option value="Lainnya">Lainnya</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-sm-2 bg-light">
+                                        <label class="form-label col-form-label-sm"><b>Tanggal Penyampaian</b></label>
+                                    </td>
+                                    <td class="col-sm-3">
+                                        <div class="col-sm-8">
+                                            <div class="input-group mb-2">
+                                                <span class="input-group-text"><i class="fa-solid fa-calendar-days"></i></span>
+                                                <input name="tgl_penyampaian" id="tgl_penyampaian" type="date" id="date" class="form-control" disabled>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td class="col-sm-2 bg-light">
+                                        <label class="form-label col-form-label-sm"><b>Upload File SPT</b></label>
+                                    </td>
+                                    <td class="col-sm-3">
+                                        <input type="file" id="file" accept=".pdf" id="file_dokumen_spt" name="file_dokumen_spt" disabled>
+                                    </td>
+                                    <td class="col-sm-2 bg-light">
+
+                                        <div id="tampil_dokumen_spt"></div>
+                                    </td>
+                                    <td class="col-sm-3">
+                                        <div class="button_enkrip_spt"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-sm-12" colspan="4">
+                                        <button type="button" class="btn btn-danger btn-sm shadow-lg" data-bs-dismiss="modal">
+                                            <i class="fa-solid fa-angles-left px-1"></i>
+                                            Tutup
+                                        </button>
+                                        <button type="submit" class="btn btn-success btn-sm shadow-lg" id="btn_edit_spt" disabled>
+                                            <i class="fa-solid fa-floppy-disk px-1"></i>
+                                            Simpan
+                                        </button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modal_dekrip_spt" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Silahkan Copy dan Paste Token Untuk Deskripsi Dokumen</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="form_dekrip_spt" method="post">
+                    <input type="hidden" value="dekrip" name="type">
+                    <input type="hidden" name="id_url_spt">
+                    <center>
+                        <img src="<?= base_url('assets34543543/img/private.jpg') ?>" width="100%" alt="">
+                        <p>Silakan Masukan Token Untuk Mendkrip File Anda </p>
+                        <div class="token_generate_spt">
+
+                        </div>
+                        <br>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-key"></i></span>
+                            <input type="text" name="token_dokumen" class="form-control">
+                        </div>
+                    </center>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-primary" onclick="GenerateDekrip_spt()">Yakin</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modal_enkrip_spt" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Silahkan Copy dan Paste Token Untuk Enkripsi Dokumen</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="form_enkrip_spt" method="post">
+                    <input type="hidden" value="enkrip" name="type">
+                    <input type="hidden" name="id_url_spt">
+                    <center>
+                        <img src="<?= base_url('assets34543543/img/private.jpg') ?>" width="100%" alt="">
+                        <p>Silakan Masukan Token Untuk Enkripsi File Anda </p>
+                        <div class="token_generate_spt">
+
+                        </div>
+                        <br>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-key"></i></span>
+                            <input type="text" name="token_dokumen" class="form-control">
+                        </div>
+                    </center>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-primary" onclick="GenerateEnkrip_spt()">Yakin</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modaledit_spt" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Anda Yakin Ingin Mengedit Data Anda ?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <center>
+                    <img src="<?= base_url('assets34543543/img/tanya.jpg') ?>" alt="" width="200px">
+                </center>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-primary" onclick="edit_spt()">Yakin</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" tabindex="-1" id="modal-xl-spt">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a class="navbar-brand">
+                    <img src="<?php echo base_url(); ?>/assets/brand/jm1.png" alt="" width="25" height="25" class="d-inline-block align-text-top">
+                    <b><span class="text-primary">Jasamarga Tollroad Operator</span></b>
+                </a>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card border-dark shadow-lg">
+                    <div class="card-header bg-dark d-flex bd-highlight">
+                        <div class="flex-grow-1 bd-highlight">
+                            <span class="text-white">
+                                <i class="fa-solid fa-align-justify px-1"></i>
+                                <small><strong>Form Data - Surat Pemberitahuan Tahunan (SPT)</strong></small>
+                            </span>
+                        </div>
+                        <!-- <div class="bd-highlight">
+                                <button type="button" class="btn btn-warning btn-sm shadow-lg">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                    Edit Data
+                                </button>
+                            </div> -->
+                    </div>
+                    <div class="card-body">
+                        <form id="form_tambah_spt" enctype="multipart/form-data">
+                            <table class="table table-sm">
+                                <tr>
+                                    <td class="col-sm-2 bg-light">
+                                        <label class="form-label col-form-label-sm"><b>No. TTE/SPT</b></label>
+                                    </td>
+                                    <td class="col-sm-3">
+                                        <div class="col-sm-12">
+                                            <div class="input-group mb-2">
+                                                <span class="input-group-text"><i class="fa-solid fa-barcode"></i></span>
+                                                <input name="nomor_surat" type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="col-sm-2 bg-light">
+                                        <label class="form-label col-form-label-sm"><b>Tahun Lapor</b></label>
+                                    </td>
+                                    <td class="col-sm-3">
+                                        <div class="col-sm-8">
+                                            <div class="input-group mb-2">
+                                                <span class="input-group-text"><i class="fa-regular fa-calendar-days"></i></span>
+                                                <input type="number" name="tahun_lapor" min="2010" class="form-control" placeholder="ex.2023">
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-sm-2 bg-light">
+                                        <label class="form-label col-form-label-sm"><b>Jenis SPT</b></label>
+                                    </td>
+                                    <td class="col-sm-3">
+                                        <div class="col-sm-12">
+                                            <div class="input-group mb-2">
+                                                <span class="input-group-text"><i class="fa-solid fa-bars"></i></span>
+                                                <select name="jenis_spt" class="form-select" aria-label="Default select example">
+                                                    <option value="177OS">177OS</option>
+                                                    <option value="Lainnya">Lainnya</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="col-sm-2 bg-light">
+                                        <label class="form-label col-form-label-sm"><b>Upload File SPT</b></label>
+                                    </td>
+                                    <td class="col-sm-3">
+                                        <input type="file" id="file" accept=".pdf" name="file_dokumen_spt">
+                                    </td>
+                                    <!-- <td class="col-sm-2 bg-light">
+                                            <button type="button" class="btn btn-info btn-sm text-start col-sm-12 shadow-lg">
+                                                <i class="fa-solid fa-file-pdf px-1"></i>
+                                                Nama File .pdf
+                                            </button>
+                                        </td>
+                                        <td class="col-sm-3">
+                                            <small>
+                                                <span class="badge bg-secondary">Belum Tervalidasi</span>
+                                            </small>
+                                            <button type="button" class="btn btn-warning btn-sm shadow-lg" disabled>
+                                                <i class="fa-solid fa-lock-open px-1"></i>
+                                                Dekripsi File
+                                            </button>
+                                        </td> -->
+                                </tr>
+                                <tr>
+                                    <td class="col-sm-2 bg-light">
+                                        <label class="form-label col-form-label-sm"><b>Tanggal Penyampaian</b></label>
+                                    </td>
+                                    <td class="col-sm-3">
+                                        <div class="col-sm-8">
+                                            <div class="input-group mb-2">
+                                                <span class="input-group-text"><i class="fa-solid fa-calendar-days"></i></span>
+                                                <input name="tgl_penyampaian" type="date" id="date" class="form-control">
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="col-sm-12" colspan="4">
+                                        <button type="button" class="btn btn-danger btn-sm shadow-lg" data-bs-dismiss="modal">
+                                            <i class="fa-solid fa-angles-left px-1"></i>
+                                            Tutup
+                                        </button>
+                                        <button type="submit" class="btn btn-success btn-sm shadow-lg" id="btn_save_spt">
+                                            <i class="fa-solid fa-floppy-disk px-1"></i>
+                                            Simpan
+                                        </button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end spt -->
+
+
+<!-- modal laporan keuangan -->
+<div class="modal fade" tabindex="-1" id="modal-xl-keuangan">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a class="navbar-brand">
+                    <img src="<?php echo base_url(); ?>/assets/brand/jm1.png" alt="" width="25" height="25" class="d-inline-block align-text-top">
+                    <b><span class="text-primary">Jasamarga Tollroad Operator</span></b>
+                </a>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card border-dark shadow-lg">
+                    <div class="card-header bg-dark d-flex bd-highlight">
+                        <div class="flex-grow-1 bd-highlight">
+                            <span class="text-white">
+                                <i class="fa-solid fa-align-justify px-1"></i>
+                                <small><strong>Form Data - Laporan Keuangan</strong></small>
+                            </span>
+                        </div>
+
+                    </div>
+                    <div class="card-body">
+                        <form id="form_tambah_keuangan" enctype="multipart/form-data">
+                            <table class="table table-sm">
+                                <tr>
+                                    <td class="col-sm-3 bg-light">
+                                        <label class="form-label col-form-label-sm"><b>Tahun Laporan</b></label>
+                                    </td>
+                                    <td class="col-sm-3">
+                                        <input type="number" name="tahun_lapor" min="2000" class="form-control">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-sm-3 bg-light">
+                                        <label class="form-label col-form-label-sm"><b>Upload Laporan Auditor</b></label>
+                                    </td>
+                                    <td class="col-sm-3">
+                                        <input type="file" name="file_laporan_auditor" id="file" accept=".pdf,.xlsx">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-sm-3 bg-light">
+                                        <label class="form-label col-form-label-sm"><b>Upload Laporan Keuangan</b></label>
+                                    </td>
+                                    <td class="col-sm-3">
+                                        <input type="file" name="file_laporan_keuangan" id="file" accept=".pdf,.xlsx">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-sm-12" colspan="4">
+                                        <button type="button" class="btn btn-danger btn-sm shadow-lg" data-bs-dismiss="modal">
+                                            <i class="fa-solid fa-angles-left px-1"></i>
+                                            Tutup
+                                        </button>
+                                        <button type="submit" class="btn btn-success btn-sm shadow-lg" id="btn_save_laporan">
+                                            <i class="fa-solid fa-floppy-disk px-1"></i>
+                                            Simpan
+                                        </button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modal_dekrip_keuangan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Silahkan Copy dan Paste Token Untuk Deskripsi Dokumen</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="form_dekrip_keuangan" method="post">
+                    <input type="hidden" value="dekrip" name="type">
+                    <input type="hidden" name="id_url_keuangan">
+                    <center>
+                        <img src="<?= base_url('assets34543543/img/private.jpg') ?>" width="100%" alt="">
+                        <p>Silakan Masukan Token Untuk Mendkrip File Anda </p>
+                        <div class="token_generate_keuangan">
+
+                        </div>
+                        <br>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-key"></i></span>
+                            <input type="text" name="token_dokumen" class="form-control">
+                        </div>
+                    </center>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-primary" onclick="GenerateDekrip_keuangan()">Yakin</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modal_enkrip_keuangan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Silahkan Copy dan Paste Token Untuk Enkripsi Dokumen</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="form_enkrip_keuangan" method="post">
+                    <input type="hidden" value="enkrip" name="type">
+                    <input type="hidden" name="id_url_keuangan">
+                    <center>
+                        <img src="<?= base_url('assets34543543/img/private.jpg') ?>" width="100%" alt="">
+                        <p>Silakan Masukan Token Untuk Enkripsi File Anda </p>
+                        <div class="token_generate_keuangan">
+
+                        </div>
+                        <br>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-key"></i></span>
+                            <input type="text" name="token_dokumen" class="form-control">
+                        </div>
+                    </center>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-primary" onclick="GenerateEnkrip_keuangan()">Yakin</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end modal laporan keuangan -->
+
+
+<!-- modal neraca -->
+
+<div class="modal" tabindex="-1" id="modal-xl-neraca">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a class="navbar-brand">
+                    <img src="<?php echo base_url(); ?>/assets/brand/jm1.png" alt="" width="25" height="25" class="d-inline-block align-text-top">
+                    <b><span class="text-primary">Jasamarga Tollroad Operator</span></b>
+                </a>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card border-dark shadow-lg">
+                    <div class="card-header bg-dark d-flex bd-highlight">
+                        <div class="flex-grow-1 bd-highlight">
+                            <span class="text-white">
+                                <i class="fa-solid fa-align-justify px-1"></i>
+                                <small><strong>Form Data - Neraca Keuangan</strong></small>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-info shadow-lg" role="alert">
+                            <h5 class="alert-heading">
+                                <i class="fa-solid fa-circle-info px-1"></i>
+                                Catatan!
+                            </h5>
+                            <hr>
+                            <small>1. Klik Button Isi Format Excel Neraca.</small><br>
+                            <small>2. Isi Format Dengan Sesuai Table Yang Kami Formatkan.</small><br>
+                            <small>3. Setalah Format Anda Isi Silakan Anda Download Format Dalam Bentuk Excel Lalu Anda Upload Format Nya Ke Dalam File Upload Neraca Keuangan.</small><br>
+                        </div>
+                        <br>
+                        <center>
+                            <a href="javascript:;" onclick="buat_format_excel()" class="btn btn-primary btn-sm mb-2">Isi Dan Download Format Excel</a>
+                        </center>
+
+
+                        <br>
+                        <form id="form_simpan_neraca" enctype="multipart/form-data">
+                            <table class="table table-sm">
+                                <tr>
+                                    <td class="col-sm-2 bg-light">
+                                        <label class="form-label col-form-label-sm"><b>Nama Akuntan Publik</b></label>
+                                    </td>
+                                    <td class="col-sm-3">
+                                        <div class="col-sm-12">
+                                            <div class="input-group mb-2">
+                                                <span class="input-group-text"><i class="fa-solid fa-user-pen"></i></span>
+                                                <input name="nama_akuntan_public" type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="col-sm-2 bg-light">
+                                        <label class="form-label col-form-label-sm"><b>Tanggal Laporan</b></label>
+                                    </td>
+                                    <td class="col-sm-3">
+                                        <div class="col-sm-8">
+                                            <div class="input-group mb-2">
+                                                <span class="input-group-text"><i class="fa-solid fa-calendar-days"></i></span>
+                                                <input type="date" name="tangga_laporan" id="date" class="form-control">
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-sm-2 bg-light">
+                                        <label class="form-label col-form-label-sm"><b>Upload Neraca Keuangan</b></label>
+                                    </td>
+                                    <td class="col-sm-3">
+                                        <input type="file" name="file_dokumen_neraca" id="file" accept=".xlsx">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-sm-2 bg-light">
+                                        <label class="form-label col-form-label-sm"><b>Upload File Sertifikat</b></label>
+                                    </td>
+                                    <td class="col-sm-3">
+                                        <input type="file" name="file_dokumen_sertifikat" id="file" accept=".pdf,.xlsx">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-sm-12" colspan="4">
+                                        <button type="button" class="btn btn-danger btn-sm shadow-lg" data-bs-dismiss="modal">
+                                            <i class="fa-solid fa-angles-left px-1"></i>
+                                            Close
+                                        </button>
+                                        <button type="submit" class="btn btn-success btn-sm shadow-lg btn-simpan">
+                                            <i class="fa-solid fa-floppy-disk px-1"></i>
+                                            Save Changes
+                                        </button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" id="modal-xl-neraca-edit">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a class="navbar-brand">
+                    <img src="<?php echo base_url(); ?>/assets/brand/jm1.png" alt="" width="25" height="25" class="d-inline-block align-text-top">
+                    <b><span class="text-primary">Jasamarga Tollroad Operator</span></b>
+                </a>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card border-dark shadow-lg">
+                    <div class="card-header bg-dark d-flex bd-highlight">
+                        <div class="flex-grow-1 bd-highlight">
+                            <span class="text-white">
+                                <i class="fa-solid fa-align-justify px-1"></i>
+                                <small><strong>Form Data - Neraca Keuangan</strong></small>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-info shadow-lg" role="alert">
+                            <h5 class="alert-heading">
+                                <i class="fa-solid fa-circle-info px-1"></i>
+                                Catatan!
+                            </h5>
+                            <hr>
+                            <small>1. Klik Button Isi Format Excel Neraca.</small><br>
+                            <small>2. Isi Format Dengan Sesuai Table Yang Kami Formatkan.</small><br>
+                            <small>3. Setalah Format Anda Isi Silakan Anda Download Format Dalam Bentuk Excel Lalu Anda Upload Format Nya Ke Dalam File Upload Neraca Keuangan.</small><br>
+                        </div>
+                        <br>
+                        <center>
+                            <a href="javascript:;" onclick="buat_format_excel()" class="btn btn-primary btn-sm mb-2">Isi Dan Download Format Excel</a>
+                        </center>
+                        <br>
+                        <form id="form_edit_neraca" enctype="multipart/form-data">
+                            <input type="hidden" name="id_neraca">
+                            <input type="hidden" name="validasi_enkripsi">
+                            <table class="table table-sm">
+                                <tr>
+                                    <td class="col-sm-2 bg-light">
+                                        <label class="form-label col-form-label-sm"><b>Nama Akuntan Publik</b></label>
+                                    </td>
+                                    <td class="col-sm-3">
+                                        <div class="col-sm-12">
+                                            <div class="input-group mb-2">
+                                                <span class="input-group-text"><i class="fa-solid fa-user-pen"></i></span>
+                                                <input name="nama_akuntan_public" type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="col-sm-2 bg-light">
+                                        <label class="form-label col-form-label-sm"><b>Tanggal Laporan</b></label>
+                                    </td>
+                                    <td class="col-sm-3">
+                                        <div class="col-sm-8">
+                                            <div class="input-group mb-2">
+                                                <span class="input-group-text"><i class="fa-solid fa-calendar-days"></i></span>
+                                                <input type="date" name="tangga_laporan" id="date" class="form-control">
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-sm-2 bg-light">
+                                        <label class="form-label col-form-label-sm"><b>Upload File KTP</b></label>
+                                    </td>
+                                    <td class="col-sm-3">
+                                        <input type="file" name="file_dokumen_neraca" id="file" accept=".pdf">
+                                    </td>
+                                    <td class="col-sm-4">
+                                        <div class="button_nama_file_dokumen_neraca">
+
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-sm-2 bg-light">
+                                        <label class="form-label col-form-label-sm"><b>Upload File NPWP</b></label>
+                                    </td>
+                                    <td class="col-sm-3">
+                                        <input type="file" name="file_dokumen_sertifikat" id="file" accept=".pdf">
+                                    </td>
+                                    <td class="col-sm-4">
+                                        <div class="button_nama_file_dokumen_sertifikat">
+
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="button_enkrip_neraca">
+
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-sm-12" colspan="4">
+                                        <button type="button" class="btn btn-danger btn-sm shadow-lg" data-bs-dismiss="modal">
+                                            <i class="fa-solid fa-angles-left px-1"></i>
+                                            Close
+                                        </button>
+                                        <button type="submit" class="btn btn-success btn-sm shadow-lg btn-simpan">
+                                            <i class="fa-solid fa-floppy-disk px-1"></i>
+                                            Save Changes
+                                        </button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="buat_format_excel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header bg-secondary text-white">
+                <h5 class="modal-title" id="staticBackdropLabel">Format Pengisian Neraca Keuangan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="<?= base_url('datapenyedia/buat_excel_format_neraca') ?>" method="post">
+                    <table class="table table-bordered">
+                        <thead class="text-center">
+                            <tr>
+                                <th class="tg-9wq8" rowspan="2">NO</th>
+                                <th class="tg-9wq8" rowspan="2">Uraian</th>
+                                <th class="tg-9wq8" rowspan="2">Jenis Laporan</th>
+                                <th class="tg-9wq8" colspan="2">Tahun 2022</th>
+                                <th class="tg-9wq8" colspan="2">Tahun 2023</th>
+                            </tr>
+                            <tr>
+                                <th class="tg-9wq8" colspan="2">(Rp).</th>
+                                <th class="tg-9wq8" colspan="2">(Rp).</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="tg-0pky">1</td>
+                                <td class="tg-0pky">Penjelasan/Opini dari Auditor Kantor Akuntan Publik</td>
+                                <td class="tg-0pky"><select name="jenis_laporan_1" class="form-control form-control-sm" id="">
+                                        <option value="Audit">Audit</option>
+                                        <option value="Tidak Audit">Tidak Audit</option>
+                                    </select></td>
+                                <td class="tg-0pky" colspan="2"><input class="rupiahku form-control form-control-sm" type="text" name="nilai_tahun_kolom_1_1"></td>
+                                <td class="tg-0pky" colspan="2"><input class="rupiahku form-control form-control-sm" type="text" name="nilai_tahun_kolom_2_1"></td>
+                            </tr>
+                            <tr>
+                                <td class="tg-0pky">2</td>
+                                <td class="tg-za14">Jumlah Kas dan Bank</td>
+                                <td class="tg-0pky"><select name="jenis_laporan_2" class="form-control form-control-sm" id="">
+                                        <option value="Audit">Audit</option>
+                                        <option value="Tidak Audit">Tidak Audit</option>
+                                    </select></td>
+                                <td class="tg-0pky" colspan="2"><input class="rupiahku form-control form-control-sm" type="text" name="nilai_tahun_kolom_1_2"></td>
+                                <td class="tg-0pky" colspan="2"><input class="rupiahku form-control form-control-sm" type="text" name="nilai_tahun_kolom_2_2"></td>
+                            </tr>
+                            <tr>
+                                <td class="tg-0pky">3</td>
+                                <td class="tg-za14">Total Hutang</td>
+                                <td class="tg-0pky"><select name="jenis_laporan_3" class="form-control form-control-sm" id="">
+                                        <option value="Audit">Audit</option>
+                                        <option value="Tidak Audit">Tidak Audit</option>
+                                    </select></td>
+                                <td class="tg-0pky" colspan="2"><input class="rupiahku form-control form-control-sm" type="text" name="nilai_tahun_kolom_1_3"></td>
+                                <td class="tg-0pky" colspan="2"><input class="rupiahku form-control form-control-sm" type="text" name="nilai_tahun_kolom_2_3"></td>
+                            </tr>
+                            <tr>
+                                <td class="tg-0pky">4</td>
+                                <td class="tg-za14">Total Ekuitas</td>
+                                <td class="tg-0pky"><select name="jenis_laporan_4" class="form-control form-control-sm" id="">
+                                        <option value="Audit">Audit</option>
+                                        <option value="Tidak Audit">Tidak Audit</option>
+                                    </select></td>
+                                <td class="tg-0pky" colspan="2"><input class="rupiahku form-control form-control-sm" type="text" name="nilai_tahun_kolom_1_4"></td>
+                                <td class="tg-0pky" colspan="2"><input class="rupiahku form-control form-control-sm" type="text" name="nilai_tahun_kolom_2_4"></td>
+                            </tr>
+                            <tr>
+                                <td class="tg-0pky">5</td>
+                                <td class="tg-za14">Total Aktiva Lancar</td>
+                                <td class="tg-0pky"><select name="jenis_laporan_5" class="form-control form-control-sm" id="">
+                                        <option value="Audit">Audit</option>
+                                        <option value="Tidak Audit">Tidak Audit</option>
+                                    </select></td>
+                                <td class="tg-0pky" colspan="2"><input class="rupiahku form-control form-control-sm" type="text" name="nilai_tahun_kolom_1_5"></td>
+                                <td class="tg-0pky" colspan="2"><input class="rupiahku form-control form-control-sm" type="text" name="nilai_tahun_kolom_2_5"></td>
+                            </tr>
+                            <tr>
+                                <td class="tg-0pky">6</td>
+                                <td class="tg-za14">Total Hutang Lancar</td>
+                                <td class="tg-0pky"><select name="jenis_laporan_6" class="form-control form-control-sm" id="">
+                                        <option value="Audit">Audit</option>
+                                        <option value="Tidak Audit">Tidak Audit</option>
+                                    </select></td>
+                                <td class="tg-0pky" colspan="2"><input class="rupiahku form-control form-control-sm" type="text" name="nilai_tahun_kolom_1_6"></td>
+                                <td class="tg-0pky" colspan="2"><input class="rupiahku form-control form-control-sm" type="text" name="nilai_tahun_kolom_2_6"></td>
+                            </tr>
+                            <tr>
+                                <td class="tg-0lax">7</td>
+                                <td class="tg-7zrl">Laba Usaha</td>
+                                <td class="tg-0pky"><select name="jenis_laporan_7" class="form-control form-control-sm" id="">
+                                        <option value="Audit">Audit</option>
+                                        <option value="Tidak Audit">Tidak Audit</option>
+                                    </select></td>
+                                <td class="tg-0pky" colspan="2"><input class="rupiahku form-control form-control-sm" type="text" name="nilai_tahun_kolom_1_7"></td>
+                                <td class="tg-0pky" colspan="2"><input class="rupiahku form-control form-control-sm" type="text" name="nilai_tahun_kolom_2_7"></td>
+                            </tr>
+                            <tr>
+                                <td class="tg-0lax">8</td>
+                                <td class="tg-7zrl">EBITDA (Laba Usaha + Beban Penyusutan)</td>
+                                <td class="tg-0pky"><select name="jenis_laporan_8" class="form-control form-control-sm" id="">
+                                        <option value="Audit">Audit</option>
+                                        <option value="Tidak Audit">Tidak Audit</option>
+                                    </select></td>
+                                <td class="tg-0pky" colspan="2"><input class="rupiahku form-control form-control-sm" type="text" name="nilai_tahun_kolom_1_8"></td>
+                                <td class="tg-0pky" colspan="2"><input class="rupiahku form-control form-control-sm" type="text" name="nilai_tahun_kolom_2_8"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div>
+                        <button type="submit" class="btn btn-primary btn-sm">Cetak Format Dan Download</button>
+                    </div>
+                </form>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>

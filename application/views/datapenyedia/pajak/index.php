@@ -33,6 +33,12 @@
                                     <strong>Neraca Keuangan</strong>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="custom-tabs-one-keuangan-tab" data-toggle="pill" href="#custom-tabs-one-neraca" role="tab" aria-controls="custom-tabs-one-neraca" aria-selected="true">
+                                    <i class="fas fa-file-excel mr-2"></i>
+                                    <strong>Laporan Keuangan</strong>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                     <div class="card-body">
