@@ -2444,6 +2444,7 @@ class Datapenyedia extends CI_Controller
 		$this->load->view('datapenyedia/pajak/singgah', $data);
 		$this->load->view('template_menu/new_footer');
 		$this->load->view('datapenyedia/pajak/file_public');
+		$this->load->view('datapenyedia/pajak/file_public_neraca');
 	}
 
 	public function get_row_global_pajak($id_url_vendor)
@@ -2453,14 +2454,15 @@ class Datapenyedia extends CI_Controller
 		$id_vendor = $row_vendor['id_vendor'];
 		$row_sppkp = $this->M_datapenyedia->get_row_sppkp($id_vendor);
 		$row_npwp = $this->M_datapenyedia->get_row_npwp($id_vendor);
-		// $row_sbu = $this->M_datapenyedia->get_row_sbu($id_vendor);
+		$row_neraca = $this->M_datapenyedia->get_row_neraca($id_vendor);
 		// $row_siujk = $this->M_datapenyedia->get_row_siujk($id_vendor);
 		if ($token == $row_vendor['token_scure_vendor']) {
 			$response = [
 				'row_vendor' => $row_vendor,
 				'row_sppkp' => $row_sppkp,
 				'row_npwp' => $row_npwp,
-				// 'row_sbu' => $row_sbu,
+				'row_neraca' => $row_neraca,
+				'id_vendor' => 	$id_vendor
 				// 'row_siujk' => $row_siujk
 			];
 			$this->output->set_content_type('application/json')->set_output(json_encode($response));
@@ -2787,9 +2789,9 @@ class Datapenyedia extends CI_Controller
 	// end crud pajak
 
 	// CRUD NERACA
-	function get_neraca_keuangan()
+	function get_neraca_keuangan($id_vendor)
 	{
-		$result = $this->M_datapenyedia->gettable_rekanan_neraca();
+		$result = $this->M_datapenyedia->gettable_neraca_keuangan($id_vendor);
 		$data = [];
 		$no = $_POST['start'];
 		foreach ($result as $rs) {
@@ -2805,25 +2807,24 @@ class Datapenyedia extends CI_Controller
 			} else {
 				$row[] = '<small><span class="badge bg-warning text-white">Belum Upload Dokumen</span></small>';
 			}
-
 			// nanti main kondisi hitung dokumen dimari
-			if ($rs->sts_dokumen_cek == NULL) {
+			if ($rs->sts_validasi == NULL) {
 				$row[] = '<small><span class="badge swatch-orange text-white">Belum Di Periksa</span></small>';
-			} else if ($rs->sts_dokumen_cek == 1) {
+			} else if ($rs->sts_validasi == 1) {
 				$row[] = '<small><span class="badge bg-success text-white">Sudah Valid</span></small>';
-			} else if ($rs->sts_dokumen_cek == 2) {
+			} else if ($rs->sts_validasi == 2) {
 				$row[] = '<small><span class="badge bg-danger text-white">Belum Valid</span></small>';
 			}
 
-			$row[] = '<a href="' . base_url('validator/rekanan_neraca/cek_dokumen/' . $rs->id_url_vendor) . '" class="btn btn-warning btn-block btn-sm shadow-lg" ><i class="fa-solid fa-share-from-square px-1"></i> Cek Dokumen</a><br>
-            <a href="javascript:;" class="btn btn-success btn-block btn-sm shadow-lg" onClick="byid_vendor(' . "'" . $rs->id_url_vendor . "','terima'" . ')"> <i class="fa-solid fa-envelope px-1"></i> Pesan</a> <a href="javascript:;" class="btn btn-primary btn-block btn-sm shadow-lg" onClick="byid_vendor(' . "'" . $rs->id_url_vendor . "','tolak'" . ')"> <i class="fa-solid fa-paper-plane px-1"></i> Undang</a>';
+			$row[] = '<a href="' . base_url('validator/rekanan_neraca/cek_dokumen/' . $rs->id_neraca) . '" class="btn btn-warning btn-block btn-sm shadow-lg" ><i class="fa-solid fa-share-from-square px-1"></i> Cek Dokumen</a><br>
+            <a href="javascript:;" class="btn btn-success btn-block btn-sm shadow-lg" onClick="byid_vendor(' . "'" . $rs->id_neraca . "','terima'" . ')"> <i class="fa-solid fa-envelope px-1"></i> Pesan</a> <a href="javascript:;" class="btn btn-primary btn-block btn-sm shadow-lg" onClick="byid_vendor(' . "'" . $rs->id_neraca . "','tolak'" . ')"> <i class="fa-solid fa-paper-plane px-1"></i> Undang</a>';
 
 			$data[] = $row;
 		}
 		$output = array(
 			"draw" => $_POST['draw'],
-			"recordsTotal" => $this->M_datapenyedia->count_all_rekanan_neraca(),
-			"recordsFiltered" => $this->M_datapenyedia->count_filtered_rekanan_neraca(),
+			"recordsTotal" => $this->M_datapenyedia->count_all_neraca_keuangan($id_vendor),
+			"recordsFiltered" => $this->M_datapenyedia->count_filtered_neraca_keuangan($id_vendor),
 			"data" => $data
 		);
 		$this->output->set_content_type('application/json')->set_output(json_encode($output));

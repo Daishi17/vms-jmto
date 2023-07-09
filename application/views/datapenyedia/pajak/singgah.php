@@ -355,7 +355,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="card-body">
-                                                    <input type="text" name="get_neraca_keuangan" value="<?= base_url('datapenyedia/get_neraca_keuangan/') ?>">
+                                                    <input type="hidden" name="get_neraca_keuangan" value="<?= base_url('datapenyedia/get_neraca_keuangan/') ?>">
                                                     <table id="tbl_neraca_keuangan" class="table table-sm table-bordered table-striped">
                                                         <thead class="bg-dark">
                                                             <tr class="shadow-lg">
@@ -624,7 +624,7 @@
                                             </div>
                                         </td>
                                     </tr>
-                                    <!-- <tr>
+                                    <tr>
                                         <td class="col-sm-2 bg-light">
                                             <label class="form-label col-form-label-sm"><b>Upload Neraca Keuangan</b></label>
                                         </td>
@@ -646,7 +646,7 @@
                                                 Dekripsi File
                                             </button>
                                         </td>
-                                    </tr> -->
+                                    </tr>
                                     <tr>
                                         <td class="col-sm-12" colspan="4">
                                             <button type="button" class="btn btn-danger btn-sm shadow-lg" data-bs-dismiss="modal">

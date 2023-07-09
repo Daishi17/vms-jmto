@@ -1,6 +1,7 @@
 <script>
     get_row_vendor_neraca()
 
+
     function get_row_vendor_neraca() {
         var secret_token = $('[name="secret_token"]').val()
         var id_url_vendor = $('[name="id_url_vendor"]').val()
@@ -14,6 +15,7 @@
             },
             success: function(response) {
                 var get_neraca_keuangan = $('[name="get_neraca_keuangan"]').val()
+                console.log(get_neraca_keuangan + response['id_vendor']);
                 $(document).ready(function() {
                     $('#tbl_neraca_keuangan').DataTable({
                         "responsive": true,
@@ -26,7 +28,7 @@
                         "buttons": ["excel", "pdf", "print", "colvis"],
                         "order": [],
                         "ajax": {
-                            "url": get_neraca_keuangan + response['row_siup'].id_vendor,
+                            "url": get_neraca_keuangan + response['id_vendor'],
                             "type": "POST",
                         },
                         "columnDefs": [{
