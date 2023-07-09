@@ -38,8 +38,8 @@ class Datapenyedia extends CI_Controller
 		$data['provinsi']  = $this->Wilayah_model->getProvinsi();
 		$data['type']  = 'izin_usaha';
 		$id_vendor = $this->session->userdata('id_vendor');
-        $data['row_vendor'] = $this->M_dashboard->get_row_vendor($id_vendor);
-        $data['kualifikasi'] = str_split($data['row_vendor']['id_jenis_usaha']);
+		$data['row_vendor'] = $this->M_dashboard->get_row_vendor($id_vendor);
+		$data['kualifikasi'] = str_split($data['row_vendor']['id_jenis_usaha']);
 		$this->load->view('template_menu/header_menu');
 		$this->load->view('datapenyedia/identitas/index', $data);
 		$this->load->view('template_menu/new_footer');
@@ -3847,7 +3847,7 @@ class Datapenyedia extends CI_Controller
 
 	public function encryption_keuangan($id_url)
 	{
-		$id_url = $this->input->post('id_url_keuangan');
+		// $id_url = $this->input->post('id_url_keuangan');
 		$token_dokumen = $this->input->post('token_dokumen');
 		// $secret_token = $this->input->post('secret_token');
 
@@ -3857,7 +3857,7 @@ class Datapenyedia extends CI_Controller
 		// $id_vendor = $get_row_enkrip['id_vendor'];
 		// $row_vendor = $this->M_datapenyedia->get_row_vendor($id_vendor);
 		$chiper = "AES-128-ECB";
-		$secret_token_dokumen = $get_row_enkrip['token_dokumen'];
+		// $secret_token_dokumen = $get_row_enkrip['token_dokumen'];
 
 		$chiper = "AES-128-ECB";
 		$secret_token_dokumen1 = 'jmto.1' . $get_row_enkrip['id_url'];
@@ -3873,7 +3873,7 @@ class Datapenyedia extends CI_Controller
 				'file_laporan_auditor' => $file_laporan_auditor,
 				'file_laporan_keuangan' => $file_laporan_keuangan,
 			];
-			$this->M_datapenyedia->update_pemilik_manajerial_enkription($where, $data);
+			$this->M_datapenyedia->update_keuangan($data, $where);
 		} else {
 			$file_laporan_auditor = openssl_encrypt($get_row_enkrip['file_laporan_auditor'], $chiper, $secret_token_dokumen1);
 			$file_laporan_keuangan = openssl_encrypt($get_row_enkrip['file_laporan_keuangan'], $chiper, $secret_token_dokumen2);
@@ -3882,7 +3882,7 @@ class Datapenyedia extends CI_Controller
 				'file_laporan_auditor' => $file_laporan_auditor,
 				'file_laporan_keuangan' => $file_laporan_keuangan,
 			];
-			$this->M_datapenyedia->update_pemilik_manajerial_enkription($where, $data);
+			$this->M_datapenyedia->update_keuangan($data, $where);
 		}
 
 		$response = [

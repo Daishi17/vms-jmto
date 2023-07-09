@@ -108,17 +108,22 @@
         var modal_dekrip_keuangan = $('#modal_dekrip_keuangan');
         var modal_enkrip_keuangan = $('#modal_enkrip_keuangan');
         var url_get_keuangan_by_id = $('[name="url_get_keuangan_by_id"]').val();
+        var url_encryption_keuangan = $('[name="url_encryption_keuangan"]').val()
+        console.log(type);
         $.ajax({
             type: "GET",
             url: url_get_keuangan_by_id + id,
             dataType: "JSON",
             success: function(response) {
                 if (type == 'dekrip') {
+
                     $.ajax({
                         method: "POST",
-                        url: url_encryption_keuangan + id_url,
+                        url: url_encryption_keuangan + response['row_keuangan'].id_url,
                         dataType: "JSON",
-                        data: $('#form_dekrip_keuangan').serialize(),
+                        data: {
+                            type: "dekrip"
+                        },
                         // beforeSend: function() {
                         //     $('#button_dekrip_generate').css('display', 'none');
                         //     $('#button_dekrip_generate_manipulasi').css('display', 'block');
@@ -161,9 +166,11 @@
                 } else if (type == 'enkrip') {
                     $.ajax({
                         method: "POST",
-                        url: url_encryption_keuangan + id_url,
+                        url: url_encryption_keuangan + response['row_keuangan'].id_url,
                         dataType: "JSON",
-                        data: $('#form_enkrip_keuangan').serialize(),
+                        data: {
+                            type: "enkrip"
+                        },
                         // beforeSend: function() {
                         //     $('#button_dekrip_generate').css('display', 'none');
                         //     $('#button_dekrip_generate_manipulasi').css('display', 'block');
