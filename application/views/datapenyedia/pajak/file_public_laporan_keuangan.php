@@ -52,7 +52,6 @@
 
 
     var form_tambah_keuangan = $('#form_tambah_keuangan')
-
     form_tambah_keuangan.on('submit', function(e) {
         // nanti kalau sudah migrasi ke js ambil url nya dari view
         var url_post = $('[name="url_post_keuangan"]').val()
@@ -109,24 +108,108 @@
         var modal_dekrip_keuangan = $('#modal_dekrip_keuangan');
         var modal_enkrip_keuangan = $('#modal_enkrip_keuangan');
         var url_get_keuangan_by_id = $('[name="url_get_keuangan_by_id"]').val();
+        var url_encryption_keuangan = $('[name="url_encryption_keuangan"]').val()
+        console.log(type);
         $.ajax({
             type: "GET",
             url: url_get_keuangan_by_id + id,
             dataType: "JSON",
             success: function(response) {
                 if (type == 'dekrip') {
-                    modal_dekrip_keuangan.modal('show');
-                    $('[name="id_url_keuangan"]').val(response['row_keuangan'].id_url);
-                    $('.button_enkrip_keuangan').html('<a href="javascript:;"  onclick="DekripEnkrip_keuangan(\'' + response['row_keuangan'].file_dokumen + '\'' + ',' + '\'' + 'dekrip' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-lock-open mr-2"></i> Dekripsi Dokumen</a>');
-                    var html2 = '<a href="javascript:;" style="white-space: nowrap;width: 200px;overflow: hidden;text-overflow: ellipsis;" class="btn btn-sm btn-info btn-block">' +
-                        response['row_keuangan'].file_dokumen + '</a>';
-                    $('.token_generate_keuangan').html('<div class="input-group"><span class="input-group-text"><i class="fas fa-qrcode"></i></span><textarea class="form-control form-control-sm" disabled>' + response['row_keuangan'].token_dokumen + '</textarea></div>');
+
+                    $.ajax({
+                        method: "POST",
+                        url: url_encryption_keuangan + response['row_keuangan'].id_url,
+                        dataType: "JSON",
+                        data: {
+                            type: "dekrip"
+                        },
+                        // beforeSend: function() {
+                        //     $('#button_dekrip_generate').css('display', 'none');
+                        //     $('#button_dekrip_generate_manipulasi').css('display', 'block');
+                        // },
+                        success: function(response) {
+                            if (response['maaf']) {
+                                Swal.fire(response['maaf'], '', 'warning')
+                            } else {
+                                let timerInterval
+                                Swal.fire({
+                                    title: 'Sedang Proses Deskripsi!',
+                                    html: 'Proses Deksripsi <b></b>',
+                                    timer: 2000,
+                                    timerProgressBar: true,
+                                    didOpen: () => {
+                                        Swal.showLoading()
+                                        const b = Swal.getHtmlContainer().querySelector('b')
+                                        timerInterval = setInterval(() => {
+                                            // b.textContent = Swal.getTimerRight()
+                                        }, 100)
+                                    },
+                                    willClose: () => {
+                                        clearInterval(timerInterval)
+                                        Swal.fire('Dokumen Berhasil Di Deskripsi!', '', 'success')
+                                        get_row_vendor_keuangan();
+                                        $('#button_dekrip_generate').css('display', 'block');
+                                        $('#button_dekrip_generate_manipulasi').css('display', 'none');
+                                        modal_dekrip_keuangan.modal('hide');
+                                        $('#form_dekrip_keuangan')[0].reset()
+                                    }
+                                }).then((result) => {
+                                    /* Read more about handling dismissals below */
+                                    if (result.dismiss === Swal.DismissReason.timer) {
+
+                                    }
+                                })
+                            }
+                        }
+                    })
                 } else if (type == 'enkrip') {
-                    modal_enkrip_keuangan.modal('show');
-                    $('[name="id_url_keuangan"]').val(response['row_keuangan'].id_url);
-                    $('.button_enkrip_keuangan').html('<a href="javascript:;" onclick="DekripEnkrip_keuangan(\'' + response['row_keuangan'].id_url + '\'' + ',' + '\'' + 'enkrip' + '\')" class="btn btn-success btn-sm"><i class="fas fa-lock mr-2"></i> Enkripsi Dokumen</a>');
-                    var html2 = '<a href="javascript:;" style="white-space: nowrap;width: 200px;overflow: hidden;text-overflow: ellipsis;" onclick="DownloadFile_keuangan(\'' + response['row_keuangan'].id_url + '\')" class="btn btn-sm btn-warning btn-block">' + response['row_keuangan'].file_dokumen + '</a>';
-                    $('.token_generate_keuangan').html('<div class="input-group"><span class="input-group-text"><i class="fas fa-qrcode"></i></span><textarea class="form-control form-control-sm" disabled>' + response['row_keuangan'].token_dokumen + '</textarea></div>');
+                    $.ajax({
+                        method: "POST",
+                        url: url_encryption_keuangan + response['row_keuangan'].id_url,
+                        dataType: "JSON",
+                        data: {
+                            type: "enkrip"
+                        },
+                        // beforeSend: function() {
+                        //     $('#button_dekrip_generate').css('display', 'none');
+                        //     $('#button_dekrip_generate_manipulasi').css('display', 'block');
+                        // },
+                        success: function(response) {
+                            if (response['maaf']) {
+                                Swal.fire(response['maaf'], '', 'warning')
+                            } else {
+                                let timerInterval
+                                Swal.fire({
+                                    title: 'Sedang Proses Deskripsi!',
+                                    html: 'Proses Deksripsi <b></b>',
+                                    timer: 2000,
+                                    timerProgressBar: true,
+                                    didOpen: () => {
+                                        Swal.showLoading()
+                                        const b = Swal.getHtmlContainer().querySelector('b')
+                                        timerInterval = setInterval(() => {
+                                            // b.textContent = Swal.getTimerRight()
+                                        }, 100)
+                                    },
+                                    willClose: () => {
+                                        clearInterval(timerInterval)
+                                        Swal.fire('Dokumen Berhasil Di Deskripsi!', '', 'success')
+                                        get_row_vendor_keuangan();
+                                        $('#button_dekrip_generate').css('display', 'block');
+                                        $('#button_dekrip_generate_manipulasi').css('display', 'none');
+                                        $('#form_enkrip_keuangan')[0].reset()
+                                        modal_enkrip_keuangan.modal('hide');
+                                    }
+                                }).then((result) => {
+                                    /* Read more about handling dismissals below */
+                                    if (result.dismiss === Swal.DismissReason.timer) {
+
+                                    }
+                                })
+                            }
+                        }
+                    })
                 }
             }
 

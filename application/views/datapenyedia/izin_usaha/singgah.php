@@ -1308,7 +1308,7 @@
                                         <td class="col-sm-5">
                                             <div class="col-sm-12">
                                                 <div class="input-group mb-2">
-                                                    <span class="input-group-text"><i class="fa-solid fa-barcode"></i></span>
+                                                    <span class="input-group-text"></span>
                                                     <select class="form-select form-select-sm single-select-field" data-placeholder="Cari Kode Kbli..." name="id_kbli_siujk">
                                                         <option value=""></option>
                                                         <?php foreach ($data_kbli as $key => $value) { ?>

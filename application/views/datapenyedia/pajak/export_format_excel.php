@@ -41,7 +41,7 @@ header("Content-Disposition: attachment; filename=format_excel_neraca.xls");
         <tr>
             <th>NO</th>
             <th>Uraian</th>
-            <th>Jenis Laporan</th>
+            <!-- <th>Jenis Laporan</th> -->
             <th>Tahun 2022 (Rp.)</th>
             <th>Tahun 2023 (Rp.)</th>
         </tr>
@@ -50,14 +50,14 @@ header("Content-Disposition: attachment; filename=format_excel_neraca.xls");
         <tr>
             <td>1</td>
             <td>Penjelasan/Opini dari Auditor Kantor Akuntan Publik</td>
-            <td><?= $jenis_laporan_1 ?></td>
+            <!-- <td><?= $jenis_laporan_1 ?></td> -->
             <td><?= $nilai_tahun_kolom_1_1 ?></td>
             <td><?= $nilai_tahun_kolom_2_1 ?></td>
         </tr>
         <tr>
             <td>2</td>
             <td>Jumlah Kas dan Bank</td>
-            <td><?= $jenis_laporan_2 ?></td>
+            <!-- <td><?= $jenis_laporan_2 ?></td> -->
             <td><?= $nilai_tahun_kolom_1_2 ?></td>
             <td><?= $nilai_tahun_kolom_2_2 ?></td>
         </tr>
@@ -65,7 +65,7 @@ header("Content-Disposition: attachment; filename=format_excel_neraca.xls");
             <td>3</td>
             <td>Total Hutang</td>
             <!-- 3 -->
-            <td><?= $jenis_laporan_3 ?></td>
+            <!-- <td><?= $jenis_laporan_3 ?></td> -->
             <td><?= $nilai_tahun_kolom_1_3 ?></td>
             <td><?= $nilai_tahun_kolom_2_3 ?></td>
         </tr>
@@ -73,7 +73,7 @@ header("Content-Disposition: attachment; filename=format_excel_neraca.xls");
             <td>4</td>
             <td>Total Ekuitas</td>
             <!-- 4 -->
-            <td><?= $jenis_laporan_4 ?></td>
+            <!-- <td><?= $jenis_laporan_4 ?></td> -->
             <td><?= $nilai_tahun_kolom_1_4 ?></td>
             <td><?= $nilai_tahun_kolom_2_4 ?></td>
         </tr>
@@ -81,7 +81,7 @@ header("Content-Disposition: attachment; filename=format_excel_neraca.xls");
             <td>5</td>
             <td>Total Aktiva Lancar</td>
             <!-- 5 -->
-            <td><?= $jenis_laporan_5 ?></td>
+            <!-- <td><?= $jenis_laporan_5 ?></td> -->
             <td><?= $nilai_tahun_kolom_1_5 ?></td>
             <td><?= $nilai_tahun_kolom_2_5 ?></td>
         </tr>
@@ -89,7 +89,7 @@ header("Content-Disposition: attachment; filename=format_excel_neraca.xls");
             <td>6</td>
             <td>Total Hutang Lancar</td>
             <!-- 6 -->
-            <td><?= $jenis_laporan_6 ?></td>
+            <!-- <td><?= $jenis_laporan_6 ?></td> -->
             <td><?= $nilai_tahun_kolom_1_6 ?></td>
             <td><?= $nilai_tahun_kolom_2_6 ?></td>
         </tr>
@@ -97,7 +97,7 @@ header("Content-Disposition: attachment; filename=format_excel_neraca.xls");
             <td>7</td>
             <td>Laba Usaha</td>
             <!-- 7 -->
-            <td><?= $jenis_laporan_7 ?></td>
+            <!-- <td><?= $jenis_laporan_7 ?></td> -->
             <td><?= $nilai_tahun_kolom_1_7 ?></td>
             <td><?= $nilai_tahun_kolom_2_7 ?></td>
         </tr>
@@ -105,7 +105,7 @@ header("Content-Disposition: attachment; filename=format_excel_neraca.xls");
             <td>8</td>
             <td>EBITDA (Laba Usaha + Beban Penyusutan)</td>
             <!-- 8 -->
-            <td><?= $jenis_laporan_8 ?></td>
+            <!-- <td><?= $jenis_laporan_8 ?></td> -->
             <td><?= $nilai_tahun_kolom_1_8 ?></td>
             <td><?= $nilai_tahun_kolom_2_8 ?></td>
         </tr>
