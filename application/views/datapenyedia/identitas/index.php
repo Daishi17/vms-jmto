@@ -36,7 +36,7 @@
                                 Edit Changes
                             </button> -->
                         </div>
-                        <form id="simpan_identitas_vendor" method="POST" enctype="multipart/form-data">
+                        <form id="simpan_identitas_vendor"  method="POST" enctype="multipart/form-data">
                             <div class="card-body">
                                 <table class="table table-sm">
                                     <tr>

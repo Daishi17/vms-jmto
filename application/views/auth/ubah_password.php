@@ -158,6 +158,9 @@
             <div class="form-field d-flex align-items-center">
                 <i class="fas fa fa-user"></i>
                 <input type="text" name="password" placeholder="Password Baru">
+            </div>
+            <div class="form-field d-flex align-items-center">
+                <i class="fas fa fa-user"></i>
                 <input type="text" name="password2" placeholder="Masukan Ulang Password">
             </div>
             <div class="mt-2" style="margin-left: -10px;">
@@ -186,3 +189,4 @@
     <?php $this->load->view('notfound'); ?>
 <?php   }
 ?>
+<!-- other bastard -->
