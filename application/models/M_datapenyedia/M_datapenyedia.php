@@ -1772,12 +1772,23 @@ class M_datapenyedia extends CI_Model
         $query = $this->db->get();
         return $query->row_array();
     }
+    function delete_spt($where)
+    {
+        $this->db->delete('tbl_vendor_spt', $where);
+        return $this->db->affected_rows();
+    }
     // END CRUD SPT
 
     // crud keuangan
     function tambah_keuangan($data)
     {
         $this->db->insert('tbl_vendor_keuangan', $data);
+        return $this->db->affected_rows();
+    }
+
+    function delete_keuangan($where)
+    {
+        $this->db->delete('tbl_vendor_keuangan', $where);
         return $this->db->affected_rows();
     }
 

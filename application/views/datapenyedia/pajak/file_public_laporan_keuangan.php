@@ -188,7 +188,6 @@
         var modal_edit_keuangan = $('#modal-xl-keuangan');
         var url_get_keuangan_by_id = $('[name="url_get_keuangan_by_id"]').val();
         var url_encryption_keuangan = $('[name="url_encryption_keuangan"]').val()
-        console.log(type);
         $.ajax({
             type: "GET",
             url: url_get_keuangan_by_id + id,
@@ -291,17 +290,42 @@
                 } else if (type == 'edit') {
                     modal_edit_keuangan.modal('show');
                     $('[name="type_keuangan"]').val('edit');
+                    $('[name="jenis_audit"]').val(response['row_keuangan'].jenis_audit);
+                    $('[name="tahun_lapor"]').val(response['row_keuangan'].tahun_lapor);
                     $('[name="file_dokumen_manipulasi_auditor"]').val(response['row_keuangan'].file_laporan_auditor);
                     $('[name="file_dokumen_manipulasi_keuangan"]').val(response['row_keuangan'].file_laporan_keuangan);
                     $('[name="id_vendor_keuangan"]').val(response['row_keuangan'].id_vendor_keuangan);
                     $('[name="file_laporan_auditor"]').val(response['row_keuangan'].file_laporan_auditor);
                     $('[name="file_laporan_keuangan"]').val(response['row_keuangan'].file_laporan_keuangan);
                 } else {
+                    Question_hapus_keuangan(response['row_keuangan'].id_url);
 
                 }
             }
 
         })
+    }
+
+    function Question_hapus_keuangan(id_url) {
+        Swal.fire({
+            title: "Yakin Mau Hapus",
+            text: 'Data Ini Mau Di hapus?',
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    type: "POST",
+                    url: '<?= base_url('datapenyedia/hapus_row_keuangan/') ?>' + id_url,
+                    dataType: "JSON",
+                    success: function(response) {
+                        Swal.fire('Good job!', 'Data Beharhasil Dihapus!', 'success');
+                        get_row_vendor_keuangan();
+                    }
+                })
+            }
+        });
     }
 
     function GenerateDekrip_keuangan() {

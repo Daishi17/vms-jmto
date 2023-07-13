@@ -1,6 +1,9 @@
 <script>
-
-var data_pengalaman_manajerial = $('#data_pengalaman_manajerial')
+    $('.file_valid_pengalaman').change(function(e) {
+        var geekss = e.target.files[0].name;
+        $('[name="file_dokumen_manipulasi_pengalaman"]').val(geekss);
+    });
+    var data_pengalaman_manajerial = $('#data_pengalaman_manajerial')
     $(document).ready(function() {
         // var url_data_pengalaman_manajerial = $('[name="url_data_pengalaman_manajerial"]').val();
         data_pengalaman_manajerial.DataTable({
@@ -101,7 +104,8 @@ var data_pengalaman_manajerial = $('#data_pengalaman_manajerial')
                     } else {
                         $('.button_enkrip_pengalaman').html('<a href="javascript:;" onclick="DekripEnkrip_pengalaman(\'' + response['row_excel_pengalaman_manajerial'].id_url + '\'' + ',' + '\'' + 'enkrip' + '\')" class="btn btn-success btn-sm"><i class="fas fa-lock mr-2"></i> Enkripsi Dokumen</a>');
                     }
-                    $('.button_nama_file_kontrak_pengalaman').html('<a href="javascript:;"  onclick="Download_pengalaman(\'' + response['row_excel_pengalaman_manajerial'].id_url + '\'' + ',' + '\'' + 'pengalaman_ktp' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-file mr-2"></i> ' + response['row_excel_pengalaman_manajerial'].file_kontrak_pengalaman + '</a>');
+                    $('.button_nama_file_kontrak_pengalaman').html('<a href="javascript:;"  onclick="Download_pengalaman(\'' + response['row_excel_pengalaman_manajerial'].id_url + '\'' + ',' + '\'' + 'pengalaman_kontrak' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-file mr-2"></i> ' + response['row_excel_pengalaman_manajerial'].file_kontrak_pengalaman + '</a>');
+                    $('[name="file_dokumen_manipulasi_pengalaman"]').val(response['row_excel_pengalaman_manajerial'].file_kontrak_pengalaman);
                     $('[name="id_pengalaman"]').val(response['row_excel_pengalaman_manajerial'].id_pengalaman);
                     $('[name="id_url"]').val(response['row_excel_pengalaman_manajerial'].id_url);
                     $('[name="no_kontrak"]').val(response['row_excel_pengalaman_manajerial'].no_kontrak);
@@ -121,14 +125,21 @@ var data_pengalaman_manajerial = $('#data_pengalaman_manajerial')
         })
     }
 
-
     var form_edit_excel_pengalaman_manajerial = $('#form_edit_excel_pengalaman_manajerial');
     var modal_edit_excel_pengalaman_manajerial = $('#modal_edit_excel_pengalaman_manajerial');
     form_edit_excel_pengalaman_manajerial.on('submit', function(e) {
         e.preventDefault();
         var validasi_enkripsi_pengalaman = $('[name="validasi_enkripsi_pengalaman"]').val();
+        var file_dokumen_manipulasi_pengalaman = $('[name="file_dokumen_manipulasi_pengalaman"]').val()
         if (validasi_enkripsi_pengalaman == 2) {
             Swal.fire('Waduh Maaf!', 'Enkripsi File Terlebih Dahulu Yaa!', 'warning');
+        } else if (file_dokumen_manipulasi_pengalaman == '') {
+            e.preventDefault();
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Dokumen Wajib Di Isi!',
+            })
         } else {
             $.ajax({
                 url: "<?php echo base_url(); ?>datapenyedia/edit_excel_pengalaman_manajerial",
@@ -141,42 +152,141 @@ var data_pengalaman_manajerial = $('#data_pengalaman_manajerial')
                     $('.btn_simpan').attr('disabled', 'disabled');
                 },
                 success: function(response) {
-                    modal_edit_excel_pengalaman_manajerial.modal('hide')
-                    Swal.fire('Good job!', 'Data Beharhasil Di Edit!', 'success');
-                    reloaddata_excel_pengalaman_manajerial()
-                    reloaddata_pengalaman_manajerial();
-                    $('.btn_simpan').attr('disabled', false);
-                    form_edit_excel_pengalaman_manajerial[0].reset();
+                    if (response['error']) {
+                        // no_kontrak
+                        $(".no_kontrak_error").css('display', 'block');
+                        // nama_pekerjaan
+                        $(".nama_pekerjaan_error").css('display', 'block');
+                        // id_jenis_usaha
+                        $(".id_jenis_usaha_error").css('display', 'block');
+                        // tanggal_kontrak
+                        $(".tanggal_kontrak_error").css('display', 'block');
+                        // instansi_pemberi
+                        $(".instansi_pemberi_error").css('display', 'block');
+                        // nilai_kontrak
+                        $(".nilai_kontrak_error").css('display', 'block');
+                        // lokasi_pekerjaan
+                        $(".lokasi_pekerjaan_error").css('display', 'block');
+                        // no_kontrak
+                        $(".no_kontrak_error").html(response['error']['no_kontrak']);
+                        // nama_pekerjaan
+                        $(".nama_pekerjaan_error").html(response['error']['nama_pekerjaan']);
+                        // id_jenis_usaha
+                        $(".id_jenis_usaha_error").html(response['error']['id_jenis_usaha']);
+                        // tanggal_kontrak
+                        $(".tanggal_kontrak_error").html(response['error']['tanggal_kontrak']);
+                        // instansi_pemberi
+                        $(".instansi_pemberi_error").html(response['error']['instansi_pemberi']);
+                        // nilai_kontrak
+                        $(".nilai_kontrak_error").html(response['error']['nilai_kontrak']);
+                        // lokasi_pekerjaan
+                        $(".lokasi_pekerjaan_error").html(response['error']['lokasi_pekerjaan']);
+                        $('.btn_simpan').attr("disabled", false);
+                    } else {
+                        modal_edit_excel_pengalaman_manajerial.modal('hide')
+                        Swal.fire('Good job!', 'Data Beharhasil Di Edit!', 'success');
+                        reloaddata_excel_pengalaman_manajerial()
+                        reloaddata_pengalaman_manajerial();
+                        $('.btn_simpan').attr('disabled', false);
+                        form_edit_excel_pengalaman_manajerial[0].reset();
+                         // no_kontrak
+                         $(".no_kontrak_error").css('display', 'none');
+                        // nama_pekerjaan
+                        $(".nama_pekerjaan_error").css('display', 'none');
+                        // id_jenis_usaha
+                        $(".id_jenis_usaha_error").css('display', 'none');
+                        // tanggal_kontrak
+                        $(".tanggal_kontrak_error").css('display', 'none');
+                        // instansi_pemberi
+                        $(".instansi_pemberi_error").css('display', 'none');
+                        // nilai_kontrak
+                        $(".nilai_kontrak_error").css('display', 'none');
+                        // lokasi_pekerjaan
+                        $(".lokasi_pekerjaan_error").css('display', 'none');
+                    }
                 }
             });
         }
     });
 
-
-
-
     var form_simpan_pengalaman = $('#form_simpan_pengalaman');
     var modal_pengalaman = $('#modal-xl-pengalaman');
     form_simpan_pengalaman.on('submit', function(e) {
-        e.preventDefault();
-        $.ajax({
-            url: "<?php echo base_url(); ?>datapenyedia/buat_pengalaman",
-            method: "POST",
-            data: new FormData(this),
-            contentType: false,
-            cache: false,
-            processData: false,
-            beforeSend: function() {
-                $('.btn_simpan').attr('disabled', 'disabled');
-            },
-            success: function(response) {
-                modal_pengalaman.modal('hide')
-                Swal.fire('Good job!', 'Data Beharhasil Di Buat!', 'success');
-                reloaddata_pengalaman_manajerial()
-                $('.btn_simpan').attr('disabled', false);
-                form_simpan_pengalaman[0].reset();
-            }
-        });
+        var file_dokumen_manipulasi_pengalaman = $('[name="file_dokumen_manipulasi_pengalaman"]').val()
+        if (file_dokumen_manipulasi_pengalaman == '') {
+            e.preventDefault();
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Dokumen Wajib Di Isi!',
+            })
+        } else {
+            e.preventDefault();
+            $.ajax({
+                url: "<?php echo base_url(); ?>datapenyedia/buat_pengalaman",
+                method: "POST",
+                data: new FormData(this),
+                contentType: false,
+                cache: false,
+                processData: false,
+                beforeSend: function() {
+                    $('.btn_simpan').attr('disabled', 'disabled');
+                },
+                success: function(response) {
+                    if (response['error']) {
+                        // no_kontrak
+                        $(".no_kontrak_error").css('display', 'block');
+                        // nama_pekerjaan
+                        $(".nama_pekerjaan_error").css('display', 'block');
+                        // id_jenis_usaha
+                        $(".id_jenis_usaha_error").css('display', 'block');
+                        // tanggal_kontrak
+                        $(".tanggal_kontrak_error").css('display', 'block');
+                        // instansi_pemberi
+                        $(".instansi_pemberi_error").css('display', 'block');
+                        // nilai_kontrak
+                        $(".nilai_kontrak_error").css('display', 'block');
+                        // lokasi_pekerjaan
+                        $(".lokasi_pekerjaan_error").css('display', 'block');
+                        // no_kontrak
+                        $(".no_kontrak_error").html(response['error']['no_kontrak']);
+                        // nama_pekerjaan
+                        $(".nama_pekerjaan_error").html(response['error']['nama_pekerjaan']);
+                        // id_jenis_usaha
+                        $(".id_jenis_usaha_error").html(response['error']['id_jenis_usaha']);
+                        // tanggal_kontrak
+                        $(".tanggal_kontrak_error").html(response['error']['tanggal_kontrak']);
+                        // instansi_pemberi
+                        $(".instansi_pemberi_error").html(response['error']['instansi_pemberi']);
+                        // nilai_kontrak
+                        $(".nilai_kontrak_error").html(response['error']['nilai_kontrak']);
+                        // lokasi_pekerjaan
+                        $(".lokasi_pekerjaan_error").html(response['error']['lokasi_pekerjaan']);
+                        $('.btn_simpan').attr("disabled", false);
+                    } else {
+                        modal_pengalaman.modal('hide')
+                        Swal.fire('Good job!', 'Data Beharhasil Di Buat!', 'success');
+                        reloaddata_pengalaman_manajerial()
+                        $('.btn_simpan').attr('disabled', false);
+                        form_simpan_pengalaman[0].reset();
+                        // no_kontrak
+                        $(".no_kontrak_error").css('display', 'none');
+                        // nama_pekerjaan
+                        $(".nama_pekerjaan_error").css('display', 'none');
+                        // id_jenis_usaha
+                        $(".id_jenis_usaha_error").css('display', 'none');
+                        // tanggal_kontrak
+                        $(".tanggal_kontrak_error").css('display', 'none');
+                        // instansi_pemberi
+                        $(".instansi_pemberi_error").css('display', 'none');
+                        // nilai_kontrak
+                        $(".nilai_kontrak_error").css('display', 'none');
+                        // lokasi_pekerjaan
+                        $(".lokasi_pekerjaan_error").css('display', 'none');
+                    }
+                }
+            });
+        }
     });
 
     var form_import_excel_pengalaman = $('#form_import_excel_pengalaman');
@@ -326,7 +436,7 @@ var data_pengalaman_manajerial = $('#data_pengalaman_manajerial')
                                 } else {
                                     $('.button_enkrip_pengalaman').html('<a href="javascript:;" onclick="DekripEnkrip_pengalaman(\'' + response['row_excel_pengalaman_manajerial'].id_url + '\'' + ',' + '\'' + 'enkrip' + '\')" class="btn btn-success btn-sm"><i class="fas fa-lock mr-2"></i> Enkripsi Dokumen</a>');
                                 }
-                                $('.button_nama_file_kontrak_pengalaman').html('<a href="javascript:;"  onclick="Download_pengalaman(\'' + response['row_excel_pengalaman_manajerial'].id_url + '\'' + ',' + '\'' + 'pengalaman_ktp' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-file mr-2"></i> ' + response['row_excel_pengalaman_manajerial'].file_kontrak_pengalaman + '</a>');
+                                $('.button_nama_file_kontrak_pengalaman').html('<a href="javascript:;"  onclick="Download_pengalaman(\'' + response['row_excel_pengalaman_manajerial'].id_url + '\'' + ',' + '\'' + 'pengalaman_kontrak' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-file mr-2"></i> ' + response['row_excel_pengalaman_manajerial'].file_kontrak_pengalaman + '</a>');
                                 reloaddata_excel_pengalaman_manajerial();
                             } else {
                                 $('[name="validasi_enkripsi_pengalaman"]').val(response['row_pengalaman_manajerial'].sts_token_dokumen_pengalaman);
@@ -335,7 +445,7 @@ var data_pengalaman_manajerial = $('#data_pengalaman_manajerial')
                                 } else {
                                     $('.button_enkrip_pengalaman').html('<a href="javascript:;" onclick="DekripEnkrip_pengalaman(\'' + response['row_pengalaman_manajerial'].id_url + '\'' + ',' + '\'' + 'enkrip' + '\')" class="btn btn-success btn-sm"><i class="fas fa-lock mr-2"></i> Enkripsi Dokumen</a>');
                                 }
-                                $('.button_nama_file_kontrak_pengalaman').html('<a href="javascript:;"  onclick="Download_pengalaman(\'' + response['row_pengalaman_manajerial'].id_url + '\'' + ',' + '\'' + 'pengalaman_ktp' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-file mr-2"></i> ' + response['row_pengalaman_manajerial'].file_kontrak_pengalaman + '</a>');
+                                $('.button_nama_file_kontrak_pengalaman').html('<a href="javascript:;"  onclick="Download_pengalaman(\'' + response['row_pengalaman_manajerial'].id_url + '\'' + ',' + '\'' + 'pengalaman_kontrak' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-file mr-2"></i> ' + response['row_pengalaman_manajerial'].file_kontrak_pengalaman + '</a>');
                                 reloaddata_pengalaman_manajerial();
                             }
                         }
@@ -380,7 +490,7 @@ var data_pengalaman_manajerial = $('#data_pengalaman_manajerial')
                                 } else {
                                     $('.button_enkrip_pengalaman').html('<a href="javascript:;" onclick="DekripEnkrip_pengalaman(\'' + response['row_excel_pengalaman_manajerial'].id_url + '\'' + ',' + '\'' + 'enkrip' + '\')" class="btn btn-success btn-sm"><i class="fas fa-lock mr-2"></i> Enkripsi Dokumen</a>');
                                 }
-                                $('.button_nama_file_kontrak_pengalaman').html('<a href="javascript:;"  onclick="Download_pengalaman(\'' + response['row_excel_pengalaman_manajerial'].id_url + '\'' + ',' + '\'' + 'pengalaman_ktp' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-file mr-2"></i> ' + response['row_excel_pengalaman_manajerial'].file_kontrak_pengalaman + '</a>');
+                                $('.button_nama_file_kontrak_pengalaman').html('<a href="javascript:;"  onclick="Download_pengalaman(\'' + response['row_excel_pengalaman_manajerial'].id_url + '\'' + ',' + '\'' + 'pengalaman_kontrak' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-file mr-2"></i> ' + response['row_excel_pengalaman_manajerial'].file_kontrak_pengalaman + '</a>');
                                 reloaddata_excel_pengalaman_manajerial();
                             } else {
                                 $('[name="validasi_enkripsi_pengalaman"]').val(response['row_pengalaman_manajerial'].sts_token_dokumen_pengalaman);
@@ -389,7 +499,7 @@ var data_pengalaman_manajerial = $('#data_pengalaman_manajerial')
                                 } else {
                                     $('.button_enkrip_pengalaman').html('<a href="javascript:;" onclick="DekripEnkrip_pengalaman(\'' + response['row_pengalaman_manajerial'].id_url + '\'' + ',' + '\'' + 'enkrip' + '\')" class="btn btn-success btn-sm"><i class="fas fa-lock mr-2"></i> Enkripsi Dokumen</a>');
                                 }
-                                $('.button_nama_file_kontrak_pengalaman').html('<a href="javascript:;"  onclick="Download_pengalaman(\'' + response['row_pengalaman_manajerial'].id_url + '\'' + ',' + '\'' + 'pengalaman_ktp' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-file mr-2"></i> ' + response['row_pengalaman_manajerial'].file_kontrak_pengalaman + '</a>');
+                                $('.button_nama_file_kontrak_pengalaman').html('<a href="javascript:;"  onclick="Download_pengalaman(\'' + response['row_pengalaman_manajerial'].id_url + '\'' + ',' + '\'' + 'pengalaman_kontrak' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-file mr-2"></i> ' + response['row_pengalaman_manajerial'].file_kontrak_pengalaman + '</a>');
                                 reloaddata_pengalaman_manajerial();
                             }
                         }
@@ -435,7 +545,8 @@ var data_pengalaman_manajerial = $('#data_pengalaman_manajerial')
                     } else {
                         $('.button_enkrip_pengalaman').html('<a href="javascript:;" onclick="DekripEnkrip_pengalaman(\'' + response['row_pengalaman_manajerial'].id_url + '\'' + ',' + '\'' + 'enkrip' + '\')" class="btn btn-success btn-sm"><i class="fas fa-lock mr-2"></i> Enkripsi Dokumen</a>');
                     }
-                    $('.button_nama_file_kontrak_pengalaman').html('<a href="javascript:;"  onclick="Download_pengalaman(\'' + response['row_pengalaman_manajerial'].id_url + '\'' + ',' + '\'' + 'pengalaman_ktp' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-file mr-2"></i> ' + response['row_pengalaman_manajerial'].file_kontrak_pengalaman + '</a>');
+                    $('.button_nama_file_kontrak_pengalaman').html('<a href="javascript:;"  onclick="Download_pengalaman(\'' + response['row_pengalaman_manajerial'].id_url + '\'' + ',' + '\'' + 'pengalaman_kontrak_biasa' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-file mr-2"></i> ' + response['row_pengalaman_manajerial'].file_kontrak_pengalaman + '</a>');
+                    $('[name="file_dokumen_manipulasi_pengalaman"]').val(response['row_pengalaman_manajerial'].file_kontrak_pengalaman);
                     $('[name="id_pengalaman"]').val(response['row_pengalaman_manajerial'].id_pengalaman);
                     $('[name="id_url"]').val(response['row_pengalaman_manajerial'].id_url);
                     $('[name="no_kontrak"]').val(response['row_pengalaman_manajerial'].no_kontrak);
@@ -458,7 +569,7 @@ var data_pengalaman_manajerial = $('#data_pengalaman_manajerial')
     function Question_hapus_pengalaman(id_url, nama_pekerjaan) {
         Swal.fire({
             title: "Yakin Mau Hapus",
-            text: 'Data' + nama_pekerjaan + 'Ini Mau Di hapus?',
+            text: 'Data ' + nama_pekerjaan + ' Ini Mau Di hapus?',
             icon: "warning",
             buttons: true,
             dangerMode: true,

@@ -2498,6 +2498,7 @@ class Datapenyedia extends CI_Controller
 				'jns_pemilik' => $value['jns_pemilik'],
 				'saham' => $value['saham'],
 				'alamat_pemilik' => $value['alamat_pemilik'],
+				'sts_valdiasi' => 0
 			];
 			$this->M_datapenyedia->tambah_tbl_vendor_pemilik($data);
 		}
@@ -2708,6 +2709,7 @@ class Datapenyedia extends CI_Controller
 							'jabatan_mulai' => $row->getCellAtIndex(5),
 							'jabatan_selesai' => $row->getCellAtIndex(6),
 							'alamat_pengurus' => $row->getCellAtIndex(7),
+							'sts_validasi' => 0
 						);
 						$this->M_datapenyedia->insert_pengurus($data);
 					}
@@ -2744,7 +2746,7 @@ class Datapenyedia extends CI_Controller
 		$nama_pengurus = $this->input->post('nama_pengurus');
 		$alamat_pengurus = $this->input->post('alamat_pengurus');
 		$npwp = $this->input->post('npwp_pengurus');
-		$warganegara = $this->input->post('warganegara');
+		$warganegara = $this->input->post('warganegara_pengurus');
 		$jabatan_pengurus = $this->input->post('jabatan_pengurus');
 		$jabatan_mulai = $this->input->post('jabatan_mulai');
 		$jabatan_selesai = $this->input->post('jabatan_selesai');
@@ -3007,45 +3009,68 @@ class Datapenyedia extends CI_Controller
 		$instansi_pemberi = $this->input->post('instansi_pemberi');
 		$nilai_kontrak = $this->input->post('nilai_kontrak');
 		$lokasi_pekerjaan = $this->input->post('lokasi_pekerjaan');
-		$id = $this->uuid->v4();
-		$id = str_replace('-', '', $id);
-		// seeting enkrip dokumen
-		$chiper = "AES-128-ECB";
-		$secret_token_dokumen1 = 'jmto.1' . $id;
-		// SETTING PATH 
-		$sts_upload = [
-			'sts_upload_dokumen' => 1
-		];
-		$where = [
-			'id_vendor' => $id_vendor
-		];
-		$this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
-		$date = date('Y');
-		if (!is_dir('file_vms/' . $nama_usaha . '/Pengalaman-' . $date)) {
-			mkdir('file_vms/' . $nama_usaha . '/Pengalaman-' . $date, 0777, TRUE);
+		$this->form_validation->set_rules('no_kontrak', 'No Kontrak', 'required|trim', ['required' => 'No Kontrak Wajib Diisi!']);
+		$this->form_validation->set_rules('nama_pekerjaan', 'Nama Pekerjaan', 'required|trim', ['required' => 'Nama Pekerjaan Wajib Diisi!']);
+		$this->form_validation->set_rules('id_jenis_usaha', 'Jenis Pengadaan', 'required|trim', ['required' => 'Jenis Pengadaan  Wajib Diisi!']);
+		$this->form_validation->set_rules('tanggal_kontrak', 'Tanggal Kontrak', 'required|trim', ['required' => 'Tanggal Kontrak  Wajib Diisi!']);
+		$this->form_validation->set_rules('instansi_pemberi', 'Instansi Pemberi', 'required|trim', ['required' => 'Instansi Pemberi  Wajib Diisi!']);
+		$this->form_validation->set_rules('nilai_kontrak', 'Nilai Kontrak', 'required|trim', ['required' => 'Nilai Kontrak  Wajib Diisi!']);
+		$this->form_validation->set_rules('lokasi_pekerjaan', 'Lokasi Pekerjaan', 'required|trim', ['required' => 'Lokasi Pekerjaan  Wajib Diisi!']);
+		if ($this->form_validation->run() == false) {
+			$response = [
+				'error' => [
+					'no_kontrak' => form_error('no_kontrak'),
+					'nama_pekerjaan' => form_error('nama_pekerjaan'),
+					'id_jenis_usaha' => form_error('id_jenis_usaha'),
+					'tanggal_kontrak' => form_error('tanggal_kontrak'),
+					'instansi_pemberi' => form_error('instansi_pemberi'),
+					'nilai_kontrak' => form_error('nilai_kontrak'),
+					'lokasi_pekerjaan' => form_error('lokasi_pekerjaan'),
+				],
+			];
+			$this->output->set_content_type('application/json')->set_output(json_encode($response));
+		} else {
+			$id = $this->uuid->v4();
+			$id = str_replace('-', '', $id);
+			// seeting enkrip dokumen
+			$chiper = "AES-128-ECB";
+			$secret_token_dokumen1 = 'jmto.1' . $id;
+			// SETTING PATH 
+			$sts_upload = [
+				'sts_upload_dokumen' => 1
+			];
+			$where = [
+				'id_vendor' => $id_vendor
+			];
+			$this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
+			$date = date('Y');
+			if (!is_dir('file_vms/' . $nama_usaha . '/Pengalaman-' . $date)) {
+				mkdir('file_vms/' . $nama_usaha . '/Pengalaman-' . $date, 0777, TRUE);
+			}
+			$config['upload_path'] = './file_vms/' . $nama_usaha . '/Pengalaman-' . $date;
+			$config['allowed_types'] = 'pdf';
+			$config['max_size'] = 0;
+			$this->load->library('upload', $config);
+			if ($this->upload->do_upload('file_kontrak_pengalaman')) {
+				$file_kontrak_pengalaman = $this->upload->data();
+			}
+			$upload = [
+				'id_vendor' => $id_vendor,
+				'id_url' => $id,
+				'no_kontrak' => $no_kontrak,
+				'nama_pekerjaan' => $nama_pekerjaan,
+				'id_jenis_usaha' => $id_jenis_usaha,
+				'tanggal_kontrak' => $tanggal_kontrak,
+				'instansi_pemberi' => $instansi_pemberi,
+				'nilai_kontrak' => $nilai_kontrak,
+				'lokasi_pekerjaan' => $lokasi_pekerjaan,
+				'file_kontrak_pengalaman' => openssl_encrypt($file_kontrak_pengalaman['file_name'], $chiper, $secret_token_dokumen1),
+				'sts_token_dokumen_pengalaman' => 1,
+				'sts_validasi' => 0
+			];
+			$this->M_datapenyedia->tambah_tbl_pengalaman($upload);
+			$this->output->set_content_type('application/json')->set_output(json_encode('success'));
 		}
-		$config['upload_path'] = './file_vms/' . $nama_usaha . '/Pengalaman-' . $date;
-		$config['allowed_types'] = 'pdf';
-		$config['max_size'] = 0;
-		$this->load->library('upload', $config);
-		if ($this->upload->do_upload('file_kontrak_pengalaman')) {
-			$file_kontrak_pengalaman = $this->upload->data();
-		}
-		$upload = [
-			'id_vendor' => $id_vendor,
-			'id_url' => $id,
-			'no_kontrak' => $no_kontrak,
-			'nama_pekerjaan' => $nama_pekerjaan,
-			'id_jenis_usaha' => $id_jenis_usaha,
-			'tanggal_kontrak' => $tanggal_kontrak,
-			'instansi_pemberi' => $instansi_pemberi,
-			'nilai_kontrak' => $nilai_kontrak,
-			'lokasi_pekerjaan' => $lokasi_pekerjaan,
-			'file_kontrak_pengalaman' => openssl_encrypt($file_kontrak_pengalaman['file_name'], $chiper, $secret_token_dokumen1),
-			'sts_token_dokumen_pengalaman' => 1,
-		];
-		$this->M_datapenyedia->tambah_tbl_pengalaman($upload);
-		$this->output->set_content_type('application/json')->set_output(json_encode('success'));
 	}
 
 
@@ -3076,6 +3101,7 @@ class Datapenyedia extends CI_Controller
 							'instansi_pemberi' => $row->getCellAtIndex(4),
 							'lokasi_pekerjaan' => $row->getCellAtIndex(5),
 							'tanggal_kontrak' => $row->getCellAtIndex(6),
+							'sts_validasi' => 0
 						);
 						$this->M_datapenyedia->insert_pengalaman($data);
 					}
@@ -3188,54 +3214,77 @@ class Datapenyedia extends CI_Controller
 		$instansi_pemberi = $this->input->post('instansi_pemberi');
 		$nilai_kontrak = $this->input->post('nilai_kontrak');
 		$lokasi_pekerjaan = $this->input->post('lokasi_pekerjaan');
-		// seeting enkrip dokumen
-		$chiper = "AES-128-ECB";
-		$secret_token_dokumen1 = 'jmto.1' . $get_row_enkrip['id_url'];
-		// SETTING PATH 
-		$sts_upload = [
-			'sts_upload_dokumen' => 1
-		];
-		$where = [
-			'id_vendor' => $id_vendor
-		];
-		$this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
-		$date = date('Y');
-		if (!is_dir('file_vms/' . $nama_usaha . '/Pengalaman-' . $date)) {
-			mkdir('file_vms/' . $nama_usaha . '/Pengalaman-' . $date, 0777, TRUE);
-		}
-		$config['upload_path'] = './file_vms/' . $nama_usaha . '/Pengalaman-' . $date;
-		$config['allowed_types'] = 'pdf';
-		$config['max_size'] = 0;
-		$this->load->library('upload', $config);
-		if ($this->upload->do_upload('file_kontrak_pengalaman')) {
-			$fileDataKontrak = $this->upload->data();
-			$post_file_kontrak_pengalaman = openssl_encrypt($fileDataKontrak['file_name'], $chiper, $secret_token_dokumen1);
+		$this->form_validation->set_rules('no_kontrak', 'No Kontrak', 'required|trim', ['required' => 'No Kontrak Wajib Diisi!']);
+		$this->form_validation->set_rules('nama_pekerjaan', 'Nama Pekerjaan', 'required|trim', ['required' => 'Nama Pekerjaan Wajib Diisi!']);
+		$this->form_validation->set_rules('id_jenis_usaha', 'Jenis Pengadaan', 'required|trim', ['required' => 'Jenis Pengadaan  Wajib Diisi!']);
+		$this->form_validation->set_rules('tanggal_kontrak', 'Tanggal Kontrak', 'required|trim', ['required' => 'Tanggal Kontrak  Wajib Diisi!']);
+		$this->form_validation->set_rules('instansi_pemberi', 'Instansi Pemberi', 'required|trim', ['required' => 'Instansi Pemberi  Wajib Diisi!']);
+		$this->form_validation->set_rules('nilai_kontrak', 'Nilai Kontrak', 'required|trim', ['required' => 'Nilai Kontrak  Wajib Diisi!']);
+		$this->form_validation->set_rules('lokasi_pekerjaan', 'Lokasi Pekerjaan', 'required|trim', ['required' => 'Lokasi Pekerjaan  Wajib Diisi!']);
+		if ($this->form_validation->run() == false) {
+			$response = [
+				'error' => [
+					'no_kontrak' => form_error('no_kontrak'),
+					'nama_pekerjaan' => form_error('nama_pekerjaan'),
+					'id_jenis_usaha' => form_error('id_jenis_usaha'),
+					'tanggal_kontrak' => form_error('tanggal_kontrak'),
+					'instansi_pemberi' => form_error('instansi_pemberi'),
+					'nilai_kontrak' => form_error('nilai_kontrak'),
+					'lokasi_pekerjaan' => form_error('lokasi_pekerjaan'),
+				],
+			];
+			$this->output->set_content_type('application/json')->set_output(json_encode($response));
 		} else {
-			$fileDataKontrak = $get_row_enkrip['file_kontrak_pengalaman'];
-			$post_file_kontrak_pengalaman = $fileDataKontrak;
-		}
-		$where = [
-			'id_pengalaman' => $id_pengalaman
-		];
-		$upload = [
-			'id_vendor' => $id_vendor,
-			'no_kontrak' => $no_kontrak,
-			'nama_pekerjaan' => $nama_pekerjaan,
-			'id_jenis_usaha' => $id_jenis_usaha,
-			'tanggal_kontrak' => $tanggal_kontrak,
-			'instansi_pemberi' => $instansi_pemberi,
-			'nilai_kontrak' => $nilai_kontrak,
-			'lokasi_pekerjaan' => $lokasi_pekerjaan,
-			'file_kontrak_pengalaman' => $post_file_kontrak_pengalaman,
-			'sts_token_dokumen_pengalaman' => 1,
-		];
-		if ($type_edit_pengalaman == 'edit_excel') {
-			$this->M_datapenyedia->update_excel_pengalaman_manajerial($upload, $where);
-		} else {
-			$this->M_datapenyedia->update_pengalaman_manajerial($upload, $where);
-		}
+			// seeting enkrip dokumen
+			$chiper = "AES-128-ECB";
+			$secret_token_dokumen1 = 'jmto.1' . $get_row_enkrip['id_url'];
+			// SETTING PATH 
+			$sts_upload = [
+				'sts_upload_dokumen' => 1
+			];
+			$where = [
+				'id_vendor' => $id_vendor
+			];
+			$this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
+			$date = date('Y');
+			if (!is_dir('file_vms/' . $nama_usaha . '/Pengalaman-' . $date)) {
+				mkdir('file_vms/' . $nama_usaha . '/Pengalaman-' . $date, 0777, TRUE);
+			}
+			$config['upload_path'] = './file_vms/' . $nama_usaha . '/Pengalaman-' . $date;
+			$config['allowed_types'] = 'pdf';
+			$config['max_size'] = 0;
+			$this->load->library('upload', $config);
+			if ($this->upload->do_upload('file_kontrak_pengalaman')) {
+				$fileDataKontrak = $this->upload->data();
+				$post_file_kontrak_pengalaman = openssl_encrypt($fileDataKontrak['file_name'], $chiper, $secret_token_dokumen1);
+			} else {
+				$fileDataKontrak = $get_row_enkrip['file_kontrak_pengalaman'];
+				$post_file_kontrak_pengalaman = $fileDataKontrak;
+			}
+			$where = [
+				'id_pengalaman' => $id_pengalaman
+			];
+			$upload = [
+				'id_vendor' => $id_vendor,
+				'no_kontrak' => $no_kontrak,
+				'nama_pekerjaan' => $nama_pekerjaan,
+				'id_jenis_usaha' => $id_jenis_usaha,
+				'tanggal_kontrak' => $tanggal_kontrak,
+				'instansi_pemberi' => $instansi_pemberi,
+				'nilai_kontrak' => $nilai_kontrak,
+				'lokasi_pekerjaan' => $lokasi_pekerjaan,
+				'file_kontrak_pengalaman' => $post_file_kontrak_pengalaman,
+				'sts_token_dokumen_pengalaman' => 1,
+				'sts_validasi' => 2
+			];
+			if ($type_edit_pengalaman == 'edit_excel') {
+				$this->M_datapenyedia->update_excel_pengalaman_manajerial($upload, $where);
+			} else {
+				$this->M_datapenyedia->update_pengalaman_manajerial($upload, $where);
+			}
 
-		$this->output->set_content_type('application/json')->set_output(json_encode('success'));
+			$this->output->set_content_type('application/json')->set_output(json_encode('success'));
+		}
 	}
 
 
@@ -3305,11 +3354,15 @@ class Datapenyedia extends CI_Controller
 		if ($id_url == '') {
 			// tendang not found
 		}
-		$get_row_enkrip = $this->M_datapenyedia->get_row_excel_pengalaman_manajerial_enkription($id_url);
 		if ($type == 'pengalaman_kontrak') {
+			$get_row_enkrip = $this->M_datapenyedia->get_row_excel_pengalaman_manajerial_enkription($id_url);
 			$fileDownload = $get_row_enkrip['file_kontrak_pengalaman'];
+			$id_vendor = $get_row_enkrip['id_vendor'];
+		} else {
+			$get_row_enkrip = $this->M_datapenyedia->get_row_pengalaman_manajerial_enkription($id_url);
+			$fileDownload = $get_row_enkrip['file_kontrak_pengalaman'];
+			$id_vendor = $get_row_enkrip['id_vendor'];
 		}
-		$id_vendor = $get_row_enkrip['id_vendor'];
 		$row_vendor = $this->M_datapenyedia->get_row_vendor($id_vendor);
 		$date = date('Y');
 		return force_download('file_vms/' . $row_vendor['nama_usaha'] . '/Pengalaman-' . $date . '/' . $fileDownload, NULL);
@@ -4144,10 +4197,10 @@ class Datapenyedia extends CI_Controller
 			}
 
 			if ($rs->sts_token_dokumen == 1) {
-				$row[] = '<center><a href="javascript:;" class="btn btn-info btn-sm shadow-lg" onClick="byid_spt(' . "'" . $rs->id_url . "','lihat'" . ')"><i class="fa-solid fa-search px-1"></i> Lihat</a>
+				$row[] = '<center><a href="javascript:;" class="btn btn-info btn-sm shadow-lg" onClick="byid_spt(' . "'" . $rs->id_url . "','lihat'" . ')"><i class="fa-solid fa-search px-1"></i> Lihat</a><a href="javascript:;" class="btn btn-danger btn-sm shadow-lg" onClick="byid_spt(' . "'" . $rs->id_url . "','hapus'" . ')"><i class="fa-solid fa-trash px-1"></i> Hapus</a>
             	<a href="javascript:;" class="btn btn-warning btn-sm shadow-lg" onClick="byid_spt(' . "'" . $rs->id_url . "','dekrip'" . ')">  <i class="fa-solid fa-lock-open px-1"></i> Dekrip</a></center>';
 			} else {
-				$row[] = '<center><a href="javascript:;" class="btn btn-info btn-sm shadow-lg" onClick="byid_spt(' . "'" . $rs->id_url . "','lihat'" . ')"><i class="fa-solid fa-search px-1"></i> Lihat</a>
+				$row[] = '<center><a href="javascript:;" class="btn btn-info btn-sm shadow-lg" onClick="byid_spt(' . "'" . $rs->id_url . "','lihat'" . ')"><i class="fa-solid fa-search px-1"></i> Lihat</a><a href="javascript:;" class="btn btn-danger btn-sm shadow-lg" onClick="byid_spt(' . "'" . $rs->id_url . "','hapus'" . ')"><i class="fa-solid fa-trash px-1"></i> Hapus</a>
             	<a href="javascript:;" class="btn btn-success btn-sm shadow-lg" onClick="byid_spt(' . "'" . $rs->id_url . "','enkrip'" . ')">  <i class="fa-solid fa-lock px-1"></i> Enkrip</a></center>';
 			}
 
@@ -4445,6 +4498,14 @@ class Datapenyedia extends CI_Controller
 		// $file_dokumen = $get_row_enkrip['file_dokumen'];
 		return force_download('file_vms/' . $row_vendor['nama_usaha'] . '/SPT-' . $date . '/' . $get_row_enkrip['file_dokumen'], NULL);
 	}
+	public function hapus_row_spt($id_url)
+	{
+		$where = [
+			'id_url' => $id_url
+		];
+		$this->M_datapenyedia->delete_spt($where);
+		$this->output->set_content_type('application/json')->set_output(json_encode('success'));
+	}
 	// END CRUD SPT
 
 	// crud laporan keuangan
@@ -4459,6 +4520,7 @@ class Datapenyedia extends CI_Controller
 			$row = array();
 			$row[] = ++$no;
 			$row[] = $rs->tahun_lapor;
+			$row[] = $rs->jenis_audit;
 			if ($rs->sts_token_dokumen == 1) {
 				$row[] = '<center><span class="badge bg-danger text-white">Terenkripsi <i class="fa-solid fa-lock px-1"></i> </span></center>';
 			} else {
@@ -4497,13 +4559,13 @@ class Datapenyedia extends CI_Controller
 	public function add_keuangan()
 	{
 		// id_vendor_keuangan
-
 		$type_keuangan = $this->input->post('type_keuangan');
 		if ($type_keuangan == 'tambah') {
 			$id_vendor = $this->session->userdata('id_vendor');
 			$nama_usaha = $this->session->userdata('nama_usaha');
 
 			$tahun_lapor = $this->input->post('tahun_lapor');
+			$jenis_audit = $this->input->post('jenis_audit');
 
 			$id = $this->uuid->v4();
 			$id = str_replace('-', '', $id);
@@ -4543,7 +4605,10 @@ class Datapenyedia extends CI_Controller
 				'file_laporan_keuangan' => openssl_encrypt($file_laporan_keuangan['file_name'], $chiper, $secret_token_dokumen2),
 				'sts_token_dokumen' => 1,
 				'password_dokumen' => $password_dokumen,
-				'token_dokumen' => $secret
+				'token_dokumen' => $secret,
+				'sts_validasi' => 0,
+				'jenis_audit' => $jenis_audit
+
 			];
 			$this->M_datapenyedia->tambah_keuangan($upload);
 			$this->output->set_content_type('application/json')->set_output(json_encode('success'));
@@ -4551,14 +4616,16 @@ class Datapenyedia extends CI_Controller
 			$id_vendor = $this->session->userdata('id_vendor');
 			$nama_usaha = $this->session->userdata('nama_usaha');
 			$tahun_lapor = $this->input->post('tahun_lapor');
+			$jenis_audit = $this->input->post('jenis_audit');
 			$id_vendor_keuangan =  $this->input->post('id_vendor_keuangan');
 			$get_row_enkrip = $this->M_datapenyedia->get_row_keuangan_row_banget($id_vendor_keuangan);
 			$id = $this->uuid->v4();
 			$id = str_replace('-', '', $id);
 			// seeting enkrip dokumen
 			$chiper = "AES-128-ECB";
-			$secret_token_dokumen1 = 'jmto.1' . $id;
-			$secret_token_dokumen2 = 'jmto.2' . $id;
+			
+			$secret_token_dokumen1 = 'jmto.1'. $get_row_enkrip['id_url'];
+			$secret_token_dokumen2 = 'jmto.2'. $get_row_enkrip['id_url'];
 			$secret = $secret_token_dokumen1 . $secret_token_dokumen2;
 			$password_dokumen = '1234';
 			// SETTING PATH 
@@ -4595,14 +4662,12 @@ class Datapenyedia extends CI_Controller
 				'id_vendor_keuangan' => $id_vendor_keuangan
 			];
 			$upload = [
-				'id_vendor' => $id_vendor,
-				'id_url' => $id,
 				'tahun_lapor' => $tahun_lapor,
 				'file_laporan_auditor' => $post_file_laporan_auditordata,
 				'file_laporan_keuangan' => $post_file_laporan_keuangan,
 				'sts_token_dokumen' => 1,
-				'password_dokumen' => $password_dokumen,
-				'token_dokumen' => $secret
+				'sts_validasi' => 2,
+				'jenis_audit' => $jenis_audit
 			];
 			$this->M_datapenyedia->update_keuangan($upload, $where);
 			$this->output->set_content_type('application/json')->set_output(json_encode('success'));
@@ -4663,6 +4728,16 @@ class Datapenyedia extends CI_Controller
 			'row_keuangan' => $this->M_datapenyedia->get_row_excel_pemilik_manajerial($get_row_enkrip['id_vendor_keuangan'])
 		];
 		$this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
+	
+	public function hapus_row_keuangan($id_url)
+	{
+		$where = [
+			'id_url' => $id_url
+		];
+		$this->M_datapenyedia->delete_keuangan($where);
+		$this->output->set_content_type('application/json')->set_output(json_encode('success'));
 	}
 	// end crud laporan keuangan
 }

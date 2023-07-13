@@ -108,6 +108,7 @@
                                                     <span class="input-group-text"><i class="fa-solid fa-barcode"></i></span>
                                                     <input name="no_kontrak" type="text" class="form-control">
                                                 </div>
+                                                <small class="no_kontrak_error text-danger"></small>
                                             </div>
                                         </td>
                                         <td class="col-sm-2 bg-light">
@@ -119,6 +120,7 @@
                                                     <span class="input-group-text"><i class="fa-solid fa-calendar-days"></i></span>
                                                     <input name="tanggal_kontrak" type="date" id="date" class="form-control">
                                                 </div>
+                                                <small class="tanggal_kontrak_error text-danger"></small>
                                             </div>
                                         </td>
                                     </tr>
@@ -132,6 +134,7 @@
                                                     <span class="input-group-text"><i class="fa-solid fa-user-pen"></i></span>
                                                     <textarea name="nama_pekerjaan" type="text" class="form-control" rows="2"></textarea>
                                                 </div>
+                                                <small class="tanggal_kontrak_error text-danger"></small>
                                             </div>
                                         </td>
                                     </tr>
@@ -151,6 +154,8 @@
                                                         <option value="Sewa Kelola">Sewa Kelola</option>
                                                     </select>
                                                 </div>
+                                                <!-- id_jenis_usaha -->
+                                                <small class="id_jenis_usaha_error text-danger"></small>
                                             </div>
                                         </td>
                                         <td class="col-sm-2 bg-light">
@@ -162,6 +167,8 @@
                                                     <span class="input-group-text">Rp.</span>
                                                     <input name="nilai_kontrak" type="text" id="tanpa-rupiah" class="form-control">
                                                 </div>
+                                                  <!-- nilai_kontrak -->
+                                                  <small class="nilai_kontrak_error text-danger"></small>
                                             </div>
                                         </td>
                                     </tr>
@@ -175,6 +182,8 @@
                                                     <span class="input-group-text"><i class="fa-solid fa-business-time"></i></span>
                                                     <input name="instansi_pemberi" type="text" class="form-control">
                                                 </div>
+                                                <!-- instansi_pemberi -->
+                                                <small class="instansi_pemberi_error text-danger"></small>
                                             </div>
                                         </td>
                                         <td class="col-sm-2 bg-light">
@@ -186,6 +195,8 @@
                                                     <span class="input-group-text"><i class="fa-solid fa-road"></i></span>
                                                     <input name="lokasi_pekerjaan" type="text" class="form-control">
                                                 </div>
+                                                 <!-- lokasi_pekerjaan -->
+                                                 <small class="lokasi_pekerjaan_error text-danger"></small>
                                             </div>
                                         </td>
                                     </tr>
@@ -194,22 +205,8 @@
                                             <label class="form-label col-form-label-sm"><b>Upload File Kontrak</b></label>
                                         </td>
                                         <td class="col-sm-3">
-                                            <input type="file" name="file_kontrak_pengalaman" id="file" accept=".pdf">
-                                        </td>
-                                        <td class="col-sm-2 bg-light">
-                                            <button type="button" class="btn btn-info btn-sm text-start col-sm-12 shadow-lg">
-                                                <i class="fa-solid fa-file-pdf px-1"></i>
-                                                Nama File .pdf
-                                            </button>
-                                        </td>
-                                        <td class="col-sm-3">
-                                            <small>
-                                                <span class="badge bg-secondary">Belum Tervalidasi</span>
-                                            </small>
-                                            <button type="button" class="btn btn-warning btn-sm shadow-lg">
-                                                <i class="fa-solid fa-lock-open px-1"></i>
-                                                Dekripsi File
-                                            </button>
+                                        <input type="hidden" name="file_dokumen_manipulasi_pengalaman">
+                                            <input type="file" class="file_valid_pengalaman" name="file_kontrak_pengalaman" id="file" accept=".pdf">
                                         </td>
                                     </tr>
                                     <tr>
@@ -218,7 +215,7 @@
                                                 <i class="fa-solid fa-angles-left px-1"></i>
                                                 Close
                                             </button>
-                                            <button type="submit" class="btn btn-success btn-sm shadow-lg btn-simpan">
+                                            <button type="submit" class="btn btn-success btn-sm shadow-lg btn_simpan">
                                                 <i class="fa-solid fa-floppy-disk px-1"></i>
                                                 Save Changes
                                             </button>
@@ -388,6 +385,8 @@
                                                 <span class="input-group-text"><i class="fa-solid fa-barcode"></i></span>
                                                 <input name="no_kontrak" type="text" class="form-control">
                                             </div>
+                                             <!-- no_kontrak -->
+                                             <small class="no_kontrak_error text-danger"></small>
                                         </div>
                                     </td>
                                     <td class="col-sm-2 bg-light">
@@ -399,6 +398,8 @@
                                                 <span class="input-group-text"><i class="fa-solid fa-calendar-days"></i></span>
                                                 <input name="tanggal_kontrak" type="date" id="date" class="form-control">
                                             </div>
+                                            <!-- tanggal_kontrak -->
+                                            <small class="tanggal_kontrak_error text-danger"></small>
                                         </div>
                                     </td>
                                 </tr>
@@ -412,6 +413,8 @@
                                                 <span class="input-group-text"><i class="fa-solid fa-user-pen"></i></span>
                                                 <textarea name="nama_pekerjaan" type="text" class="form-control" rows="2"></textarea>
                                             </div>
+                                             <!-- nama_pekerjaan -->
+                                             <small class="nama_pekerjaan_error text-danger"></small>
                                         </div>
                                     </td>
                                 </tr>
@@ -431,6 +434,8 @@
                                                     <option value="Sewa Kelola">Sewa Kelola</option>
                                                 </select>
                                             </div>
+                                             <!-- id_jenis_usaha -->
+                                             <small class="id_jenis_usaha_error text-danger"></small>
                                         </div>
                                     </td>
                                     <td class="col-sm-2 bg-light">
@@ -442,6 +447,8 @@
                                                 <span class="input-group-text">Rp.</span>
                                                 <input name="nilai_kontrak" type="text" id="tanpa-rupiah" class="form-control">
                                             </div>
+                                             <!-- nilai_kontrak -->
+                                             <small class="nilai_kontrak_error text-danger"></small>
                                         </div>
                                     </td>
                                 </tr>
@@ -455,6 +462,8 @@
                                                 <span class="input-group-text"><i class="fa-solid fa-business-time"></i></span>
                                                 <input name="instansi_pemberi" type="text" class="form-control">
                                             </div>
+                                            <!-- instansi_pemberi -->
+                                            <small class="instansi_pemberi_error text-danger"></small>
                                         </div>
                                     </td>
                                     <td class="col-sm-2 bg-light">
@@ -466,6 +475,8 @@
                                                 <span class="input-group-text"><i class="fa-solid fa-road"></i></span>
                                                 <input name="lokasi_pekerjaan" type="text" class="form-control">
                                             </div>
+                                            <!-- lokasi_pekerjaan -->
+                                            <small class="lokasi_pekerjaan_error text-danger"></small>
                                         </div>
                                     </td>
                                 </tr>
@@ -474,7 +485,8 @@
                                         <label class="form-label col-form-label-sm"><b>Upload File Kontrak</b></label>
                                     </td>
                                     <td class="col-sm-3">
-                                        <input type="file" name="file_kontrak_pengalaman" id="file" accept=".pdf">
+                                    <input type="hidden" name="file_dokumen_manipulasi_pengalaman">
+                                            <input type="file" class="file_valid_pengalaman" name="file_kontrak_pengalaman" id="file" accept=".pdf">
                                     </td>
                                     <td class="col-sm-4">
                                         <div class="button_nama_file_kontrak_pengalaman">
