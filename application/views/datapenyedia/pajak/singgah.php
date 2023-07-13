@@ -249,6 +249,7 @@
                                                                         <input type="date" id="date" name="tgl_berlaku_npwp" class="form-control">
                                                                     </div>
                                                                     <small class="sts_seumur_hidup_npwp_error text-danger"></small>
+                                                                    <small class="tgl_berlaku_npwp_error text-danger"></small>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -257,7 +258,7 @@
                                                                 </td>
                                                                 <td class="col-sm-3">
                                                                     <input type="hidden" name="file_dokumen_manipulasi_npwp">
-                                                                    <input type="file" id="file" accept=".pdf, .xlsx, .xls" name="file_npwp">
+                                                                    <input type="file" id="file" class="file_valid_npwp" accept=".pdf, .xlsx, .xls" name="file_npwp">
                                                                 </td>
                                                                 <td class="col-sm-2 bg-light">
                                                                     <div id="tampil_dokumen_npwp">
@@ -425,9 +426,9 @@
                                                                 <th style="width:20%;"><small class="text-white">
                                                                         <div class="text-center">File Neraca Keuangan</div>
                                                                     </small></th>
-                                                                <th style="width:20%;"><small class="text-white">
+                                                                <!-- <th style="width:20%;"><small class="text-white">
                                                                         <div class="text-center">File Sertifikat</div>
-                                                                    </small></th>
+                                                                    </small></th> -->
                                                                 <th style="width:10%;"><small class="text-white">
                                                                         <div class="text-center">Dekrip/Enkrip</div>
                                                                     </small></th>
@@ -727,7 +728,7 @@
                                         <label class="form-label col-form-label-sm"><b>Upload File SPT</b></label>
                                     </td>
                                     <td class="col-sm-3">
-                                    <input type="text" name="file_dokumen_manipulasi_spt">
+                                        <input type="text" name="file_dokumen_manipulasi_spt">
                                         <input type="file" id="file" accept=".pdf" id="file_dokumen_spt" class="file_valid_spt" name="file_dokumen_spt">
                                     </td>
                                     <td class="col-sm-2 bg-light">
@@ -918,7 +919,7 @@
                                         <label class="form-label col-form-label-sm"><b>Upload File SPT</b></label>
                                     </td>
                                     <td class="col-sm-3">
-                                        <input type="text" name="file_dokumen_manipulasi_spt">
+                                        <input type="hidden" name="file_dokumen_manipulasi_spt">
                                         <input type="file" id="file" accept=".pdf" class="file_valid_spt" name="file_dokumen_spt">
                                     </td>
                                 </tr>
@@ -981,13 +982,15 @@
                     </div>
                     <div class="card-body">
                         <form id="form_tambah_keuangan" enctype="multipart/form-data">
+                            <input type="hidden" name="type_keuangan">
+                            <input type="hidden" name="id_vendor_keuangan">
                             <table class="table table-sm">
                                 <tr>
                                     <td class="col-sm-3 bg-light">
                                         <label class="form-label col-form-label-sm"><b>Tahun Laporan</b></label>
                                     </td>
                                     <td class="col-sm-3">
-                                        <input type="number" name="tahun_lapor" min="2000" class="form-control">
+                                        <input type="number" required name="tahun_lapor" min="2000" class="form-control">
                                     </td>
                                 </tr>
                                 <tr>
@@ -995,7 +998,8 @@
                                         <label class="form-label col-form-label-sm"><b>Upload Laporan Auditor</b></label>
                                     </td>
                                     <td class="col-sm-3">
-                                        <input type="file" name="file_laporan_auditor" id="file" accept=".pdf,.xlsx">
+                                        <input type="hidden" name="file_dokumen_manipulasi_auditor">
+                                        <input type="file" class="file_valid_auditor" name="file_laporan_auditor" id="file" accept=".pdf,.xlsx">
                                     </td>
                                 </tr>
                                 <tr>
@@ -1003,7 +1007,8 @@
                                         <label class="form-label col-form-label-sm"><b>Upload Laporan Keuangan</b></label>
                                     </td>
                                     <td class="col-sm-3">
-                                        <input type="file" name="file_laporan_keuangan" id="file" accept=".pdf,.xlsx">
+                                        <input type="hidden" name="file_dokumen_manipulasi_keuangan">
+                                        <input type="file" class="file_valid_keuangan" name="file_laporan_keuangan" id="file" accept=".pdf,.xlsx">
                                     </td>
                                 </tr>
                                 <tr>
@@ -1027,6 +1032,7 @@
         </div>
     </div>
 </div>
+
 
 
 <div class="modal fade" id="modal_dekrip_keuangan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -1136,8 +1142,6 @@
                         <center>
                             <a href="javascript:;" onclick="buat_format_excel()" class="btn btn-primary btn-sm mb-2">Isi Dan Download Format Excel</a>
                         </center>
-
-
                         <br>
                         <form id="form_simpan_neraca" enctype="multipart/form-data">
                             <table class="table table-sm">
@@ -1146,15 +1150,8 @@
                                         <label class="form-label col-form-label-sm"><b>Upload Neraca Keuangan</b></label>
                                     </td>
                                     <td class="col-sm-3">
-                                        <input type="file" name="file_dokumen_neraca" id="file" accept=".xlsx">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-sm-2 bg-light">
-                                        <label class="form-label col-form-label-sm"><b>Upload File Sertifikat</b></label>
-                                    </td>
-                                    <td class="col-sm-3">
-                                        <input type="file" name="file_dokumen_sertifikat" id="file" accept=".pdf,.xlsx">
+                                        <input type="text" name="file_dokumen_manipulasi_neraca">
+                                        <input type="file" name="file_dokumen_neraca" class="file_valid_neraca" id="file" accept=".xlsx">
                                     </td>
                                 </tr>
                                 <tr>
@@ -1178,7 +1175,6 @@
 
     </div>
 </div>
-
 <div class="modal fade" tabindex="-1" id="modal-xl-neraca-edit">
     <div class="modal-dialog modal-dialog-scrollable modal-xl">
         <div class="modal-content">
@@ -1224,23 +1220,11 @@
                                         <label class="form-label col-form-label-sm"><b>Upload File Neraca</b></label>
                                     </td>
                                     <td class="col-sm-3">
-                                        <input type="file" name="file_dokumen_neraca" id="file" accept=".pdf">
+                                        <input type="text" name="file_dokumen_manipulasi_neraca">
+                                        <input type="file" name="file_dokumen_neraca" class="file_valid_neraca" id="file" accept=".xlsx">
                                     </td>
                                     <td class="col-sm-4">
                                         <div class="button_nama_file_dokumen_neraca">
-
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-sm-2 bg-light">
-                                        <label class="form-label col-form-label-sm"><b>Upload File NPWP</b></label>
-                                    </td>
-                                    <td class="col-sm-3">
-                                        <input type="file" name="file_dokumen_sertifikat" id="file" accept=".pdf">
-                                    </td>
-                                    <td class="col-sm-4">
-                                        <div class="button_nama_file_dokumen_sertifikat">
 
                                         </div>
                                     </td>

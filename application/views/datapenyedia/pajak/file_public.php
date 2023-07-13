@@ -9,6 +9,12 @@
         var geekss = e.target.files[0].name;
         $('[name="file_dokumen_manipulasi_npwp"]').val(geekss);
     });
+
+    $('.file_valid_neraca').change(function(e) {
+        var geekss = e.target.files[0].name;
+        $('[name="file_dokumen_manipulasi_neraca"]').val(geekss);
+    });
+
     get_row_vendor()
 
     function get_row_vendor() {
@@ -365,7 +371,6 @@
     var form_tambah_npwp = $('#form_tambah_npwp')
 
     form_tambah_npwp.on('submit', function(e) {
-        // nanti kalau sudah migrasi ke js ambil url nya dari view
         var url_post = $('[name="url_post_npwp"]').val()
         var file_dokumen_manipulasi_npwp = $('[name="file_dokumen_manipulasi_npwp"]').val()
         if (file_dokumen_manipulasi_npwp == '') {
@@ -788,46 +793,18 @@
     var modal_neraca = $('#modal-xl-neraca')
     var form_simpan_neraca = $('#form_simpan_neraca');
     form_simpan_neraca.on('submit', function(e) {
-        e.preventDefault();
-        $.ajax({
-            url: "<?php echo base_url(); ?>datapenyedia/simpan_neraca_keuangan",
-            method: "POST",
-            data: new FormData(this),
-            contentType: false,
-            cache: false,
-            processData: false,
-            beforeSend: function() {
-                $('.btn_simpan').attr('disabled', 'disabled');
-            },
-            success: function(response) {
-                modal_neraca.modal('hide')
-                $('.btn_simpan').attr('disabled', false);
-                if (response['message']) {
-                    Swal.fire('Good job!', 'Behasil Simpan Data', 'success');
-                    reloadtable_nerca_keuangan()
-                    form_simpan_neraca[0].reset();
-                } else {
-                    Swal.fire('Maaf!', 'Kesalahan', 'warning');
-                    reloadtable_nerca_keuangan()
-                    form_simpan_neraca[0].reset();
-                }
-            }
-        });
-    });
-
-
-
-
-    var form_edit_neraca = $('#form_edit_neraca');
-    var modal_edit_neraca = $('#modal-xl-neraca-edit');
-    form_edit_neraca.on('submit', function(e) {
-        e.preventDefault();
-        var validasi_enkripsi_pemilik = $('[name="validasi_enkripsi_pemilik"]').val();
-        if (validasi_enkripsi_pemilik == 2) {
-            Swal.fire('Waduh Maaf!', 'Enkripsi File Terlebih Dahulu Yaa!', 'warning');
+        var file_dokumen_manipulasi_neraca = $('[name="file_dokumen_manipulasi_neraca"]').val()
+        if (file_dokumen_manipulasi_neraca == '') {
+            e.preventDefault();
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Dokumen Wajib Di Isi!',
+            })
         } else {
+            e.preventDefault();
             $.ajax({
-                url: "<?php echo base_url(); ?>datapenyedia/edit_neraca_keuangan",
+                url: "<?php echo base_url(); ?>datapenyedia/simpan_neraca_keuangan",
                 method: "POST",
                 data: new FormData(this),
                 contentType: false,
@@ -837,14 +814,62 @@
                     $('.btn_simpan').attr('disabled', 'disabled');
                 },
                 success: function(response) {
-                    modal_edit_neraca.modal('hide')
-                    Swal.fire('Good job!', 'Data Beharhasil Di Edit!', 'success');
-                    reloadtable_nerca_keuangan();
+                    modal_neraca.modal('hide')
                     $('.btn_simpan').attr('disabled', false);
-                    form_edit_neraca[0].reset();
+                    if (response['message']) {
+                        Swal.fire('Good job!', 'Behasil Simpan Data', 'success');
+                        reloadtable_nerca_keuangan()
+                        form_simpan_neraca[0].reset();
+                    } else {
+                        Swal.fire('Maaf!', 'Kesalahan', 'warning');
+                        reloadtable_nerca_keuangan()
+                        form_simpan_neraca[0].reset();
+                    }
                 }
             });
         }
+    });
+
+
+
+
+    var form_edit_neraca = $('#form_edit_neraca');
+    var modal_edit_neraca = $('#modal-xl-neraca-edit');
+    form_edit_neraca.on('submit', function(e) {
+        var file_dokumen_manipulasi_neraca = $('[name="file_dokumen_manipulasi_neraca"]').val()
+        if (file_dokumen_manipulasi_neraca == '') {
+            e.preventDefault();
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Dokumen Wajib Di Isi!',
+            })
+        } else {
+            var validasi_enkripsi_pemilik = $('[name="validasi_enkripsi_pemilik"]').val();
+            if (validasi_enkripsi_pemilik == 2) {
+                Swal.fire('Waduh Maaf!', 'Enkripsi File Terlebih Dahulu Yaa!', 'warning');
+            } else {
+                $.ajax({
+                    url: "<?php echo base_url(); ?>datapenyedia/edit_neraca_keuangan",
+                    method: "POST",
+                    data: new FormData(this),
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    beforeSend: function() {
+                        $('.btn_simpan').attr('disabled', 'disabled');
+                    },
+                    success: function(response) {
+                        modal_edit_neraca.modal('hide')
+                        Swal.fire('Good job!', 'Data Beharhasil Di Edit!', 'success');
+                        reloadtable_nerca_keuangan();
+                        $('.btn_simpan').attr('disabled', false);
+                        form_edit_neraca[0].reset();
+                    }
+                });
+            }
+        }
+        e.preventDefault();
     });
 
 
@@ -870,6 +895,7 @@
             dataType: "JSON",
             success: function(response) {
                 if (type == 'edit') {
+                    $('[name="file_dokumen_manipulasi_neraca"]').val(response['row_neraca'].file_dokumen_neraca);
                     modal_edit_neraca.modal('show');
                     $('[name="validasi_enkripsi"]').val(response['row_neraca'].sts_token_dokumen);
                     if (response['row_neraca']['sts_token_dokumen'] == 1) {

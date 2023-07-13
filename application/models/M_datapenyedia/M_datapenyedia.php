@@ -1860,6 +1860,15 @@ class M_datapenyedia extends CI_Model
         return $query->row_array();
     }
 
+    public function get_row_keuangan_row_banget($id_vendor_keuangan)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_vendor_keuangan');
+        $this->db->where('tbl_vendor_keuangan.id_vendor_keuangan', $id_vendor_keuangan);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
     public function update_keuangan($data, $where)
     {
         $this->db->update('tbl_vendor_keuangan', $data, $where);

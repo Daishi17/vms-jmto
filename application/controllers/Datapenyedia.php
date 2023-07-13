@@ -2537,10 +2537,12 @@ class Datapenyedia extends CI_Controller
 			$row[] = $rs->jabatan_pengurus;
 			$row[] = $rs->jabatan_mulai;
 			$row[] = $rs->jabatan_selesai;
-			if ($rs->sts_validasi == 1 || $rs->sts_validasi == 0) {
+			if ($rs->sts_validasi == 1) {
+				$row[] = '<span class="badge bg-success">Sudah Tervalidasi</span>';
+			} else if ($rs->sts_validasi == 0) {
 				$row[] = '<span class="badge bg-secondary">Belum Tervalidasi</span>';
 			} else {
-				$row[] = '<span class="badge bg-success">Sudah Tervalidasi</span>';
+				$row[] = '<span class="badge bg-danger">Tidak Valid</span>';
 			}
 			$row[] = '<a  href="javascript:;" class="btn btn-info btn-sm" onClick="by_id_pengurus_manajerial(' . "'" . $rs->id_pengurus . "','edit'" . ')"><i class="fa-solid fa-users-viewfinder px-1"></i> View</a>
 			<a  href="javascript:;" class="btn btn-danger btn-sm" onClick="by_id_pengurus_manajerial(' . "'" . $rs->id_pengurus . "','hapus'" . ')"><i class="fas fa fa-trash"></i> Delete</a>';
@@ -3111,10 +3113,10 @@ class Datapenyedia extends CI_Controller
 			$row[] = $rs->lokasi_pekerjaan;
 			if ($rs->sts_validasi == 1) {
 				$row[] = '<span class="badge bg-success">Sudah Tervalidasi</span>';
-			} else if ($rs->sts_validasi == null) {
+			} else if ($rs->sts_validasi == 0) {
 				$row[] = '<span class="badge bg-secondary">Belum Tervalidasi</span>';
 			} else {
-				$row[] = '<span class="badge bg-danger">Revisi</span>';
+				$row[] = '<span class="badge bg-danger">Tidak Valid</span>';
 			}
 			$row[] = '<a  href="javascript:;" class="btn btn-info btn-sm" onClick="by_id_pengalaman_manajerial(' . "'" . $rs->id_pengalaman . "','edit'" . ')"><i class="fa-solid fa-users-viewfinder px-1"></i> View</a>
 			<a  href="javascript:;" class="btn btn-danger btn-sm" onClick="by_id_pengalaman_manajerial(' . "'" . $rs->id_pengalaman . "','hapus'" . ')"><i class="fas fa fa-trash"></i> Delete</a>';
@@ -3477,7 +3479,6 @@ class Datapenyedia extends CI_Controller
 		// seeting enkrip dokumen
 		$chiper = "AES-128-ECB";
 		$secret_token_dokumen1 = 'jmto.1' . $id;
-		$secret_token_dokumen2 = 'jmto.2' . $id;
 		// SETTING PATH 
 		$sts_upload = [
 			'sts_upload_dokumen' => 1
@@ -3497,14 +3498,10 @@ class Datapenyedia extends CI_Controller
 		if ($this->upload->do_upload('file_dokumen_neraca')) {
 			$filedata_neraca = $this->upload->data();
 		}
-		if ($this->upload->do_upload('file_dokumen_sertifikat')) {
-			$filedata_serfikat = $this->upload->data();
-		}
 		$upload = [
 			'id_vendor' => $id_vendor,
 			'id_url_neraca' => $id,
 			'file_dokumen_neraca' => openssl_encrypt($filedata_neraca['file_name'], $chiper, $secret_token_dokumen1),
-			'file_dokumen_sertifikat' => openssl_encrypt($filedata_serfikat['file_name'], $chiper, $secret_token_dokumen2),
 			'sts_token_dokumen' => 1,
 		];
 		$this->M_datapenyedia->tambah_tbl_vendor_neraca($upload);
@@ -3523,7 +3520,6 @@ class Datapenyedia extends CI_Controller
 		// seeting enkrip dokumen
 		$chiper = "AES-128-ECB";
 		$secret_token_dokumen1 = 'jmto.1' . $get_row_enkrip['id_url_neraca'];
-		$secret_token_dokumen2 = 'jmto.2' . $get_row_enkrip['id_url_neraca'];
 		// SETTING PATH 
 		$sts_upload = [
 			'sts_upload_dokumen' => 1
@@ -3547,13 +3543,6 @@ class Datapenyedia extends CI_Controller
 			$fileDataKtp = $get_row_enkrip['file_dokumen_neraca'];
 			$post_file_dokumen_neraca = $fileDataKtp;
 		}
-		if ($this->upload->do_upload('file_dokumen_sertifikat')) {
-			$fileData_npwp = $this->upload->data();
-			$post_file_dokumen_sertifikat = openssl_encrypt($fileData_npwp['file_name'], $chiper, $secret_token_dokumen2);
-		} else {
-			$fileData_npwp = $get_row_enkrip['file_dokumen_sertifikat'];
-			$post_file_dokumen_sertifikat = $fileData_npwp;
-		}
 		$where = [
 			'id_neraca' => $id_neraca
 		];
@@ -3561,7 +3550,6 @@ class Datapenyedia extends CI_Controller
 			'id_vendor' => $id_vendor,
 			'sts_token_dokumen' => 1,
 			'file_dokumen_neraca' => $post_file_dokumen_neraca,
-			'file_dokumen_sertifikat' => $post_file_dokumen_sertifikat,
 		];
 		$this->M_datapenyedia->update_neraca($upload, $where);
 
@@ -3588,13 +3576,8 @@ class Datapenyedia extends CI_Controller
 				width: 100px; 
 				overflow: hidden;
 				text-overflow: ellipsis;">' . $rs->file_dokumen_neraca . '</label>';
-				$row[] = '<label for="" style="white-space: nowrap; 
-				width: 100px; 
-				overflow: hidden;
-				text-overflow: ellipsis;">' . $rs->file_dokumen_sertifikat . '</label>';
 			} else {
 				$row[] = '<a href="javascript:;" style="white-space: nowrap;width: 200px;overflow: hidden;text-overflow: ellipsis;" onclick="Download_neraca(\'' . $rs->id_url_neraca . '\'' . ',' . '\'' . 'neraca_dokumen' . '\')" class="btn btn-sm btn-warning btn-block">' . $rs->file_dokumen_neraca . '</a>';
-				$row[] = '<a href="javascript:;" style="white-space: nowrap;width: 200px;overflow: hidden;text-overflow: ellipsis;" onclick="Download_neraca(\'' . $rs->id_url_neraca . '\'' . ',' . '\'' . 'neraca_sertifikat' . '\')" class="btn btn-sm btn-warning btn-block">' . $rs->file_dokumen_sertifikat . '</a>';
 			}
 			if ($rs->sts_token_dokumen == 2) {
 				$row[] = '<center>
@@ -3605,10 +3588,10 @@ class Datapenyedia extends CI_Controller
 			}
 			if ($rs->sts_validasi == 1) {
 				$row[] = '<span class="badge bg-success">Sudah Tervalidasi</span>';
-			} else if ($rs->sts_validasi == null) {
+			} else if ($rs->sts_validasi == 0) {
 				$row[] = '<span class="badge bg-secondary">Belum Tervalidasi</span>';
 			} else {
-				$row[] = '<span class="badge bg-danger">Revisi</span>';
+				$row[] = '<span class="badge bg-danger">Tidak Valid</span>';
 			}
 			$row[] = '<a  href="javascript:;" class="btn btn-info btn-sm" style="width:150px" onClick="by_id_neraca_keuangan(' . "'" . $rs->id_neraca . "','edit'" . ')"><i class="fa-solid fa-users-viewfinder px-1"></i> View</a>
 			<a  href="javascript:;" class="btn btn-danger btn-sm" style="width:150px" onClick="by_id_neraca_keuangan(' . "'" . $rs->id_neraca . "','hapus'" . ')"><i class="fas fa fa-trash"></i> Delete</a>';
@@ -4495,10 +4478,10 @@ class Datapenyedia extends CI_Controller
 			}
 
 			if ($rs->sts_token_dokumen == 1) {
-				$row[] = '<center><a href="javascript:;" class="btn btn-warning btn-sm shadow-lg" onClick="byid_keuangan(' . "'" . $rs->id_url . "','dekrip'" . ')">  <i class="fa-solid fa-lock-open px-1"></i> Dekrip</a></center>';
+				$row[] = '<center><a href="javascript:;" class="btn btn-warning btn-sm shadow-lg" onClick="byid_keuangan(' . "'" . $rs->id_url . "','dekrip'" . ')">  <i class="fa-solid fa-lock-open px-1"></i> Dekrip</a> <a href="javascript:;" class="btn btn-info btn-sm shadow-lg" onClick="byid_keuangan(' . "'" . $rs->id_url . "','edit'" . ')">  <i class="fa-solid fa-edit px-1"></i> Edit</a> <a href="javascript:;" class="btn btn-danger btn-sm shadow-lg" onClick="byid_keuangan(' . "'" . $rs->id_url . "','hapus'" . ')">  <i class="fa-solid fa-trash px-1"></i> Hapus</a></center>';
 			} else {
 				$row[] = '<center>
-            	<a href="javascript:;" class="btn btn-success btn-sm shadow-lg" onClick="byid_keuangan(' . "'" . $rs->id_url . "','enkrip'" . ')">  <i class="fa-solid fa-lock px-1"></i> Enkrip</a></center>';
+            	<a href="javascript:;" class="btn btn-success btn-sm shadow-lg" onClick="byid_keuangan(' . "'" . $rs->id_url . "','enkrip'" . ')">  <i class="fa-solid fa-lock px-1"></i> Enkrip</a> <a href="javascript:;" class="btn btn-info btn-sm shadow-lg" onClick="byid_keuangan(' . "'" . $rs->id_url . "','edit'" . ')">  <i class="fa-solid fa-edit px-1"></i> Edit</a> <a href="javascript:;" class="btn btn-danger btn-sm shadow-lg" onClick="byid_keuangan(' . "'" . $rs->id_url . "','hapus'" . ')">  <i class="fa-solid fa-trash px-1"></i> Hapus</a></center>';
 			}
 			$data[] = $row;
 		}
@@ -4513,53 +4496,117 @@ class Datapenyedia extends CI_Controller
 
 	public function add_keuangan()
 	{
-		$id_vendor = $this->session->userdata('id_vendor');
-		$nama_usaha = $this->session->userdata('nama_usaha');
+		// id_vendor_keuangan
 
-		$tahun_lapor = $this->input->post('tahun_lapor');
+		$type_keuangan = $this->input->post('type_keuangan');
+		if ($type_keuangan == 'tambah') {
+			$id_vendor = $this->session->userdata('id_vendor');
+			$nama_usaha = $this->session->userdata('nama_usaha');
 
-		$id = $this->uuid->v4();
-		$id = str_replace('-', '', $id);
-		// seeting enkrip dokumen
-		$chiper = "AES-128-ECB";
-		$secret_token_dokumen1 = 'jmto.1' . $id;
-		$secret_token_dokumen2 = 'jmto.2' . $id;
-		$secret = $secret_token_dokumen1 . $secret_token_dokumen2;
-		$password_dokumen = '1234';
-		// SETTING PATH 
-		$sts_upload = [
-			'sts_upload_dokumen' => 1
-		];
-		$where = [
-			'id_vendor' => $id_vendor
-		];
-		$this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
-		$date = date('Y');
-		if (!is_dir('file_vms/' . $nama_usaha . '/Laporan_Keuangan-' . $date)) {
-			mkdir('file_vms/' . $nama_usaha . '/Laporan_Keuangan-' . $date, 0777, TRUE);
+			$tahun_lapor = $this->input->post('tahun_lapor');
+
+			$id = $this->uuid->v4();
+			$id = str_replace('-', '', $id);
+			// seeting enkrip dokumen
+			$chiper = "AES-128-ECB";
+			$secret_token_dokumen1 = 'jmto.1' . $id;
+			$secret_token_dokumen2 = 'jmto.2' . $id;
+			$secret = $secret_token_dokumen1 . $secret_token_dokumen2;
+			$password_dokumen = '1234';
+			// SETTING PATH 
+			$sts_upload = [
+				'sts_upload_dokumen' => 1
+			];
+			$where = [
+				'id_vendor' => $id_vendor
+			];
+			$this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
+			$date = date('Y');
+			if (!is_dir('file_vms/' . $nama_usaha . '/Laporan_Keuangan-' . $date)) {
+				mkdir('file_vms/' . $nama_usaha . '/Laporan_Keuangan-' . $date, 0777, TRUE);
+			}
+			$config['upload_path'] = './file_vms/' . $nama_usaha . '/Laporan_Keuangan-' . $date;
+			$config['allowed_types'] = 'pdf';
+			$config['max_size'] = 0;
+			$this->load->library('upload', $config);
+			if ($this->upload->do_upload('file_laporan_auditor')) {
+				$file_laporan_auditor = $this->upload->data();
+			}
+			if ($this->upload->do_upload('file_laporan_keuangan')) {
+				$file_laporan_keuangan = $this->upload->data();
+			}
+			$upload = [
+				'id_vendor' => $id_vendor,
+				'id_url' => $id,
+				'tahun_lapor' => $tahun_lapor,
+				'file_laporan_auditor' => openssl_encrypt($file_laporan_auditor['file_name'], $chiper, $secret_token_dokumen1),
+				'file_laporan_keuangan' => openssl_encrypt($file_laporan_keuangan['file_name'], $chiper, $secret_token_dokumen2),
+				'sts_token_dokumen' => 1,
+				'password_dokumen' => $password_dokumen,
+				'token_dokumen' => $secret
+			];
+			$this->M_datapenyedia->tambah_keuangan($upload);
+			$this->output->set_content_type('application/json')->set_output(json_encode('success'));
+		} else {
+			$id_vendor = $this->session->userdata('id_vendor');
+			$nama_usaha = $this->session->userdata('nama_usaha');
+			$tahun_lapor = $this->input->post('tahun_lapor');
+			$id_vendor_keuangan =  $this->input->post('id_vendor_keuangan');
+			$get_row_enkrip = $this->M_datapenyedia->get_row_keuangan_row_banget($id_vendor_keuangan);
+			$id = $this->uuid->v4();
+			$id = str_replace('-', '', $id);
+			// seeting enkrip dokumen
+			$chiper = "AES-128-ECB";
+			$secret_token_dokumen1 = 'jmto.1' . $id;
+			$secret_token_dokumen2 = 'jmto.2' . $id;
+			$secret = $secret_token_dokumen1 . $secret_token_dokumen2;
+			$password_dokumen = '1234';
+			// SETTING PATH 
+			$sts_upload = [
+				'sts_upload_dokumen' => 1
+			];
+			$where = [
+				'id_vendor' => $id_vendor
+			];
+			$this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
+			$date = date('Y');
+			if (!is_dir('file_vms/' . $nama_usaha . '/Laporan_Keuangan-' . $date)) {
+				mkdir('file_vms/' . $nama_usaha . '/Laporan_Keuangan-' . $date, 0777, TRUE);
+			}
+			$config['upload_path'] = './file_vms/' . $nama_usaha . '/Laporan_Keuangan-' . $date;
+			$config['allowed_types'] = 'pdf';
+			$config['max_size'] = 0;
+			$this->load->library('upload', $config);
+			if ($this->upload->do_upload('file_laporan_auditor')) {
+				$file_laporan_auditordata = $this->upload->data();
+				$post_file_laporan_auditordata = openssl_encrypt($file_laporan_auditordata['file_name'], $chiper, $secret_token_dokumen1);
+			} else {
+				$file_laporan_auditordata = $get_row_enkrip['file_laporan_auditor'];
+				$post_file_laporan_auditordata = $file_laporan_auditordata;
+			}
+			if ($this->upload->do_upload('file_laporan_keuangan')) {
+				$file_laporan_keuangandata = $this->upload->data();
+				$post_file_laporan_keuangan = openssl_encrypt($file_laporan_keuangandata['file_name'], $chiper, $secret_token_dokumen2);
+			} else {
+				$file_laporan_keuangandata = $get_row_enkrip['file_laporan_keuangan'];
+				$post_file_laporan_keuangan = $file_laporan_keuangandata;
+			}
+			$where = [
+				'id_vendor_keuangan' => $id_vendor_keuangan
+			];
+			$upload = [
+				'id_vendor' => $id_vendor,
+				'id_url' => $id,
+				'tahun_lapor' => $tahun_lapor,
+				'file_laporan_auditor' => $post_file_laporan_auditordata,
+				'file_laporan_keuangan' => $post_file_laporan_keuangan,
+				'sts_token_dokumen' => 1,
+				'password_dokumen' => $password_dokumen,
+				'token_dokumen' => $secret
+			];
+			$this->M_datapenyedia->update_keuangan($upload, $where);
+			$this->output->set_content_type('application/json')->set_output(json_encode('success'));
 		}
-		$config['upload_path'] = './file_vms/' . $nama_usaha . '/Laporan_Keuangan-' . $date;
-		$config['allowed_types'] = 'pdf';
-		$config['max_size'] = 0;
-		$this->load->library('upload', $config);
-		if ($this->upload->do_upload('file_laporan_auditor')) {
-			$file_laporan_auditor = $this->upload->data();
-		}
-		if ($this->upload->do_upload('file_laporan_keuangan')) {
-			$file_laporan_keuangan = $this->upload->data();
-		}
-		$upload = [
-			'id_vendor' => $id_vendor,
-			'id_url' => $id,
-			'tahun_lapor' => $tahun_lapor,
-			'file_laporan_auditor' => openssl_encrypt($file_laporan_auditor['file_name'], $chiper, $secret_token_dokumen1),
-			'file_laporan_keuangan' => openssl_encrypt($file_laporan_keuangan['file_name'], $chiper, $secret_token_dokumen2),
-			'sts_token_dokumen' => 1,
-			'password_dokumen' => $password_dokumen,
-			'token_dokumen' => $secret
-		];
-		$this->M_datapenyedia->tambah_keuangan($upload);
-		$this->output->set_content_type('application/json')->set_output(json_encode('success'));
 	}
 
 	function get_keuangan_by_id($id_url_vendor)
