@@ -1,5 +1,9 @@
 <script>
-    // GET TABLE KBLI NIB
+    function Buat_pemilik() {
+        var form_simpan_manajerial_pemilik = $('#form_simpan_manajerial_pemilik');
+        form_simpan_manajerial_pemilik[0].reset();
+        $('#modal-xl-pemilik').modal('show');
+    }
     function validasi_saham() {
         var saham = $('[name="saham"]').val();
         if (saham > 100) {
@@ -9,6 +13,27 @@
 
         }
     }
+    function validasi_saham_edit() {
+        var saham = $('.saham_edit').val();
+        if (saham > 100) {
+            Swal.fire('Maaf!', 'Hanya 1-100% Pengisian Saham!', 'warning');
+            var saham = $('[name="saham"]').val(0);
+        } else {
+
+        }
+    }
+    $('.edit_ktp').change(function(e) {
+        var geekss = e.target.files[0].name;
+        $('[name="file_ktp_manipulasi"]').val(geekss);
+
+    });
+
+    $('.edit_npwp').change(function(e) {
+        var geekss = e.target.files[0].name;
+        $('[name="file_npwp_manipulasi"]').val(geekss);
+
+    });
+
     var data_excel_pemilik_manajerial = $('#data_excel_pemilik_manajerial')
     $(document).ready(function() {
         var url_data_excel_pemilik_manajerial = $('[name="url_data_excel_pemilik_manajerial"]').val();
@@ -123,8 +148,8 @@
                     $('[name="npwp"]').val(response['row_excel_pemilik_manajerial'].npwp);
                     $('[name="warganegara"]').val(response['row_excel_pemilik_manajerial'].warganegara);
                     $('[name="saham"]').val(response['row_excel_pemilik_manajerial'].saham);
-                    $('[name="file_ktp_manipulasi"]').val(response['row_pemilik_manajerial'].file_ktp);
-                    $('[name="file_npwp_manipulasi"]').val(response['row_pemilik_manajerial'].file_npwp);
+                    $('[name="file_ktp_manipulasi"]').val(response['row_excel_pemilik_manajerial'].file_ktp);
+                    $('[name="file_npwp_manipulasi"]').val(response['row_excel_pemilik_manajerial'].file_npwp);
                     $('[name="file_ktp"]').val(response['row_excel_pemilik_manajerial'].file_ktp);
                     $('[name="file_npwp"]').val(response['row_excel_pemilik_manajerial'].file_npwp);
                 } else if (type == 'hapus') {
@@ -137,7 +162,6 @@
     }
 
     function Question_hapus_excel_pemilik(id_url, nama_pemilik) {
-        // 
         var url_hapus_row_import_excel_pemilik = $('[name="url_hapus_row_import_excel_pemilik"]').val();
         Swal.fire({
             title: "Yakin Mau Hapus",
