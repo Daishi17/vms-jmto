@@ -782,8 +782,8 @@
                     $('.button_nama_file_dokumen_sertifikat').html('<a href="javascript:;"  onclick="Download_neraca(\'' + response['row_neraca'].id_url_neraca + '\'' + ',' + '\'' + 'neraca_dokumen' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-file mr-2"></i> ' + response['row_neraca'].file_dokumen_sertifikat + '</a>');
                     $('.button_nama_file_dokumen_neraca').html('<a href="javascript:;"  onclick="Download_neraca(\'' + response['row_neraca'].id_url_neraca + '\'' + ',' + '\'' + 'neraca_sertifikat' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-file mr-2"></i> ' + response['row_neraca'].file_dokumen_neraca + '</a>');
                     $('[name="id_neraca"]').val(response['row_neraca'].id_neraca);
-                    $('[name="nama_akuntan_public"]').val(response['row_neraca'].nama_akuntan_public);
-                    $('[name="tangga_laporan"]').val(response['row_neraca'].tangga_laporan);
+                    // $('[name="nama_akuntan_public"]').val(response['row_neraca'].nama_akuntan_public);
+                    // $('[name="tangga_laporan"]').val(response['row_neraca'].tangga_laporan);
                     $('[name="file_dokumen_neraca"]').val(response['row_neraca'].file_dokumen_neraca);
                     $('[name="file_dokumen_sertifikat"]').val(response['row_neraca'].file_dokumen_sertifikat);
                 } else if (type == 'hapus') {
@@ -799,7 +799,7 @@
     function Question_hapus_neraca(id_url_neraca, nama_akuntan_public) {
         Swal.fire({
             title: "Yakin Mau Hapus",
-            text: 'Data' + nama_akuntan_public + 'Ini Mau Di hapus?',
+            text: 'Data Ini Mau Di hapus?',
             icon: "warning",
             buttons: true,
             dangerMode: true,
@@ -845,6 +845,7 @@
                         willClose: () => {
                             clearInterval(timerInterval)
                             Swal.fire('Dokumen Berhasil Di Enkripsi', '', 'success')
+                            reloadtable_nerca_keuangan();
                             $('[name="validasi_enkripsi"]').val(response['row_neraca'].sts_token_dokumen);
                             if (response['row_neraca']['sts_token_dokumen'] == 1) {
                                 $('.button_enkrip_neraca').html('<a href="javascript:;"  onclick="DekripEnkrip_neraca(\'' + response['row_neraca'].id_url_neraca + '\'' + ',' + '\'' + 'dekrip' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-lock-open mr-2"></i> Dekripsi Dokumen</a>');
@@ -854,11 +855,8 @@
                             $('.button_nama_file_dokumen_sertifikat').html('<a href="javascript:;"  onclick="Download_neraca(\'' + response['row_neraca'].id_url_neraca + '\'' + ',' + '\'' + 'neraca_dokumen' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-file mr-2"></i> ' + response['row_neraca'].file_dokumen_sertifikat + '</a>');
                             $('.button_nama_file_dokumen_neraca').html('<a href="javascript:;"  onclick="Download_neraca(\'' + response['row_neraca'].id_url_neraca + '\'' + ',' + '\'' + 'neraca_sertifikat' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-file mr-2"></i> ' + response['row_neraca'].file_dokumen_neraca + '</a>');
                             $('[name="id_neraca"]').val(response['row_neraca'].id_neraca);
-                            $('[name="nama_akuntan_public"]').val(response['row_neraca'].nama_akuntan_public);
-                            $('[name="tangga_laporan"]').val(response['row_neraca'].tangga_laporan);
                             $('[name="file_dokumen_neraca"]').val(response['row_neraca'].file_dokumen_neraca);
                             $('[name="file_dokumen_sertifikat"]').val(response['row_neraca'].file_dokumen_sertifikat);
-                            reloadtable_nerca_keuangan();
 
                         }
                     }).then((result) => {
@@ -894,6 +892,7 @@
                         willClose: () => {
                             clearInterval(timerInterval)
                             Swal.fire('Dokumen Berhasil Di Enkripsi', '', 'success')
+                            reloadtable_nerca_keuangan();
                             $('[name="validasi_enkripsi"]').val(response['row_neraca'].sts_token_dokumen);
                             if (response['row_neraca']['sts_token_dokumen'] == 1) {
                                 $('.button_enkrip_neraca').html('<a href="javascript:;"  onclick="DekripEnkrip_neraca(\'' + response['row_neraca'].id_url_neraca + '\'' + ',' + '\'' + 'dekrip' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-lock-open mr-2"></i> Dekripsi Dokumen</a>');
@@ -903,11 +902,8 @@
                             $('.button_nama_file_dokumen_sertifikat').html('<a href="javascript:;"  onclick="Download_neraca(\'' + response['row_neraca'].id_url_neraca + '\'' + ',' + '\'' + 'neraca_dokumen' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-file mr-2"></i> ' + response['row_neraca'].file_dokumen_sertifikat + '</a>');
                             $('.button_nama_file_dokumen_neraca').html('<a href="javascript:;"  onclick="Download_neraca(\'' + response['row_neraca'].id_url_neraca + '\'' + ',' + '\'' + 'neraca_sertifikat' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-file mr-2"></i> ' + response['row_neraca'].file_dokumen_neraca + '</a>');
                             $('[name="id_neraca"]').val(response['row_neraca'].id_neraca);
-                            $('[name="nama_akuntan_public"]').val(response['row_neraca'].nama_akuntan_public);
-                            $('[name="tangga_laporan"]').val(response['row_neraca'].tangga_laporan);
                             $('[name="file_dokumen_neraca"]').val(response['row_neraca'].file_dokumen_neraca);
                             $('[name="file_dokumen_sertifikat"]').val(response['row_neraca'].file_dokumen_sertifikat);
-                            reloadtable_nerca_keuangan();
                         }
                     }).then((result) => {
                         /* Read more about handling dismissals below */

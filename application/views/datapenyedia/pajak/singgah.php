@@ -465,18 +465,25 @@
                                                     <table id="table_nerca_keuangan" class="table table-sm table-bordered table-striped">
                                                         <thead class="bg-dark">
                                                             <tr class="shadow-lg">
-                                                                <th style="width:5%;" class="text-white">No</th>
-                                                                <th style="width:10%;"><small class="text-white">Tanggal Laporan</small></th>
-                                                                <th style="width:20%;"><small class="text-white">Nama Akuntan Publik</small></th>
+                                                                <th style="width:2%;" class="text-white">No</th>
+                                                                <th style="width:20%;"><small class="text-white">
+                                                                    <div class="text-center">File Neraca Keuangan</div>
+                                                                </small></th>
+                                                                <th style="width:20%;"><small class="text-white">
+                                                                    <div class="text-center">File Sertifikat</div>
+                                                                </small></th>
+                                                                <th style="width:10%;"><small class="text-white">
+                                                                    <div class="text-center">Dekrip/Enkrip</div>
+                                                                </small></th>
                                                                 <th style="width:10%;"><small class="text-white">
                                                                         <div class="text-center">Status Validasi</div>
                                                                     </small></th>
-                                                                <th style="width:10%;"><small class="text-white">
+                                                                <th><small class="text-white">
                                                                         <div class="text-center">More Options</div>
                                                                     </small></th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody>
+                                                        <tbody style="text-align: center;">
 
                                                         </tbody>
                                                     </table>
@@ -1192,30 +1199,6 @@
                             <table class="table table-sm">
                                 <tr>
                                     <td class="col-sm-2 bg-light">
-                                        <label class="form-label col-form-label-sm"><b>Nama Akuntan Publik</b></label>
-                                    </td>
-                                    <td class="col-sm-3">
-                                        <div class="col-sm-12">
-                                            <div class="input-group mb-2">
-                                                <span class="input-group-text"><i class="fa-solid fa-user-pen"></i></span>
-                                                <input name="nama_akuntan_public" type="text" class="form-control">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="col-sm-2 bg-light">
-                                        <label class="form-label col-form-label-sm"><b>Tanggal Laporan</b></label>
-                                    </td>
-                                    <td class="col-sm-3">
-                                        <div class="col-sm-8">
-                                            <div class="input-group mb-2">
-                                                <span class="input-group-text"><i class="fa-solid fa-calendar-days"></i></span>
-                                                <input type="date" name="tangga_laporan" id="date" class="form-control">
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-sm-2 bg-light">
                                         <label class="form-label col-form-label-sm"><b>Upload Neraca Keuangan</b></label>
                                     </td>
                                     <td class="col-sm-3">
@@ -1294,31 +1277,7 @@
                             <table class="table table-sm">
                                 <tr>
                                     <td class="col-sm-2 bg-light">
-                                        <label class="form-label col-form-label-sm"><b>Nama Akuntan Publik</b></label>
-                                    </td>
-                                    <td class="col-sm-3">
-                                        <div class="col-sm-12">
-                                            <div class="input-group mb-2">
-                                                <span class="input-group-text"><i class="fa-solid fa-user-pen"></i></span>
-                                                <input name="nama_akuntan_public" type="text" class="form-control">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="col-sm-2 bg-light">
-                                        <label class="form-label col-form-label-sm"><b>Tanggal Laporan</b></label>
-                                    </td>
-                                    <td class="col-sm-3">
-                                        <div class="col-sm-8">
-                                            <div class="input-group mb-2">
-                                                <span class="input-group-text"><i class="fa-solid fa-calendar-days"></i></span>
-                                                <input type="date" name="tangga_laporan" id="date" class="form-control">
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-sm-2 bg-light">
-                                        <label class="form-label col-form-label-sm"><b>Upload File KTP</b></label>
+                                        <label class="form-label col-form-label-sm"><b>Upload File Neraca</b></label>
                                     </td>
                                     <td class="col-sm-3">
                                         <input type="file" name="file_dokumen_neraca" id="file" accept=".pdf">
@@ -1475,7 +1434,7 @@
                         </tbody>
                     </table>
                     <div>
-                        <button type="submit" class="btn btn-primary btn-sm">Cetak Format Dan Download</button>
+                        <button type="submit" class="btn btn-primary btn-sm">Save Format Dan Download</button>
                     </div>
                 </form>
                 <br>

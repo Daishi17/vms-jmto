@@ -46,7 +46,7 @@
                             </div>&nbsp;<span class="text-white">||</span>
                         </div>
                         <div class="card-body">
-                            <table style="font-size: 13px;" id="data_pengalaman_manajerial" class="table table-sm table-bordered table-striped">
+                            <table style="font-size: 13px;text-align:center" id="data_pengalaman_manajerial" class="table table-sm table-bordered table-striped">
                                 <thead class="bg-danger">
                                     <tr>
                                         <th class="text-white">No</th>

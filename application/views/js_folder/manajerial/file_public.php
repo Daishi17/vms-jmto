@@ -13,7 +13,7 @@
             "buttons": ["excel", "pdf", "print", "colvis"],
             "order": [],
             "ajax": {
-                "url": '<?= base_url('datapenyedia/get_data_excel_pemilik_manajerial') ?>',
+                "url": url_data_excel_pemilik_manajerial,
                 "type": "POST",
             },
             "columnDefs": [{
@@ -39,7 +39,7 @@
     // GET TABLE KBLI NIB
     var data_pemilik_manajerial = $('#data_pemilik_manajerial')
     $(document).ready(function() {
-        // var url_data_pemilik_manajerial = $('[name="url_data_pemilik_manajerial"]').val();
+        var url_data_pemilik_manajerial = $('[name="url_data_pemilik_manajerial"]').val();
         data_pemilik_manajerial.DataTable({
             "ordering": true,
             "autoWidth": false,
@@ -50,7 +50,7 @@
             "buttons": ["excel", "pdf", "print", "colvis"],
             "order": [],
             "ajax": {
-                "url": '<?= base_url('datapenyedia/get_data_pemilik_manajerial') ?>',
+                "url": url_data_pemilik_manajerial,
                 "type": "POST",
             },
             "columnDefs": [{
@@ -75,7 +75,7 @@
 
     function by_id_excel_pemilik_manajerial(id_pemilik, type) {
         var modal_edit_excel_pemilik_manajerial = $('#modal_edit_excel_pemilik_manajerial');
-        // var url_byid_kbli_nib = $('[name="url_byid_kbli_nib"]').val();
+        var url_byid_pemilik_manajerial = $('[name="url_byid_pemilik_manajerial"]').val();
         if (type == 'edit') {
             saveData = 'edit';
         }
@@ -91,7 +91,7 @@
 
         $.ajax({
             type: "GET",
-            url: '<?= base_url('datapenyedia/by_id_excel_pemilik_menajerial/') ?>' + id_pemilik,
+            url: url_byid_pemilik_manajerial + id_pemilik,
             dataType: "JSON",
             success: function(response) {
                 if (type == 'edit') {
@@ -126,6 +126,8 @@
     }
 
     function Question_hapus_excel_pemilik(id_url, nama_pemilik) {
+        // 
+        var url_hapus_row_import_excel_pemilik = $('[name="url_hapus_row_import_excel_pemilik"]').val();
         Swal.fire({
             title: "Yakin Mau Hapus",
             text: 'Data' + nama_pemilik + 'Ini Mau Di hapus?',
@@ -136,7 +138,7 @@
             if (willDelete) {
                 $.ajax({
                     type: "POST",
-                    url: '<?= base_url('datapenyedia/hapus_row_import_excel_pemilik/') ?>' + id_url,
+                    url: url_hapus_row_import_excel_pemilik + id_url,
                     dataType: "JSON",
                     success: function(response) {
                         Swal.fire('Good job!', 'Data Beharhasil Dihapus!', 'success');
@@ -149,6 +151,7 @@
 
 
     function Hapus_import_pemilik() {
+        var url_hapus_import_excel_pemilik = $('[name="url_hapus_import_excel_pemilik"]').val();
         Swal.fire({
             title: "Anda Yakin",
             text: 'Semua Data Ini Mau Di hapus?',
@@ -159,7 +162,7 @@
             if (willDelete) {
                 $.ajax({
                     type: "POST",
-                    url: '<?= base_url('datapenyedia/hapus_import_excel_pemilik') ?>',
+                    url: url_hapus_import_excel_pemilik,
                     dataType: "JSON",
                     success: function(response) {
                         Swal.fire('Good job!', 'Data Beharhasil Dihapus!', 'success');
@@ -172,11 +175,12 @@
     }
 
     function DekripEnkrip_pemilik(id_url, type) {
+        var url_dekrip_enkrip_pemilik = $('[name="url_dekrip_enkrip_pemilik"]').val();
         var type_edit_pemilik = $('[name="type_edit_pemilik"]').val();
         if (type == 'dekrip') {
             $.ajax({
                 method: "POST",
-                url: '<?= base_url('datapenyedia/dekrip_enkrip_pemilik/') ?>' + id_url,
+                url: url_dekrip_enkrip_pemilik + id_url,
                 dataType: "JSON",
                 data: {
                     type: type,
@@ -232,7 +236,7 @@
         } else {
             $.ajax({
                 method: "POST",
-                url: '<?= base_url('datapenyedia/dekrip_enkrip_pemilik/') ?>' + id_url,
+                url: url_dekrip_enkrip_pemilik + id_url,
                 dataType: "JSON",
                 data: {
                     type: type,
@@ -290,17 +294,18 @@
     }
 
     function Download_pemilik(id_url, type) {
-        // var url_download_nib = $('[name="url_download_nib"]').val()
-        location.href = '<?= base_url('datapenyedia/url_download_pemilik/') ?>' + id_url + '/' + type;
+        var url_download_pemilik = $('[name="url_download_pemilik"]').val()
+        location.href = url_download_pemilik + id_url + '/' + type;
     }
 
 
     var form_simpan_manajerial_pemilik = $('#form_simpan_manajerial_pemilik');
     var modal_xl_pemilik = $('#modal-xl-pemilik');
+    var url_buat_pemilik_manajerial = $('[name="url_buat_pemilik_manajerial"]').val()
     form_simpan_manajerial_pemilik.on('submit', function(e) {
         e.preventDefault();
         $.ajax({
-            url: "<?php echo base_url(); ?>datapenyedia/buat_pemilik_manajerial",
+            url: url_buat_pemilik_manajerial,
             method: "POST",
             data: new FormData(this),
             contentType: false,
@@ -320,6 +325,7 @@
     });
 
     function by_id_pemilik_manajerial(id_pemilik, type) {
+        var url_by_id_pemilik_manajerial = $('[name="url_by_id_pemilik_manajerial"]').val()
         var modal_edit_excel_pemilik_manajerial = $('#modal_edit_excel_pemilik_manajerial');
         if (type == 'edit') {
             saveData = 'edit';
@@ -336,7 +342,7 @@
 
         $.ajax({
             type: "GET",
-            url: '<?= base_url('datapenyedia/by_id_pemilik_manajerial/') ?>' + id_pemilik,
+            url: url_by_id_pemilik_manajerial + id_pemilik,
             dataType: "JSON",
             success: function(response) {
                 if (type == 'edit') {
@@ -371,6 +377,7 @@
     }
 
     function Question_hapus_pemilik(id_url, nama_pemilik) {
+        var url_hapus_row_pemilik = $('[name="url_hapus_row_pemilik"]').val()
         Swal.fire({
             title: "Yakin Mau Hapus",
             text: 'Data' + nama_pemilik + 'Ini Mau Di hapus?',
@@ -381,7 +388,7 @@
             if (willDelete) {
                 $.ajax({
                     type: "POST",
-                    url: '<?= base_url('datapenyedia/hapus_row_pemilik/') ?>' + id_url,
+                    url: url_hapus_row_pemilik + id_url,
                     dataType: "JSON",
                     success: function(response) {
                         Swal.fire('Good job!', 'Data Beharhasil Dihapus!', 'success');
@@ -398,6 +405,7 @@
 
     var form_edit_excel_pemilik_manajerial = $('#form_edit_excel_pemilik_manajerial');
     var modal_edit_excel_pemilik_manajerial = $('#modal_edit_excel_pemilik_manajerial');
+    var url_edit_excel_pemilik_manajerial = $('[name="url_edit_excel_pemilik_manajerial"]').val()
     form_edit_excel_pemilik_manajerial.on('submit', function(e) {
         e.preventDefault();
         var validasi_enkripsi_pemilik = $('[name="validasi_enkripsi_pemilik"]').val();
@@ -405,7 +413,7 @@
             Swal.fire('Waduh Maaf!', 'Enkripsi File Terlebih Dahulu Yaa!', 'warning');
         } else {
             $.ajax({
-                url: "<?php echo base_url(); ?>datapenyedia/edit_excel_pemilik_manajerial",
+                url: url_edit_excel_pemilik_manajerial,
                 method: "POST",
                 data: new FormData(this),
                 contentType: false,
@@ -431,10 +439,11 @@
 
 
     var form_import_excel = $('#form_import_excel');
+    var url_import_pemilik_perusahaan = $('[name="url_import_pemilik_perusahaan"]').val()
     form_import_excel.on('submit', function(e) {
         e.preventDefault();
         $.ajax({
-            url: "<?php echo base_url(); ?>datapenyedia/import_pemilik_perusahaan",
+            url: url_import_pemilik_perusahaan,
             method: "POST",
             data: new FormData(this),
             contentType: false,
@@ -460,9 +469,10 @@
     });
 
     function Simpan_import_pemilik() {
+        var url_simpan_import_excel_pemilik = $('[name="url_simpan_import_excel_pemilik"]').val()
         $.ajax({
             type: "POST",
-            url: '<?= base_url('datapenyedia/simpan_import_excel_pemilik') ?>',
+            url: url_simpan_import_excel_pemilik,
             dataType: "JSON",
             beforeSend: function() {
                 $('.data_tervalidasi').css('display', 'none');
@@ -539,27 +549,36 @@
     var form_simpan_manajerial_pengurus = $('#form_simpan_manajerial_pengurus');
     var modal_xl_pengurus = $('#modal-xl-pengurus');
     form_simpan_manajerial_pengurus.on('submit', function(e) {
-        e.preventDefault();
-        $.ajax({
-            url: "<?php echo base_url(); ?>datapenyedia/buat_pengurus_manajerial",
-            method: "POST",
-            data: new FormData(this),
-            contentType: false,
-            cache: false,
-            processData: false,
-            beforeSend: function() {
-                $('.btn_simpan').attr('disabled', 'disabled');
-            },
-            success: function(response) {
-                modal_xl_pengurus.modal('hide')
-                Swal.fire('Good job!', 'Data Beharhasil Di Buat!', 'success');
-                // reloaddata_pengurus_manajerial()
-                $('.btn_simpan').attr('disabled', false);
-                form_simpan_manajerial_pengurus[0].reset();
-            }
-        });
+        var file_dokumen = $('[name="file_dokumen"]').val()
+        if (file_dokumen == '') {
+            e.preventDefault();
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Dokumen Wajib Di Isi!',
+            })
+        } else {
+            e.preventDefault();
+            $.ajax({
+                url: "<?php echo base_url(); ?>datapenyedia/buat_pengurus_manajerial",
+                method: "POST",
+                data: new FormData(this),
+                contentType: false,
+                cache: false,
+                processData: false,
+                beforeSend: function() {
+                    $('.btn_simpan').attr('disabled', 'disabled');
+                },
+                success: function(response) {
+                    modal_xl_pengurus.modal('hide')
+                    Swal.fire('Good job!', 'Data Beharhasil Di Buat!', 'success');
+                    // reloaddata_pengurus_manajerial()
+                    $('.btn_simpan').attr('disabled', false);
+                    form_simpan_manajerial_pengurus[0].reset();
+                }
+            });
+        }
     });
-
 
     var data_excel_pengurus_manajerial = $('#data_excel_pengurus_manajerial')
     $(document).ready(function() {

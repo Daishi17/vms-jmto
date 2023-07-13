@@ -240,6 +240,20 @@ class M_datapenyedia extends CI_Model
         return $query->row_array();
     }
 
+
+    public function get_row_kbli_nib_by_vendor($id_vendor)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_vendor_kbli_nib');
+        $this->db->join('tbl_kbli', 'tbl_vendor_kbli_nib.id_kbli = tbl_kbli.id_kbli', 'left');
+        $this->db->join('tbl_kualifikasi_izin', 'tbl_vendor_kbli_nib.id_kualifikasi_izin = tbl_kualifikasi_izin.id_kualifikasi_izin', 'left');
+        $this->db->where('tbl_vendor_kbli_nib.id_vendor', $id_vendor);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
+
+
     function edit_kbli_nib($data, $where)
     {
         $this->db->update('tbl_vendor_kbli_nib', $data, $where);
@@ -384,6 +398,40 @@ class M_datapenyedia extends CI_Model
         $query = $this->db->get();
         return $query->row_array();
     }
+
+    public function get_row_kbli_siup_by_vendor($id_vendor)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_vendor_kbli_siup');
+        $this->db->join('tbl_kbli', 'tbl_vendor_kbli_siup.id_kbli = tbl_kbli.id_kbli', 'left');
+        $this->db->join('tbl_kualifikasi_izin', 'tbl_vendor_kbli_siup.id_kualifikasi_izin = tbl_kualifikasi_izin.id_kualifikasi_izin', 'left');
+        $this->db->where('tbl_vendor_kbli_siup.id_vendor', $id_vendor);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
+    
+    public function get_row_kbli_siujk_by_vendor($id_vendor)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_vendor_kbli_siujk');
+        $this->db->join('tbl_kbli', 'tbl_vendor_kbli_siujk.id_kbli = tbl_kbli.id_kbli', 'left');
+        $this->db->join('tbl_kualifikasi_izin', 'tbl_vendor_kbli_siujk.id_kualifikasi_izin = tbl_kualifikasi_izin.id_kualifikasi_izin', 'left');
+        $this->db->where('tbl_vendor_kbli_siujk.id_vendor', $id_vendor);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+    
+    public function get_row_kbli_sbu_by_vendor($id_vendor)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_vendor_kbli_sbu');
+        $this->db->join('tbl_kualifikasi_izin', 'tbl_vendor_kbli_sbu.id_kualifikasi_sbu = tbl_kualifikasi_izin.id_kualifikasi_izin', 'left');
+        $this->db->where('tbl_vendor_kbli_sbu.id_vendor', $id_vendor);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+    
 
     function edit_kbli_siup($data, $where)
     {
@@ -1335,265 +1383,265 @@ class M_datapenyedia extends CI_Model
     }
 
     // end crud pajak sppkp
-// INI UNTUK PENGALAMAN
+    // INI UNTUK PENGALAMAN
 
-public function tambah_tbl_pengalaman($data)
-{
-    $this->db->insert('tbl_vendor_pengalaman', $data);
-    return $this->db->affected_rows();
-}
-
-var $order_pengalaman =  array('id_vendor', 'no_kontrak', 'nama_pekerjaan', 'id_jenis_usaha', 'tanggal_kontrak', 'instansi_pemberi', 'nilai_kontrak', 'id_vendor', 'id_vendor');
-
-private function _get_data_query_pengalaman_manjerial($id_vendor)
-{
-    $this->db->select('*');
-    $this->db->from('tbl_vendor_pengalaman');
-    $this->db->where('tbl_vendor_pengalaman.id_vendor', $id_vendor);
-    $this->db->order_by('tbl_vendor_pengalaman.id_pengalaman', 'DESC');
-    $i = 0;
-    foreach ($this->order_nib as $item) // looping awal
+    public function tambah_tbl_pengalaman($data)
     {
-        if ($_POST['search']['value']) // jika datatable mengirimkan pencarian dengan metode POST
-        {
-
-            if ($i === 0) // looping awal
-            {
-                $this->db->group_start();
-                $this->db->like($item, $_POST['search']['value']);
-            } else {
-                $this->db->or_like(
-                    $item,
-                    $_POST['search']['value']
-                );
-            }
-
-            if (count($this->order_pengalaman) - 1 == $i)
-                $this->db->group_end();
-        }
-        $i++;
+        $this->db->insert('tbl_vendor_pengalaman', $data);
+        return $this->db->affected_rows();
     }
-    if (isset($_POST['order'])) {
-        $this->db->order_by($this->order_pengalaman[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
-    } else {
-        $this->db->order_by('tbl_vendor_pengalaman.id_vendor', 'DESC');
-    }
-}
 
-public function gettable_pengalaman_manajerial($id_vendor) //nam[ilin data pake ini
-{
-    $this->_get_data_query_pengalaman_manjerial($id_vendor); //ambil data dari get yg di atas
-    if ($_POST['length'] != -1) {
-        $this->db->limit($_POST['length'], $_POST['start']);
-    }
-    $query = $this->db->get();
-    return $query->result();
-}
-public function count_filtered_data_pengalaman_manajerial($id_vendor)
-{
-    $this->_get_data_query_pengalaman_manjerial($id_vendor); //ambil data dari get yg di atas
-    $query = $this->db->get();
-    return $query->num_rows();
-}
+    var $order_pengalaman =  array('id_vendor', 'no_kontrak', 'nama_pekerjaan', 'id_jenis_usaha', 'tanggal_kontrak', 'instansi_pemberi', 'nilai_kontrak', 'id_vendor', 'id_vendor');
 
-public function count_all_data_pengalaman_manajerial($id_vendor)
-{
-    $this->db->select('*');
-    $this->db->from('tbl_vendor_pengalaman');
-    $this->db->where('tbl_vendor_pengalaman.id_vendor', $id_vendor);
-    return $this->db->count_all_results();
-}
-
-
-var $order_pengalaman_excel =  array('id_vendor', 'no_kontrak', 'nama_pekerjaan', 'id_jenis_usaha', 'tanggal_kontrak', 'instansi_pemberi', 'nilai_kontrak', 'id_vendor', 'id_vendor');
-
-private function _get_data_query_excel_pengalaman_manjerial($id_vendor)
-{
-    $this->db->select('*');
-    $this->db->from('temp_vendor_pengalaman');
-    $this->db->where('temp_vendor_pengalaman.id_vendor', $id_vendor);
-    $i = 0;
-    foreach ($this->order_nib as $item) // looping awal
+    private function _get_data_query_pengalaman_manjerial($id_vendor)
     {
-        if ($_POST['search']['value']) // jika datatable mengirimkan pencarian dengan metode POST
+        $this->db->select('*');
+        $this->db->from('tbl_vendor_pengalaman');
+        $this->db->where('tbl_vendor_pengalaman.id_vendor', $id_vendor);
+        $this->db->order_by('tbl_vendor_pengalaman.id_pengalaman', 'DESC');
+        $i = 0;
+        foreach ($this->order_nib as $item) // looping awal
         {
-
-            if ($i === 0) // looping awal
+            if ($_POST['search']['value']) // jika datatable mengirimkan pencarian dengan metode POST
             {
-                $this->db->group_start();
-                $this->db->like($item, $_POST['search']['value']);
-            } else {
-                $this->db->or_like(
-                    $item,
-                    $_POST['search']['value']
-                );
+
+                if ($i === 0) // looping awal
+                {
+                    $this->db->group_start();
+                    $this->db->like($item, $_POST['search']['value']);
+                } else {
+                    $this->db->or_like(
+                        $item,
+                        $_POST['search']['value']
+                    );
+                }
+
+                if (count($this->order_pengalaman) - 1 == $i)
+                    $this->db->group_end();
             }
-
-            if (count($this->order_pengalaman_excel) - 1 == $i)
-                $this->db->group_end();
+            $i++;
         }
-        $i++;
-    }
-    if (isset($_POST['order'])) {
-        $this->db->order_by($this->order_pengalaman_excel[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
-    } else {
-        $this->db->order_by('temp_vendor_pengalaman.id_vendor', 'DESC');
-    }
-}
-
-public function gettable_excel_pengalaman_manajerial($id_vendor) //nam[ilin data pake ini
-{
-    $this->_get_data_query_excel_pengalaman_manjerial($id_vendor); //ambil data dari get yg di atas
-    if ($_POST['length'] != -1) {
-        $this->db->limit($_POST['length'], $_POST['start']);
-    }
-    $query = $this->db->get();
-    return $query->result();
-}
-public function count_filtered_data_excel_pengalaman_manajerial($id_vendor)
-{
-    $this->_get_data_query_excel_pengalaman_manjerial($id_vendor); //ambil data dari get yg di atas
-    $query = $this->db->get();
-    return $query->num_rows();
-}
-
-public function count_all_data_excel_pengalaman_manajerial($id_vendor)
-{
-    $this->db->select('*');
-    $this->db->from('temp_vendor_pengalaman');
-    $this->db->where('temp_vendor_pengalaman.id_vendor', $id_vendor);
-    return $this->db->count_all_results();
-}
-
-public function tambah_tbl_vendor_pengalaman($data)
-{
-    $this->db->insert('tbl_vendor_pengalaman', $data);
-    return $this->db->affected_rows();
-}
-
-
-
-
-public function get_row_excel_pengalaman_manajerial($id_pengalaman)
-{
-    $this->db->select('*');
-    $this->db->from('temp_vendor_pengalaman');
-    $this->db->where('temp_vendor_pengalaman.id_pengalaman', $id_pengalaman);
-    $query = $this->db->get();
-    return $query->row_array();
-}
-
-public function get_row_pengalaman_manajerial($id_pengalaman)
-{
-    $this->db->select('*');
-    $this->db->from('tbl_vendor_pengalaman');
-    $this->db->where('tbl_vendor_pengalaman.id_pengalaman', $id_pengalaman);
-    $query = $this->db->get();
-    return $query->row_array();
-}
-
-public function update_excel_pengalaman_manajerial($data, $where)
-{
-    $this->db->update('temp_vendor_pengalaman', $data, $where);
-    return $this->db->affected_rows();
-}
-
-public function update_pengalaman_manajerial($data, $where)
-{
-    $this->db->update('tbl_vendor_pengalaman', $data, $where);
-    return $this->db->affected_rows();
-}
-
-
-public function get_row_excel_pengalaman_manajerial_enkription($id_url)
-{
-    $this->db->select('*');
-    $this->db->from('temp_vendor_pengalaman');
-    $this->db->where('temp_vendor_pengalaman.id_url', $id_url);
-    $query = $this->db->get();
-    return $query->row_array();
-}
-
-public function get_row_pengalaman_manajerial_enkription($id_url)
-{
-    $this->db->select('*');
-    $this->db->from('tbl_vendor_pengalaman');
-    $this->db->where('tbl_vendor_pengalaman.id_url', $id_url);
-    $query = $this->db->get();
-    return $query->row_array();
-}
-
-
-public function update_excel_pengalaman_manajerial_enkription($where, $data)
-{
-    $this->db->update('temp_vendor_pengalaman', $data, $where);
-    return $this->db->affected_rows();
-}
-
-public function update_pengalaman_manajerial_enkription($where, $data)
-{
-    $this->db->update('tbl_vendor_pengalaman', $data, $where);
-    return $this->db->affected_rows();
-}
-
-function delete_import_excel_pengalaman($where)
-{
-    $this->db->delete('temp_vendor_pengalaman', $where);
-    return $this->db->affected_rows();
-}
-
-function delete_pengalaman($where)
-{
-    $this->db->delete('tbl_vendor_pengalaman', $where);
-    return $this->db->affected_rows();
-}
-public function get_result_pengalaman_manajerial($id_vendor)
-{
-    $this->db->select('*');
-    $this->db->from('tbl_vendor_pengalaman');
-    $this->db->where('tbl_vendor_pengalaman.id_vendor', $id_vendor);
-    $query = $this->db->get();
-    return $query->result_array();
-}
-
-public function result_excel_pengalaman($id_vendor)
-{
-    $this->db->select('*');
-    $this->db->from('temp_vendor_pengalaman');
-    $this->db->where('temp_vendor_pengalaman.id_vendor', $id_vendor);
-    $query = $this->db->get();
-    return $query->result_array();
-}
-
-public function get_result_excel_pengalaman_manajerial($id_vendor, $cek_table)
-{
-    $this->db->select('*');
-    $this->db->from('temp_vendor_pengalaman');
-    $this->db->where('temp_vendor_pengalaman.id_vendor', $id_vendor);
-    if ($cek_table) {
-        foreach ($cek_table as $key => $value) {
-            $this->db->where('no_kontrak !=', '' . $value['no_kontrak'] . '');
+        if (isset($_POST['order'])) {
+            $this->db->order_by($this->order_pengalaman[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        } else {
+            $this->db->order_by('tbl_vendor_pengalaman.id_vendor', 'DESC');
         }
-    } else {
     }
-    $query = $this->db->get();
-    return $query->result_array();
-}
 
-public function get_result_validasi_excel_pengalaman_manajerial($id_vendor, $cek_table2)
-{
-    $this->db->select('*');
-    $this->db->from('tbl_vendor_pengalaman');
-    $this->db->where('tbl_vendor_pengalaman.id_vendor', $id_vendor);
-    if ($cek_table2) {
-        foreach ($cek_table2 as $key => $valu2) {
-            $this->db->or_where('no_kontrak', '' . $valu2['no_kontrak'] . '');
+    public function gettable_pengalaman_manajerial($id_vendor) //nam[ilin data pake ini
+    {
+        $this->_get_data_query_pengalaman_manjerial($id_vendor); //ambil data dari get yg di atas
+        if ($_POST['length'] != -1) {
+            $this->db->limit($_POST['length'], $_POST['start']);
         }
-    } else {
+        $query = $this->db->get();
+        return $query->result();
     }
-    $query = $this->db->get();
-    return $query->result_array();
-}
+    public function count_filtered_data_pengalaman_manajerial($id_vendor)
+    {
+        $this->_get_data_query_pengalaman_manjerial($id_vendor); //ambil data dari get yg di atas
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    public function count_all_data_pengalaman_manajerial($id_vendor)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_vendor_pengalaman');
+        $this->db->where('tbl_vendor_pengalaman.id_vendor', $id_vendor);
+        return $this->db->count_all_results();
+    }
+
+
+    var $order_pengalaman_excel =  array('id_vendor', 'no_kontrak', 'nama_pekerjaan', 'id_jenis_usaha', 'tanggal_kontrak', 'instansi_pemberi', 'nilai_kontrak', 'id_vendor', 'id_vendor');
+
+    private function _get_data_query_excel_pengalaman_manjerial($id_vendor)
+    {
+        $this->db->select('*');
+        $this->db->from('temp_vendor_pengalaman');
+        $this->db->where('temp_vendor_pengalaman.id_vendor', $id_vendor);
+        $i = 0;
+        foreach ($this->order_nib as $item) // looping awal
+        {
+            if ($_POST['search']['value']) // jika datatable mengirimkan pencarian dengan metode POST
+            {
+
+                if ($i === 0) // looping awal
+                {
+                    $this->db->group_start();
+                    $this->db->like($item, $_POST['search']['value']);
+                } else {
+                    $this->db->or_like(
+                        $item,
+                        $_POST['search']['value']
+                    );
+                }
+
+                if (count($this->order_pengalaman_excel) - 1 == $i)
+                    $this->db->group_end();
+            }
+            $i++;
+        }
+        if (isset($_POST['order'])) {
+            $this->db->order_by($this->order_pengalaman_excel[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        } else {
+            $this->db->order_by('temp_vendor_pengalaman.id_vendor', 'DESC');
+        }
+    }
+
+    public function gettable_excel_pengalaman_manajerial($id_vendor) //nam[ilin data pake ini
+    {
+        $this->_get_data_query_excel_pengalaman_manjerial($id_vendor); //ambil data dari get yg di atas
+        if ($_POST['length'] != -1) {
+            $this->db->limit($_POST['length'], $_POST['start']);
+        }
+        $query = $this->db->get();
+        return $query->result();
+    }
+    public function count_filtered_data_excel_pengalaman_manajerial($id_vendor)
+    {
+        $this->_get_data_query_excel_pengalaman_manjerial($id_vendor); //ambil data dari get yg di atas
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    public function count_all_data_excel_pengalaman_manajerial($id_vendor)
+    {
+        $this->db->select('*');
+        $this->db->from('temp_vendor_pengalaman');
+        $this->db->where('temp_vendor_pengalaman.id_vendor', $id_vendor);
+        return $this->db->count_all_results();
+    }
+
+    public function tambah_tbl_vendor_pengalaman($data)
+    {
+        $this->db->insert('tbl_vendor_pengalaman', $data);
+        return $this->db->affected_rows();
+    }
+
+
+
+
+    public function get_row_excel_pengalaman_manajerial($id_pengalaman)
+    {
+        $this->db->select('*');
+        $this->db->from('temp_vendor_pengalaman');
+        $this->db->where('temp_vendor_pengalaman.id_pengalaman', $id_pengalaman);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
+    public function get_row_pengalaman_manajerial($id_pengalaman)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_vendor_pengalaman');
+        $this->db->where('tbl_vendor_pengalaman.id_pengalaman', $id_pengalaman);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
+    public function update_excel_pengalaman_manajerial($data, $where)
+    {
+        $this->db->update('temp_vendor_pengalaman', $data, $where);
+        return $this->db->affected_rows();
+    }
+
+    public function update_pengalaman_manajerial($data, $where)
+    {
+        $this->db->update('tbl_vendor_pengalaman', $data, $where);
+        return $this->db->affected_rows();
+    }
+
+
+    public function get_row_excel_pengalaman_manajerial_enkription($id_url)
+    {
+        $this->db->select('*');
+        $this->db->from('temp_vendor_pengalaman');
+        $this->db->where('temp_vendor_pengalaman.id_url', $id_url);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
+    public function get_row_pengalaman_manajerial_enkription($id_url)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_vendor_pengalaman');
+        $this->db->where('tbl_vendor_pengalaman.id_url', $id_url);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
+
+    public function update_excel_pengalaman_manajerial_enkription($where, $data)
+    {
+        $this->db->update('temp_vendor_pengalaman', $data, $where);
+        return $this->db->affected_rows();
+    }
+
+    public function update_pengalaman_manajerial_enkription($where, $data)
+    {
+        $this->db->update('tbl_vendor_pengalaman', $data, $where);
+        return $this->db->affected_rows();
+    }
+
+    function delete_import_excel_pengalaman($where)
+    {
+        $this->db->delete('temp_vendor_pengalaman', $where);
+        return $this->db->affected_rows();
+    }
+
+    function delete_pengalaman($where)
+    {
+        $this->db->delete('tbl_vendor_pengalaman', $where);
+        return $this->db->affected_rows();
+    }
+    public function get_result_pengalaman_manajerial($id_vendor)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_vendor_pengalaman');
+        $this->db->where('tbl_vendor_pengalaman.id_vendor', $id_vendor);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function result_excel_pengalaman($id_vendor)
+    {
+        $this->db->select('*');
+        $this->db->from('temp_vendor_pengalaman');
+        $this->db->where('temp_vendor_pengalaman.id_vendor', $id_vendor);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function get_result_excel_pengalaman_manajerial($id_vendor, $cek_table)
+    {
+        $this->db->select('*');
+        $this->db->from('temp_vendor_pengalaman');
+        $this->db->where('temp_vendor_pengalaman.id_vendor', $id_vendor);
+        if ($cek_table) {
+            foreach ($cek_table as $key => $value) {
+                $this->db->where('no_kontrak !=', '' . $value['no_kontrak'] . '');
+            }
+        } else {
+        }
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function get_result_validasi_excel_pengalaman_manajerial($id_vendor, $cek_table2)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_vendor_pengalaman');
+        $this->db->where('tbl_vendor_pengalaman.id_vendor', $id_vendor);
+        if ($cek_table2) {
+            foreach ($cek_table2 as $key => $valu2) {
+                $this->db->or_where('no_kontrak', '' . $valu2['no_kontrak'] . '');
+            }
+        } else {
+        }
+        $query = $this->db->get();
+        return $query->result_array();
+    }
     // crud pajak npwp
     public function get_row_npwp($id_vendor)
     {
@@ -1619,7 +1667,7 @@ public function get_result_validasi_excel_pengalaman_manajerial($id_vendor, $cek
 
 
 
-    
+
 
     public function get_row_npwp_url($id_url)
     {

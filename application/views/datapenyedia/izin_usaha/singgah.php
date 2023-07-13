@@ -87,6 +87,7 @@
                                                                             <input type="text" name="nomor_surat_nib" class="form-control form-control-sm nomor_surat_nib">
                                                                         </div>
                                                                     </div>
+                                                                    <small class="nomor_surat_nib_error text-danger"></small>
                                                                 </td>
                                                                 <td class="col-sm-2 bg-light">
                                                                     <label class="form-label col-sm-12 col-form-label-sm"><b>Berlaku Sampai</b></label>
@@ -102,6 +103,7 @@
                                                                         </div>
                                                                         <input type="date" id="tgl_berlaku_nib" name="tgl_berlaku_nib" class="form-control tgl_berlaku_nib" readonly data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask>
                                                                     </div>
+                                                                    <small class="sts_seumur_hidup_nib_error text-danger"></small>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -109,7 +111,9 @@
                                                                     <label class="form-label col-form-label-sm"><b>Upload File</b></label>
                                                                 </td>
                                                                 <td class="col-sm-3">
+                                                                    <input type="hidden" name="file_dokumen_nib_manipulasi">
                                                                     <input type="file" name="file_dokumen_nib" class="file_dokumen_nib" accept=".pdf, .xlsx, .xls">
+                                                                    <small class="file_dokumen_nib_error text-danger"></small>
                                                                 </td>
                                                                 <td class="col-sm-2 bg-light">
                                                                     <div id="tampil_dokumen_nib">
@@ -137,10 +141,10 @@
                                                                 </td>
                                                                 <td class="col-sm-5">
                                                                     <div id="sts_validasi_nib_1" style="display: none;">
-                                                                        <span class="badge bg-success">Tervalidasi</span>
+                                                                        <span class="badge bg-success sts_validasi_nib_1">Tervalidasi</span>
                                                                     </div>
                                                                     <div id="sts_validasi_nib_2" style="display: none;">
-                                                                        <span class="badge bg-secondary">Belum Tervalidasi</span>
+                                                                        <span class="badge bg-secondary sts_validasi_nib_1">Belum Tervalidasi</span>
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -192,6 +196,7 @@
                                                                             <input type="text" name="nomor_surat_siup" class="form-control form-control-sm nomor_surat_siup">
                                                                         </div>
                                                                     </div>
+                                                                    <small class="nomor_surat_siup_error text-danger"></small>
                                                                 </td>
                                                                 <td class="col-sm-2 bg-light">
                                                                     <label class="form-label col-sm-12 col-form-label-sm"><b>Berlaku Sampai</b></label>
@@ -207,6 +212,7 @@
                                                                         </div>
                                                                         <input type="date" id="tgl_berlaku_siup" name="tgl_berlaku_siup" class="form-control tgl_berlaku_siup" readonly data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask>
                                                                     </div>
+                                                                    <small class="sts_seumur_hidup_siup_error text-danger"></small>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -214,7 +220,9 @@
                                                                     <label class="form-label col-form-label-sm"><b>Upload File</b></label>
                                                                 </td>
                                                                 <td class="col-sm-3">
+                                                                    <input type="hidden" name="file_dokumen_siup_manipulasi">
                                                                     <input type="file" name="file_dokumen_siup" class="file_dokumen_siup" accept=".pdf, .xlsx, .xls">
+                                                                    <small class="file_dokumen_siup_error text-danger"></small>
                                                                 </td>
                                                                 <td class="col-sm-2 bg-light">
                                                                     <div id="tampil_dokumen_siup">
@@ -297,6 +305,7 @@
                                                                             <input type="text" name="nomor_surat_sbu" class="form-control form-control-sm nomor_surat_sbu">
                                                                         </div>
                                                                     </div>
+                                                                    <small class="nomor_surat_sbu_error text-danger"></small>
                                                                 </td>
                                                                 <td class="col-sm-2 bg-light">
                                                                     <label class="form-label col-sm-12 col-form-label-sm"><b>Berlaku Sampai</b></label>
@@ -312,6 +321,7 @@
                                                                         </div>
                                                                         <input type="date" id="tgl_berlaku_sbu" name="tgl_berlaku_sbu" class="form-control tgl_berlaku_sbu" readonly data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask>
                                                                     </div>
+                                                                    <small class="sts_seumur_hidup_sbu_error text-danger"></small>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -320,6 +330,8 @@
                                                                 </td>
                                                                 <td class="col-sm-3">
                                                                     <input type="file" name="file_dokumen_sbu" class="file_dokumen_sbu" accept=".pdf, .xlsx, .xls">
+                                                                    <small class="file_dokumen_sbu_error text-danger"></small>
+
                                                                 </td>
                                                                 <td class="col-sm-2 bg-light">
                                                                     <div id="tampil_dokumen_sbu">
@@ -401,6 +413,7 @@
                                                                             <input type="text" name="nomor_surat_siujk" class="form-control form-control-sm nomor_surat_siujk">
                                                                         </div>
                                                                     </div>
+                                                                    <small class="nomor_surat_siujk_error text-danger"></small>
                                                                 </td>
                                                                 <td class="col-sm-2 bg-light">
                                                                     <label class="form-label col-sm-12 col-form-label-sm"><b>Berlaku Sampai</b></label>
@@ -416,6 +429,7 @@
                                                                         </div>
                                                                         <input type="date" id="tgl_berlaku_siujk" name="tgl_berlaku_siujk" class="form-control tgl_berlaku_siujk" readonly data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask>
                                                                     </div>
+                                                                    <small class="sts_seumur_hidup_siujk_error text-danger"></small>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -424,6 +438,8 @@
                                                                 </td>
                                                                 <td class="col-sm-3">
                                                                     <input type="file" name="file_dokumen_siujk" class="file_dokumen_siujk" accept=".pdf, .xlsx, .xls">
+                                                                    <small class="file_dokumen_siujk_error text-danger"></small>
+
                                                                 </td>
                                                                 <td class="col-sm-2 bg-light">
                                                                     <div id="tampil_dokumen_siujk">
@@ -525,6 +541,7 @@
                                                         <?php  } ?>
                                                     </select>
                                                 </div>
+                                                <small class="id_kbli_nib text-danger"></small>
                                             </div>
                                         </td>
                                         <td class="col-sm-2 bg-light">
@@ -541,6 +558,7 @@
                                                         <?php  } ?>
                                                     </select>
                                                 </div>
+                                                <small class="id_kualifikasi_izin_kbli_nib text-danger"></small>
                                             </div>
                                     </tr>
                                     <tr>
@@ -553,7 +571,9 @@
                                                     <span class="input-group-text"><i class="fa-solid fa-building-flag"></i></span>
                                                     <textarea name="ket_kbli_nib" class="form-control form-control-sm" rows="2"></textarea>
                                                 </div>
+                                                <small class="ket_kbli_nib text-danger"></small>
                                             </div>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td class="col-sm-12 bg-light" colspan="4">
@@ -696,6 +716,7 @@
                                                 <?php  } ?>
                                             </select>
                                         </div>
+                                        <small class="id_kbli_kbli_error text-danger"></small>
                                     </div>
                                     <label id="pilihan_kbli_nib" for=""></label>
                                 </td>
@@ -713,6 +734,7 @@
                                                 <?php  } ?>
                                             </select>
                                         </div>
+                                        <small class="id_kualifikasi_izin_kbli_nib_error text-danger"></small>
                                     </div>
                                     <label id="pilihan_kualifikasi_kbli_nib" for=""></label>
                                 </td>
@@ -727,6 +749,7 @@
                                             <span class="input-group-text"><i class="fa-solid fa-building-flag"></i></span>
                                             <textarea name="ket_kbli_nib" class="form-control form-control-sm" rows="2"></textarea>
                                         </div>
+                                        <small class="ket_kbli_nib_error text-danger"></small>
                                     </div>
                                 </td>
                             </tr>
@@ -788,6 +811,7 @@
                                                         <?php  } ?>
                                                     </select>
                                                 </div>
+                                                <small class="id_kbli_siup_error text-danger"></small>
                                             </div>
                                         </td>
                                         <td class="col-sm-2 bg-light">
@@ -804,6 +828,7 @@
                                                         <?php  } ?>
                                                     </select>
                                                 </div>
+                                                <small class="id_kualifikasi_izin_kbli_siup_error text-danger"></small>
                                             </div>
                                     </tr>
                                     <tr>
@@ -816,7 +841,9 @@
                                                     <span class="input-group-text"><i class="fa-solid fa-building-flag"></i></span>
                                                     <textarea name="ket_kbli_siup" class="form-control form-control-sm" rows="2"></textarea>
                                                 </div>
+                                                <small class="ket_kbli_siup_error text-danger"></small>
                                             </div>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td class="col-sm-12 bg-light" colspan="4">
@@ -958,6 +985,7 @@
                                                     <option value="<?= $value['id_kbli'] ?>"><?= $value['kode_kbli'] ?> || <?= $value['nama_kbli'] ?></option>
                                                 <?php  } ?>
                                             </select>
+                                            <small class="id_kbli_siup_error text-danger"></small>
                                         </div>
                                     </div>
                                     <label id="pilihan_kbli_siup" for=""></label>
@@ -976,6 +1004,7 @@
                                                 <?php  } ?>
                                             </select>
                                         </div>
+                                        <small class="id_kualifikasi_izin_kbli_siup_error text-danger"></small>
                                     </div>
                                     <label id="pilihan_kualifikasi_kbli_siup" for=""></label>
                                 </td>
@@ -990,6 +1019,7 @@
                                             <span class="input-group-text"><i class="fa-solid fa-building-flag"></i></span>
                                             <textarea name="ket_kbli_siup" class="form-control form-control-sm" rows="2"></textarea>
                                         </div>
+                                        <small class="ket_kbli_siup_error text-danger"></small>
                                     </div>
                                 </td>
                             </tr>
@@ -1052,6 +1082,7 @@
                                                         <?php  } ?>
                                                     </select>
                                                 </div>
+                                                <small class="id_kbli_sbu_error text-danger"></small>
                                             </div>
                                         </td>
                                         <td class="col-sm-2 bg-light">
@@ -1067,8 +1098,10 @@
                                                             <option value="<?= $value['id_kualifikasi_sbu'] ?>"><?= $value['nama_kualifikasi'] ?></option>
                                                         <?php  } ?>
                                                     </select>
+                                                    <small class="id_kualifikasi_izin_kbli_sbu_error text-danger"></small>
                                                 </div>
                                             </div>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td class="col-sm-2 bg-light">
@@ -1081,6 +1114,8 @@
                                                     <textarea name="ket_kbli_sbu" class="form-control form-control-sm" rows="2"></textarea>
                                                 </div>
                                             </div>
+                                            <small class="ket_kbli_sbu_error text-danger"></small>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td class="col-sm-12 bg-light" colspan="4">
@@ -1223,6 +1258,7 @@
                                                 <?php  } ?>
                                             </select>
                                         </div>
+                                        <small class="id_kbli_sbu_error text-danger"></small>
                                     </div>
                                     <label id="pilihan_kbli_sbu" for=""></label>
                                 </td>
@@ -1241,6 +1277,7 @@
                                             </select>
                                         </div>
                                     </div>
+                                    <small class="id_kualifikasi_izin_kbli_sbu_error text-danger"></small>
                                     <label id="pilihan_kualifikasi_kbli_sbu" for=""></label>
                                 </td>
                             </tr>
@@ -1255,6 +1292,7 @@
                                             <textarea name="ket_kbli_sbu" class="form-control form-control-sm" rows="2"></textarea>
                                         </div>
                                     </div>
+                                    <small class="ket_kbli_sbu_error text-danger"></small>
                                 </td>
                             </tr>
                             <tr>
@@ -1316,6 +1354,7 @@
                                                         <?php  } ?>
                                                     </select>
                                                 </div>
+                                                <small class="id_kbli_siujk_error text-danger"></small>
                                             </div>
                                         </td>
                                         <td class="col-sm-2 bg-light">
@@ -1332,7 +1371,9 @@
                                                         <?php  } ?>
                                                     </select>
                                                 </div>
+                                                <small class="id_kualifikasi_izin_kbli_siujk_error text-danger"></small>
                                             </div>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td class="col-sm-2 bg-light">
@@ -1345,6 +1386,8 @@
                                                     <textarea name="ket_kbli_siujk" class="form-control form-control-sm" rows="2"></textarea>
                                                 </div>
                                             </div>
+                                            <small class="ket_kbli_siujk_error text-danger"></small>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td class="col-sm-12 bg-light" colspan="4">
@@ -1487,6 +1530,7 @@
                                                 <?php  } ?>
                                             </select>
                                         </div>
+                                        <small class="id_kbli_siujk_error text-danger"></small>
                                     </div>
                                     <label id="pilihan_kbli_siujk" for=""></label>
                                 </td>
@@ -1504,6 +1548,7 @@
                                                 <?php  } ?>
                                             </select>
                                         </div>
+                                        <small class="id_kualifikasi_izin_kbli_siujk_error text-danger"></small>
                                     </div>
                                     <label id="pilihan_kualifikasi_kbli_siujk" for=""></label>
                                 </td>
@@ -1518,6 +1563,7 @@
                                             <span class="input-group-text"><i class="fa-solid fa-building-flag"></i></span>
                                             <textarea name="ket_kbli_siujk" class="form-control form-control-sm" rows="2"></textarea>
                                         </div>
+                                        <small class="ket_kbli_siujk_error text-danger"></small>
                                     </div>
                                 </td>
                             </tr>
@@ -1533,12 +1579,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-
                 </div>
             </div>
         </div>
     </div>
-
-
-
 </div>

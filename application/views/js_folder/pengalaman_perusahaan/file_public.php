@@ -233,6 +233,7 @@ var data_pengalaman_manajerial = $('#data_pengalaman_manajerial')
     }
 
     function Simpan_import_pengalaman() {
+        var form_import_excel_pengalaman = $('#form_import_excel_pengalaman');
         $.ajax({
             type: "POST",
             url: '<?= base_url('datapenyedia/simpan_import_excel_pengalaman') ?>',
@@ -242,7 +243,7 @@ var data_pengalaman_manajerial = $('#data_pengalaman_manajerial')
             },
             success: function(response) {
                 Swal.fire('Good job!', 'Data Beharhasil Simpan!', 'success');
-                form_import_excel[0].reset();
+                form_import_excel_pengalaman[0].reset();
                 reloaddata_excel_pengalaman_manajerial();
                 reloaddata_pengalaman_manajerial();
                 if (response['validasi']) {
@@ -254,7 +255,7 @@ var data_pengalaman_manajerial = $('#data_pengalaman_manajerial')
                     var i;
                     for (i = 0; i < response['validasi'].length; i++) {
                         html += '<tr>' +
-                            '<td>' + response['validasi'][i].nik + '</td>' +
+                            '<td>' + response['validasi'][i].no_kontrak + '</td>' +
                             '<td>' + response['validasi'][i].nama_pekerjaan + '</td>' +
                             '</tr>'
                     }

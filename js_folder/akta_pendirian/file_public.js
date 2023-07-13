@@ -12,34 +12,45 @@ function get_row_vendor() {
         },
         success: function(response) {
           if (response['row_akta_pendirian']) {
+            if (response['row_akta_pendirian']['sts_validasi'] == 1) {
+                $('#sts_validasi_akta_pendirian_1').css('display','block');
+                $('#sts_validasi_akta_pendirian_2').css('display','none');
+                $('#sts_validasi_akta_pendirian_3').css('display','none');
+             } else if (response['row_akta_pendirian']['sts_validasi'] == 2) {
+                $('#sts_validasi_akta_pendirian_1').css('display','none');
+                $('#sts_validasi_akta_pendirian_2').css('display','block');
+                $('#sts_validasi_akta_pendirian_3').css('display','none');
+            } else {
+                $('#sts_validasi_akta_pendirian_1').css('display','none');
+                $('#sts_validasi_akta_pendirian_2').css('display','none');
+                $('#sts_validasi_akta_pendirian_3').css('display','block');
+            }
+            $('[name="file_dokumen_manipulasi_pendirian"]').val(response['row_akta_pendirian']['file_dokumen']);
             $('.no_surat').attr("disabled", true);
             $('.sts_seumur_hidup').attr("disabled", true);
             $('.berlaku_sampai').attr("disabled", true);
             $('.jumlah_setor_modal').attr("disabled", true);
             $('.kualifikasi_usaha').attr("disabled", true);
-            // $('.file_dokumen').attr("disabled", true);
             $('.kualifikasi_usaha').attr("disabled", true);
             $('#on_save').attr("disabled", true);
-            $('#button_edit').attr("disabled", false);
+            $('#button_edit_modal').attr("disabled", false);
             $('#btn_simpan_pendirian').attr("disabled", true);
-            // $('input').attr("readonly", true);
-            // $('select').attr("disabled", true);
-            // $('#on_save').attr("disabled", true);
           } else {
             $('.no_surat').attr("disabled", false);
             $('.sts_seumur_hidup').attr("disabled", false);
             $('.jumlah_setor_modal').attr("readonly", false);
             $('.kualifikasi_usaha').attr("disabled", false);
             $('.berlaku_sampai').attr("disabled", false);
-            $('#button_edit').attr("disabled", true);
+            $('#button_edit_modal').attr("disabled", true);
             // $('.file_dokumen').attr("disabled", false);
             $('#on_save').attr("disabled", false);
+            $('#button_edit_modal').attr("disabled", false);
           }
             if (response == 'maaf') {
                 alert('Maaf Anda Kurang Beruntung');
             } else {
                 var id_url = response['row_akta_pendirian']['id_url'];
-                $('[name="no_surat"]').val(response['row_akta_pendirian']['no_surat']);
+                $('[name="no_surat_akta"]').val(response['row_akta_pendirian']['no_surat']);
                 $('[name="sts_seumur_hidup"]').val(response['row_akta_pendirian']['sts_seumur_hidup']);
                 $('[name="berlaku_sampai"]').val(response['row_akta_pendirian']['tgl_berlaku_akta']);
                 $('[name="jumlah_setor_modal"]').val(response['row_akta_pendirian']['jumlah_setor_modal']);
@@ -63,49 +74,79 @@ function get_row_vendor() {
         }
     })
 }
-
 var form_akta_pendirian = $('#form_akta_pendirian')
 form_akta_pendirian.on('submit', function(e) {
     var url_post = $('[name="url_post"]').val()
-    e.preventDefault();
-    $.ajax({
-        url: url_post,
-        method: "POST",
-        data: new FormData(this),
-        contentType: false,
-        cache : false,
-        processData: false,
-        beforeSend: function() {
-          $('#on_save').attr("disabled", true);
-      },
-        success: function(response) {
-            let timerInterval
-            Swal.fire({
-              title: 'Sedang Proses Menyimpan Data!',
-              html: 'Membuat Data <b></b>',
-              timer: 3000,
-              timerProgressBar: true,
-              didOpen: () => {
-                Swal.showLoading()
-                const b = Swal.getHtmlContainer().querySelector('b')
-                timerInterval = setInterval(() => {
-                  // b.textContent = Swal.getTimerRight()
-                }, 100)
-              },
-              willClose: () => {
-                clearInterval(timerInterval)
-                Swal.fire('Data Berhasil Di Simpan!', '', 'success')
-                get_row_vendor();
-                $('#on_save').attr("disabled", false);
-              }
-            }).then((result) => {
-              /* Read more about handling dismissals below */
-              if (result.dismiss === Swal.DismissReason.timer) {
-                
-              }
-            })
-        }
-    })
+    var file_dokumen_manipulasi_pendirian = $('[name="file_dokumen_manipulasi_pendirian"]').val()
+    if (file_dokumen_manipulasi_pendirian == '') {
+      e.preventDefault();
+      Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Dokumen Wajib Di Isi!',
+        })
+    } else {
+      e.preventDefault();
+      $.ajax({
+          url: url_post,
+          method: "POST",
+          data: new FormData(this),
+          contentType: false,
+          cache : false,
+          processData: false,
+          beforeSend: function() {
+            $('#on_save').attr("disabled", true);
+        },
+          success: function(response) {
+            if (response['error']) {
+              // nomor_surat
+              $(".nomor_surat_error").html(response['error']['nomor_surat']);
+              // sts_seumur_hidup
+              $(".sts_seumur_hidup_error").html(response['error']['sts_seumur_hidup']);
+              // jumlah_setor_modal
+              $(".jumlah_setor_modal_error").html(response['error']['jumlah_setor_modal']);
+              // kualifikasi_usaha
+              $(".kualifikasi_usaha_error").html(response['error']['kualifikasi_usaha']);
+              $('#on_save').attr("disabled", false);
+              $('#button_edit_modal').attr("disabled", false);
+            } else {
+              let timerInterval
+              Swal.fire({
+                title: 'Sedang Proses Menyimpan Data!',
+                html: 'Membuat Data <b></b>',
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: () => {
+                  Swal.showLoading()
+                  const b = Swal.getHtmlContainer().querySelector('b')
+                  timerInterval = setInterval(() => {
+                    // b.textContent = Swal.getTimerRight()
+                  }, 100)
+                },
+                willClose: () => {
+                  clearInterval(timerInterval)
+                  Swal.fire('Data Berhasil Di Simpan!', '', 'success')
+                  $(".nomor_surat_error").css('display','none');
+                  // sts_seumur_hidup
+                  $(".sts_seumur_hidup_error").css('display','none');
+                  // jumlah_setor_modal
+                  $(".jumlah_setor_modal_error").css('display','none');
+                  // kualifikasi_usaha
+                  $(".kualifikasi_usaha_error").css('display','none');
+                  get_row_vendor();
+                  $('#on_save').attr("disabled", false);
+                  $('#button_edit_modal').attr("disabled", false);
+                }
+              }).then((result) => {
+                /* Read more about handling dismissals below */
+                if (result.dismiss === Swal.DismissReason.timer) {
+                  
+                }
+              })
+            }
+          }
+      })
+    }
 })
 
 function DekripEnkrip(id_url, type){
@@ -236,5 +277,27 @@ const EditChange = () => {
   $('.kualifikasi_usaha').attr("disabled", false);
   $('.berlaku_sampai').attr("disabled", false);
   $('#btn_simpan_pendirian').attr("disabled", false);
-  $('#button_edit_modal').attr("disabled", true);
+  $('#button_edit_modal_modal').attr("disabled", true);
 }
+
+$(".jumlah_setor_modal").keyup(function() {
+  var harga = $(".jumlah_setor_modal").val();
+  var tanpa_rupiah = document.getElementById('tanpa_rupiah_akta_pendirian');
+  tanpa_rupiah.value = formatRupiah(this.value, 'Rp. ');
+  /* Fungsi */
+  function formatRupiah(angka, prefix) {
+      var number_string = angka.replace(/[^,\d]/g, '').toString(),
+          split = number_string.split(','),
+          sisa = split[0].length % 3,
+          rupiah = split[0].substr(0, sisa),
+          ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+      if (ribuan) {
+          separator = sisa ? '.' : '';
+          rupiah += separator + ribuan.join('.');
+      }
+
+      rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+      return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+  }
+});
