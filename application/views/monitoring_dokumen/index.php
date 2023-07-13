@@ -81,99 +81,25 @@
                                                     </div>
                                                 </div>
                                                 <div class="card-body">
-                                                    <table id="example1" class="table table-sm table-bordered table-striped">
+                                                    <input type="hidden" name="get_data_izin" value="<?= base_url('monitoring_dokumen/get_data_izin') ?>">
+                                                    <table id="tbl_monitoring_izin" class="table table-sm table-bordered table-striped">
                                                         <thead class="bg-secondary">
                                                             <tr>
-                                                                <th style="width:10%;"><small class="text-white">Jenis Dokumen</small></th>
-                                                                <th style="width:10%;"><small class="text-white">No. Surat</small></th>
+                                                                <th style="width:2%;"><small class="text-white">No </small></th>
+                                                                <th style="width:20%;"><small class="text-white">Jenis Dokumen</small></th>
+                                                                <th style="width:20%;"><small class="text-white">No. Surat</small></th>
                                                                 <th style="width:60%;"><small class="text-white">KBLI/SBU</small></th>
                                                                 <th style="width:10%;"><small class="text-white">Status Validasi</small></th>
                                                                 <th style="width:10%;">
                                                                     <div class="text-center">
                                                                         <small class="text-white">
-                                                                            More Options
+                                                                            Ket. Validator
                                                                         </small>
                                                                     </div>
                                                                 </th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr>
-                                                                <td><small>SIUP</small></td>
-                                                                <td><small>123456789</small></td>
-                                                                <td><small>-</small></td>
-                                                                <td><small>
-                                                                        <div class="text-center">
-                                                                            <span class="badge bg-success">Sudah Tervalidasi</span>
-                                                                        </div>
-                                                                    </small>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="text-center">
-                                                                        <button type="button" class="btn btn-info btn-sm shadow-lg" data-bs-toggle="modal" data-bs-target="#modal-xl-pengalaman">
-                                                                            <i class="fa-solid fa-users-viewfinder px-1"></i>
-                                                                            <small>View</small>
-                                                                        </button>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td><small>SIUP</small></td>
-                                                                <td><small>-</small></td>
-                                                                <td><small>62019 || Aktivitas Pemrograman Komputer Lainnya</small></td>
-                                                                <td><small>
-                                                                        <div class="text-center">
-                                                                            <span class="badge bg-success">Sudah Tervalidasi</span>
-                                                                        </div>
-                                                                    </small>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="text-center">
-                                                                        <button type="button" class="btn btn-info btn-sm shadow-lg" data-bs-toggle="modal" data-bs-target="#modal-xl-pengalaman">
-                                                                            <i class="fa-solid fa-users-viewfinder px-1"></i>
-                                                                            <small>View</small>
-                                                                        </button>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td><small>NIB</small></td>
-                                                                <td><small>123456789</small></td>
-                                                                <td><small>-</small></td>
-                                                                <td><small>
-                                                                        <div class="text-center">
-                                                                            <span class="badge bg-danger">Tidak Valid</span>
-                                                                        </div>
-                                                                    </small>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="text-center">
-                                                                        <button type="button" class="btn btn-info btn-sm shadow-lg" data-bs-toggle="modal" data-bs-target="#modal-xl-pengalaman">
-                                                                            <i class="fa-solid fa-users-viewfinder px-1"></i>
-                                                                            <small>View</small>
-                                                                        </button>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td><small>NIB</small></td>
-                                                                <td><small>-</small></td>
-                                                                <td><small>62019 || Aktivitas Pemrograman Komputer Lainnya</small></td>
-                                                                <td><small>
-                                                                        <div class="text-center">
-                                                                            <span class="badge bg-danger">Tidak Valid</span>
-                                                                        </div>
-                                                                    </small>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="text-center">
-                                                                        <button type="button" class="btn btn-info btn-sm shadow-lg" data-bs-toggle="modal" data-bs-target="#modal-xl-pengalaman">
-                                                                            <i class="fa-solid fa-users-viewfinder px-1"></i>
-                                                                            <small>View</small>
-                                                                        </button>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -190,62 +116,26 @@
                                                     </div>
                                                 </div>
                                                 <div class="card-body">
-                                                    <table id="example3" class="table table-sm table-bordered table-striped">
+                                                    <input type="hidden" name="get_data_akta" value="<?= base_url('monitoring_dokumen/get_data_akta') ?>">
+                                                    <table id="get_data_akta" class="table table-sm table-bordered table-striped">
                                                         <thead class="bg-secondary">
                                                             <tr>
+                                                                <th style="width:5%;"><small class="text-white">No</small></th>
                                                                 <th style="width:10%;"><small class="text-white">Jenis Dokumen</small></th>
                                                                 <th style="width:30%;"><small class="text-white">No. Surat</small></th>
-                                                                <th style="width:20%;"><small class="text-white">Berlaku Sampai</small></th>
+                                                                <!-- <th style="width:20%;"><small class="text-white">Berlaku Sampai</small></th> -->
                                                                 <th style="width:10%;"><small class="text-white">Status Validasi</small></th>
                                                                 <th style="width:10%;">
                                                                     <div class="text-center">
                                                                         <small class="text-white">
-                                                                            More Options
+                                                                            Ket. Validator
                                                                         </small>
                                                                     </div>
                                                                 </th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td><small>Akta Pendirian</small></td>
-                                                                <td><small>123456789</small></td>
-                                                                <td><small>Seumur Hidup</small></td>
-                                                                <td><small>
-                                                                        <div class="text-center">
-                                                                            <span class="badge bg-success">Sudah Tervalidasi</span>
-                                                                        </div>
-                                                                    </small>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="text-center">
-                                                                        <button type="button" class="btn btn-info btn-sm shadow-lg" data-bs-toggle="modal" data-bs-target="#modal-xl-pengalaman">
-                                                                            <i class="fa-solid fa-users-viewfinder px-1"></i>
-                                                                            <small>View</small>
-                                                                        </button>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td><small>Akta Perubahan</small></td>
-                                                                <td><small>123456789</small></td>
-                                                                <td><small>Seumur Hidup</small></td>
-                                                                <td><small>
-                                                                        <div class="text-center">
-                                                                            <span class="badge bg-success">Sudah Tervalidasi</span>
-                                                                        </div>
-                                                                    </small>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="text-center">
-                                                                        <button type="button" class="btn btn-info btn-sm shadow-lg" data-bs-toggle="modal" data-bs-target="#modal-xl-pengalaman">
-                                                                            <i class="fa-solid fa-users-viewfinder px-1"></i>
-                                                                            <small>View</small>
-                                                                        </button>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
+
+                                                        <tbody></tbody>
                                                     </table>
                                                 </div>
                                             </div>
@@ -264,6 +154,7 @@
                                                     <table id="example5" class="table table-sm table-bordered table-striped">
                                                         <thead class="bg-secondary">
                                                             <tr>
+                                                                <th style="width:5%;"><small class="text-white">No</small></th>
                                                                 <th style="width:10%;"><small class="text-white">Jenis Dokumen</small></th>
                                                                 <th style="width:30%;"><small class="text-white">Nama</small></th>
                                                                 <th style="width:20%;"><small class="text-white">NIK / Paspor</small></th>
@@ -271,7 +162,7 @@
                                                                 <th style="width:10%;">
                                                                     <div class="text-center">
                                                                         <small class="text-white">
-                                                                            More Options
+                                                                            Ket. Validator
                                                                         </small>
                                                                     </div>
                                                                 </th>
