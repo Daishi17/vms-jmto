@@ -1,24 +1,21 @@
 
 <!-- url -->
 <!-- PEMILIK -->
-<input type="text" name="url_data_excel_pemilik_manajerial" value="<?= base_url('datapenyedia/get_data_excel_pemilik_manajerial') ?>">
-<input type="text" name="url_data_pemilik_manajerial" value="<?= base_url('datapenyedia/get_data_pemilik_manajerial') ?>">
-<input type="text" name="url_byid_pemilik_manajerial" value="<?= base_url('datapenyedia/by_id_excel_pemilik_menajerial/') ?>">
-<input type="text" name="url_hapus_row_import_excel_pemilik" value="<?= base_url('datapenyedia/hapus_row_import_excel_pemilik/') ?>">
-<input type="text" name="url_hapus_import_excel_pemilik" value="<?= base_url('datapenyedia/hapus_import_excel_pemilik') ?>">
-<input type="text" name="url_dekrip_enkrip_pemilik" value="<?= base_url('datapenyedia/dekrip_enkrip_pemilik/') ?>">
-<input type="text" name="url_download_pemilik" value="<?= base_url('datapenyedia/url_download_pemilik/') ?>">
-<input type="text" name="url_buat_pemilik_manajerial" value="<?= base_url('datapenyedia/buat_pemilik_manajerial') ?>">
-<input type="text" name="url_by_id_pemilik_manajerial" value="<?= base_url('datapenyedia/by_id_pemilik_manajerial/') ?>">
-<input type="text" name="url_hapus_row_pemilik" value="<?= base_url('datapenyedia/hapus_row_pemilik/') ?>">
-<input type="text" name="url_edit_excel_pemilik_manajerial" value="<?= base_url('datapenyedia/edit_excel_pemilik_manajerial') ?>">
-<input type="text" name="url_import_pemilik_perusahaan" value="<?= base_url('datapenyedia/import_pemilik_perusahaan') ?>">
-<input type="text" name="url_simpan_import_excel_pemilik" value="<?= base_url('datapenyedia/simpan_import_excel_pemilik') ?>">
+<input type="hidden" name="url_data_excel_pemilik_manajerial" value="<?= base_url('datapenyedia/get_data_excel_pemilik_manajerial') ?>">
+<input type="hidden" name="url_data_pemilik_manajerial" value="<?= base_url('datapenyedia/get_data_pemilik_manajerial') ?>">
+<input type="hidden" name="url_byid_pemilik_manajerial" value="<?= base_url('datapenyedia/by_id_excel_pemilik_menajerial/') ?>">
+<input type="hidden" name="url_hapus_row_import_excel_pemilik" value="<?= base_url('datapenyedia/hapus_row_import_excel_pemilik/') ?>">
+<input type="hidden" name="url_hapus_import_excel_pemilik" value="<?= base_url('datapenyedia/hapus_import_excel_pemilik') ?>">
+<input type="hidden" name="url_dekrip_enkrip_pemilik" value="<?= base_url('datapenyedia/dekrip_enkrip_pemilik/') ?>">
+<input type="hidden" name="url_download_pemilik" value="<?= base_url('datapenyedia/url_download_pemilik/') ?>">
+<input type="hidden" name="url_buat_pemilik_manajerial" value="<?= base_url('datapenyedia/buat_pemilik_manajerial') ?>">
+<input type="hidden" name="url_by_id_pemilik_manajerial" value="<?= base_url('datapenyedia/by_id_pemilik_manajerial/') ?>">
+<input type="hidden" name="url_hapus_row_pemilik" value="<?= base_url('datapenyedia/hapus_row_pemilik/') ?>">
+<input type="hidden" name="url_edit_excel_pemilik_manajerial" value="<?= base_url('datapenyedia/edit_excel_pemilik_manajerial') ?>">
+<input type="hidden" name="url_import_pemilik_perusahaan" value="<?= base_url('datapenyedia/import_pemilik_perusahaan') ?>">
+<input type="hidden" name="url_simpan_import_excel_pemilik" value="<?= base_url('datapenyedia/simpan_import_excel_pemilik') ?>">
 
 <!-- PEMGURUS -->
-
-
-
 
 <main class="container-fluid mt-5">
     <div class="row">

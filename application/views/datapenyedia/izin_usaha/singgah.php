@@ -112,7 +112,7 @@
                                                                 </td>
                                                                 <td class="col-sm-3">
                                                                     <input type="hidden" name="file_dokumen_nib_manipulasi">
-                                                                    <input type="file" name="file_dokumen_nib" class="file_dokumen_nib" accept=".pdf, .xlsx, .xls">
+                                                                    <input type="file" name="file_dokumen_nib" class="file_dokumen_nib file_valid_nib"  accept=".pdf, .xlsx, .xls">
                                                                     <small class="file_dokumen_nib_error text-danger"></small>
                                                                 </td>
                                                                 <td class="col-sm-2 bg-light">
@@ -221,7 +221,7 @@
                                                                 </td>
                                                                 <td class="col-sm-3">
                                                                     <input type="hidden" name="file_dokumen_siup_manipulasi">
-                                                                    <input type="file" name="file_dokumen_siup" class="file_dokumen_siup" accept=".pdf, .xlsx, .xls">
+                                                                    <input type="file" name="file_dokumen_siup" class="file_dokumen_siup file_valid_siup" accept=".pdf, .xlsx, .xls">
                                                                     <small class="file_dokumen_siup_error text-danger"></small>
                                                                 </td>
                                                                 <td class="col-sm-2 bg-light">
@@ -329,7 +329,8 @@
                                                                     <label class="form-label col-form-label-sm"><b>Upload File</b></label>
                                                                 </td>
                                                                 <td class="col-sm-3">
-                                                                    <input type="file" name="file_dokumen_sbu" class="file_dokumen_sbu" accept=".pdf, .xlsx, .xls">
+                                                                <input type="hidden" name="file_dokumen_sbu_manipulasi">
+                                                                    <input type="file" name="file_dokumen_sbu" class="file_dokumen_sbu file_valid_sbu" accept=".pdf, .xlsx, .xls">
                                                                     <small class="file_dokumen_sbu_error text-danger"></small>
 
                                                                 </td>
@@ -437,7 +438,8 @@
                                                                     <label class="form-label col-form-label-sm"><b>Upload File</b></label>
                                                                 </td>
                                                                 <td class="col-sm-3">
-                                                                    <input type="file" name="file_dokumen_siujk" class="file_dokumen_siujk" accept=".pdf, .xlsx, .xls">
+                                                                    <input type="hidden" name="file_dokumen_siujk_manipulasi">
+                                                                    <input type="file" name="file_dokumen_siujk" class="file_dokumen_siujk file_valid_siujk" accept=".pdf, .xlsx, .xls">
                                                                     <small class="file_dokumen_siujk_error text-danger"></small>
 
                                                                 </td>

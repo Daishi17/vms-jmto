@@ -1,5 +1,34 @@
 get_row_vendor();
 
+    // nib
+    $('.file_valid_nib').change(function(e) {
+        var geekss = e.target.files[0].name;
+        $('[name="file_dokumen_nib_manipulasi"]').val(geekss);
+    });
+
+    
+    // siup
+    $('.file_valid_siup').change(function(e) {
+        var geekss = e.target.files[0].name;
+        $('[name="file_dokumen_siup_manipulasi"]').val(geekss);
+    });
+
+        
+    // sbu
+    $('.file_valid_sbu').change(function(e) {
+        var geekss = e.target.files[0].name;
+        $('[name="file_dokumen_sbu_manipulasi"]').val(geekss);
+    });
+
+            
+    // siujk
+    $('.file_valid_siujk').change(function(e) {
+        var geekss = e.target.files[0].name;
+        $('[name="file_dokumen_siujk_manipulasi"]').val(geekss);
+    });
+
+
+
 function get_row_vendor() {
     var secret_token = $('[name="secret_token"]').val()
     var id_url_vendor = $('[name="id_url_vendor"]').val()

@@ -182,9 +182,22 @@ class Datapenyedia extends CI_Controller
 			];
 			$this->output->set_content_type('application/json')->set_output(json_encode($response));
 		} else {
-
+			$sts_upload = [
+				'sts_upload_dokumen' => 1
+			];
+			$where = [
+				'id_vendor' => $id_vendor
+			];
+			$this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
 			$password_dokumen = '1234';
 			// SETTING PATH 
+			$sts_upload = [
+				'sts_upload_dokumen' => 1
+			];
+			$where = [
+				'id_vendor' => $id_vendor
+			];
+			$this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
 			$date = date('Y');
 			if (!is_dir('file_vms/' . $nama_usaha . '/NIB-' . $date)) {
 				mkdir('file_vms/' . $nama_usaha . '/NIB-' . $date, 0777, TRUE);
@@ -392,8 +405,12 @@ class Datapenyedia extends CI_Controller
 		$id_kbli = $this->input->post('id_kbli_nib');
 		$id_kualifikasi_izin = $this->input->post('id_kualifikasi_izin_kbli_nib');
 		$ket_kbli_nib = $this->input->post('ket_kbli_nib');
-		if ($id_kbli == $row_vendor['id_kbli']) {
-			$is_uniq_id_kbli =  '|is_unique[tbl_vendor_kbli_nib.id_kbli]';
+		if ($row_vendor) {
+			if ($id_kbli == $row_vendor['id_kbli']) {
+				$is_uniq_id_kbli =  '|is_unique[tbl_vendor_kbli_nib.id_kbli]';
+			} else {
+				$is_uniq_id_kbli =  '';
+			}
 		} else {
 			$is_uniq_id_kbli =  '';
 		}
@@ -410,7 +427,13 @@ class Datapenyedia extends CI_Controller
 			];
 			$this->output->set_content_type('application/json')->set_output(json_encode($response));
 		} else {
-
+			$sts_upload = [
+				'sts_upload_dokumen' => 1
+			];
+			$where = [
+				'id_vendor' => $id_vendor
+			];
+			$this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
 			$data = [
 				'id_url_kbli_nib' => $id,
 				'token_kbli_nib' => $token,
@@ -455,8 +478,6 @@ class Datapenyedia extends CI_Controller
 			];
 			$this->output->set_content_type('application/json')->set_output(json_encode($response));
 		} else {
-
-
 			if ($token_kbli_nib == $cek_token['token_kbli_nib']) {
 				$where = [
 					'id_url_kbli_nib' => $id_url_kbli_nib
@@ -530,7 +551,21 @@ class Datapenyedia extends CI_Controller
 			];
 			$this->output->set_content_type('application/json')->set_output(json_encode($response));
 		} else {
+			$sts_upload = [
+				'sts_upload_dokumen' => 1
+			];
+			$where = [
+				'id_vendor' => $id_vendor
+			];
+			$this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
 			// SETTING PATH 
+			$sts_upload = [
+				'sts_upload_dokumen' => 1
+			];
+			$where = [
+				'id_vendor' => $id_vendor
+			];
+			$this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
 			$date = date('Y');
 			if (!is_dir('file_vms/' . $nama_usaha . '/SIUP-' . $date)) {
 				mkdir('file_vms/' . $nama_usaha . '/SIUP-' . $date, 0777, TRUE);
@@ -740,8 +775,14 @@ class Datapenyedia extends CI_Controller
 		$id_kbli = $this->input->post('id_kbli_siup');
 		$id_kualifikasi_izin = $this->input->post('id_kualifikasi_izin_kbli_siup');
 		$ket_kbli_siup = $this->input->post('ket_kbli_siup');
-		if ($id_kbli == $row_vendor['id_kbli']) {
-			$is_uniq_id_kbli =  '|is_unique[tbl_vendor_kbli_siup.id_kbli]';
+
+
+		if ($row_vendor) {
+			if ($id_kbli == $row_vendor['id_kbli']) {
+				$is_uniq_id_kbli =  '|is_unique[tbl_vendor_kbli_siup.id_kbli]';
+			} else {
+				$is_uniq_id_kbli =  '';
+			}
 		} else {
 			$is_uniq_id_kbli =  '';
 		}
@@ -878,6 +919,13 @@ class Datapenyedia extends CI_Controller
 			$this->output->set_content_type('application/json')->set_output(json_encode($response));
 		} else {
 			// SETTING PATH 
+			$sts_upload = [
+				'sts_upload_dokumen' => 1
+			];
+			$where = [
+				'id_vendor' => $id_vendor
+			];
+			$this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
 			$date = date('Y');
 			if (!is_dir('file_vms/' . $nama_usaha . '/siujk-' . $date)) {
 				mkdir('file_vms/' . $nama_usaha . '/siujk-' . $date, 0777, TRUE);
@@ -1087,8 +1135,13 @@ class Datapenyedia extends CI_Controller
 		$id_kualifikasi_izin = $this->input->post('id_kualifikasi_izin_kbli_siujk');
 		$ket_kbli_siujk = $this->input->post('ket_kbli_siujk');
 		$row_vendor = $this->M_datapenyedia->get_row_kbli_siujk_by_vendor($id_vendor);
-		if ($id_kbli == $row_vendor['id_kbli']) {
-			$is_uniq_id_kbli =  '|is_unique[tbl_vendor_kbli_siujk.id_kbli]';
+
+		if ($row_vendor) {
+			if ($id_kbli == $row_vendor['id_kbli']) {
+				$is_uniq_id_kbli =  '|is_unique[tbl_vendor_kbli_siujk.id_kbli]';
+			} else {
+				$is_uniq_id_kbli =  '';
+			}
 		} else {
 			$is_uniq_id_kbli =  '';
 		}
@@ -1225,6 +1278,13 @@ class Datapenyedia extends CI_Controller
 			$this->output->set_content_type('application/json')->set_output(json_encode($response));
 		} else {
 			// SETTING PATH 
+			$sts_upload = [
+				'sts_upload_dokumen' => 1
+			];
+			$where = [
+				'id_vendor' => $id_vendor
+			];
+			$this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
 			$date = date('Y');
 			if (!is_dir('file_vms/' . $nama_usaha . '/SBU-' . $date)) {
 				mkdir('file_vms/' . $nama_usaha . '/SBU-' . $date, 0777, TRUE);
@@ -1433,8 +1493,13 @@ class Datapenyedia extends CI_Controller
 		$id_kualifikasi_sbu = $this->input->post('id_kualifikasi_izin_kbli_sbu');
 		$ket_kbli_sbu = $this->input->post('ket_kbli_sbu');
 		$row_vendor = $this->M_datapenyedia->get_row_kbli_sbu_by_vendor($id_vendor);
-		if ($id_sbu == $row_vendor['id_sbu']) {
-			$is_uniq_id_kbli =  '|is_unique[tbl_vendor_kbli_sbu.id_sbu]';
+
+		if ($row_vendor) {
+			if ($id_sbu == $row_vendor['id_sbu']) {
+				$is_uniq_id_kbli =  '|is_unique[tbl_vendor_kbli_sbu.id_sbu]';
+			} else {
+				$is_uniq_id_kbli =  '';
+			}
 		} else {
 			$is_uniq_id_kbli =  '';
 		}
@@ -1586,6 +1651,13 @@ class Datapenyedia extends CI_Controller
 			$this->output->set_content_type('application/json')->set_output(json_encode($response));
 		} else {
 			// SETTING PATH 
+			$sts_upload = [
+				'sts_upload_dokumen' => 1
+			];
+			$where = [
+				'id_vendor' => $id_vendor
+			];
+			$this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
 			$date = date('Y');
 			if (!is_dir('file_vms/' . $nama_usaha . '/Akta_Pendirian-' . $date)) {
 				mkdir('file_vms/' . $nama_usaha . '/Akta_Pendirian-' . $date, 0777, TRUE);
@@ -1839,6 +1911,13 @@ class Datapenyedia extends CI_Controller
 			$this->output->set_content_type('application/json')->set_output(json_encode($response));
 		} else {
 			// SETTING PATH 
+			$sts_upload = [
+				'sts_upload_dokumen' => 1
+			];
+			$where = [
+				'id_vendor' => $id_vendor
+			];
+			$this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
 			$date = date('Y');
 			if (!is_dir('file_vms/' . $nama_usaha . '/Akta_Perubahan-' . $date)) {
 				mkdir('file_vms/' . $nama_usaha . '/Akta_Perubahan-' . $date, 0777, TRUE);
@@ -2127,6 +2206,13 @@ class Datapenyedia extends CI_Controller
 			$secret_token_dokumen1 = 'jmto.1' . $id;
 			$secret_token_dokumen2 = 'jmto.2' . $id;
 			// SETTING PATH 
+			$sts_upload = [
+				'sts_upload_dokumen' => 1
+			];
+			$where = [
+				'id_vendor' => $id_vendor
+			];
+			$this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
 			$date = date('Y');
 			if (!is_dir('file_vms/' . $nama_usaha . '/Pemilik-' . $date)) {
 				mkdir('file_vms/' . $nama_usaha . '/Pemilik-' . $date, 0777, TRUE);
@@ -2206,6 +2292,13 @@ class Datapenyedia extends CI_Controller
 			$secret_token_dokumen1 = 'jmto.1' . $get_row_enkrip['id_url'];
 			$secret_token_dokumen2 = 'jmto.2' . $get_row_enkrip['id_url'];
 			// SETTING PATH 
+			$sts_upload = [
+				'sts_upload_dokumen' => 1
+			];
+			$where = [
+				'id_vendor' => $id_vendor
+			];
+			$this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
 			$date = date('Y');
 			if (!is_dir('file_vms/' . $nama_usaha . '/Pemilik-' . $date)) {
 				mkdir('file_vms/' . $nama_usaha . '/Pemilik-' . $date, 0777, TRUE);
@@ -2503,6 +2596,13 @@ class Datapenyedia extends CI_Controller
 			$secret_token_dokumen1 = 'jmto.1' . $id;
 			$secret_token_dokumen2 = 'jmto.2' . $id;
 			// SETTING PATH 
+			$sts_upload = [
+				'sts_upload_dokumen' => 1
+			];
+			$where = [
+				'id_vendor' => $id_vendor
+			];
+			$this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
 			$date = date('Y');
 			if (!is_dir('file_vms/' . $nama_usaha . '/Pengurus-' . $date)) {
 				mkdir('file_vms/' . $nama_usaha . '/Pengurus-' . $date, 0777, TRUE);
@@ -2674,6 +2774,13 @@ class Datapenyedia extends CI_Controller
 			$secret_token_dokumen1 = 'jmto.1' . $get_row_enkrip['id_url'];
 			$secret_token_dokumen2 = 'jmto.2' . $get_row_enkrip['id_url'];
 			// SETTING PATH 
+			$sts_upload = [
+				'sts_upload_dokumen' => 1
+			];
+			$where = [
+				'id_vendor' => $id_vendor
+			];
+			$this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
 			$date = date('Y');
 			if (!is_dir('file_vms/' . $nama_usaha . '/PENGURUS-' . $date)) {
 				mkdir('file_vms/' . $nama_usaha . '/PENGURUS-' . $date, 0777, TRUE);
@@ -2904,6 +3011,13 @@ class Datapenyedia extends CI_Controller
 		$chiper = "AES-128-ECB";
 		$secret_token_dokumen1 = 'jmto.1' . $id;
 		// SETTING PATH 
+		$sts_upload = [
+			'sts_upload_dokumen' => 1
+		];
+		$where = [
+			'id_vendor' => $id_vendor
+		];
+		$this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
 		$date = date('Y');
 		if (!is_dir('file_vms/' . $nama_usaha . '/Pengalaman-' . $date)) {
 			mkdir('file_vms/' . $nama_usaha . '/Pengalaman-' . $date, 0777, TRUE);
@@ -3076,6 +3190,13 @@ class Datapenyedia extends CI_Controller
 		$chiper = "AES-128-ECB";
 		$secret_token_dokumen1 = 'jmto.1' . $get_row_enkrip['id_url'];
 		// SETTING PATH 
+		$sts_upload = [
+			'sts_upload_dokumen' => 1
+		];
+		$where = [
+			'id_vendor' => $id_vendor
+		];
+		$this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
 		$date = date('Y');
 		if (!is_dir('file_vms/' . $nama_usaha . '/Pengalaman-' . $date)) {
 			mkdir('file_vms/' . $nama_usaha . '/Pengalaman-' . $date, 0777, TRUE);
@@ -3358,6 +3479,13 @@ class Datapenyedia extends CI_Controller
 		$secret_token_dokumen1 = 'jmto.1' . $id;
 		$secret_token_dokumen2 = 'jmto.2' . $id;
 		// SETTING PATH 
+		$sts_upload = [
+			'sts_upload_dokumen' => 1
+		];
+		$where = [
+			'id_vendor' => $id_vendor
+		];
+		$this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
 		$date = date('Y');
 		if (!is_dir('file_vms/' . $nama_usaha . '/Neraca-' . $date)) {
 			mkdir('file_vms/' . $nama_usaha . '/Neraca-' . $date, 0777, TRUE);
@@ -3397,6 +3525,13 @@ class Datapenyedia extends CI_Controller
 		$secret_token_dokumen1 = 'jmto.1' . $get_row_enkrip['id_url_neraca'];
 		$secret_token_dokumen2 = 'jmto.2' . $get_row_enkrip['id_url_neraca'];
 		// SETTING PATH 
+		$sts_upload = [
+			'sts_upload_dokumen' => 1
+		];
+		$where = [
+			'id_vendor' => $id_vendor
+		];
+		$this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
 		$date = date('Y');
 		if (!is_dir('file_vms/' . $nama_usaha . '/Neraca-' . $date)) {
 			mkdir('file_vms/' . $nama_usaha . '/Neraca-' . $date, 0777, TRUE);
@@ -3618,6 +3753,13 @@ class Datapenyedia extends CI_Controller
 			$this->output->set_content_type('application/json')->set_output(json_encode($response));
 		} else {
 			// SETTING PATH 
+			$sts_upload = [
+				'sts_upload_dokumen' => 1
+			];
+			$where = [
+				'id_vendor' => $id_vendor
+			];
+			$this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
 			$date = date('Y');
 			if (!is_dir('file_vms/' . $nama_usaha . '/SPPKP-' . $date)) {
 				mkdir('file_vms/' . $nama_usaha . '/SPPKP-' . $date, 0777, TRUE);
@@ -3806,6 +3948,13 @@ class Datapenyedia extends CI_Controller
 			$this->output->set_content_type('application/json')->set_output(json_encode($response));
 		} else {
 			// SETTING PATH 
+			$sts_upload = [
+				'sts_upload_dokumen' => 1
+			];
+			$where = [
+				'id_vendor' => $id_vendor
+			];
+			$this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
 			$date = date('Y');
 			if (!is_dir('file_vms/' . $nama_usaha . '/NPWP-' . $date)) {
 				mkdir('file_vms/' . $nama_usaha . '/NPWP-' . $date, 0777, TRUE);
@@ -4063,6 +4212,13 @@ class Datapenyedia extends CI_Controller
 			$this->output->set_content_type('application/json')->set_output(json_encode($response));
 		} else {
 			// SETTING PATH 
+			$sts_upload = [
+				'sts_upload_dokumen' => 1
+			];
+			$where = [
+				'id_vendor' => $id_vendor
+			];
+			$this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
 			$date = date('Y');
 			if (!is_dir('file_vms/' . $nama_usaha . '/SPT-' . $date)) {
 				mkdir('file_vms/' . $nama_usaha . '/SPT-' . $date, 0777, TRUE);
@@ -4153,6 +4309,13 @@ class Datapenyedia extends CI_Controller
 		} else {
 
 			// SETTING PATH 
+			$sts_upload = [
+				'sts_upload_dokumen' => 1
+			];
+			$where = [
+				'id_vendor' => $id_vendor
+			];
+			$this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
 			$date = date('Y');
 			if (!is_dir('file_vms/' . $nama_usaha . '/SPT-' . $date)) {
 				mkdir('file_vms/' . $nama_usaha . '/SPT-' . $date, 0777, TRUE);
@@ -4181,6 +4344,7 @@ class Datapenyedia extends CI_Controller
 					'file_dokumen' => $enckrips_string,
 					'token_dokumen' => $secret,
 					'sts_token_dokumen' => 1,
+					'sts_validasi' => 2
 				];
 				$where = [
 					'id_url' => $id_url
@@ -4201,6 +4365,7 @@ class Datapenyedia extends CI_Controller
 					'tahun_lapor' => $tahun_lapor,
 					'jenis_spt' => $jenis_spt,
 					'tgl_penyampaian' => $tgl_penyampaian,
+					'sts_validasi' => 2
 				];
 				$where = [
 					'id_url' => $id_url
@@ -4362,6 +4527,13 @@ class Datapenyedia extends CI_Controller
 		$secret = $secret_token_dokumen1 . $secret_token_dokumen2;
 		$password_dokumen = '1234';
 		// SETTING PATH 
+		$sts_upload = [
+			'sts_upload_dokumen' => 1
+		];
+		$where = [
+			'id_vendor' => $id_vendor
+		];
+		$this->M_datapenyedia->update_status_dokumen($sts_upload, $where);
 		$date = date('Y');
 		if (!is_dir('file_vms/' . $nama_usaha . '/Laporan_Keuangan-' . $date)) {
 			mkdir('file_vms/' . $nama_usaha . '/Laporan_Keuangan-' . $date, 0777, TRUE);

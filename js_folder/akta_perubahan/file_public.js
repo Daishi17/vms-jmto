@@ -1,3 +1,9 @@
+    // akta_perubahan
+    $('.file_valid_akta_perubahan').change(function(e) {
+      var geekss = e.target.files[0].name;
+      $('[name="file_dokumen_manipulasi_perubahan"]').val(geekss);
+  });
+
 var form_akta_perubahan = $('#form_akta_perubahan')
 form_akta_perubahan.on('submit', function(e) {
     var url_post = $('[name="url_post_perubahan"]').val()

@@ -1,4 +1,12 @@
 get_row_vendor();
+    // akta_pendirian
+    $('.file_valid_akta_pendirian').change(function(e) {
+      var geekss = e.target.files[0].name;
+      $('[name="file_dokumen_manipulasi_pendirian"]').val(geekss);
+  });
+
+  
+
 function get_row_vendor() {
     var secret_token = $('[name="secret_token"]').val()
     var id_url_vendor = $('[name="id_url_vendor"]').val()

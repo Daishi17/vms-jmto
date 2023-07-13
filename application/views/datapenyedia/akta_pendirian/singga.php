@@ -126,7 +126,7 @@
                                                                 </td>
                                                                 <td class="col-sm-3">
                                                                     <input type="hidden" name="file_dokumen_manipulasi_pendirian">
-                                                                    <input type="file" class="" name="file_dokumen" id="file" accept=".pdf, .xlsx, .xls">
+                                                                    <input type="file" class="file_valid_akta_pendirian" name="file_dokumen" accept=".pdf, .xlsx, .xls">
                                                                 </td>
                                                                 <td class="col-sm-2 bg-light">
                                                                     <div id="tampil_dokumen_akta"></div>
@@ -263,7 +263,7 @@
                                                                 </td>
                                                                 <td class="col-sm-3">
                                                                     <input type="hidden" name="file_dokumen_manipulasi_perubahan">
-                                                                    <input type="file" class="" name="file_dokumen_perubahan" id="file" accept=".pdf, .xlsx, .xls">
+                                                                    <input type="file" class="file_valid_akta_perubahan" name="file_dokumen_perubahan" id="file" accept=".pdf, .xlsx, .xls">
                                                                 </td>
                                                                 <td class="col-sm-2 bg-light">
                                                                     <!-- <a href="javascript:;" class="btn btn-info btn-sm text-start col-sm-12 shadow-lg">
