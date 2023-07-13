@@ -2005,10 +2005,12 @@ class Datapenyedia extends CI_Controller
 			$row[] = $rs->warganegara;
 			$row[] = $rs->alamat_pemilik;
 			$row[] = $rs->saham;
-			if ($rs->sts_validasi == 1 || $rs->sts_validasi == 0) {
+			if ($rs->sts_validasi == 1) {
+				$row[] = '<span class="badge bg-success">Sudah Tervalidasi</span>';
+			} else if ($rs->sts_validasi == 0) {
 				$row[] = '<span class="badge bg-secondary">Belum Tervalidasi</span>';
 			} else {
-				$row[] = '<span class="badge bg-success">Sudah Tervalidasi</span>';
+				$row[] = '<span class="badge bg-danger">Tidak Valid</span>';
 			}
 			$row[] = '<a  href="javascript:;" class="btn btn-info btn-sm" onClick="by_id_pemilik_manajerial(' . "'" . $rs->id_pemilik . "','edit'" . ')"><i class="fa-solid fa-users-viewfinder px-1"></i> View</a>
 			<a  href="javascript:;" class="btn btn-danger btn-sm" onClick="by_id_pemilik_manajerial(' . "'" . $rs->id_pemilik . "','hapus'" . ')"><i class="fas fa fa-trash"></i> Delete</a>';
@@ -2056,10 +2058,10 @@ class Datapenyedia extends CI_Controller
 			$row = array();
 			$row[] = ++$no;
 			$row[] = $rs->nik;
+			$row[] = $rs->npwp;
 			$row[] = $rs->nama_pemilik;
-			$row[] = $rs->jns_pemilik;
-			$row[] = $rs->alamat_pemilik;
 			$row[] = $rs->warganegara;
+			$row[] = $rs->jns_pemilik;
 			$row[] = $rs->saham;
 			$row[] = '<a  href="javascript:;" class="btn btn-warning btn-sm d-md-block" onClick="by_id_excel_pemilik_manajerial(' . "'" . $rs->id_pemilik . "','edit'" . ')"><i class="fa fa-edit"></i></a>
 			<a  href="javascript:;" class="btn btn-danger btn-sm d-md-block" onClick="by_id_excel_pemilik_manajerial(' . "'" . $rs->id_pemilik . "','hapus'" . ')"><i class="fas fa fa-trash"></i></a>';
@@ -2419,8 +2421,6 @@ class Datapenyedia extends CI_Controller
 				'validasi' => $data_tervalidasi,
 			];
 		}
-
-
 		$this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 

@@ -1,5 +1,14 @@
 <script>
     // GET TABLE KBLI NIB
+    function validasi_saham() {
+        var saham = $('[name="saham"]').val();
+        if (saham > 100) {
+            Swal.fire('Maaf!', 'Hanya 1-100% Pengisian Saham!', 'warning');
+            var saham = $('[name="saham"]').val(0);
+        } else {
+
+        }
+    }
     var data_excel_pemilik_manajerial = $('#data_excel_pemilik_manajerial')
     $(document).ready(function() {
         var url_data_excel_pemilik_manajerial = $('[name="url_data_excel_pemilik_manajerial"]').val();
@@ -114,6 +123,8 @@
                     $('[name="npwp"]').val(response['row_excel_pemilik_manajerial'].npwp);
                     $('[name="warganegara"]').val(response['row_excel_pemilik_manajerial'].warganegara);
                     $('[name="saham"]').val(response['row_excel_pemilik_manajerial'].saham);
+                    $('[name="file_ktp_manipulasi"]').val(response['row_pemilik_manajerial'].file_ktp);
+                    $('[name="file_npwp_manipulasi"]').val(response['row_pemilik_manajerial'].file_npwp);
                     $('[name="file_ktp"]').val(response['row_excel_pemilik_manajerial'].file_ktp);
                     $('[name="file_npwp"]').val(response['row_excel_pemilik_manajerial'].file_npwp);
                 } else if (type == 'hapus') {
@@ -148,7 +159,6 @@
             }
         });
     }
-
 
     function Hapus_import_pemilik() {
         var url_hapus_import_excel_pemilik = $('[name="url_hapus_import_excel_pemilik"]').val();
@@ -303,25 +313,89 @@
     var modal_xl_pemilik = $('#modal-xl-pemilik');
     var url_buat_pemilik_manajerial = $('[name="url_buat_pemilik_manajerial"]').val()
     form_simpan_manajerial_pemilik.on('submit', function(e) {
-        e.preventDefault();
-        $.ajax({
-            url: url_buat_pemilik_manajerial,
-            method: "POST",
-            data: new FormData(this),
-            contentType: false,
-            cache: false,
-            processData: false,
-            beforeSend: function() {
-                $('.btn_simpan').attr('disabled', 'disabled');
-            },
-            success: function(response) {
-                modal_xl_pemilik.modal('hide')
-                Swal.fire('Good job!', 'Data Beharhasil Di Buat!', 'success');
-                reloaddata_pemilik_manajerial()
-                $('.btn_simpan').attr('disabled', false);
-                form_simpan_manajerial_pemilik[0].reset();
-            }
-        });
+        var file_ktp = $('[name="file_ktp"]').val()
+        var file_npwp = $('[name="file_npwp"]').val()
+        if (file_ktp == '') {
+            e.preventDefault();
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Dokumen Ktp Wajib Di Isi!',
+            })
+        } else if (file_npwp == '') {
+            e.preventDefault();
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Dokumen Npwp Wajib Di Isi!',
+            })
+        } else {
+            e.preventDefault();
+            $.ajax({
+                url: url_buat_pemilik_manajerial,
+                method: "POST",
+                data: new FormData(this),
+                contentType: false,
+                cache: false,
+                processData: false,
+                beforeSend: function() {
+                    $('.btn_simpan').attr('disabled', 'disabled');
+                },
+                success: function(response) {
+                    if (response['error']) {
+                        $(".nik_error").css('display', 'block');
+                        // nama_pemilik
+                        $(".nama_pemilik_error").css('display', 'block');
+                        // jns_pemilik
+                        $(".jns_pemilik_error").css('display', 'block');
+                        // alamat_pemilik
+                        $(".alamat_pemilik_error").css('display', 'block');
+                        // npwp
+                        $(".npwp_error").css('display', 'block');
+                        // warganegara
+                        $(".warganegara_error").css('display', 'block');
+                        // saham
+                        $(".saham_error").css('display', 'block');
+                        // nik
+                        $(".nik_error").html(response['error']['nik']);
+                        // nama_pemilik
+                        $(".nama_pemilik_error").html(response['error']['nama_pemilik']);
+                        // jns_pemilik
+                        $(".jns_pemilik_error").html(response['error']['jns_pemilik']);
+                        // alamat_pemilik
+                        $(".alamat_pemilik_error").html(response['error']['alamat_pemilik']);
+                        // npwp
+                        $(".npwp_error").html(response['error']['npwp']);
+                        // warganegara
+                        $(".warganegara_error").html(response['error']['warganegara']);
+                        // saham
+                        $(".saham_error").html(response['error']['saham']);
+                        $('.btn_simpan').attr("disabled", false);
+
+                    } else {
+                        modal_xl_pemilik.modal('hide')
+                        Swal.fire('Good job!', 'Data Beharhasil Di Buat!', 'success');
+                        reloaddata_pemilik_manajerial()
+                        $('.btn_simpan').attr('disabled', false);
+                        form_simpan_manajerial_pemilik[0].reset();
+                        $(".nik_error").css('display', 'none');
+                        // nama_pemilik
+                        $(".nama_pemilik_error").css('display', 'none');
+                        // jns_pemilik
+                        $(".jns_pemilik_error").css('display', 'none');
+                        // alamat_pemilik
+                        $(".alamat_pemilik_error").css('display', 'none');
+                        // npwp
+                        $(".npwp_error").css('display', 'none');
+                        // warganegara
+                        $(".warganegara_error").css('display', 'none');
+                        // saham
+                        $(".saham_error").css('display', 'none');
+                    }
+                }
+            });
+        }
+
     });
 
     function by_id_pemilik_manajerial(id_pemilik, type) {
@@ -365,6 +439,8 @@
                     $('[name="npwp"]').val(response['row_pemilik_manajerial'].npwp);
                     $('[name="warganegara"]').val(response['row_pemilik_manajerial'].warganegara);
                     $('[name="saham"]').val(response['row_pemilik_manajerial'].saham);
+                    $('[name="file_ktp_manipulasi"]').val(response['row_pemilik_manajerial'].file_ktp);
+                    $('[name="file_npwp_manipulasi"]').val(response['row_pemilik_manajerial'].file_npwp);
                     $('[name="file_ktp"]').val(response['row_pemilik_manajerial'].file_ktp);
                     $('[name="file_npwp"]').val(response['row_pemilik_manajerial'].file_npwp);
                 } else if (type == 'hapus') {
@@ -401,42 +477,102 @@
 
 
     // edit
-
-
     var form_edit_excel_pemilik_manajerial = $('#form_edit_excel_pemilik_manajerial');
     var modal_edit_excel_pemilik_manajerial = $('#modal_edit_excel_pemilik_manajerial');
     var url_edit_excel_pemilik_manajerial = $('[name="url_edit_excel_pemilik_manajerial"]').val()
     form_edit_excel_pemilik_manajerial.on('submit', function(e) {
-        e.preventDefault();
-        var validasi_enkripsi_pemilik = $('[name="validasi_enkripsi_pemilik"]').val();
-        if (validasi_enkripsi_pemilik == 2) {
-            Swal.fire('Waduh Maaf!', 'Enkripsi File Terlebih Dahulu Yaa!', 'warning');
+        var type_edit_pemilik = $('[name="type_edit_pemilik"]').val();
+        var file_ktp_edit = $('[name="file_ktp"]').val()
+        console.log(file_ktp_edit);
+        var file_ktp = $('[name="file_ktp_manipulasi"]').val()
+        var file_npwp = $('[name="file_npwp_manipulasi"]').val()
+        if (file_ktp == '') {
+            e.preventDefault();
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Dokumen Ktp Wajib Di Isi!',
+            })
+        } else if (file_npwp == '') {
+            e.preventDefault();
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Dokumen Npwp Wajib Di Isi!',
+            })
         } else {
-            $.ajax({
-                url: url_edit_excel_pemilik_manajerial,
-                method: "POST",
-                data: new FormData(this),
-                contentType: false,
-                cache: false,
-                processData: false,
-                beforeSend: function() {
-                    $('.btn_simpan').attr('disabled', 'disabled');
-                },
-                success: function(response) {
-                    modal_edit_excel_pemilik_manajerial.modal('hide')
-                    Swal.fire('Good job!', 'Data Beharhasil Di Edit!', 'success');
-                    reloaddata_excel_pemilik_manajerial()
-                    reloaddata_pemilik_manajerial();
-                    $('.btn_simpan').attr('disabled', false);
-                    form_edit_excel_pemilik_manajerial[0].reset();
-                }
-            });
+            e.preventDefault();
+            var validasi_enkripsi_pemilik = $('[name="validasi_enkripsi_pemilik"]').val();
+            if (validasi_enkripsi_pemilik == 2) {
+                Swal.fire('Maaf!', 'Enkripsi File Terlebih Dahulu Yaa!', 'warning');
+            } else {
+                $.ajax({
+                    url: url_edit_excel_pemilik_manajerial,
+                    method: "POST",
+                    data: new FormData(this),
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    beforeSend: function() {
+                        $('.btn_edit_biasa').attr('disabled', 'disabled');
+                    },
+                    success: function(response) {
+                        if (response['error']) {
+                            $(".nik_error").css('display', 'block');
+                            // nama_pemilik
+                            $(".nama_pemilik_error").css('display', 'block');
+                            // jns_pemilik
+                            $(".jns_pemilik_error").css('display', 'block');
+                            // alamat_pemilik
+                            $(".alamat_pemilik_error").css('display', 'block');
+                            // npwp
+                            $(".npwp_error").css('display', 'block');
+                            // warganegara
+                            $(".warganegara_error").css('display', 'block');
+                            // saham
+                            $(".saham_error").css('display', 'block');
+                            // nik
+                            $(".nik_error").html(response['error']['nik']);
+                            // nama_pemilik
+                            $(".nama_pemilik_error").html(response['error']['nama_pemilik']);
+                            // jns_pemilik
+                            $(".jns_pemilik_error").html(response['error']['jns_pemilik']);
+                            // alamat_pemilik
+                            $(".alamat_pemilik_error").html(response['error']['alamat_pemilik']);
+                            // npwp
+                            $(".npwp_error").html(response['error']['npwp']);
+                            // warganegara
+                            $(".warganegara_error").html(response['error']['warganegara']);
+                            // saham
+                            $(".saham_error").html(response['error']['saham']);
+                            $('.btn_edit_biasa').attr("disabled", false);
+
+                        } else {
+                            modal_edit_excel_pemilik_manajerial.modal('hide')
+                            Swal.fire('Good job!', 'Data Beharhasil Di Edit!', 'success');
+                            reloaddata_excel_pemilik_manajerial()
+                            reloaddata_pemilik_manajerial();
+                            $('.btn_edit_biasa').attr('disabled', false);
+                            form_edit_excel_pemilik_manajerial[0].reset();
+                            $(".nik_error").css('display', 'none');
+                            // nama_pemilik
+                            $(".nama_pemilik_error").css('display', 'none');
+                            // jns_pemilik
+                            $(".jns_pemilik_error").css('display', 'none');
+                            // alamat_pemilik
+                            $(".alamat_pemilik_error").css('display', 'none');
+                            // npwp
+                            $(".npwp_error").css('display', 'none');
+                            // warganegara
+                            $(".warganegara_error").css('display', 'none');
+                            // saham
+                            $(".saham_error").css('display', 'none');
+                        }
+                    }
+                });
+            }
         }
     });
-
-
-
-
 
     var form_import_excel = $('#form_import_excel');
     var url_import_pemilik_perusahaan = $('[name="url_import_pemilik_perusahaan"]').val()
