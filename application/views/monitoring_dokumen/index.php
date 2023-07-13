@@ -151,7 +151,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="card-body">
-                                                    <table id="example5" class="table table-sm table-bordered table-striped">
+                                                <input type="hidden" name="get_data_manajerial" value="<?= base_url('monitoring_dokumen/get_data_manajerial') ?>">
+                                                    <table id="tbl_data_manajerial" class="table table-sm table-bordered table-striped">
                                                         <thead class="bg-secondary">
                                                             <tr>
                                                                 <th style="width:5%;"><small class="text-white">No</small></th>
@@ -168,46 +169,7 @@
                                                                 </th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td><small>Pemilik</small></td>
-                                                                <td><small>Ahmad Fikri Z</small></td>
-                                                                <td><small>1234567890123456</small></td>
-                                                                <td><small>
-                                                                        <div class="text-center">
-                                                                            <span class="badge bg-success">Sudah Tervalidasi</span>
-                                                                        </div>
-                                                                    </small>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="text-center">
-                                                                        <button type="button" class="btn btn-info btn-sm shadow-lg" data-bs-toggle="modal" data-bs-target="#modal-xl-pengalaman">
-                                                                            <i class="fa-solid fa-users-viewfinder px-1"></i>
-                                                                            <small>View</small>
-                                                                        </button>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td><small>Pengurus</small></td>
-                                                                <td><small>Ahmad Fikri Z</small></td>
-                                                                <td><small>1234567890123456</small></td>
-                                                                <td><small>
-                                                                        <div class="text-center">
-                                                                            <span class="badge bg-success">Sudah Tervalidasi</span>
-                                                                        </div>
-                                                                    </small>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="text-center">
-                                                                        <button type="button" class="btn btn-info btn-sm shadow-lg" data-bs-toggle="modal" data-bs-target="#modal-xl-pengalaman">
-                                                                            <i class="fa-solid fa-users-viewfinder px-1"></i>
-                                                                            <small>View</small>
-                                                                        </button>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
+                                                       <tbody></tbody>
                                                     </table>
                                                 </div>
                                             </div>
@@ -223,7 +185,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="card-body">
-                                                    <table id="example7" class="table table-sm table-bordered table-striped">
+                                                <input type="hidden" name="get_data_pengalaman" value="<?= base_url('monitoring_dokumen/get_data_pengalaman') ?>">
+                                                    <table id="tbl_data_pengalaman" class="table table-sm table-bordered table-striped">
                                                         <thead class="bg-secondary">
                                                             <tr>
                                                                 <th style="width:8%;"><small class="text-white">No. Kontrak</small></th>

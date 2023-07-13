@@ -136,12 +136,16 @@ class Monitoring_dokumen extends CI_Controller
             $row = array();
             $row[] = ++$no;
             $row[] = $rs->jenis_dokumen;
-            $row[] = $rs->jenis_dokumen;
-            if (!$rs->nomor_surat) {
-                $row[] = '-';
+
+            if ($rs->id_dokumen == 'PEMILIK') {
+                $pemilik =  $this->M_monitoring->get_pemilik($rs->id_vendor);
+                $row[] = $pemilik['nama_pemilik'];
             } else {
-                $row[] = $rs->nomor_surat;
+                $pengurus =   $this->M_monitoring->get_pengurus($rs->id_vendor);
+                $row[] = $pengurus['nama_pengurus'];
             }
+
+            $row[] = $rs->nomor_surat;
             if ($rs->sts_validasi == 1) {
                 $row[] = '<span class="badge bg-success">Sudah Tervalidasi</span>';
             } else if ($rs->sts_validasi == null) {
@@ -161,6 +165,50 @@ class Monitoring_dokumen extends CI_Controller
             "draw" => $_POST['draw'],
             "recordsTotal" => $this->M_monitoring->count_all_data_monitoring_dokumen3($id_vendor),
             "recordsFiltered" => $this->M_monitoring->count_filtered_data_monitoring_dokumen3($id_vendor),
+            "data" => $data
+        );
+        $this->output->set_content_type('application/json')->set_output(json_encode($output));
+    }
+
+    public function get_data_pengalaman()
+    {
+        $id_vendor = $this->session->userdata('id_vendor');
+        $resultss = $this->M_monitoring->gettable_monitoring_dokumen4($id_vendor);
+        $data = [];
+        $no = $_POST['start'];
+        foreach ($resultss as $rs) {
+            $row = array();
+            $row[] = ++$no;
+            $row[] = $rs->jenis_dokumen;
+
+            if ($rs->id_dokumen == 'PEMILIK') {
+                $pemilik =  $this->M_monitoring->get_pemilik($rs->id_vendor);
+                $row[] = $pemilik['nama_pemilik'];
+            } else {
+                $pengurus =   $this->M_monitoring->get_pengurus($rs->id_vendor);
+                $row[] = $pengurus['nama_pengurus'];
+            }
+
+            $row[] = $rs->nomor_surat;
+            if ($rs->sts_validasi == 1) {
+                $row[] = '<span class="badge bg-success">Sudah Tervalidasi</span>';
+            } else if ($rs->sts_validasi == null) {
+                $row[] = '<span class="badge bg-secondary">Belum Tervalidasi</span>';
+            } else {
+                $row[] = '<span class="badge bg-warning">Revisi</span>';
+            }
+
+            if (!$rs->alasan_validator) {
+                $row[] = '-';
+            } else {
+                $row[] = $rs->alasan_validator;
+            }
+            $data[] = $row;
+        }
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->M_monitoring->count_all_data_monitoring_dokumen4($id_vendor),
+            "recordsFiltered" => $this->M_monitoring->count_filtered_data_monitoring_dokumen4($id_vendor),
             "data" => $data
         );
         $this->output->set_content_type('application/json')->set_output(json_encode($output));
