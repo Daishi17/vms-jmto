@@ -4739,5 +4739,6 @@ class Datapenyedia extends CI_Controller
 		$this->M_datapenyedia->delete_keuangan($where);
 		$this->output->set_content_type('application/json')->set_output(json_encode('success'));
 	}
+	
 	// end crud laporan keuangan
 }

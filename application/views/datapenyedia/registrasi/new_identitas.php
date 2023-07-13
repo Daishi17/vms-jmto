@@ -181,7 +181,7 @@
                                     <div class="col-sm-6">
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="fa-regular fa-credit-card"></i></span>
-                                            <input type="number" required class="form-control" name="npwp" value="<?= $this->session->userdata('npwp') ?>" data-inputmask='"mask": "99.999.999.9-999.999"' readonly data-mask>
+                                            <input type="text" class="form-control" name="npwp" value="<?= $this->session->userdata('npwp') ?>" data-inputmask='"mask": "99.999.999.9-999.999"' readonly data-mask>
                                         </div>
                                     </div>
                                 </div>
