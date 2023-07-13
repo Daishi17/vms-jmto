@@ -1,6 +1,10 @@
 <script>
     // crud spt
-
+    // spt
+    $('.file_valid_spt').change(function(e) {
+        var geekss = e.target.files[0].name;
+        $('[name="file_dokumen_manipulasi_spt"]').val(geekss);
+    });
     get_row_vendor_spt()
 
     function get_row_vendor_spt() {
@@ -57,47 +61,85 @@
     form_tambah_spt.on('submit', function(e) {
         // nanti kalau sudah migrasi ke js ambil url nya dari view
         var url_post = $('[name="url_post_spt"]').val()
-        e.preventDefault();
-        $.ajax({
-            url: url_post,
-            method: "POST",
-            data: new FormData(this),
-            contentType: false,
-            cache: false,
-            processData: false,
-            beforeSend: function() {
-                $('#btn_save_spt').attr("disabled", true);
-            },
-            success: function(response) {
-                let timerInterval
-                Swal.fire({
-                    title: 'Sedang Proses Menyimpan Data!',
-                    html: 'Membuat Data <b></b>',
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: () => {
-                        Swal.showLoading()
-                        const b = Swal.getHtmlContainer().querySelector('b')
-                        timerInterval = setInterval(() => {
-                            // b.textContent = Swal.getTimerRight()
-                        }, 100)
-                    },
-                    willClose: () => {
-                        clearInterval(timerInterval)
-                        Swal.fire('Data Berhasil Di Simpan!', '', 'success')
-                        get_row_vendor_spt();
-                        $('#modal-xl-spt').modal('hide')
-                        $('#form_tambah_spt')[0].reset();
+        var file_dokumen_manipulasi_spt = $('[name="file_dokumen_manipulasi_spt"]').val()
+        if (file_dokumen_manipulasi_spt == '') {
+            e.preventDefault();
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Dokumen Wajib Di Isi!',
+            })
+        } else {
+            e.preventDefault();
+            $.ajax({
+                url: url_post,
+                method: "POST",
+                data: new FormData(this),
+                contentType: false,
+                cache: false,
+                processData: false,
+                beforeSend: function() {
+                    $('#btn_save_spt').attr("disabled", true);
+                },
+                success: function(response) {
+                    if (response['error']) {
+                        // nomor_surat
+                        $(".nomor_surat_spt_error").css('display', 'block');
+                        // sts_seumur_hidup_sppkp
+                        $(".tahun_lapor_spt_error").css('display', 'block');
+                        // tgl_berlaku_sppkp
+                        $(".jenis_spt_error").css('display', 'block');
+                        // tgl_berlaku_sppkp
+                        $(".tgl_penyampaian_error").css('display', 'block');
+                        // nomor_surat
+                        $(".nomor_surat_spt_error").html(response['error']['nomor_surat']);
+                        // tahun_lapor
+                        $(".tahun_lapor_spt_error").html(response['error']['tahun_lapor']);
+                        // jenis_spt
+                        $(".jenis_spt_error").html(response['error']['jenis_spt']);
+                        // tgl_penyampaian
+                        $(".tgl_penyampaian_spt_error").html(response['error']['tgl_penyampaian']);
                         $('#btn_save_spt').attr("disabled", false);
-                    }
-                }).then((result) => {
-                    /* Read more about handling dismissals below */
-                    if (result.dismiss === Swal.DismissReason.timer) {
+                    } else {
+                        let timerInterval
+                        Swal.fire({
+                            title: 'Sedang Proses Menyimpan Data!',
+                            html: 'Membuat Data <b></b>',
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: () => {
+                                Swal.showLoading()
+                                const b = Swal.getHtmlContainer().querySelector('b')
+                                timerInterval = setInterval(() => {
+                                    // b.textContent = Swal.getTimerRight()
+                                }, 100)
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval)
+                                Swal.fire('Data Berhasil Di Simpan!', '', 'success')
+                                get_row_vendor_spt();
+                                $('#modal-xl-spt').modal('hide')
+                                $('#form_tambah_spt')[0].reset();
+                                // nomor_surat
+                                $(".nomor_surat_spt_error").css('display', 'none');
+                                // sts_seumur_hidup_sppkp
+                                $(".tahun_lapor_spt_error").css('display', 'none');
+                                // tgl_berlaku_sppkp
+                                $(".jenis_spt_error").css('display', 'none');
+                                // tgl_berlaku_sppkp
+                                $(".tgl_penyampaian_spt_error").css('display', 'none');
+                                $('#btn_save_spt').attr("disabled", false);
+                            }
+                        }).then((result) => {
+                            /* Read more about handling dismissals below */
+                            if (result.dismiss === Swal.DismissReason.timer) {
 
+                            }
+                        })
                     }
-                })
-            }
-        })
+                }
+            })
+        }
     })
 
     var form_edit_spt = $('#form_edit_spt')
@@ -105,47 +147,86 @@
     form_edit_spt.on('submit', function(e) {
         // nanti kalau sudah migrasi ke js ambil url nya dari view
         var url_edit = $('[name="url_edit_spt"]').val()
-        e.preventDefault();
-        $.ajax({
-            url: url_edit,
-            method: "POST",
-            data: new FormData(this),
-            contentType: false,
-            cache: false,
-            processData: false,
-            beforeSend: function() {
-                $('#btn_save_spt').attr("disabled", true);
-            },
-            success: function(response) {
-                let timerInterval
-                Swal.fire({
-                    title: 'Sedang Proses Menyimpan Data!',
-                    html: 'Membuat Data <b></b>',
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: () => {
-                        Swal.showLoading()
-                        const b = Swal.getHtmlContainer().querySelector('b')
-                        timerInterval = setInterval(() => {
-                            // b.textContent = Swal.getTimerRight()
-                        }, 100)
-                    },
-                    willClose: () => {
-                        clearInterval(timerInterval)
-                        Swal.fire('Data Berhasil Di Simpan!', '', 'success')
-                        get_row_vendor_spt();
-                        $('#modal_edit_spt').modal('hide')
-                        $('#form_edit_spt')[0].reset();
-                        $('#btn_save_spt').attr("disabled", false);
-                    }
-                }).then((result) => {
-                    /* Read more about handling dismissals below */
-                    if (result.dismiss === Swal.DismissReason.timer) {
+        var file_dokumen_manipulasi_spt = $('[name="file_dokumen_manipulasi_spt"]').val()
+        if (file_dokumen_manipulasi_spt == '') {
+            e.preventDefault();
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Dokumen Wajib Di Isi!',
+            })
+        } else {
+            e.preventDefault();
+            $.ajax({
+                url: url_edit,
+                method: "POST",
+                data: new FormData(this),
+                contentType: false,
+                cache: false,
+                processData: false,
+                beforeSend: function() {
+                    $('#btn_edit_spt').attr("disabled", true);
+                },
+                success: function(response) {
+                    if (response['error']) {
+                        // nomor_surat
+                        $(".nomor_surat_spt_error").css('display', 'block');
+                        // sts_seumur_hidup_sppkp
+                        $(".tahun_lapor_spt_error").css('display', 'block');
+                        // tgl_berlaku_sppkp
+                        $(".jenis_spt_error").css('display', 'block');
+                        // tgl_berlaku_sppkp
+                        $(".tgl_penyampaian_error").css('display', 'block');
+                        // nomor_surat
+                        $(".nomor_surat_spt_error").html(response['error']['nomor_surat']);
+                        // tahun_lapor
+                        $(".tahun_lapor_spt_error").html(response['error']['tahun_lapor']);
+                        // jenis_spt
+                        $(".jenis_spt_error").html(response['error']['jenis_spt']);
+                        // tgl_penyampaian
+                        $(".tgl_penyampaian_spt_error").html(response['error']['tgl_penyampaian']);
+                        $('#btn_edit_spt').attr("disabled", false);
+                    } else {
+                        let timerInterval
+                        Swal.fire({
+                            title: 'Sedang Proses Menyimpan Data!',
+                            html: 'Membuat Data <b></b>',
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: () => {
+                                Swal.showLoading()
+                                const b = Swal.getHtmlContainer().querySelector('b')
+                                timerInterval = setInterval(() => {
+                                    // b.textContent = Swal.getTimerRight()
+                                }, 100)
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval)
+                                Swal.fire('Data Berhasil Di Simpan!', '', 'success')
+                                get_row_vendor_spt();
+                                $('#modal_edit_spt').modal('hide')
+                                $('#form_edit_spt')[0].reset();
+                                // nomor_surat
+                                $(".nomor_surat_spt_error").css('display', 'block');
+                                // sts_seumur_hidup_sppkp
+                                $(".tahun_lapor_spt_error").css('display', 'block');
+                                // tgl_berlaku_sppkp
+                                $(".jenis_spt_error").css('display', 'block');
+                                // tgl_berlaku_sppkp
+                                $(".tgl_penyampaian_error").css('display', 'block');
+                                // nomor_surat
+                                $('#btn_edit_spt').attr("disabled", false);
+                            }
+                        }).then((result) => {
+                            /* Read more about handling dismissals below */
+                            if (result.dismiss === Swal.DismissReason.timer) {
 
+                            }
+                        })
                     }
-                })
-            }
-        })
+                }
+            })
+        }
     })
 
     function byid_spt(id, type) {
@@ -169,13 +250,12 @@
             success: function(response) {
                 if (type == 'lihat') {
                     modal_edit_spt.modal('show')
+                    $('[name="file_dokumen_manipulasi_spt"]').val(response['row_spt'].file_dokumen);
                     $('#nomor_surat').val(response['row_spt'].nomor_surat)
                     $('#tahun_lapor').val(response['row_spt'].tahun_lapor)
                     $('#jenis_spt').val(response['row_spt'].jenis_spt)
                     $('#tgl_penyampaian').val(response['row_spt'].tgl_penyampaian)
                     $('[name="id_url"]').val(response['row_spt'].id_url)
-
-
                 } else if (type == 'dekrip') {
                     modal_dekrip_spt.modal('show');
                     $('[name="id_url_spt"]').val(response['row_spt'].id_url);

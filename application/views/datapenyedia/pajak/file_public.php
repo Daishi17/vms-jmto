@@ -1,4 +1,14 @@
 <script>
+    // sppkp
+    $('.file_valid_sppkp').change(function(e) {
+        var geekss = e.target.files[0].name;
+        $('[name="file_dokumen_manipulasi_sppkp"]').val(geekss);
+    });
+    // npwp
+    $('.file_valid_npwp').change(function(e) {
+        var geekss = e.target.files[0].name;
+        $('[name="file_dokumen_manipulasi_npwp"]').val(geekss);
+    });
     get_row_vendor()
 
     function get_row_vendor() {
@@ -13,6 +23,19 @@
                 secret_token: secret_token,
             },
             success: function(response) {
+                if (response['row_sppkp']['sts_validasi'] == 1) {
+                    $('#sts_validasi_sppkp_1').css('display', 'block');
+                    $('#sts_validasi_sppkp_2').css('display', 'none');
+                    $('#sts_validasi_sppkp_3').css('display', 'none');
+                } else if (response['row_sppkp']['sts_validasi'] == 2) {
+                    $('#sts_validasi_sppkp_1').css('display', 'none');
+                    $('#sts_validasi_sppkp_2').css('display', 'block');
+                    $('#sts_validasi_sppkp_3').css('display', 'none');
+                } else {
+                    $('#sts_validasi_sppkp_1').css('display', 'none');
+                    $('#sts_validasi_sppkp_2').css('display', 'none');
+                    $('#sts_validasi_sppkp_3').css('display', 'block');
+                }
                 if (response['row_sppkp']) {
                     $('[name="no_surat_sppkp"]').attr("readonly", true);
                     $('[name="sts_seumur_hidup_sppkp"]').attr("disabled", true);
@@ -35,7 +58,7 @@
                     if (response) {
                         var id_url_sppkp = response['row_sppkp']['id_url'];
                     }
-
+                    $('[name="file_dokumen_manipulasi_sppkp"]').val(response['row_sppkp']['file_dokumen']);
                     $('[name="no_surat_sppkp"]').val(response['row_sppkp']['no_surat']);
                     $('[name="sts_seumur_hidup_sppkp"]').val(response['row_sppkp']['sts_seumur_hidup']);
                     $('[name="tgl_berlaku_sppkp"]').val(response['row_sppkp']['tgl_berlaku']);
@@ -61,47 +84,78 @@
     var form_tambah_sppkp = $('#form_tambah_sppkp')
 
     form_tambah_sppkp.on('submit', function(e) {
-        // nanti kalau sudah migrasi ke js ambil url nya dari view
         var url_post = $('[name="url_post_sppkp"]').val()
-        e.preventDefault();
-        $.ajax({
-            url: url_post,
-            method: "POST",
-            data: new FormData(this),
-            contentType: false,
-            cache: false,
-            processData: false,
-            beforeSend: function() {
-                $('#btn_save_sppkp').attr("disabled", true);
-            },
-            success: function(response) {
-                let timerInterval
-                Swal.fire({
-                    title: 'Sedang Proses Menyimpan Data!',
-                    html: 'Membuat Data <b></b>',
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: () => {
-                        Swal.showLoading()
-                        const b = Swal.getHtmlContainer().querySelector('b')
-                        timerInterval = setInterval(() => {
-                            // b.textContent = Swal.getTimerRight()
-                        }, 100)
-                    },
-                    willClose: () => {
-                        clearInterval(timerInterval)
-                        Swal.fire('Data Berhasil Di Simpan!', '', 'success')
-                        get_row_vendor();
-                        $('#on_save').attr("disabled", false);
-                    }
-                }).then((result) => {
-                    /* Read more about handling dismissals below */
-                    if (result.dismiss === Swal.DismissReason.timer) {
+        var file_dokumen_manipulasi_sppkp = $('[name="file_dokumen_manipulasi_sppkp"]').val()
+        if (file_dokumen_manipulasi_sppkp == '') {
+            e.preventDefault();
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Dokumen Wajib Di Isi!',
+            })
+        } else {
+            e.preventDefault();
+            $.ajax({
+                url: url_post,
+                method: "POST",
+                data: new FormData(this),
+                contentType: false,
+                cache: false,
+                processData: false,
+                beforeSend: function() {
+                    $('#btn_save_sppkp').attr("disabled", true);
+                },
+                success: function(response) {
+                    if (response['error']) {
+                        $(".no_surat_sppkp_error").css('display', 'block');
+                        // sts_seumur_hidup_sppkp
+                        $(".sts_seumur_hidup_sppkp_error").css('display', 'block');
+                        // tgl_berlaku_sppkp
+                        $(".tgl_berlaku_sppkp_error").css('display', 'block');
+                        // no_surat_sppkp
+                        $(".no_surat_sppkp_error").html(response['error']['no_surat_sppkp']);
+                        // sts_seumur_hidup_sppkp
+                        $(".sts_seumur_hidup_sppkp_error").html(response['error']['sts_seumur_hidup_sppkp']);
+                        // tgl_berlaku_sppkp
+                        $(".tgl_berlaku_sppkp_error").html(response['error']['tgl_berlaku_sppkp']);
+                        $('#btn_save_sppkp').attr("disabled", false);
+                        $('#btn_edit_sppkp').attr("disabled", false);
+                    } else {
+                        let timerInterval
+                        Swal.fire({
+                            title: 'Sedang Proses Menyimpan Data!',
+                            html: 'Membuat Data <b></b>',
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: () => {
+                                Swal.showLoading()
+                                const b = Swal.getHtmlContainer().querySelector('b')
+                                timerInterval = setInterval(() => {
+                                    // b.textContent = Swal.getTimerRight()
+                                }, 100)
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval)
+                                Swal.fire('Data Berhasil Di Simpan!', '', 'success')
+                                $(".no_surat_sppkp_error").css('display', 'none');
+                                // sts_seumur_hidup_sppkp
+                                $(".sts_seumur_hidup_sppkp_error").css('display', 'none');
+                                // tgl_berlaku_sppkp
+                                $(".tgl_berlaku_sppkp_error").css('display', 'none');
+                                get_row_vendor();
+                                $('#btn_save_sppkp').attr("disabled", false);
+                                $('#btn_edit_sppkp').attr("disabled", false);
+                            }
+                        }).then((result) => {
+                            /* Read more about handling dismissals below */
+                            if (result.dismiss === Swal.DismissReason.timer) {
 
+                            }
+                        })
                     }
-                })
-            }
-        })
+                }
+            })
+        }
     })
 
     function DekripEnkrip_sppkp(id_url, type) {
@@ -250,6 +304,19 @@
                 secret_token: secret_token,
             },
             success: function(response) {
+                if (response['row_npwp']['sts_validasi'] == 1) {
+                    $('#sts_validasi_npwp_1').css('display', 'block');
+                    $('#sts_validasi_npwp_2').css('display', 'none');
+                    $('#sts_validasi_npwp_3').css('display', 'none');
+                } else if (response['row_npwp']['sts_validasi'] == 2) {
+                    $('#sts_validasi_npwp_1').css('display', 'none');
+                    $('#sts_validasi_npwp_2').css('display', 'block');
+                    $('#sts_validasi_npwp_3').css('display', 'none');
+                } else {
+                    $('#sts_validasi_npwp_1').css('display', 'none');
+                    $('#sts_validasi_npwp_2').css('display', 'none');
+                    $('#sts_validasi_npwp_3').css('display', 'block');
+                }
                 if (response['row_npwp']) {
                     $('[name="no_npwp"]').attr("readonly", true);
                     $('[name="sts_seumur_hidup_npwp"]').attr("disabled", true);
@@ -272,7 +339,7 @@
                     if (response) {
                         var id_url_npwp = response['row_npwp']['id_url'];
                     }
-
+                    $('[name="file_dokumen_manipulasi_npwp"]').val(response['row_npwp']['file_dokumen']);
                     $('[name="no_npwp"]').val(response['row_npwp']['no_npwp']);
                     $('[name="sts_seumur_hidup_npwp"]').val(response['row_npwp']['sts_seumur_hidup']);
                     $('[name="tgl_berlaku_npwp"]').val(response['row_npwp']['tgl_berlaku']);
@@ -300,45 +367,76 @@
     form_tambah_npwp.on('submit', function(e) {
         // nanti kalau sudah migrasi ke js ambil url nya dari view
         var url_post = $('[name="url_post_npwp"]').val()
-        e.preventDefault();
-        $.ajax({
-            url: url_post,
-            method: "POST",
-            data: new FormData(this),
-            contentType: false,
-            cache: false,
-            processData: false,
-            beforeSend: function() {
-                $('#btn_save_npwp').attr("disabled", true);
-            },
-            success: function(response) {
-                let timerInterval
-                Swal.fire({
-                    title: 'Sedang Proses Menyimpan Data!',
-                    html: 'Membuat Data <b></b>',
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: () => {
-                        Swal.showLoading()
-                        const b = Swal.getHtmlContainer().querySelector('b')
-                        timerInterval = setInterval(() => {
-                            // b.textContent = Swal.getTimerRight()
-                        }, 100)
-                    },
-                    willClose: () => {
-                        clearInterval(timerInterval)
-                        Swal.fire('Data Berhasil Di Simpan!', '', 'success')
-                        get_row_vendor_npwp();
-                        $('#on_save').attr("disabled", false);
-                    }
-                }).then((result) => {
-                    /* Read more about handling dismissals below */
-                    if (result.dismiss === Swal.DismissReason.timer) {
+        var file_dokumen_manipulasi_npwp = $('[name="file_dokumen_manipulasi_npwp"]').val()
+        if (file_dokumen_manipulasi_npwp == '') {
+            e.preventDefault();
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Dokumen Wajib Di Isi!',
+            })
+        } else {
+            e.preventDefault();
+            $.ajax({
+                url: url_post,
+                method: "POST",
+                data: new FormData(this),
+                contentType: false,
+                cache: false,
+                processData: false,
+                beforeSend: function() {
+                    $('#btn_save_npwp').attr("disabled", true);
+                },
+                success: function(response) {
+                    if (response['error']) {
+                        $(".no_surat_npwp_error").css('display', 'block');
+                        // sts_seumur_hidup_npwp
+                        $(".sts_seumur_hidup_npwp_error").css('display', 'block');
+                        // tgl_berlaku_npwp
+                        $(".tgl_berlaku_npwp_error").css('display', 'block');
+                        // no_surat_npwp
+                        $(".no_surat_npwp_error").html(response['error']['no_npwp']);
+                        // sts_seumur_hidup_npwp
+                        $(".sts_seumur_hidup_npwp_error").html(response['error']['sts_seumur_hidup_npwp']);
+                        // tgl_berlaku_npwp
+                        $(".tgl_berlaku_npwp_error").html(response['error']['tgl_berlaku_npwp']);
+                        $('#btn_save_npwp').attr("disabled", false);
+                        $('#btn_edit_npwp').attr("disabled", false);
+                    } else {
+                        let timerInterval
+                        Swal.fire({
+                            title: 'Sedang Proses Menyimpan Data!',
+                            html: 'Membuat Data <b></b>',
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: () => {
+                                Swal.showLoading()
+                                const b = Swal.getHtmlContainer().querySelector('b')
+                                timerInterval = setInterval(() => {
+                                    // b.textContent = Swal.getTimerRight()
+                                }, 100)
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval)
+                                Swal.fire('Data Berhasil Di Simpan!', '', 'success')
+                                get_row_vendor_npwp();
+                                $(".no_surat_npwp_error").css('display', 'none');
+                                // sts_seumur_hidup_npwp
+                                $(".sts_seumur_hidup_npwp_error").css('display', 'none');
+                                // tgl_berlaku_npwp
+                                $(".tgl_berlaku_npwp_error").css('display', 'none');
+                                $('#btn_save_npwp').attr("disabled", false);
+                            }
+                        }).then((result) => {
+                            /* Read more about handling dismissals below */
+                            if (result.dismiss === Swal.DismissReason.timer) {
 
+                            }
+                        })
                     }
-                })
-            }
-        })
+                }
+            })
+        }
     })
 
     function DekripEnkrip_npwp(id_url, type) {
@@ -795,7 +893,7 @@
         })
     }
 
-    
+
     function Question_hapus_neraca(id_url_neraca, nama_akuntan_public) {
         Swal.fire({
             title: "Yakin Mau Hapus",
@@ -917,11 +1015,9 @@
 
     }
 
-    
+
     function Download_neraca(id_url_neraca, type) {
         // var url_download_nib = $('[name="url_download_nib"]').val()
         location.href = '<?= base_url('datapenyedia/url_download_neraca/') ?>' + id_url_neraca + '/' + type;
     }
-
-
 </script>

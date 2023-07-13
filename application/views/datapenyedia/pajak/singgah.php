@@ -34,7 +34,6 @@
     <input type="hidden" name="url_post_keuangan" value="<?= base_url('datapenyedia/add_keuangan') ?>">
     <input type="hidden" name="url_edit_keuangan" value="<?= base_url('datapenyedia/edit_keuangan') ?>">
     <!-- END keuangan -->
-
     <div class="row">
         <div class="col">
             <div class="card border-primary">
@@ -131,8 +130,9 @@
                                                                     <div class="col-sm-10">
                                                                         <div class="input-group mb-2">
                                                                             <span class="input-group-text"><i class="fa-solid fa-barcode"></i></span>
-                                                                            <input name="no_surat_sppkp" type="text" class="form-control ">
+                                                                            <input name="no_surat_sppkp" type="text" class="form-control">
                                                                         </div>
+                                                                        <small class="no_surat_sppkp_error text-danger"></small>
                                                                     </div>
                                                                 </td>
                                                                 <td class="col-sm-2 bg-light">
@@ -147,6 +147,8 @@
                                                                         </select>
                                                                         <input type="date" name="tgl_berlaku_sppkp" class="form-control" id="date">
                                                                     </div>
+                                                                    <!-- tgl_berlaku_sppkp -->
+                                                                    <small class="tgl_berlaku_sppkp_error text-danger"></small>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -154,7 +156,8 @@
                                                                     <label class="form-label col-form-label-sm"><b>Upload File</b></label>
                                                                 </td>
                                                                 <td class="col-sm-3">
-                                                                    <input type="file" name="file_sppkp" id="file" accept=".pdf, .xlsx, .xls">
+                                                                    <input type="hidden" name="file_dokumen_manipulasi_sppkp">
+                                                                    <input type="file" name="file_sppkp" class="file_valid_sppkp" id="file" accept=".pdf, .xlsx, .xls">
                                                                 </td>
                                                                 <td class="col-sm-2 bg-light">
                                                                     <div id="tampil_dokumen_sppkp">
@@ -173,7 +176,15 @@
                                                                     <label class="form-label col-form-label-sm"><b>Status Validasi Dokumen</b></label>
                                                                 </td>
                                                                 <td class="col-sm-5" colspan="2">
-                                                                    <span class="badge bg-secondary">Belum Tervalidasi</span>
+                                                                    <div id="sts_validasi_sppkp_1" style="display: none;">
+                                                                        <span class="badge bg-success">Tervalidasi</span>
+                                                                    </div>
+                                                                    <div id="sts_validasi_sppkp_2" style="display: none;">
+                                                                        <span class="badge bg-danger">Belum Tervalidasi</span>
+                                                                    </div>
+                                                                    <div id="sts_validasi_sppkp_3" style="display: none;">
+                                                                        <span class="badge bg-secondary">Belum Diperiksa</span>
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -222,6 +233,7 @@
                                                                             <span class="input-group-text"><i class="fa-solid fa-address-card"></i></span>
                                                                             <input type="text" class="form-control" data-inputmask='"mask": "99.999.999.9-999.999"' data-mask name="no_npwp">
                                                                         </div>
+                                                                        <small class="no_surat_npwp_error text-danger"></small>
                                                                     </div>
                                                                 </td>
                                                                 <td class="col-sm-2 bg-light">
@@ -236,6 +248,7 @@
                                                                         </select>
                                                                         <input type="date" id="date" name="tgl_berlaku_npwp" class="form-control">
                                                                     </div>
+                                                                    <small class="sts_seumur_hidup_npwp_error text-danger"></small>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -243,6 +256,7 @@
                                                                     <label class="form-label col-form-label-sm"><b>Upload File</b></label>
                                                                 </td>
                                                                 <td class="col-sm-3">
+                                                                    <input type="hidden" name="file_dokumen_manipulasi_npwp">
                                                                     <input type="file" id="file" accept=".pdf, .xlsx, .xls" name="file_npwp">
                                                                 </td>
                                                                 <td class="col-sm-2 bg-light">
@@ -262,7 +276,15 @@
                                                                     <label class="form-label col-form-label-sm"><b>Status Validasi Dokumen</b></label>
                                                                 </td>
                                                                 <td class="col-sm-5" colspan="2">
-                                                                    <span class="badge bg-secondary">Belum Tervalidasi</span>
+                                                                    <div id="sts_validasi_npwp_1" style="display: none;">
+                                                                        <span class="badge bg-success">Tervalidasi</span>
+                                                                    </div>
+                                                                    <div id="sts_validasi_npwp_2" style="display: none;">
+                                                                        <span class="badge bg-danger">Belum Tervalidasi</span>
+                                                                    </div>
+                                                                    <div id="sts_validasi_npwp_3" style="display: none;">
+                                                                        <span class="badge bg-secondary">Belum Diperiksa</span>
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -322,40 +344,7 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <!-- <tr class="shadow-lg">
-                                                                <td><small>1234567890123456</small></td>
-                                                                <td><small>2021</small></td>
-                                                                <td><small>177OS</small></td>
-                                                                <td><small>02/04/2022</small></td>
-                                                                <td class="col-sm-2 bg-light">
-                                                                    <button type="button" class="btn btn-primary btn-sm text-start col-sm-12 shadow-lg">
-                                                                        <i class="fa-solid fa-file-pdf px-1"></i>
-                                                                        Nama File .pdf
-                                                                    </button>
-                                                                </td>
-                                                                <td><small>
-                                                                        <div class="text-center">
-                                                                            <span class="badge bg-secondary">Belum Tervalidasi</span>
-                                                                        </div>
-                                                                    </small>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="text-center">
-                                                                        <button type="button" class="btn btn-info btn-sm shadow-lg" data-bs-toggle="modal" data-bs-target="#modal-xl-spt">
-                                                                            <i class="fa-solid fa-users-viewfinder px-1"></i>
-                                                                            <small>View</small>
-                                                                        </button>
-                                                                        <button type="button" class="btn btn-warning btn-sm shadow-lg">
-                                                                            <i class="fa-solid fa-lock-open px-1"></i>
-                                                                            <small>Dycrep</small>
-                                                                        </button>
-                                                                        <button type="button" class="btn btn-danger btn-sm shadow-lg">
-                                                                            <i class="fa-solid fa-trash-can px-1"></i>
-                                                                            <small>Delete</small>
-                                                                        </button>
-                                                                    </div>
-                                                                </td>
-                                                            </tr> -->
+
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -406,39 +395,6 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <!-- <tr class="shadow-lg">
-                                                                <td><small>2022</small></td>
-                                                                <td><small>PT. Ortex</small></td>
-                                                                <td><small>Audit</small></td>
-                                                                <td class="col-sm-2 bg-light">
-                                                                    <button type="button" class="btn btn-primary btn-sm text-start col-sm-12 shadow-lg">
-                                                                        <i class="fa-regular fa-file-excel px-1"></i>
-                                                                        Nama File .pdf/xls
-                                                                    </button>
-                                                                </td>
-                                                                <td><small>
-                                                                        <div class="text-center">
-                                                                            <span class="badge bg-secondary">Belum Tervalidasi</span>
-                                                                        </div>
-                                                                    </small>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="text-center">
-                                                                        <button type="button" class="btn btn-info btn-sm shadow-lg" data-bs-toggle="modal" data-bs-target="#modal-xl-neraca">
-                                                                            <i class="fa-solid fa-users-viewfinder px-1"></i>
-                                                                            <small>View</small>
-                                                                        </button>
-                                                                        <button type="button" class="btn btn-warning btn-sm shadow-lg">
-                                                                            <i class="fa-solid fa-lock-open px-1"></i>
-                                                                            <small>Dycrep</small>
-                                                                        </button>
-                                                                        <button type="button" class="btn btn-danger btn-sm shadow-lg">
-                                                                            <i class="fa-solid fa-trash-can px-1"></i>
-                                                                            <small>Delete</small>
-                                                                        </button>
-                                                                    </div>
-                                                                </td>
-                                                            </tr> -->
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -467,14 +423,14 @@
                                                             <tr class="shadow-lg">
                                                                 <th style="width:2%;" class="text-white">No</th>
                                                                 <th style="width:20%;"><small class="text-white">
-                                                                    <div class="text-center">File Neraca Keuangan</div>
-                                                                </small></th>
+                                                                        <div class="text-center">File Neraca Keuangan</div>
+                                                                    </small></th>
                                                                 <th style="width:20%;"><small class="text-white">
-                                                                    <div class="text-center">File Sertifikat</div>
-                                                                </small></th>
+                                                                        <div class="text-center">File Sertifikat</div>
+                                                                    </small></th>
                                                                 <th style="width:10%;"><small class="text-white">
-                                                                    <div class="text-center">Dekrip/Enkrip</div>
-                                                                </small></th>
+                                                                        <div class="text-center">Dekrip/Enkrip</div>
+                                                                    </small></th>
                                                                 <th style="width:10%;"><small class="text-white">
                                                                         <div class="text-center">Status Validasi</div>
                                                                     </small></th>
@@ -717,8 +673,9 @@
                                         <div class="col-sm-12">
                                             <div class="input-group mb-2">
                                                 <span class="input-group-text"><i class="fa-solid fa-barcode"></i></span>
-                                                <input name="nomor_surat" id="nomor_surat" type="text" class="form-control" disabled>
+                                                <input name="nomor_surat" id="nomor_surat" type="text" class="form-control">
                                             </div>
+                                            <small class="nomor_surat_spt_error text-danger"></small>
                                         </div>
                                     </td>
                                     <td class="col-sm-2 bg-light">
@@ -728,8 +685,9 @@
                                         <div class="col-sm-8">
                                             <div class="input-group mb-2">
                                                 <span class="input-group-text"><i class="fa-regular fa-calendar-days"></i></span>
-                                                <input type="number" name="tahun_lapor" id="tahun_lapor" min="2010" class="form-control" placeholder="ex.2023" disabled>
+                                                <input type="number" name="tahun_lapor" id="tahun_lapor" min="2010" class="form-control" placeholder="ex.2023">
                                             </div>
+                                            <small class="tahun_lapor_spt_error text-danger"></small>
                                         </div>
                                     </td>
                                 </tr>
@@ -741,11 +699,12 @@
                                         <div class="col-sm-12">
                                             <div class="input-group mb-2">
                                                 <span class="input-group-text"><i class="fa-solid fa-bars"></i></span>
-                                                <select name="jenis_spt" id="jenis_spt" class="form-select" aria-label="Default select example" disabled>
+                                                <select name="jenis_spt" id="jenis_spt" class="form-select" aria-label="Default select example">
                                                     <option value="177OS">177OS</option>
                                                     <option value="Lainnya">Lainnya</option>
                                                 </select>
                                             </div>
+                                            <small class="jenis_spt_error text-danger"></small>
                                         </div>
                                     </td>
                                 </tr>
@@ -757,18 +716,19 @@
                                         <div class="col-sm-8">
                                             <div class="input-group mb-2">
                                                 <span class="input-group-text"><i class="fa-solid fa-calendar-days"></i></span>
-                                                <input name="tgl_penyampaian" id="tgl_penyampaian" type="date" id="date" class="form-control" disabled>
+                                                <input name="tgl_penyampaian" id="tgl_penyampaian" type="date" id="date" class="form-control">
                                             </div>
+                                            <small class="tgl_penyampaian_spt_error text-danger"></small>
                                         </div>
                                     </td>
-
                                 </tr>
                                 <tr>
                                     <td class="col-sm-2 bg-light">
                                         <label class="form-label col-form-label-sm"><b>Upload File SPT</b></label>
                                     </td>
                                     <td class="col-sm-3">
-                                        <input type="file" id="file" accept=".pdf" id="file_dokumen_spt" name="file_dokumen_spt" disabled>
+                                    <input type="text" name="file_dokumen_manipulasi_spt">
+                                        <input type="file" id="file" accept=".pdf" id="file_dokumen_spt" class="file_valid_spt" name="file_dokumen_spt">
                                     </td>
                                     <td class="col-sm-2 bg-light">
 
@@ -908,12 +868,6 @@
                                 <small><strong>Form Data - Surat Pemberitahuan Tahunan (SPT)</strong></small>
                             </span>
                         </div>
-                        <!-- <div class="bd-highlight">
-                                <button type="button" class="btn btn-warning btn-sm shadow-lg">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                    Edit Data
-                                </button>
-                            </div> -->
                     </div>
                     <div class="card-body">
                         <form id="form_tambah_spt" enctype="multipart/form-data">
@@ -928,6 +882,7 @@
                                                 <span class="input-group-text"><i class="fa-solid fa-barcode"></i></span>
                                                 <input name="nomor_surat" type="text" class="form-control">
                                             </div>
+                                            <small class="nomor_surat_spt_error text-danger"></small>
                                         </div>
                                     </td>
                                     <td class="col-sm-2 bg-light">
@@ -939,6 +894,7 @@
                                                 <span class="input-group-text"><i class="fa-regular fa-calendar-days"></i></span>
                                                 <input type="number" name="tahun_lapor" min="2010" class="form-control" placeholder="ex.2023">
                                             </div>
+                                            <small class="tahun_lapor_spt_error text-danger"></small>
                                         </div>
                                     </td>
                                 </tr>
@@ -955,29 +911,16 @@
                                                     <option value="Lainnya">Lainnya</option>
                                                 </select>
                                             </div>
+                                            <small class="jenis_spt_error text-danger"></small>
                                         </div>
                                     </td>
                                     <td class="col-sm-2 bg-light">
                                         <label class="form-label col-form-label-sm"><b>Upload File SPT</b></label>
                                     </td>
                                     <td class="col-sm-3">
-                                        <input type="file" id="file" accept=".pdf" name="file_dokumen_spt">
+                                        <input type="text" name="file_dokumen_manipulasi_spt">
+                                        <input type="file" id="file" accept=".pdf" class="file_valid_spt" name="file_dokumen_spt">
                                     </td>
-                                    <!-- <td class="col-sm-2 bg-light">
-                                            <button type="button" class="btn btn-info btn-sm text-start col-sm-12 shadow-lg">
-                                                <i class="fa-solid fa-file-pdf px-1"></i>
-                                                Nama File .pdf
-                                            </button>
-                                        </td>
-                                        <td class="col-sm-3">
-                                            <small>
-                                                <span class="badge bg-secondary">Belum Tervalidasi</span>
-                                            </small>
-                                            <button type="button" class="btn btn-warning btn-sm shadow-lg" disabled>
-                                                <i class="fa-solid fa-lock-open px-1"></i>
-                                                Dekripsi File
-                                            </button>
-                                        </td> -->
                                 </tr>
                                 <tr>
                                     <td class="col-sm-2 bg-light">
@@ -989,6 +932,7 @@
                                                 <span class="input-group-text"><i class="fa-solid fa-calendar-days"></i></span>
                                                 <input name="tgl_penyampaian" type="date" id="date" class="form-control">
                                             </div>
+                                            <small class="tgl_penyampaian_spt_error text-danger"></small>
                                         </div>
                                     </td>
                                     <td class="col-sm-12" colspan="4">
