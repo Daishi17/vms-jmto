@@ -6,7 +6,24 @@
         <!-- Select2 -->
         <script src="<?php echo base_url(); ?>/assets/plugins-lte/select2/js/select2.full.min.js"></script>
 
-
+        <script>
+            function myFunction1() {
+                var x = document.getElementById("passwordlihat1");
+                if (x.type === "password") {
+                    x.type = "text";
+                } else {
+                    x.type = "password";
+                }
+            }
+            function myFunction2() {
+                var x = document.getElementById("passwordlihat2");
+                if (x.type === "password") {
+                    x.type = "text";
+                } else {
+                    x.type = "password";
+                }
+            }
+        </script>
         <script>
             function Terima_identitas() {
                 console.log('kirun');
