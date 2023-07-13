@@ -6,6 +6,6 @@
     <script src="<?= base_url('js_folder/identitas_perusahaan//file_public.js') ?>"></script>
 <?php } else { ?>
     <script src="<?= base_url('js_folder/akta_pendirian///file_public.js') ?>"></script>
-    <script src="<?= base_url('js_folder/akta_perubahan///file_public.js') ?>"></script>
+    <script src="<?= base_url('js_folder/akta_perubahan/file_public.js') ?>"></script>
 <?php } ?>
 <!-- angga -->

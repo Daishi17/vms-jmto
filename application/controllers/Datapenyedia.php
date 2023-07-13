@@ -2064,6 +2064,20 @@ class Datapenyedia extends CI_Controller
 
 		$this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
+
+	public function url_download_perubahan($id_url)
+	{
+		if ($id_url == '') {
+			// tendang not found
+		}
+		$get_row_enkrip = $this->M_datapenyedia->get_row_akta_perubahan_url($id_url);
+		$id_vendor = $get_row_enkrip['id_vendor'];
+		$row_vendor = $this->M_datapenyedia->get_row_vendor($id_vendor);
+		$date = date('Y');
+		// $nama_file = $get_row_enkrip['nomor_surat'];
+		// $file_dokumen =  $get_row_enkrip['file_dokumen'];
+		return force_download('file_vms/' . $row_vendor['nama_usaha'] . '/Akta_Perubahan-' . $date . '/' . $get_row_enkrip['file_dokumen'], NULL);
+	}
 	// end akta pendirian
 
 
@@ -2408,10 +2422,15 @@ class Datapenyedia extends CI_Controller
 	{
 		$id_url = $this->uri->segment(3);
 		$type = $this->uri->segment(4);
+		$type_edit_pemilik = $this->uri->segment(5);
 		if ($id_url == '') {
 			// tendang not found
 		}
-		$get_row_enkrip = $this->M_datapenyedia->get_row_excel_pemilik_manajerial_enkription($id_url);
+		if ($type_edit_pemilik == 'edit_excel') {
+			$get_row_enkrip = $this->M_datapenyedia->get_row_excel_pemilik_manajerial_enkription($id_url);
+		} else {
+			$get_row_enkrip = $this->M_datapenyedia->get_row_pemilik_manajerial_enkription($id_url);
+		}
 		if ($type == 'pemilik_ktp') {
 			$fileDownload = $get_row_enkrip['file_ktp'];
 		}
@@ -2508,7 +2527,7 @@ class Datapenyedia extends CI_Controller
 				'jns_pemilik' => $value['jns_pemilik'],
 				'saham' => $value['saham'],
 				'alamat_pemilik' => $value['alamat_pemilik'],
-				'sts_valdiasi' => 0
+				'sts_validasi' => 0
 			];
 			$this->M_datapenyedia->tambah_tbl_vendor_pemilik($data);
 		}
@@ -2913,10 +2932,16 @@ class Datapenyedia extends CI_Controller
 	{
 		$id_url = $this->uri->segment(3);
 		$type = $this->uri->segment(4);
+		$type_edit_pengurus = $this->uri->segment(5);
 		if ($id_url == '') {
 			// tendang not found
 		}
-		$get_row_enkrip = $this->M_datapenyedia->get_row_excel_pengurus_manajerial_enkription($id_url);
+		if ($type_edit_pengurus == 'edit_excel') {
+			$get_row_enkrip = $this->M_datapenyedia->get_row_excel_pengurus_manajerial_enkription($id_url);
+		} else {
+			$get_row_enkrip = $this->M_datapenyedia->get_row_pengurus_manajerial_enkription($id_url);
+		}
+
 		if ($type == 'pengurus_ktp') {
 			$fileDownload = $get_row_enkrip['file_ktp_pengurus'];
 		}
@@ -3793,7 +3818,7 @@ class Datapenyedia extends CI_Controller
 		$password_dokumen = '1234';
 		$this->form_validation->set_rules('no_surat_sppkp', 'SPPKP', 'required|trim', ['required' => 'SPPKP Wajib Diisi!']);
 		$this->form_validation->set_rules('sts_seumur_hidup_sppkp', 'Berlaku Sampai', 'required|trim', ['required' => 'Berlaku Sampai Wajib Diisi!']);
-		$this->form_validation->set_rules('tgl_berlaku_sppkp', 'Berlaku Sampai', 'required|trim', ['required' => 'Berlaku Sampai  Wajib Diisi!']);
+		// $this->form_validation->set_rules('tgl_berlaku_sppkp', 'Berlaku Sampai', 'required|trim', ['required' => 'Berlaku Sampai  Wajib Diisi!']);
 		if ($this->form_validation->run() == false) {
 			$response = [
 				'error' => [
@@ -3988,7 +4013,7 @@ class Datapenyedia extends CI_Controller
 		$password_dokumen = '1234';
 		$this->form_validation->set_rules('no_npwp', 'NPWP', 'required|trim', ['required' => 'NPWP Wajib Diisi!']);
 		$this->form_validation->set_rules('sts_seumur_hidup_npwp', 'Berlaku Sampai', 'required|trim', ['required' => 'Berlaku Sampai Wajib Diisi!']);
-		$this->form_validation->set_rules('tgl_berlaku_npwp', 'Berlaku Sampai', 'required|trim', ['required' => 'Berlaku Sampai  Wajib Diisi!']);
+		// $this->form_validation->set_rules('tgl_berlaku_npwp', 'Berlaku Sampai', 'required|trim', ['required' => 'Berlaku Sampai  Wajib Diisi!']);
 		if ($this->form_validation->run() == false) {
 			$response = [
 				'error' => [
@@ -4639,9 +4664,9 @@ class Datapenyedia extends CI_Controller
 			$id = str_replace('-', '', $id);
 			// seeting enkrip dokumen
 			$chiper = "AES-128-ECB";
-			
-			$secret_token_dokumen1 = 'jmto.1'. $get_row_enkrip['id_url'];
-			$secret_token_dokumen2 = 'jmto.2'. $get_row_enkrip['id_url'];
+
+			$secret_token_dokumen1 = 'jmto.1' . $get_row_enkrip['id_url'];
+			$secret_token_dokumen2 = 'jmto.2' . $get_row_enkrip['id_url'];
 			$secret = $secret_token_dokumen1 . $secret_token_dokumen2;
 			$password_dokumen = '1234';
 			// SETTING PATH 
@@ -4746,7 +4771,7 @@ class Datapenyedia extends CI_Controller
 		$this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 
-	
+
 	public function hapus_row_keuangan($id_url)
 	{
 		$where = [

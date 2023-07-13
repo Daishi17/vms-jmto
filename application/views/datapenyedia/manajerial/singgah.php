@@ -7,6 +7,7 @@
 <input type="hidden" name="url_hapus_import_excel_pemilik" value="<?= base_url('datapenyedia/hapus_import_excel_pemilik') ?>">
 <input type="hidden" name="url_dekrip_enkrip_pemilik" value="<?= base_url('datapenyedia/dekrip_enkrip_pemilik/') ?>">
 <input type="hidden" name="url_download_pemilik" value="<?= base_url('datapenyedia/url_download_pemilik/') ?>">
+<input type="hidden" name="url_download_pengurus" value="<?= base_url('datapenyedia/url_download_pengurus/') ?>">
 <input type="hidden" name="url_buat_pemilik_manajerial" value="<?= base_url('datapenyedia/buat_pemilik_manajerial') ?>">
 <input type="hidden" name="url_by_id_pemilik_manajerial" value="<?= base_url('datapenyedia/by_id_pemilik_manajerial/') ?>">
 <input type="hidden" name="url_hapus_row_pemilik" value="<?= base_url('datapenyedia/hapus_row_pemilik/') ?>">
@@ -779,7 +780,7 @@
                                     </td>
                                     <td class="col-sm-3">
                                         <input type="hidden" name="file_ktp_manipulasi">
-                                        <input type="file" name="file_ktp" class="edit_ktp" accept=".xlsx">
+                                        <input type="file" name="file_ktp" class="edit_ktp" accept=".pdf">
                                         <small class="file_ktp_error text-danger"></small>
                                     </td>
                                     <td class="col-sm-4">
@@ -794,7 +795,7 @@
                                     </td>
                                     <td class="col-sm-3">
                                         <input type="hidden" name="file_npwp_manipulasi">
-                                        <input type="file" name="file_npwp" class="edit_npwp" accept=".xlsx">
+                                        <input type="file" name="file_npwp" class="edit_npwp" accept=".pdf">
                                         <small class="file_npwp_error text-danger"></small>
                                     </td>
                                     <td class="col-sm-4">
@@ -1080,7 +1081,7 @@
                                         <label class="form-label col-form-label-sm"><b>Upload File KTP</b></label>
                                     </td>
                                     <td class="col-sm-3">
-                                        <input type="text" name="file_dokumen_manipulasi_ktp_pengurus">
+                                        <input type="hidden" name="file_dokumen_manipulasi_ktp_pengurus">
                                         <input type="file" class="file_valid_ktp_pengurus" name="file_ktp_pengurus" id="file" accept=".pdf">
                                     </td>
                                     <td class="col-sm-4">
@@ -1094,7 +1095,7 @@
                                         <label class="form-label col-form-label-sm"><b>Upload File NPWP</b></label>
                                     </td>
                                     <td class="col-sm-3">
-                                        <input type="text" name="file_dokumen_manipulasi_npwp_pengurus">
+                                        <input type="hidden" name="file_dokumen_manipulasi_npwp_pengurus">
                                         <input type="file" class="file_valid_npwp_pengurus" name="file_npwp_pengurus" id="file" accept=".pdf">
                                     </td>
                                     <td class="col-sm-4">

@@ -339,8 +339,9 @@
     }
 
     function Download_pemilik(id_url, type) {
+        var type_edit_pemilik = $('[name="type_edit_pemilik"]').val()
         var url_download_pemilik = $('[name="url_download_pemilik"]').val()
-        location.href = url_download_pemilik + id_url + '/' + type;
+        location.href = url_download_pemilik + id_url + '/' + type + '/' + type_edit_pemilik;
     }
 
 
@@ -711,8 +712,9 @@
     }
 
     function Download_pengurus(id_url, type) {
-        // var url_download_nib = $('[name="url_download_nib"]').val()
-        location.href = '<?= base_url('datapenyedia/url_download_pengurus/') ?>' + id_url + '/' + type;
+        var type_edit_pengurus = $('[name="type_edit_pengurus"]').val()
+        var url_download_pengurus = $('[name="url_download_pengurus"]').val()
+        location.href = url_download_pengurus + id_url + '/' + type + '/' + type_edit_pengurus;
     }
 
     var form_simpan_manajerial_pengurus = $('#form_simpan_manajerial_pengurus');

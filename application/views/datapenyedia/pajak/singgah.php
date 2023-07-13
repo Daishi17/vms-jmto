@@ -728,7 +728,7 @@
                                         <label class="form-label col-form-label-sm"><b>Upload File SPT</b></label>
                                     </td>
                                     <td class="col-sm-3">
-                                        <input type="text" name="file_dokumen_manipulasi_spt">
+                                        <input type="hidden" name="file_dokumen_manipulasi_spt">
                                         <input type="file" id="file" accept=".pdf" id="file_dokumen_spt" class="file_valid_spt" name="file_dokumen_spt">
                                     </td>
                                     <td class="col-sm-2 bg-light">
@@ -1161,7 +1161,7 @@
                                         <label class="form-label col-form-label-sm"><b>Upload Neraca Keuangan</b></label>
                                     </td>
                                     <td class="col-sm-3">
-                                        <input type="text" name="file_dokumen_manipulasi_neraca">
+                                        <input type="hidden" name="file_dokumen_manipulasi_neraca">
                                         <input type="file" name="file_dokumen_neraca" class="file_valid_neraca" id="file" accept=".xlsx">
                                     </td>
                                 </tr>
