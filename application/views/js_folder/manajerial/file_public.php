@@ -1,9 +1,19 @@
 <script>
+    $('.file_valid_ktp_pengurus').change(function(e) {
+        var geekss = e.target.files[0].name;
+        $('[name="file_dokumen_manipulasi_ktp_pengurus"]').val(geekss);
+    });
+    $('.file_valid_npwp_pengurus').change(function(e) {
+        var geekss = e.target.files[0].name;
+        $('[name="file_dokumen_manipulasi_npwp_pengurus"]').val(geekss);
+    });
+
     function Buat_pemilik() {
         var form_simpan_manajerial_pemilik = $('#form_simpan_manajerial_pemilik');
         form_simpan_manajerial_pemilik[0].reset();
         $('#modal-xl-pemilik').modal('show');
     }
+
     function validasi_saham() {
         var saham = $('[name="saham"]').val();
         if (saham > 100) {
@@ -13,6 +23,7 @@
 
         }
     }
+
     function validasi_saham_edit() {
         var saham = $('.saham_edit').val();
         if (saham > 100) {
@@ -506,8 +517,6 @@
     var url_edit_excel_pemilik_manajerial = $('[name="url_edit_excel_pemilik_manajerial"]').val()
     form_edit_excel_pemilik_manajerial.on('submit', function(e) {
         var type_edit_pemilik = $('[name="type_edit_pemilik"]').val();
-        var file_ktp_edit = $('[name="file_ktp"]').val()
-        console.log(file_ktp_edit);
         var file_ktp = $('[name="file_ktp_manipulasi"]').val()
         var file_npwp = $('[name="file_npwp_manipulasi"]').val()
         if (file_ktp == '') {
@@ -709,13 +718,21 @@
     var form_simpan_manajerial_pengurus = $('#form_simpan_manajerial_pengurus');
     var modal_xl_pengurus = $('#modal-xl-pengurus');
     form_simpan_manajerial_pengurus.on('submit', function(e) {
-        var file_dokumen = $('[name="file_dokumen"]').val()
-        if (file_dokumen == '') {
+        var file_ktp = $('[name="file_dokumen_manipulasi_ktp_pengurus"]').val()
+        var file_npwp = $('[name="file_dokumen_manipulasi_npwp_pengurus"]').val()
+        if (file_ktp == '') {
             e.preventDefault();
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: 'Dokumen Wajib Di Isi!',
+                text: 'Dokumen Ktp Wajib Di Isi!',
+            })
+        } else if (file_npwp == '') {
+            e.preventDefault();
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Dokumen Npwp Wajib Di Isi!',
             })
         } else {
             e.preventDefault();
@@ -730,11 +747,63 @@
                     $('.btn_simpan').attr('disabled', 'disabled');
                 },
                 success: function(response) {
-                    modal_xl_pengurus.modal('hide')
-                    Swal.fire('Good job!', 'Data Beharhasil Di Buat!', 'success');
-                    // reloaddata_pengurus_manajerial()
-                    $('.btn_simpan').attr('disabled', false);
-                    form_simpan_manajerial_pengurus[0].reset();
+                    if (response['error']) {
+                        // nik_pengurus
+                        $(".nik_pengurus_error").css('display', 'block');
+                        // nama_pengurus
+                        $(".nama_pengurus_error").css('display', 'block');
+                        // jabatan_pengurus
+                        $(".jabatan_pengurus_error").css('display', 'block');
+                        // alamat_pengurus
+                        $(".alamat_pengurus_error").css('display', 'block');
+                        // npwp_pengurus
+                        $(".npwp_pengurus_error").css('display', 'block');
+                        // warganegara_pengurus
+                        $(".warganegara_pengurus_error").css('display', 'block');
+                        // jabatan_mulai
+                        $(".jabatan_mulai_error").css('display', 'block');
+                        // jabatan_selesai
+                        $(".jabatan_selesai_error").css('display', 'block');
+                        // nik_pengurus
+                        $(".nik_pengurus_error").html(response['error']['nik_pengurus']);
+                        // nama_pengurus
+                        $(".nama_pengurus_error").html(response['error']['nama_pengurus']);
+                        // jabatan_pengurus
+                        $(".jabatan_pengurus_error").html(response['error']['jabatan_pengurus']);
+                        // alamat_pengurus
+                        $(".alamat_pengurus_error").html(response['error']['alamat_pengurus']);
+                        // npwp_pengurus
+                        $(".npwp_pengurus_error").html(response['error']['npwp_pengurus']);
+                        // warganegara_pengurus
+                        $(".warganegara_pengurus_error").html(response['error']['warganegara_pengurus']);
+                        // jabatan_mulai
+                        $(".jabatan_mulai_error").html(response['error']['jabatan_mulai']);
+                        // jabatan_selesai
+                        $(".jabatan_selesai_error").html(response['error']['jabatan_selesai']);
+                        $('.btn_simpan').attr("disabled", false);
+                    } else {
+                        modal_xl_pengurus.modal('hide')
+                        Swal.fire('Good job!', 'Data Beharhasil Di Buat!', 'success');
+                        reloaddata_pengurus_manajerial()
+                        $('.btn_simpan').attr('disabled', false);
+                        form_simpan_manajerial_pengurus[0].reset();
+                        // nik_pengurus
+                        $(".nik_pengurus_error").css('display', 'none');
+                        // nama_pengurus
+                        $(".nama_pengurus_error").css('display', 'none');
+                        // jabatan_pengurus
+                        $(".jabatan_pengurus_error").css('display', 'none');
+                        // alamat_pengurus
+                        $(".alamat_pengurus_error").css('display', 'none');
+                        // npwp_pengurus
+                        $(".npwp_pengurus_error").css('display', 'none');
+                        // warganegara_pengurus
+                        $(".warganegara_pengurus_error").css('display', 'none');
+                        // jabatan_mulai
+                        $(".jabatan_mulai_error").css('display', 'none');
+                        // jabatan_selesai
+                        $(".jabatan_selesai_error").css('display', 'none');
+                    }
                 }
             });
         }
@@ -807,6 +876,8 @@
                     } else {
                         $('.button_enkrip_pengurus').html('<a href="javascript:;" onclick="DekripEnkrip_pengurus(\'' + response['row_excel_pengurus_manajerial'].id_url + '\'' + ',' + '\'' + 'enkrip' + '\')" class="btn btn-success btn-sm"><i class="fas fa-lock mr-2"></i> Enkripsi Dokumen</a>');
                     }
+                    $('[name="file_dokumen_manipulasi_ktp_pengurus"]').val(response['row_excel_pengurus_manajerial'].file_ktp_pengurus)
+                    $('[name="file_dokumen_manipulasi_npwp_pengurus"]').val(response['row_excel_pengurus_manajerial'].file_npwp_pengurus)
                     $('.button_nama_file_ktp_pengurus').html('<a href="javascript:;"  onclick="Download_pengurus(\'' + response['row_excel_pengurus_manajerial'].id_url + '\'' + ',' + '\'' + 'pengurus_ktp' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-file mr-2"></i> ' + response['row_excel_pengurus_manajerial'].file_ktp_pengurus + '</a>');
                     $('.button_nama_file_npwp_pengurus').html('<a href="javascript:;"  onclick="Download_pengurus(\'' + response['row_excel_pengurus_manajerial'].id_url + '\'' + ',' + '\'' + 'pengurus_npwp' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-file mr-2"></i> ' + response['row_excel_pengurus_manajerial'].file_npwp_pengurus + '</a>');
                     $('[name="id_pengurus"]').val(response['row_excel_pengurus_manajerial'].id_pengurus);
@@ -867,11 +938,28 @@
     var form_edit_excel_pengurus_manajerial = $('#form_edit_excel_pengurus_manajerial');
     var modal_edit_excel_pengurus_manajerial = $('#modal_edit_excel_pengurus_manajerial');
     form_edit_excel_pengurus_manajerial.on('submit', function(e) {
-        e.preventDefault();
         var validasi_enkripsi_pengurus = $('[name="validasi_enkripsi_pengurus"]').val();
+        var file_ktp = $('[name="file_dokumen_manipulasi_ktp_pengurus"]').val()
+        var file_npwp = $('[name="file_dokumen_manipulasi_npwp_pengurus"]').val()
         if (validasi_enkripsi_pengurus == 2) {
+            e.preventDefault();
             Swal.fire('Waduh Maaf!', 'Enkripsi File Terlebih Dahulu Yaa!', 'warning');
+        } else if (file_ktp == '') {
+            e.preventDefault();
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Dokumen Ktp Wajib Di Isi!',
+            })
+        } else if (file_npwp == '') {
+            e.preventDefault();
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Dokumen Npwp Wajib Di Isi!',
+            })
         } else {
+            e.preventDefault();
             $.ajax({
                 url: "<?php echo base_url(); ?>datapenyedia/edit_excel_pengurus_manajerial",
                 method: "POST",
@@ -883,15 +971,68 @@
                     $('.btn_simpan').attr('disabled', 'disabled');
                 },
                 success: function(response) {
-                    modal_edit_excel_pengurus_manajerial.modal('hide')
-                    $('.btn_simpan').attr('disabled', false);
-                    Swal.fire('Good job!', 'Data Beharhasil Di Edit!', 'success');
-                    reloaddata_excel_pengurus_manajerial()
-                    reloaddata_pengurus_manajerial();
-                    form_edit_excel_pengurus_manajerial[0].reset();
+                    if (response['error']) {
+                        // nik_pengurus
+                        $(".nik_pengurus_error").css('display', 'block');
+                        // nama_pengurus
+                        $(".nama_pengurus_error").css('display', 'block');
+                        // jabatan_pengurus
+                        $(".jabatan_pengurus_error").css('display', 'block');
+                        // alamat_pengurus
+                        $(".alamat_pengurus_error").css('display', 'block');
+                        // npwp_pengurus
+                        $(".npwp_pengurus_error").css('display', 'block');
+                        // warganegara_pengurus
+                        $(".warganegara_pengurus_error").css('display', 'block');
+                        // jabatan_mulai
+                        $(".jabatan_mulai_error").css('display', 'block');
+                        // jabatan_selesai
+                        $(".jabatan_selesai_error").css('display', 'block');
+                        // nik_pengurus
+                        $(".nik_pengurus_error").html(response['error']['nik_pengurus']);
+                        // nama_pengurus
+                        $(".nama_pengurus_error").html(response['error']['nama_pengurus']);
+                        // jabatan_pengurus
+                        $(".jabatan_pengurus_error").html(response['error']['jabatan_pengurus']);
+                        // alamat_pengurus
+                        $(".alamat_pengurus_error").html(response['error']['alamat_pengurus']);
+                        // npwp_pengurus
+                        $(".npwp_pengurus_error").html(response['error']['npwp_pengurus']);
+                        // warganegara_pengurus
+                        $(".warganegara_pengurus_error").html(response['error']['warganegara_pengurus']);
+                        // jabatan_mulai
+                        $(".jabatan_mulai_error").html(response['error']['jabatan_mulai']);
+                        // jabatan_selesai
+                        $(".jabatan_selesai_error").html(response['error']['jabatan_selesai']);
+                        $('.btn_simpan').attr("disabled", false);
+                    } else {
+                        modal_edit_excel_pengurus_manajerial.modal('hide')
+                        $('.btn_simpan').attr('disabled', false);
+                        Swal.fire('Good job!', 'Data Beharhasil Di Edit!', 'success');
+                        reloaddata_excel_pengurus_manajerial()
+                        reloaddata_pengurus_manajerial();
+                        form_edit_excel_pengurus_manajerial[0].reset();
+                        // nik_pengurus
+                        $(".nik_pengurus_error").css('display', 'none');
+                        // nama_pengurus
+                        $(".nama_pengurus_error").css('display', 'none');
+                        // jabatan_pengurus
+                        $(".jabatan_pengurus_error").css('display', 'none');
+                        // alamat_pengurus
+                        $(".alamat_pengurus_error").css('display', 'none');
+                        // npwp_pengurus
+                        $(".npwp_pengurus_error").css('display', 'none');
+                        // warganegara_pengurus
+                        $(".warganegara_pengurus_error").css('display', 'none');
+                        // jabatan_mulai
+                        $(".jabatan_mulai_error").css('display', 'none');
+                        // jabatan_selesai
+                        $(".jabatan_selesai_error").css('display', 'none');
+                    }
                 }
             });
         }
+
     });
 
     function Question_hapus_excel_pengurus(id_url, nama_pengurus) {
@@ -1122,6 +1263,8 @@
                     } else {
                         $('.button_enkrip_pengurus').html('<a href="javascript:;" onclick="DekripEnkrip_pengurus(\'' + response['row_pengurus_manajerial'].id_url + '\'' + ',' + '\'' + 'enkrip' + '\')" class="btn btn-success btn-sm"><i class="fas fa-lock mr-2"></i> Enkripsi Dokumen</a>');
                     }
+                    $('[name="file_dokumen_manipulasi_ktp_pengurus"]').val(response['row_pengurus_manajerial'].file_ktp_pengurus)
+                    $('[name="file_dokumen_manipulasi_npwp_pengurus"]').val(response['row_pengurus_manajerial'].file_npwp_pengurus)
                     $('.button_nama_file_ktp_pengurus').html('<a href="javascript:;"  onclick="Download_pengurus(\'' + response['row_pengurus_manajerial'].id_url + '\'' + ',' + '\'' + 'pengurus_ktp' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-file mr-2"></i> ' + response['row_pengurus_manajerial'].file_ktp_pengurus + '</a>');
                     $('.button_nama_file_npwp_pengurus').html('<a href="javascript:;"  onclick="Download_pengurus(\'' + response['row_pengurus_manajerial'].id_url + '\'' + ',' + '\'' + 'pengurus_npwp' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-file mr-2"></i> ' + response['row_pengurus_manajerial'].file_npwp_pengurus + '</a>');
                     $('[name="id_pengurus"]').val(response['row_pengurus_manajerial'].id_pengurus);

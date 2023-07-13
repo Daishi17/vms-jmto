@@ -376,7 +376,7 @@
                                                                 <tr class="shadow-lg">
                                                                     <th style="width:5%;"><small class="text-white">No</small></th>
                                                                     <th style="width:10%;"><small class="text-white">Tahun Laporan</small></th>
-
+                                                                    <th style="width:10%;"><small class="text-white">Jenis Audit</small></th>
                                                                     <th style="width:10%;"><small class="text-white">
                                                                             <div class="text-center">File Auditor</div>
                                                                         </small>
@@ -991,6 +991,17 @@
                                     </td>
                                     <td class="col-sm-3">
                                         <input type="number" required name="tahun_lapor" min="2000" class="form-control">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-sm-3 bg-light">
+                                        <label class="form-label col-form-label-sm"><b>Jenis Audit</b></label>
+                                    </td>
+                                    <td class="col-sm-3">
+                                        <select name="jenis_audit" class="form-control">
+                                            <option value="Audit">Audit</option>
+                                            <option value="Tidak Audit">Tidak Audit</option>
+                                        </select>
                                     </td>
                                 </tr>
                                 <tr>

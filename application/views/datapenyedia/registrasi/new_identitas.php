@@ -38,7 +38,7 @@
                         <form action="<?= base_url('registrasi/add_identitas') ?>" method="post">
                                 <div class="row g-2 mb-2">
                                     <div class="col-sm-6">
-                                        <select class="select2" multiple="multiple" name="jenis_usaha[]" data-placeholder="Pilih Jenis Usaha" style="width: 100%;">
+                                        <select required class="select2" multiple="multiple" name="jenis_usaha[]" data-placeholder="Pilih Jenis Usaha" style="width: 100%;">
                                             <?php foreach ($get_jenis_usaha as $key => $value) { ?>
                                                 <option value="<?= $value['id_jenis_usaha'] ?>"><?= $value['nama_jenis_usaha'] ?></option>
                                             <?php } ?>
@@ -56,7 +56,7 @@
                                     <div class="col-sm-6">
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="fa-solid fa-bars"></i></span>
-                                            <select class="form-select" name="bentuk_usaha" aria-label="Default select example">
+                                            <select class="form-select" required name="bentuk_usaha" aria-label="Default select example">
                                                 <option>Pilih Bentuk Usaha...</option>
                                                 <option value="Perseroan Terbatas (PT)">Perseroan Terbatas (PT)</option>
                                                 <option value="Commanditaire Vennootschap (CV)">Commanditaire Vennootschap (CV)</option>
@@ -68,7 +68,7 @@
                                     <div class="col-sm-6">
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="fa-solid fa-bars"></i></span>
-                                            <select name="kualifikasi_usaha" class="form-select" aria-label="Default select example">
+                                            <select required name="kualifikasi_usaha" class="form-select" aria-label="Default select example">
                                                 <option>Pilih Kualifikasi Usaha...</option>
                                                 <option value="Besar">Besar</option>
                                                 <option value="Menengah">Menengah</option>
@@ -81,7 +81,7 @@
                                     <div class="col-sm-12">
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="fa-solid fa-road"></i></span>
-                                            <input type="text" class="form-control" name="alamat" placeholder="Alamat Perusahaan / Individu">
+                                            <input required type="text" class="form-control" name="alamat" placeholder="Alamat Perusahaan / Individu">
                                         </div>
                                     </div>
                                 </div>
@@ -89,7 +89,7 @@
                                     <div class="col-sm-6">
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="fa-solid fa-building-columns"></i></span>
-                                            <select name="id_provinsi" required id="provinsitambah" class="form-control select2" style="width: 600px;">
+                                            <select required name="id_provinsi" required id="provinsitambah" class="form-control select2" style="width: 600px;">
                                                 <option value="">Plih Provinsi </option>
                                                 <?php foreach ($provinsi as $key => $value) { ?>
                                                     <option value="<?= $value['id_provinsi'] ?>"><?= $value['nama_provinsi'] ?></option>
@@ -100,7 +100,7 @@
                                     <div class="col-sm-6">
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="fa-solid fa-map-location-dot"></i></span>
-                                            <select name="id_kabupaten" required id="kabupatentambah" class="form-control select2" style="width: 590px;">
+                                            <select  name="id_kabupaten" required id="kabupatentambah" class="form-control select2" style="width: 590px;">
                                                 <option value="">Pilih Kabupaten</option>
                                             </select>
                                         </div>
@@ -110,7 +110,7 @@
                                     <div class="col-sm-6">
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="fa-solid fa-location-dot"></i></span>
-                                            <select name="id_kecamatan" required id="kecamatantambah" class="form-control select2" style="width: 600px;">
+                                            <select required name="id_kecamatan" required id="kecamatantambah" class="form-control select2" style="width: 600px;">
                                                 <option value="">Pilih Kecamatan</option>
                                             </select>
                                         </div>
@@ -118,7 +118,7 @@
                                     <div class="col-sm-6">
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="fa-solid fa-signs-post"></i></span>
-                                            <input type="text" required name="kelurahan" placeholder="Nama Kelurahan..." class="form-control">
+                                            <input  type="text" required name="kelurahan" placeholder="Nama Kelurahan..." class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -126,7 +126,7 @@
                                     <div class="col-sm-6">
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="fa-solid fa-location-crosshairs"></i></span>
-                                            <input type="text" required name="kode_pos" maxlength="5" class="form-control" onkeypress="return hanyaAngka(event)" placeholder="Kode Pos">
+                                            <input type="number" required name="kode_pos" maxlength="5" class="form-control" onkeypress="return hanyaAngka(event)" placeholder="Kode Pos">
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
@@ -150,7 +150,7 @@
                                     <div class="col-sm-6">
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="fa-solid fa-road"></i></span>
-                                            <input type="text" name="alamat_kantor_cabang" readonly class="form-control" placeholder="Alamat Kantor Cabang">
+                                            <input type="text" required name="alamat_kantor_cabang" readonly class="form-control" placeholder="Alamat Kantor Cabang">
                                         </div>
                                     </div>
                                 </div>
@@ -159,17 +159,15 @@
                                     <div class="col-sm-6">
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="fa-solid fa-keyboard"></i></span>
-                                            <input type="text" name="password" class="form-control" placeholder="Buat Password">
-                                            <button class="btn btn-outline-secondary" type="button"><i class="fa-solid fa-eye"></i></button>
-                                            <button class="btn btn-outline-secondary" type="button"><i class="fa-solid fa-eye-slash"></i></button>
+                                            <input required type="password" id="passwordlihat1" name="password" class="form-control" placeholder="Buat Password">
+                                            <a class="btn btn-outline-secondary" onclick="myFunction1()" href="javascript:;"><i class="fa-solid fa-eye"></i></a>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="fa-solid fa-key"></i></span>
-                                            <input required name="password2" type="text" class="form-control" placeholder="Konfirmasi Password">
-                                            <button class="btn btn-outline-secondary" type="button"><i class="fa-solid fa-eye"></i></button>
-                                            <button class="btn btn-outline-secondary" type="button"><i class="fa-solid fa-eye-slash"></i></button>
+                                            <input required name="password2" id="passwordlihat2" type="password" class="form-control" placeholder="Konfirmasi Password">
+                                            <a class="btn btn-outline-secondary" onclick="myFunction2()" href="javascript:;"><i class="fa-solid fa-eye"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -183,7 +181,7 @@
                                     <div class="col-sm-6">
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="fa-regular fa-credit-card"></i></span>
-                                            <input type="text" required class="form-control" name="npwp" value="<?= $this->session->userdata('npwp') ?>" data-inputmask='"mask": "99.999.999.9-999.999"' readonly data-mask>
+                                            <input type="number" required class="form-control" name="npwp" value="<?= $this->session->userdata('npwp') ?>" data-inputmask='"mask": "99.999.999.9-999.999"' readonly data-mask>
                                         </div>
                                     </div>
                                 </div>
@@ -194,7 +192,7 @@
                                             <div class="input-group-text">
                                             <input type="checkbox" id="check_terima_identittas" onclick="Terima_identitas()">
                                             </div>
-                                            <input type="text" class="form-control" value="Saya setuju dengan syarat dan ketentuan yang berlaku." aria-label="Text input with checkbox" disabled readonly>
+                                            <input type="text"  class="form-control" value="Saya setuju dengan syarat dan ketentuan yang berlaku." aria-label="Text input with checkbox" disabled readonly>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">

@@ -1,4 +1,3 @@
-
 <!-- url -->
 <!-- PEMILIK -->
 <input type="hidden" name="url_data_excel_pemilik_manajerial" value="<?= base_url('datapenyedia/get_data_excel_pemilik_manajerial') ?>">
@@ -38,7 +37,7 @@
                         <hr>
                         <small>1. Upload dokumen-dokumen yang di butuhkan sesuai dengan keterangan form manajerial di bawah ini.</small><br>
                         <small>2. Jika ingin menginput banyak biodata pemilik/pengurus bisa menggunakan tombol <b>export excel</b> dan isi data sesuai format excel. Lalu setelah itu <b>import excel</b> data yang sudah diisi sesuai format.</small><br>
-                        <small>3. Semua dokumen <b>KTP & NPWP</b> wajib di upload dengan format file pdf. upload dokumen tersebut pada setiap biodata pemilik/pengurus yang sudah terinput melalui import excel / create data, dengan klik tombol <b>View</b> lalu <b>Edit</b>.</small><br>
+                        <small>3. Semua dokumen <b>KTP & NPWP</b> wajib di upload dengan format file xlsx. upload dokumen tersebut pada setiap biodata pemilik/pengurus yang sudah terinput melalui import excel / create data, dengan klik tombol <b>View</b> lalu <b>Edit</b>.</small><br>
                         <small>4. Jika salah upload atau status dokumen file <span class="text-danger"><b>tidak valid</b></span>, klik tombol <b>View</b> lalu <b>Edit Changes</b> untuk melakukan upload file dokumen yang terbaru atau file dokumen revisi.</small><br>
                         <small>5. Jika dokumen file sudah terenkripsi, untuk mendownload dan membuka dokumen file, mengklik tombol <b>dekripsi</b> dan masukan <b>token</b> yang keluar dalam form pop up dekripsi dokumen file.</small><br>
                     </div>
@@ -61,7 +60,7 @@
                                             </small>
                                         </button>
                                         <button class="nav-link" id="nav-pengurus-tab" data-bs-toggle="tab" data-bs-target="#nav-pengurus" type="button" role="tab" aria-controls="nav-pengurus" aria-selected="false">
-                                            <small class="text-dark"><i class="fa-regular fa-file-pdf px-1"></i>
+                                            <small class="text-dark"><i class="fa-regular fa-file-xlsx px-1"></i>
                                                 <b>Pengurus Perusahaan</b>
                                             </small>
                                         </button>
@@ -215,7 +214,7 @@
                                             <div class="col-sm-12">
                                                 <div class="input-group mb-2">
                                                     <span class="input-group-text"><i class="fa-solid fa-address-card"></i></span>
-                                                    <input name="nik"  type="text" class="form-control" data-inputmask='"mask": "9999999999999999"' data-mask>
+                                                    <input name="nik" type="text" class="form-control" data-inputmask='"mask": "9999999999999999"' data-mask>
                                                 </div>
                                                 <small class="nik_error text-danger"></small>
                                             </div>
@@ -227,7 +226,7 @@
                                             <div class="col-sm-12">
                                                 <div class="input-group mb-2">
                                                     <span class="input-group-text"><i class="fa-solid fa-address-card"></i></span>
-                                                    <input  name="npwp" type="text" class="form-control" data-inputmask='"mask": "99.999.999.9-999.999"' data-mask>
+                                                    <input name="npwp" type="text" class="form-control" data-inputmask='"mask": "99.999.999.9-999.999"' data-mask>
                                                 </div>
                                                 <!-- npwp -->
                                                 <small class="npwp_error text-danger"></small>
@@ -242,10 +241,10 @@
                                             <div class="col-sm-12">
                                                 <div class="input-group mb-2">
                                                     <span class="input-group-text"><i class="fa-solid fa-user-pen"></i></span>
-                                                    <input  name="nama_pemilik" type="text" class="form-control">
+                                                    <input name="nama_pemilik" type="text" class="form-control">
                                                 </div>
-                                                  <!-- nama_pemilik -->
-                                                  <small class="nama_pemilik_error text-danger"></small>
+                                                <!-- nama_pemilik -->
+                                                <small class="nama_pemilik_error text-danger"></small>
                                             </div>
                                         </td>
                                         <td class="col-sm-2 bg-light">
@@ -255,13 +254,13 @@
                                             <div class="col-sm-12">
                                                 <div class="input-group mb-2">
                                                     <span class="input-group-text"><i class="fa-solid fa-bars"></i></span>
-                                                    <select  name="warganegara" class="form-select" aria-label="Default select example">
+                                                    <select name="warganegara" class="form-select" aria-label="Default select example">
                                                         <option selected>Indonesia</option>
                                                         <option>Asing</option>
                                                     </select>
                                                 </div>
-                                                  <!-- warganegara -->
-                                                  <small class="warganegara_error text-danger"></small>
+                                                <!-- warganegara -->
+                                                <small class="warganegara_error text-danger"></small>
                                             </div>
                                         </td>
                                     </tr>
@@ -273,7 +272,7 @@
                                             <div class="col-sm-12">
                                                 <div class="input-group mb-2">
                                                     <span class="input-group-text"><i class="fa-solid fa-bars"></i></span>
-                                                    <select  name="jns_pemilik" class="form-select" aria-label="Default select example">
+                                                    <select name="jns_pemilik" class="form-select" aria-label="Default select example">
                                                         <option selected>Individu</option>
                                                         <option>Perusahaan Nasional</option>
                                                         <option>Perusahaan Asing</option>
@@ -281,8 +280,8 @@
                                                         <option>Publik</option>
                                                     </select>
                                                 </div>
-                                                 <!-- jns_pemilik -->
-                                                 <small class="jns_pemilik_error text-danger"></small>
+                                                <!-- jns_pemilik -->
+                                                <small class="jns_pemilik_error text-danger"></small>
                                             </div>
                                         </td>
                                         <td class="col-sm-2 bg-light">
@@ -292,10 +291,10 @@
                                             <div class="col-sm-6">
                                                 <div class="input-group mb-2">
                                                     <span class="input-group-text">%</span>
-                                                    <input  name="saham" type="number" onkeyup="validasi_saham()" class="form-control">
+                                                    <input name="saham" type="number" onkeyup="validasi_saham()" class="form-control">
                                                 </div>
-                                                 <!-- saham -->
-                                                 <small class="saham_error text-danger"></small>
+                                                <!-- saham -->
+                                                <small class="saham_error text-danger"></small>
                                             </div>
                                         </td>
                                     </tr>
@@ -307,10 +306,10 @@
                                             <div class="col-sm-12">
                                                 <div class="input-group mb-2">
                                                     <span class="input-group-text"><i class="fa-solid fa-road"></i></span>
-                                                    <input  name="alamat_pemilik" type="text" class="form-control">
+                                                    <input name="alamat_pemilik" type="text" class="form-control">
                                                 </div>
-                                                 <!-- alamat_pemilik -->
-                                                 <small class="alamat_pemilik_error text-danger"></small>
+                                                <!-- alamat_pemilik -->
+                                                <small class="alamat_pemilik_error text-danger"></small>
                                             </div>
                                         </td>
                                     </tr>
@@ -319,9 +318,9 @@
                                             <label class="form-label col-form-label-sm"><b>Upload File KTP</b></label>
                                         </td>
                                         <td class="col-sm-3">
-                                            <input  type="file" name="file_ktp" id="file" accept=".pdf">
-                                              <!-- file_ktp -->
-                                              <small class="file_ktp_error text-danger"></small>
+                                            <input type="file" name="file_ktp" id="file" accept=".pdf">
+                                            <!-- file_ktp -->
+                                            <small class="file_ktp_error text-danger"></small>
                                         </td>
                                     </tr>
                                     <tr>
@@ -329,9 +328,9 @@
                                             <label class="form-label col-form-label-sm"><b>Upload File NPWP</b></label>
                                         </td>
                                         <td class="col-sm-3">
-                                            <input  type="file" name="file_npwp" id="file" accept=".pdf">
-                                             <!-- file_npwp -->
-                                             <small class="file_npwp_error text-danger"></small>
+                                            <input type="file" name="file_npwp" id="file" accept=".pdf">
+                                            <!-- file_npwp -->
+                                            <small class="file_npwp_error text-danger"></small>
                                         </td>
                                     </tr>
 
@@ -390,8 +389,10 @@
                                             <div class="col-sm-12">
                                                 <div class="input-group mb-2">
                                                     <span class="input-group-text"><i class="fa-solid fa-address-card"></i></span>
-                                                    <input required type="text" name="nik_pengurus" class="form-control" data-inputmask='"mask": "9999999999999999"' data-mask>
+                                                    <input type="text" name="nik_pengurus" class="form-control" data-inputmask='"mask": "9999999999999999"' data-mask>
                                                 </div>
+                                                <!-- nik_pengurus -->
+                                                <small class="nik_pengurus_error text-danger"></small>
                                             </div>
                                         </td>
                                         <td class="col-sm-2 bg-light">
@@ -401,8 +402,10 @@
                                             <div class="col-sm-12">
                                                 <div class="input-group mb-2">
                                                     <span class="input-group-text"><i class="fa-solid fa-address-card"></i></span>
-                                                    <input name="npwp_pengurus" required type="text" class="form-control" data-inputmask='"mask": "99.999.999.9-999.999"' data-mask>
+                                                    <input name="npwp_pengurus" type="text" class="form-control" data-inputmask='"mask": "99.999.999.9-999.999"' data-mask>
                                                 </div>
+                                                <!-- npwp_pengurus -->
+                                                <small class="npwp_pengurus_error text-danger"></small>
                                             </div>
                                         </td>
                                     </tr>
@@ -414,8 +417,10 @@
                                             <div class="col-sm-12">
                                                 <div class="input-group mb-2">
                                                     <span class="input-group-text"><i class="fa-solid fa-user-pen"></i></span>
-                                                    <input name="nama_pengurus" required type="text" class="form-control">
+                                                    <input name="nama_pengurus" type="text" class="form-control">
                                                 </div>
+                                                <!-- nama_pengurus -->
+                                                <small class="nama_pengurus_error text-danger"></small>
                                             </div>
                                         </td>
                                         <td class="col-sm-2 bg-light">
@@ -425,11 +430,13 @@
                                             <div class="col-sm-12">
                                                 <div class="input-group mb-2">
                                                     <span class="input-group-text"><i class="fa-solid fa-bars"></i></span>
-                                                    <select name="warganegara" class="form-select" aria-label="Default select example">
+                                                    <select name="warganegara_pengurus" class="form-select" aria-label="Default select example">
                                                         <option selected>Indonesia</option>
                                                         <option>Asing</option>
                                                     </select>
                                                 </div>
+                                                <!-- warganegara_pengurus -->
+                                                <small class="warganegara_pengurus_error text-danger"></small>
                                             </div>
                                         </td>
                                     </tr>
@@ -441,8 +448,10 @@
                                             <div class="col-sm-12">
                                                 <div class="input-group mb-2">
                                                     <span class="input-group-text"><i class="fa-solid fa-user-tie"></i></span>
-                                                    <input name="jabatan_pengurus" required type="text" class="form-control">
+                                                    <input name="jabatan_pengurus" type="text" class="form-control">
                                                 </div>
+                                                <!-- jabatan_pengurus -->
+                                                <small class="jabatan_pengurus_error text-danger"></small>
                                             </div>
                                         </td>
                                         <td class="col-sm-2 bg-light">
@@ -450,7 +459,13 @@
                                         </td>
                                         <td class="col-sm-3">
                                             <div class="col-sm-12 mb-3">
-                                                <input type="date" required class="form-control" name="jabatan_mulai" id="date"><small>-</small><input name="jabatan_selesai" class="form-control" type="date" required id="date">
+                                                <input type="date" class="form-control" name="jabatan_mulai" id="date">
+                                                <!-- jabatan_mulai -->
+                                                <small class="jabatan_mulai_error text-danger"></small>
+                                                <small>-</small>
+                                                <!-- jabatan_selesai -->
+                                                <small class="jabatan_selesai_error text-danger"></small>
+                                                <input name="jabatan_selesai" class="form-control" type="date" id="date">
                                             </div>
                                         </td>
                                     </tr>
@@ -462,8 +477,10 @@
                                             <div class="col-sm-12">
                                                 <div class="input-group mb-2">
                                                     <span class="input-group-text"><i class="fa-solid fa-road"></i></span>
-                                                    <textarea name="alamat_pengurus" required type="text" class="form-control"></textarea>
+                                                    <textarea name="alamat_pengurus" type="text" class="form-control"></textarea>
                                                 </div>
+                                                <!-- alamat_pengurus -->
+                                                <small class="alamat_pengurus_error text-danger"></small>
                                             </div>
                                         </td>
                                     </tr>
@@ -472,9 +489,10 @@
                                             <label class="form-label col-form-label-sm"><b>Upload File KTP</b></label>
                                         </td>
                                         <td class="col-sm-3">
-                                            <input type="file" required name="file_ktp_pengurus" id="file" accept=".pdf">
+                                            <input type="hidden" name="file_dokumen_manipulasi_ktp_pengurus">
+                                            <input type="file" class="file_valid_ktp_pengurus" name="file_ktp_pengurus" id="file" accept=".pdf">
                                         </td>
-                                      
+
                                         <td class="col-sm-3">
                                         </td>
                                     </tr>
@@ -483,9 +501,10 @@
                                             <label class="form-label col-form-label-sm"><b>Upload File NPWP</b></label>
                                         </td>
                                         <td class="col-sm-3">
-                                            <input type="file" required name="file_npwp_pengurus" id="file" accept=".pdf">
+                                            <input type="hidden" name="file_dokumen_manipulasi_npwp_pengurus">
+                                            <input type="file" class="file_valid_npwp_pengurus" name="file_npwp_pengurus" id="file" accept=".pdf">
                                         </td>
-                                      
+
                                         <td class="col-sm-3">
                                         </td>
                                     </tr>
@@ -496,7 +515,7 @@
                                                 <i class="fa-solid fa-angles-left px-1"></i>
                                                 Close
                                             </button>
-                                            <button type="submit" class="btn btn-success btn-sm shadow-lg btn-simpan">
+                                            <button type="submit" class="btn btn-success btn-sm shadow-lg btn_simpan">
                                                 <i class="fa-solid fa-floppy-disk px-1"></i>
                                                 Save Changes
                                             </button>
@@ -759,8 +778,8 @@
                                         <label class="form-label col-form-label-sm"><b>Upload File KTP</b></label>
                                     </td>
                                     <td class="col-sm-3">
-                                          <input type="hidden" name="file_ktp_manipulasi">
-                                        <input type="file" name="file_ktp" class="edit_ktp" accept=".pdf">
+                                        <input type="hidden" name="file_ktp_manipulasi">
+                                        <input type="file" name="file_ktp" class="edit_ktp" accept=".xlsx">
                                         <small class="file_ktp_error text-danger"></small>
                                     </td>
                                     <td class="col-sm-4">
@@ -775,7 +794,7 @@
                                     </td>
                                     <td class="col-sm-3">
                                         <input type="hidden" name="file_npwp_manipulasi">
-                                        <input type="file" name="file_npwp" class="edit_npwp" accept=".pdf">
+                                        <input type="file" name="file_npwp" class="edit_npwp" accept=".xlsx">
                                         <small class="file_npwp_error text-danger"></small>
                                     </td>
                                     <td class="col-sm-4">
@@ -965,8 +984,9 @@
                                         <div class="col-sm-12">
                                             <div class="input-group mb-2">
                                                 <span class="input-group-text"><i class="fa-solid fa-address-card"></i></span>
-                                                <input required type="text" name="nik_pengurus" class="form-control" data-inputmask='"mask": "9999999999999999"' data-mask>
+                                                <input type="text" name="nik_pengurus" class="form-control" data-inputmask='"mask": "9999999999999999"' data-mask>
                                             </div>
+                                            <small class="nik_pengurus_error text-danger"></small>
                                         </div>
                                     </td>
                                     <td class="col-sm-2 bg-light">
@@ -976,8 +996,9 @@
                                         <div class="col-sm-12">
                                             <div class="input-group mb-2">
                                                 <span class="input-group-text"><i class="fa-solid fa-address-card"></i></span>
-                                                <input name="npwp_pengurus" required type="text" class="form-control" data-inputmask='"mask": "99.999.999.9-999.999"' data-mask>
+                                                <input name="npwp_pengurus" type="text" class="form-control" data-inputmask='"mask": "99.999.999.9-999.999"' data-mask>
                                             </div>
+                                            <small class="npwp_pengurus_error text-danger"></small>
                                         </div>
                                     </td>
                                 </tr>
@@ -989,8 +1010,9 @@
                                         <div class="col-sm-12">
                                             <div class="input-group mb-2">
                                                 <span class="input-group-text"><i class="fa-solid fa-user-pen"></i></span>
-                                                <input name="nama_pengurus" required type="text" class="form-control">
+                                                <input name="nama_pengurus" type="text" class="form-control">
                                             </div>
+                                            <small class="nama_pengurus_error text-danger"></small>
                                         </div>
                                     </td>
                                     <td class="col-sm-2 bg-light">
@@ -1000,11 +1022,12 @@
                                         <div class="col-sm-12">
                                             <div class="input-group mb-2">
                                                 <span class="input-group-text"><i class="fa-solid fa-bars"></i></span>
-                                                <select name="warganegara" class="form-select" aria-label="Default select example">
+                                                <select name="warganegara_pengurus" class="form-select" aria-label="Default select example">
                                                     <option selected>Indonesia</option>
                                                     <option>Asing</option>
                                                 </select>
                                             </div>
+                                            <small class="warganegara_pengurus_error text-danger"></small>
                                         </div>
                                     </td>
                                 </tr>
@@ -1016,8 +1039,10 @@
                                         <div class="col-sm-12">
                                             <div class="input-group mb-2">
                                                 <span class="input-group-text"><i class="fa-solid fa-user-tie"></i></span>
-                                                <input name="jabatan_pengurus" required type="text" class="form-control">
+                                                <input name="jabatan_pengurus" type="text" class="form-control">
                                             </div>
+                                            <!-- jabatan_pengurus -->
+                                            <small class="jabatan_pengurus_error text-danger"></small>
                                         </div>
                                     </td>
                                     <td class="col-sm-2 bg-light">
@@ -1025,7 +1050,13 @@
                                     </td>
                                     <td class="col-sm-3">
                                         <div class="col-sm-12 mb-3">
-                                            <input type="text" name="jabatan_mulai" ><br><small>s/d</small><br><input name="jabatan_selesai" type="text" >
+                                            <input type="date" class="form-control" name="jabatan_mulai" id="date">
+                                            <!-- jabatan_mulai -->
+                                            <small class="jabatan_mulai_error text-danger"></small>
+                                            <small>-</small>
+                                            <!-- jabatan_selesai -->
+                                            <small class="jabatan_selesai_error text-danger"></small>
+                                            <input name="jabatan_selesai" class="form-control" type="date" id="date">
                                         </div>
                                     </td>
                                 </tr>
@@ -1037,8 +1068,10 @@
                                         <div class="col-sm-12">
                                             <div class="input-group mb-2">
                                                 <span class="input-group-text"><i class="fa-solid fa-road"></i></span>
-                                                <textarea name="alamat_pengurus" required type="text" class="form-control"></textarea>
+                                                <textarea name="alamat_pengurus" type="text" class="form-control"></textarea>
                                             </div>
+                                            <!-- alamat_pengurus -->
+                                            <small class="alamat_pengurus_error text-danger"></small>
                                         </div>
                                     </td>
                                 </tr>
@@ -1047,7 +1080,8 @@
                                         <label class="form-label col-form-label-sm"><b>Upload File KTP</b></label>
                                     </td>
                                     <td class="col-sm-3">
-                                        <input type="file" name="file_ktp_pengurus" id="file" accept=".pdf">
+                                        <input type="text" name="file_dokumen_manipulasi_ktp_pengurus">
+                                        <input type="file" class="file_valid_ktp_pengurus" name="file_ktp_pengurus" id="file" accept=".pdf">
                                     </td>
                                     <td class="col-sm-4">
                                         <div class="button_nama_file_ktp_pengurus">
@@ -1060,7 +1094,8 @@
                                         <label class="form-label col-form-label-sm"><b>Upload File NPWP</b></label>
                                     </td>
                                     <td class="col-sm-3">
-                                        <input type="file" name="file_npwp_pengurus" id="file" accept=".pdf">
+                                        <input type="text" name="file_dokumen_manipulasi_npwp_pengurus">
+                                        <input type="file" class="file_valid_npwp_pengurus" name="file_npwp_pengurus" id="file" accept=".pdf">
                                     </td>
                                     <td class="col-sm-4">
                                         <div class="button_nama_file_npwp_pengurus">

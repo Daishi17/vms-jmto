@@ -269,9 +269,33 @@
                     $('.button_enkrip_spt').html('<a href="javascript:;" onclick="DekripEnkrip_spt(\'' + response['row_spt'].id_url + '\'' + ',' + '\'' + 'enkrip' + '\')" class="btn btn-success btn-sm"><i class="fas fa-lock mr-2"></i> Enkripsi Dokumen</a>');
                     var html2 = '<a href="javascript:;" style="white-space: nowrap;width: 200px;overflow: hidden;text-overflow: ellipsis;" onclick="DownloadFile_spt(\'' + response['row_spt'].id_url + '\')" class="btn btn-sm btn-warning btn-block">' + response['row_spt'].file_dokumen + '</a>';
                     $('.token_generate_spt').html('<div class="input-group"><span class="input-group-text"><i class="fas fa-qrcode"></i></span><textarea class="form-control form-control-sm" disabled>' + response['row_spt'].token_dokumen + '</textarea></div>');
+                }else{
+                    Question_hapus_spt(response['row_spt'].id_url);
                 }
             }
         })
+    }
+
+    function Question_hapus_spt(id_url) {
+        Swal.fire({
+            title: "Yakin Mau Hapus",
+            text: 'Data Ini Mau Di hapus?',
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    type: "POST",
+                    url: '<?= base_url('datapenyedia/hapus_row_spt/') ?>' + id_url,
+                    dataType: "JSON",
+                    success: function(response) {
+                        Swal.fire('Good job!', 'Data Beharhasil Dihapus!', 'success');
+                        get_row_vendor_spt();
+                    }
+                })
+            }
+        });
     }
 
 

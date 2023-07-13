@@ -55,7 +55,7 @@
                                 <table class="table table-sm">
                                     <tr class="col-sm-12">
                                         <td class="col-sm-4">
-                                            <select class="select2bs4" name="jenis_usaha[]" multiple data-placeholder="Pilih Jenis Usaha" style="width: 100%;">
+                                            <select required class="select2bs4" name="jenis_usaha[]" multiple data-placeholder="Pilih Jenis Usaha" style="width: 100%;">
                                                 <?php foreach ($get_jenis_usaha as $key => $value) { ?>
                                                     <option value="<?= $value['id_jenis_usaha'] ?>"><?= $value['nama_jenis_usaha'] ?></option>
                                                 <?php } ?>
@@ -76,7 +76,7 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-th-list"></i></span>
                                                 </div>
-                                                <select name="bentuk_usaha" class="form-control">
+                                                <select required name="bentuk_usaha" class="form-control">
                                                     <option>Pilih Bentuk Usaha...</option>
                                                     <option value="Perseroan Terbatas (PT)">Perseroan Terbatas (PT)</option>
                                                     <option value="Commanditaire Vennootschap (CV)">Commanditaire Vennootschap (CV)</option>
@@ -90,7 +90,7 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-th-list"></i></span>
                                                 </div>
-                                                <select name="kualifikasi_usaha" class="form-control">
+                                                <select required name="kualifikasi_usaha" class="form-control">
                                                     <option>Pilih Kualifikasi Usaha...</option>
                                                     <option value="Besar">Besar</option>
                                                     <option value="Menengah">Menengah</option>
@@ -144,7 +144,7 @@
                                     </tr>
                                     <tr class="col-sm-12">
                                         <td class="col-sm-4">
-                                            <select name="id_kecamatan" required id="kecamatantambah" class="form-control select2bs4">
+                                            <select  name="id_kecamatan" required id="kecamatantambah" class="form-control select2bs4">
                                                 <option value="">Pilih Kecamatan</option>
                                             </select>
                                         </td>
@@ -188,7 +188,7 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-road"></i></span>
                                                 </div>
-                                                <input type="text" name="alamat_kantor_cabang" class="form-control" placeholder="Alamat Kantor Cabang">
+                                                <input required type="text" name="alamat_kantor_cabang" class="form-control" placeholder="Alamat Kantor Cabang">
                                             </div>
                                         </td>
                                     </tr>
