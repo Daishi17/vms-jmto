@@ -37,35 +37,35 @@
                                             <small class="text-dark">
                                                 <i class="fa-regular fa-file fa-beat"></i>
                                                 <b>Izin Usaha</b>
-                                                <span class="badge bg-secondary text-white">2</span>
+                                                <span class="badge bg-secondary text-white"><?= $notifikasi_izin['notifikasi'] ?></span>
                                             </small>
                                         </button>
                                         <button class="nav-link" id="nav-akta-tab" data-bs-toggle="tab" data-bs-target="#nav-akta" type="button" role="tab" aria-controls="nav-akta" aria-selected="false">
                                             <small class="text-dark">
                                                 <i class="fa-regular fa-file"></i>
                                                 <b>Akta</b>
-                                                <span class="badge bg-secondary text-white">0</span>
+                                                <span class="badge bg-secondary text-white"><?= $notifikasi_akta['notifikasi'] ?></span>
                                             </small>
                                         </button>
                                         <button class="nav-link" id="nav-manajerial-tab" data-bs-toggle="tab" data-bs-target="#nav-manajerial" type="button" role="tab" aria-controls="nav-manajerial" aria-selected="false">
                                             <small class="text-dark">
                                                 <i class="fa-regular fa-file"></i>
                                                 <b>Manajerial</b>
-                                                <span class="badge bg-secondary text-white">0</span>
+                                                <span class="badge bg-secondary text-white"><?= $notifikasi_manajerial['notifikasi'] ?></span>
                                             </small>
                                         </button>
                                         <button class="nav-link" id="nav-pengalaman-tab" data-bs-toggle="tab" data-bs-target="#nav-pengalaman" type="button" role="tab" aria-controls="nav-pengalaman" aria-selected="false">
                                             <small class="text-dark">
                                                 <i class="fa-regular fa-file"></i>
                                                 <b>Pengalaman Perusahaan</b>
-                                                <span class="badge bg-secondary text-white">0</span>
+                                                <span class="badge bg-secondary text-white"><?= $notifikasi_pengalaman['notifikasi'] ?></span>
                                             </small>
                                         </button>
                                         <button class="nav-link" id="nav-pajak-tab" data-bs-toggle="tab" data-bs-target="#nav-pajak" type="button" role="tab" aria-controls="nav-pajak" aria-selected="false">
                                             <small class="text-dark">
                                                 <i class="fa-regular fa-file"></i>
                                                 <b>Pajak</b>
-                                                <span class="badge bg-secondary text-white">0</span>
+                                                <span class="badge bg-secondary text-white"><?= $notifikasi_pajak['notifikasi'] ?></span>
                                             </small>
                                         </button>
                                     </div>
@@ -151,7 +151,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="card-body">
-                                                <input type="hidden" name="get_data_manajerial" value="<?= base_url('monitoring_dokumen/get_data_manajerial') ?>">
+                                                    <input type="hidden" name="get_data_manajerial" value="<?= base_url('monitoring_dokumen/get_data_manajerial') ?>">
                                                     <table id="tbl_data_manajerial" class="table table-sm table-bordered table-striped">
                                                         <thead class="bg-secondary">
                                                             <tr>
@@ -169,7 +169,7 @@
                                                                 </th>
                                                             </tr>
                                                         </thead>
-                                                       <tbody></tbody>
+                                                        <tbody></tbody>
                                                     </table>
                                                 </div>
                                             </div>
@@ -185,10 +185,11 @@
                                                     </div>
                                                 </div>
                                                 <div class="card-body">
-                                                <input type="hidden" name="get_data_pengalaman" value="<?= base_url('monitoring_dokumen/get_data_pengalaman') ?>">
+                                                    <input type="hidden" name="get_data_pengalaman" value="<?= base_url('monitoring_dokumen/get_data_pengalaman') ?>">
                                                     <table id="tbl_data_pengalaman" class="table table-sm table-bordered table-striped">
                                                         <thead class="bg-secondary">
                                                             <tr>
+                                                                <th style="width:5%;"><small class="text-white">No</small></th>
                                                                 <th style="width:8%;"><small class="text-white">No. Kontrak</small></th>
                                                                 <th style="width:8%;"><small class="text-white">Tgl. Kontrak</small></th>
                                                                 <th style="width:28%;"><small class="text-white">Nama Pekerjaan</small></th>
@@ -199,38 +200,12 @@
                                                                 <th style="width:8%;"><small class="text-white">
                                                                         <div class="text-center">Status Validasi</div>
                                                                     </small></th>
-                                                                <th style="width:10%;"><small class="text-white">
-                                                                        <div class="text-center">More Options</div>
+                                                                <th style="width:15%;"><small class="text-white">
+                                                                        <div class="text-center">Nama Validator</div>
                                                                     </small></th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td><small>1234567890123456</small></td>
-                                                                <td><small>14/08/2022</small></td>
-                                                                <td><small>Pekerjaan Sewa Kendaraan Operasional Kantor Pusat 1, periode ke-2</small></td>
-                                                                <td><small>
-                                                                        <div class="text-end">20.000.000.000</div>
-                                                                    </small></td>
-                                                                <td><small>Jasa Lainnya</small></td>
-                                                                <td><small>Kementrian BUMN</small></td>
-                                                                <td><small>DKI Jakarta</small></td>
-                                                                <td><small>
-                                                                        <div class="text-center">
-                                                                            <span class="badge bg-secondary">Belum Tervalidasi</span>
-                                                                        </div>
-                                                                    </small>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="text-center">
-                                                                        <button type="button" class="btn btn-info btn-sm shadow-lg">
-                                                                            <i class="fa-solid fa-users-viewfinder px-1"></i>
-                                                                            <small>View</small>
-                                                                        </button>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
+                                                        <tbody></tbody>
                                                     </table>
                                                 </div>
                                             </div>
@@ -246,12 +221,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="card-body">
-                                                    <table id="example8" class="table table-sm table-bordered table-striped">
+                                                    <input type="hidden" name="get_data_pajak" value="<?= base_url('monitoring_dokumen/get_data_pajak') ?>">
+                                                    <table id="tbl_pajak" class="table table-sm table-bordered table-striped">
                                                         <thead class="bg-secondary">
                                                             <tr>
+                                                                <th style="width:5%;"><small class="text-white">No</small></th>
                                                                 <th style="width:20%;"><small class="text-white">Jenis Dokumen</small></th>
                                                                 <th style="width:20%;"><small class="text-white">No. Surat</small></th>
-                                                                <th style="width:20%;"><small class="text-white">Tanggal / Tahun</small></th>
+                                                                <!-- <th style="width:20%;"><small class="text-white">Tanggal / Tahun</small></th> -->
                                                                 <th style="width:10%;"><small class="text-white">Status Validasi</small></th>
                                                                 <th style="width:10%;">
                                                                     <div class="text-center">
@@ -262,84 +239,7 @@
                                                                 </th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td><small>SPPKP</small></td>
-                                                                <td><small>123456789</small></td>
-                                                                <td><small>Seumur Hidup</small></td>
-                                                                <td><small>
-                                                                        <div class="text-center">
-                                                                            <span class="badge bg-success">Sudah Tervalidasi</span>
-                                                                        </div>
-                                                                    </small>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="text-center">
-                                                                        <button type="button" class="btn btn-info btn-sm shadow-lg" data-bs-toggle="modal" data-bs-target="#modal-xl-pengalaman">
-                                                                            <i class="fa-solid fa-users-viewfinder px-1"></i>
-                                                                            <small>View</small>
-                                                                        </button>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td><small>NPWP</small></td>
-                                                                <td><small>123456789</small></td>
-                                                                <td><small>Seumur Hidup</small></td>
-                                                                <td><small>
-                                                                        <div class="text-center">
-                                                                            <span class="badge bg-success">Sudah Tervalidasi</span>
-                                                                        </div>
-                                                                    </small>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="text-center">
-                                                                        <button type="button" class="btn btn-info btn-sm shadow-lg" data-bs-toggle="modal" data-bs-target="#modal-xl-pengalaman">
-                                                                            <i class="fa-solid fa-users-viewfinder px-1"></i>
-                                                                            <small>View</small>
-                                                                        </button>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td><small>SPT</small></td>
-                                                                <td><small>123456789</small></td>
-                                                                <td><small>2021</small></td>
-                                                                <td><small>
-                                                                        <div class="text-center">
-                                                                            <span class="badge bg-danger">Tidak Valid</span>
-                                                                        </div>
-                                                                    </small>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="text-center">
-                                                                        <button type="button" class="btn btn-info btn-sm shadow-lg" data-bs-toggle="modal" data-bs-target="#modal-xl-pengalaman">
-                                                                            <i class="fa-solid fa-users-viewfinder px-1"></i>
-                                                                            <small>View</small>
-                                                                        </button>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td><small>Neraca Keuangan</small></td>
-                                                                <td><small>123456789</small></td>
-                                                                <td><small>2021</small></td>
-                                                                <td><small>
-                                                                        <div class="text-center">
-                                                                            <span class="badge bg-danger">Tidak Valid</span>
-                                                                        </div>
-                                                                    </small>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="text-center">
-                                                                        <button type="button" class="btn btn-info btn-sm shadow-lg" data-bs-toggle="modal" data-bs-target="#modal-xl-pengalaman">
-                                                                            <i class="fa-solid fa-users-viewfinder px-1"></i>
-                                                                            <small>View</small>
-                                                                        </button>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
+                                                        <tbody></tbody>
                                                     </table>
                                                 </div>
                                             </div>

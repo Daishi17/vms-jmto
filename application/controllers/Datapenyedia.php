@@ -25,7 +25,9 @@ class Datapenyedia extends CI_Controller
 
 	public function index()
 	{
-		$this->load->view('template_menu/header_menu');
+		$id_vendor = $this->session->userdata('id_vendor');
+		$data['notifikasi'] = $this->M_dashboard->count_notifikasi($id_vendor);
+		$this->load->view('template_menu/header_menu', $data);
 		$this->load->view('datapenyedia/index');
 		$this->load->view('template_menu/new_footer');
 		$this->load->view('datapenyedia/ajax');
@@ -40,7 +42,9 @@ class Datapenyedia extends CI_Controller
 		$id_vendor = $this->session->userdata('id_vendor');
 		$data['row_vendor'] = $this->M_dashboard->get_row_vendor($id_vendor);
 		$data['kualifikasi'] = str_split($data['row_vendor']['id_jenis_usaha']);
-		$this->load->view('template_menu/header_menu');
+		$id_vendor = $this->session->userdata('id_vendor');
+		$data['notifikasi'] = $this->M_dashboard->count_notifikasi($id_vendor);
+		$this->load->view('template_menu/header_menu', $data);
 		$this->load->view('datapenyedia/identitas/index', $data);
 		$this->load->view('template_menu/new_footer');
 		$this->load->view('js_file_on_session/index', $data);
@@ -119,7 +123,9 @@ class Datapenyedia extends CI_Controller
 		$data['kualifikasi_sbu']  = $this->M_datapenyedia->get_kualifikasi_sbu();
 		$data['data_sbu']  = $this->M_datapenyedia->get_sbu();
 		$data['type']  = 'izin_usaha';
-		$this->load->view('template_menu/header_menu');
+		$id_vendor = $this->session->userdata('id_vendor');
+		$data['notifikasi'] = $this->M_dashboard->count_notifikasi($id_vendor);
+		$this->load->view('template_menu/header_menu', $data);
 		$this->load->view('datapenyedia/izin_usaha/singgah', $data);
 		$this->load->view('template_menu/new_footer');
 		$this->load->view('js_file_on_session/index', $data);
@@ -1610,7 +1616,9 @@ class Datapenyedia extends CI_Controller
 	{
 		$data['row_vendor'] = $this->vendor->get_vendor_url();
 		$data['type']  = 'akta';
-		$this->load->view('template_menu/header_menu');
+		$id_vendor = $this->session->userdata('id_vendor');
+		$data['notifikasi'] = $this->M_dashboard->count_notifikasi($id_vendor);
+		$this->load->view('template_menu/header_menu', $data);
 		$this->load->view('datapenyedia/akta_pendirian/singga', $data);
 		$this->load->view('template_menu/new_footer');
 		$this->load->view('js_file_on_session/index', $data);
@@ -2063,7 +2071,9 @@ class Datapenyedia extends CI_Controller
 
 	public function manajerial()
 	{
-		$this->load->view('template_menu/header_menu');
+		$id_vendor = $this->session->userdata('id_vendor');
+		$data['notifikasi'] = $this->M_dashboard->count_notifikasi($id_vendor);
+		$this->load->view('template_menu/header_menu', $data);
 		$this->load->view('datapenyedia/manajerial/singgah');
 		$this->load->view('template_menu/new_footer');
 		$this->load->view('js_folder/manajerial/file_public');
@@ -2982,14 +2992,18 @@ class Datapenyedia extends CI_Controller
 
 	public function sdm()
 	{
-		$this->load->view('template_menu/header_menu');
+		$id_vendor = $this->session->userdata('id_vendor');
+		$data['notifikasi'] = $this->M_dashboard->count_notifikasi($id_vendor);
+		$this->load->view('template_menu/header_menu', $data);
 		$this->load->view('datapenyedia/sdm/index');
 		$this->load->view('template_menu/new_footer');
 	}
 
 	public function pengalaman()
 	{
-		$this->load->view('template_menu/header_menu');
+		$id_vendor = $this->session->userdata('id_vendor');
+		$data['notifikasi'] = $this->M_dashboard->count_notifikasi($id_vendor);
+		$this->load->view('template_menu/header_menu', $data);
 		$this->load->view('datapenyedia/pengalaman/singgah');
 		$this->load->view('template_menu/new_footer');
 		$this->load->view('js_folder/pengalaman_perusahaan/file_public');
@@ -3379,7 +3393,9 @@ class Datapenyedia extends CI_Controller
 	{
 		$id_vendor = $this->session->userdata('id_vendor');
 		$data['row_vendor']  = $this->M_datapenyedia->get_row_vendor($id_vendor);
-		$this->load->view('template_menu/header_menu');
+		$id_vendor = $this->session->userdata('id_vendor');
+		$data['notifikasi'] = $this->M_dashboard->count_notifikasi($id_vendor);
+		$this->load->view('template_menu/header_menu', $data);
 		$this->load->view('datapenyedia/pajak/singgah', $data);
 		$this->load->view('template_menu/new_footer');
 		$this->load->view('datapenyedia/pajak/file_public');

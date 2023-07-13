@@ -214,7 +214,7 @@
                                 <span class="info-box-icon bg-warning"><i class="fas fa-percentage"></i></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text"><strong>Penilaian Kinerja</strong></span>
-                                    <span class="info-box-text"><strong>74.82</strong></span>
+                                    <span class="info-box-text"><strong>0</strong></span>
                                 </div>
                             </div>
                         </div>
@@ -223,7 +223,7 @@
                                 <span class="info-box-icon bg-success"><i class="fas fa-bullhorn"></i></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text"><strong>Tender Yang di Ikuti</strong></span>
-                                    <span class="info-box-text text-success"><strong>11</strong></span>
+                                    <span class="info-box-text text-success"><strong>0</strong></span>
                                 </div>
                             </div>
                         </div>
@@ -232,7 +232,7 @@
                                 <span class="info-box-icon bg-primary"><i class="fas fa-marker"></i></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text"><strong>Tender Berkontrak</strong></span>
-                                    <span class="info-box-text text-primary"><strong>3</strong></span>
+                                    <span class="info-box-text text-primary"><strong>0</strong></span>
                                 </div>
                             </div>
                         </div>

@@ -35,7 +35,7 @@
                                                 <small>Kualifikasi Usaha</small>
                                             </th>
                                             <td class="text-end">
-                                                <small class="text-primary"><?= $row_vendor['nama_kualifikasi'] ?></small>
+                                                <small class="text-primary"><?= $row_vendor['kualifikasi_usaha'] ?></small>
                                             </td>
                                         </tr>
                                         <tr>
@@ -58,17 +58,34 @@
                                             <th class="bg-light">
                                                 <small>Status Dokumen</small>
                                             </th>
-                                            <td class="text-end">
-                                                <small><span class="badge bg-danger">Belum Lengkap</span></small>
-                                            </td>
+                                            <?php
+                                            if ($count_validate == 18) { ?>
+                                                <td class="text-end">
+                                                    <small><span class="badge bg-success">Sudah Valid</span></small>
+                                                </td>
+
+                                            <?php } else { ?>
+                                                <td class="text-end">
+                                                    <small><span class="badge bg-danger">Belum Lengkap</span></small>
+                                                </td>
+                                            <?php  }  ?>
+
                                         </tr>
                                         <tr>
                                             <th class="bg-light">
                                                 <small>Tender Terundang</small>
                                             </th>
-                                            <td class="text-end">
-                                                <small><span class="badge bg-secondary">Belum Tervalidasi</span></small>
-                                            </td>
+                                            <?php
+                                            if ($row_vendor['sts_terundang'] == 1) { ?>
+                                                <td class="text-end">
+                                                    <small><span class="badge bg-success">Sudah Tervalidasi</span></small>
+                                                </td>
+                                            <?php } else { ?>
+                                                <td class="text-end">
+                                                    <small><span class="badge bg-secondary">Belum Tervalidasi</span></small>
+                                                </td>
+                                            <?php  }  ?>
+
                                         </tr>
                                     </table>
                                 </div>
@@ -189,17 +206,35 @@
                                 <div class="row">
                                     <div class="col-lg-3 col-6">
                                         <div class="card shadow-lg" style="width: 18rem;">
-                                            <div class="card-body bg-danger">
-                                                <div class="text-start">
-                                                    <i class="fa-solid fa-envelope fa-beat fa-2xl"></i>
+
+                                            <?php if ($count_validate == 18) { ?>
+                                                <div class="card-body bg-success">
+                                                    <div class="text-start">
+                                                        <i class="fa-solid fa-envelope fa-beat fa-2xl"></i>
+                                                    </div>
+                                                    <div class="text-end">
+                                                        <h5>
+                                                            <input type="hidden" name="count_validate" value="<?= base_url('dashboard/count_validate') ?>">
+                                                            <small class="text-white"><b id="count_validate"><?= $count_validate ?>/18</b></small>
+                                                        </h5>
+                                                        <small class="text-white"><b>Dokumen Yang Tervalidasi</b></small>
+                                                    </div>
                                                 </div>
-                                                <div class="text-end">
-                                                    <h5>
-                                                        <small class="text-white"><b>14/20</b></small>
-                                                    </h5>
-                                                    <small class="text-white"><b>Dokumen Belum Tervalidasi</b></small>
+                                            <?php } else { ?>
+                                                <div class="card-body bg-danger">
+                                                    <div class="text-start">
+                                                        <i class="fa-solid fa-envelope fa-beat fa-2xl"></i>
+                                                    </div>
+                                                    <div class="text-end">
+                                                        <h5>
+                                                            <input type="hidden" name="count_validate" value="<?= base_url('dashboard/count_validate') ?>">
+                                                            <small class="text-white"><b id="count_validate"><?= $count_validate ?>/18</b></small>
+                                                        </h5>
+                                                        <small class="text-white"><b>Dokumen Yang Tervalidasi</b></small>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            <?php } ?>
+
                                             <div class="card-footer bg-light">
                                                 <a href="#" class="small-box-footer">
                                                     <small>Informasi Lebih Lanjut</small> <i class="fas fa-arrow-circle-right"></i>
@@ -215,7 +250,7 @@
                                                 </div>
                                                 <div class="text-end">
                                                     <h5>
-                                                        <small class="text-dark"><b>10</b></small>
+                                                        <small class="text-dark"><b>0</b></small>
                                                     </h5>
                                                     <small class="text-dark"><b>Tender Terundang</b></small>
                                                 </div>
@@ -235,7 +270,7 @@
                                                 </div>
                                                 <div class="text-end">
                                                     <h5>
-                                                        <small class="text-white"><b>10</b></small>
+                                                        <small class="text-white"><b>0</b></small>
                                                     </h5>
                                                     <small class="text-white"><b>Penilaian Kinerja</b></small>
                                                 </div>
@@ -255,7 +290,7 @@
                                                 </div>
                                                 <div class="text-end">
                                                     <h5>
-                                                        <small class="text-white"><b>4</b></small>
+                                                        <small class="text-white"><b>0</b></small>
                                                     </h5>
                                                     <small class="text-white"><b>Tender Berkontrak</b></small>
                                                 </div>
