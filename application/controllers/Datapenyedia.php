@@ -17,10 +17,6 @@ class Datapenyedia extends CI_Controller
 		$this->load->model('Wilayah/Wilayah_model');
 		$this->load->model('M_dashboard/M_dashboard');
 		$this->load->helper('download');
-		$id_vendor = $this->session->userdata('id_vendor');
-		if (!$id_vendor) {
-			redirect('auth');
-		}
 	}
 
 	public function index()
