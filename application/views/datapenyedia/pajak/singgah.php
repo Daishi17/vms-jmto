@@ -89,16 +89,16 @@
                                                 <small><b>SPT</b></small>
                                             </span>
                                         </button>
-                                        <button class="nav-link" id="nav-neraca-tab" data-bs-toggle="tab" data-bs-target="#nav-neraca" type="button" role="tab" aria-controls="nav-neraca" aria-selected="false">
-                                            <span class="text-dark">
-                                                <i class="fa-regular fa-file-word"></i>
-                                                <small><b>Neraca Keuangan</b></small>
-                                            </span>
-                                        </button>
                                         <button class="nav-link" id="nav-keuangan-tab" data-bs-toggle="tab" data-bs-target="#nav-keuangan" type="button" role="tab" aria-controls="nav-keuangan" aria-selected="false">
                                             <span class="text-dark">
                                                 <i class="fa-regular fa-file-word"></i>
                                                 <small><b>Laporan Keuangan</b></small>
+                                            </span>
+                                        </button>
+                                        <button class="nav-link" id="nav-neraca-tab" data-bs-toggle="tab" data-bs-target="#nav-neraca" type="button" role="tab" aria-controls="nav-neraca" aria-selected="false">
+                                            <span class="text-dark">
+                                                <i class="fa-regular fa-file-word"></i>
+                                                <small><b>Neraca Keuangan</b></small>
                                             </span>
                                         </button>
                                     </div>
@@ -378,7 +378,7 @@
                                                                     <th style="width:10%;"><small class="text-white">Tahun Laporan</small></th>
                                                                     <th style="width:10%;"><small class="text-white">Jenis Audit</small></th>
                                                                     <th style="width:10%;"><small class="text-white">
-                                                                            <div class="text-center">File Auditor</div>
+                                                                            <div class="text-center">File SK Kemenkeu Untuk KAP</div>
                                                                         </small>
                                                                     </th>
                                                                     <th style="width:10%;"><small class="text-white">
@@ -728,7 +728,7 @@
                                         <label class="form-label col-form-label-sm"><b>Upload File SPT</b></label>
                                     </td>
                                     <td class="col-sm-3">
-                                        <input type="text" name="file_dokumen_manipulasi_spt">
+                                        <input type="hidden" name="file_dokumen_manipulasi_spt">
                                         <input type="file" id="file" accept=".pdf" id="file_dokumen_spt" class="file_valid_spt" name="file_dokumen_spt">
                                     </td>
                                     <td class="col-sm-2 bg-light">
@@ -1006,7 +1006,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-sm-3 bg-light">
-                                        <label class="form-label col-form-label-sm"><b>Upload Laporan Auditor</b></label>
+                                        <label class="form-label col-form-label-sm"><b>SK Kemenkeu Untuk KAP</b></label>
                                     </td>
                                     <td class="col-sm-3">
                                         <input type="hidden" name="file_dokumen_manipulasi_auditor">
@@ -1161,7 +1161,7 @@
                                         <label class="form-label col-form-label-sm"><b>Upload Neraca Keuangan</b></label>
                                     </td>
                                     <td class="col-sm-3">
-                                        <input type="text" name="file_dokumen_manipulasi_neraca">
+                                        <input type="hidden" name="file_dokumen_manipulasi_neraca">
                                         <input type="file" name="file_dokumen_neraca" class="file_valid_neraca" id="file" accept=".xlsx">
                                     </td>
                                 </tr>

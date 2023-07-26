@@ -132,7 +132,7 @@ function get_row_vendor_perubahan() {
               alert('Maaf Anda Kurang Beruntung');
           } else {
               var id_url = response['row_akta_perubahan']['id_url'];
-              $('[name="file_dokumen_manipulasi_pendirian"]').val(response['row_akta_pendirian']['file_dokumen']);
+              $('[name="file_dokumen_manipulasi_perubahan"]').val(response['row_akta_perubahan']['file_dokumen']);
               $('[name="no_surat_perubahan"]').val(response['row_akta_perubahan']['no_surat']);
               $('[name="sts_seumur_hidup_perubahan"]').val(response['row_akta_perubahan']['sts_seumur_hidup']);
               $('[name="tgl_masa_berlaku_perubahan"]').val(response['row_akta_perubahan']['tgl_berlaku_akta']);
@@ -148,7 +148,7 @@ function get_row_vendor_perubahan() {
                   $('.token_generate_perubahan').html('<div class="input-group"><span class="input-group-text"><i class="fas fa-qrcode"></i></span><textarea class="form-control form-control-sm" disabled>'+response['row_akta_perubahan']['token_dokumen']+'</textarea></div>');
               } else {
                   $('.button_enkrip_perubahan').html('<a href="javascript:;" onclick="DekripEnkrip_Perubahan(\'' + id_url +'\''+','+ '\'' + 'enkrip' +'\')" class="btn btn-success btn-sm"><i class="fas fa-lock mr-2"></i> Enkripsi Dokumen</a>');
-                  var html2 = '<a href="javascript:;" style="white-space: nowrap;width: 200px;overflow: hidden;text-overflow: ellipsis;" onclick="DownloadFile(\''+ id_url +'\')" class="btn btn-sm btn-warning btn-block">' + response['row_akta_perubahan']['file_dokumen'] +'</a>';
+                  var html2 = '<a href="javascript:;" style="white-space: nowrap;width: 200px;overflow: hidden;text-overflow: ellipsis;" onclick="DownloadFile_perubahan(\''+ id_url +'\')" class="btn btn-sm btn-warning btn-block">' + response['row_akta_perubahan']['file_dokumen'] +'</a>';
                   $('.token_generate_perubahan').html('<div class="input-group"><span class="input-group-text"><i class="fas fa-qrcode"></i></span><textarea class="form-control form-control-sm" disabled>'+response['row_akta_perubahan']['token_dokumen']+'</textarea></div>');
                   $('#tampil_dokumen_akta_perubahan').html(html2);
               }
@@ -158,6 +158,10 @@ function get_row_vendor_perubahan() {
   })
 }
 
+function DownloadFile_perubahan(id_url){
+  var url_download_perubahan = $('[name="url_download_perubahan"]').val()
+  location.href = url_download_perubahan + id_url;
+}
 
 function DekripEnkrip_Perubahan(id_url, type){
 

@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/plugins-lte/datatables-buttons/css/buttons.bootstrap4.min.css">
 
     <!-- Styles -->
+    <link rel="shortcut icon" href="<?php echo base_url(); ?>//assets/brand/jm1.png" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
@@ -57,7 +58,7 @@
             'N',
             strtotime($tanggal)
         );
-        return $pecahkan[2]  . '-' . $bulan[(int)$pecahkan[1]] . '-' . $pecahkan[0];
+        return $pecahkan[2]  . '-' . $bulan[(int) $pecahkan[1]] . '-' . $pecahkan[0];
     }
     ?>
 
@@ -154,7 +155,7 @@
         <div class="container-fluid shadow-lg">
             <a class="navbar-brand">
                 <!-- <img src="<?php echo base_url(); ?>assets/brand/bootstrap-logo.svg" alt="" width="29" height="24" class="d-inline-block align-text-top"> -->
-                <small>E-DataRekananJMTO</small>
+                <small>E-DRT JMTO</small>
             </a>
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                 <li>&nbsp;</li>
@@ -209,22 +210,22 @@
                                 <small>Pajak</small>
                             </a>
                         </li>
-                        <li>
+                        <!-- <li>
                             <hr class="dropdown-divider">
-                        </li>
-                        <li>
+                        </li> -->
+                        <!-- <li>
                             <a class="dropdown-item" href="<?= base_url() ?>daftar_hitam">
                                 <i class="fa-solid fa-ban px-1"></i>
                                 <small>Daftar Hitam</small>
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                 </li>
 
                 <li>
                     <a href="<?= base_url() ?>monitoring_dokumen" class="nav-link px-2 text-white">
                         <i class="fa-solid fa-envelope-circle-check mb-1"></i>
-                        <small>Monitoring Status Dokumen <span class="badge bg-danger">0</span></small>
+                        <small>Monitoring Status Dokumen <span class="badge bg-danger"><?= $notifikasi['notifikasi'] ?></span></small>
 
                     </a>
                 </li>
@@ -292,7 +293,7 @@
                     <div class="flex-shrink-0 dropdown">
                         <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="<?php echo base_url(); ?>assets/brand/avatar5.png" alt="mdo" width="32" height="32" class="rounded-circle shadow-lg">
-                            <small class="text-white">User: Penyedia</small>
+                            <small class="text-white">User: <?= $this->session->userdata('nama_usaha'); ?></small>
                         </a>
                         <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
                             <li><a class="dropdown-item" href="<?= base_url('auth/logout') ?>"><small>Logout</small></a></li>

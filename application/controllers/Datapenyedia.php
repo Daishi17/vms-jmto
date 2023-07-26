@@ -25,7 +25,9 @@ class Datapenyedia extends CI_Controller
 
 	public function index()
 	{
-		$this->load->view('template_menu/header_menu');
+		$id_vendor = $this->session->userdata('id_vendor');
+		$data['notifikasi'] = $this->M_dashboard->count_notifikasi($id_vendor);
+		$this->load->view('template_menu/header_menu', $data);
 		$this->load->view('datapenyedia/index');
 		$this->load->view('template_menu/new_footer');
 		$this->load->view('datapenyedia/ajax');
@@ -40,7 +42,9 @@ class Datapenyedia extends CI_Controller
 		$id_vendor = $this->session->userdata('id_vendor');
 		$data['row_vendor'] = $this->M_dashboard->get_row_vendor($id_vendor);
 		$data['kualifikasi'] = str_split($data['row_vendor']['id_jenis_usaha']);
-		$this->load->view('template_menu/header_menu');
+		$id_vendor = $this->session->userdata('id_vendor');
+		$data['notifikasi'] = $this->M_dashboard->count_notifikasi($id_vendor);
+		$this->load->view('template_menu/header_menu', $data);
 		$this->load->view('datapenyedia/identitas/index', $data);
 		$this->load->view('template_menu/new_footer');
 		$this->load->view('js_file_on_session/index', $data);
@@ -119,7 +123,9 @@ class Datapenyedia extends CI_Controller
 		$data['kualifikasi_sbu']  = $this->M_datapenyedia->get_kualifikasi_sbu();
 		$data['data_sbu']  = $this->M_datapenyedia->get_sbu();
 		$data['type']  = 'izin_usaha';
-		$this->load->view('template_menu/header_menu');
+		$id_vendor = $this->session->userdata('id_vendor');
+		$data['notifikasi'] = $this->M_dashboard->count_notifikasi($id_vendor);
+		$this->load->view('template_menu/header_menu', $data);
 		$this->load->view('datapenyedia/izin_usaha/singgah', $data);
 		$this->load->view('template_menu/new_footer');
 		$this->load->view('js_file_on_session/index', $data);
@@ -1610,7 +1616,9 @@ class Datapenyedia extends CI_Controller
 	{
 		$data['row_vendor'] = $this->vendor->get_vendor_url();
 		$data['type']  = 'akta';
-		$this->load->view('template_menu/header_menu');
+		$id_vendor = $this->session->userdata('id_vendor');
+		$data['notifikasi'] = $this->M_dashboard->count_notifikasi($id_vendor);
+		$this->load->view('template_menu/header_menu', $data);
 		$this->load->view('datapenyedia/akta_pendirian/singga', $data);
 		$this->load->view('template_menu/new_footer');
 		$this->load->view('js_file_on_session/index', $data);
@@ -2056,6 +2064,20 @@ class Datapenyedia extends CI_Controller
 
 		$this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
+
+	public function url_download_perubahan($id_url)
+	{
+		if ($id_url == '') {
+			// tendang not found
+		}
+		$get_row_enkrip = $this->M_datapenyedia->get_row_akta_perubahan_url($id_url);
+		$id_vendor = $get_row_enkrip['id_vendor'];
+		$row_vendor = $this->M_datapenyedia->get_row_vendor($id_vendor);
+		$date = date('Y');
+		// $nama_file = $get_row_enkrip['nomor_surat'];
+		// $file_dokumen =  $get_row_enkrip['file_dokumen'];
+		return force_download('file_vms/' . $row_vendor['nama_usaha'] . '/Akta_Perubahan-' . $date . '/' . $get_row_enkrip['file_dokumen'], NULL);
+	}
 	// end akta pendirian
 
 
@@ -2063,7 +2085,9 @@ class Datapenyedia extends CI_Controller
 
 	public function manajerial()
 	{
-		$this->load->view('template_menu/header_menu');
+		$id_vendor = $this->session->userdata('id_vendor');
+		$data['notifikasi'] = $this->M_dashboard->count_notifikasi($id_vendor);
+		$this->load->view('template_menu/header_menu', $data);
 		$this->load->view('datapenyedia/manajerial/singgah');
 		$this->load->view('template_menu/new_footer');
 		$this->load->view('js_folder/manajerial/file_public');
@@ -2398,10 +2422,15 @@ class Datapenyedia extends CI_Controller
 	{
 		$id_url = $this->uri->segment(3);
 		$type = $this->uri->segment(4);
+		$type_edit_pemilik = $this->uri->segment(5);
 		if ($id_url == '') {
 			// tendang not found
 		}
-		$get_row_enkrip = $this->M_datapenyedia->get_row_excel_pemilik_manajerial_enkription($id_url);
+		if ($type_edit_pemilik == 'edit_excel') {
+			$get_row_enkrip = $this->M_datapenyedia->get_row_excel_pemilik_manajerial_enkription($id_url);
+		} else {
+			$get_row_enkrip = $this->M_datapenyedia->get_row_pemilik_manajerial_enkription($id_url);
+		}
 		if ($type == 'pemilik_ktp') {
 			$fileDownload = $get_row_enkrip['file_ktp'];
 		}
@@ -2498,7 +2527,7 @@ class Datapenyedia extends CI_Controller
 				'jns_pemilik' => $value['jns_pemilik'],
 				'saham' => $value['saham'],
 				'alamat_pemilik' => $value['alamat_pemilik'],
-				'sts_valdiasi' => 0
+				'sts_validasi' => 0
 			];
 			$this->M_datapenyedia->tambah_tbl_vendor_pemilik($data);
 		}
@@ -2903,10 +2932,16 @@ class Datapenyedia extends CI_Controller
 	{
 		$id_url = $this->uri->segment(3);
 		$type = $this->uri->segment(4);
+		$type_edit_pengurus = $this->uri->segment(5);
 		if ($id_url == '') {
 			// tendang not found
 		}
-		$get_row_enkrip = $this->M_datapenyedia->get_row_excel_pengurus_manajerial_enkription($id_url);
+		if ($type_edit_pengurus == 'edit_excel') {
+			$get_row_enkrip = $this->M_datapenyedia->get_row_excel_pengurus_manajerial_enkription($id_url);
+		} else {
+			$get_row_enkrip = $this->M_datapenyedia->get_row_pengurus_manajerial_enkription($id_url);
+		}
+
 		if ($type == 'pengurus_ktp') {
 			$fileDownload = $get_row_enkrip['file_ktp_pengurus'];
 		}
@@ -2984,14 +3019,18 @@ class Datapenyedia extends CI_Controller
 
 	public function sdm()
 	{
-		$this->load->view('template_menu/header_menu');
+		$id_vendor = $this->session->userdata('id_vendor');
+		$data['notifikasi'] = $this->M_dashboard->count_notifikasi($id_vendor);
+		$this->load->view('template_menu/header_menu', $data);
 		$this->load->view('datapenyedia/sdm/index');
 		$this->load->view('template_menu/new_footer');
 	}
 
 	public function pengalaman()
 	{
-		$this->load->view('template_menu/header_menu');
+		$id_vendor = $this->session->userdata('id_vendor');
+		$data['notifikasi'] = $this->M_dashboard->count_notifikasi($id_vendor);
+		$this->load->view('template_menu/header_menu', $data);
 		$this->load->view('datapenyedia/pengalaman/singgah');
 		$this->load->view('template_menu/new_footer');
 		$this->load->view('js_folder/pengalaman_perusahaan/file_public');
@@ -3432,7 +3471,9 @@ class Datapenyedia extends CI_Controller
 	{
 		$id_vendor = $this->session->userdata('id_vendor');
 		$data['row_vendor']  = $this->M_datapenyedia->get_row_vendor($id_vendor);
-		$this->load->view('template_menu/header_menu');
+		$id_vendor = $this->session->userdata('id_vendor');
+		$data['notifikasi'] = $this->M_dashboard->count_notifikasi($id_vendor);
+		$this->load->view('template_menu/header_menu', $data);
 		$this->load->view('datapenyedia/pajak/singgah', $data);
 		$this->load->view('template_menu/new_footer');
 		$this->load->view('datapenyedia/pajak/file_public');
@@ -3545,7 +3586,7 @@ class Datapenyedia extends CI_Controller
 			mkdir('file_vms/' . $nama_usaha . '/Neraca-' . $date, 0777, TRUE);
 		}
 		$config['upload_path'] = './file_vms/' . $nama_usaha . '/Neraca-' . $date;
-		$config['allowed_types'] = 'pdf|xlsx|xls';
+		$config['allowed_types'] = '*';
 		$config['max_size'] = 0;
 		$this->load->library('upload', $config);
 		if ($this->upload->do_upload('file_dokumen_neraca')) {
@@ -3777,7 +3818,7 @@ class Datapenyedia extends CI_Controller
 		$password_dokumen = '1234';
 		$this->form_validation->set_rules('no_surat_sppkp', 'SPPKP', 'required|trim', ['required' => 'SPPKP Wajib Diisi!']);
 		$this->form_validation->set_rules('sts_seumur_hidup_sppkp', 'Berlaku Sampai', 'required|trim', ['required' => 'Berlaku Sampai Wajib Diisi!']);
-		$this->form_validation->set_rules('tgl_berlaku_sppkp', 'Berlaku Sampai', 'required|trim', ['required' => 'Berlaku Sampai  Wajib Diisi!']);
+		// $this->form_validation->set_rules('tgl_berlaku_sppkp', 'Berlaku Sampai', 'required|trim', ['required' => 'Berlaku Sampai  Wajib Diisi!']);
 		if ($this->form_validation->run() == false) {
 			$response = [
 				'error' => [
@@ -3972,7 +4013,7 @@ class Datapenyedia extends CI_Controller
 		$password_dokumen = '1234';
 		$this->form_validation->set_rules('no_npwp', 'NPWP', 'required|trim', ['required' => 'NPWP Wajib Diisi!']);
 		$this->form_validation->set_rules('sts_seumur_hidup_npwp', 'Berlaku Sampai', 'required|trim', ['required' => 'Berlaku Sampai Wajib Diisi!']);
-		$this->form_validation->set_rules('tgl_berlaku_npwp', 'Berlaku Sampai', 'required|trim', ['required' => 'Berlaku Sampai  Wajib Diisi!']);
+		// $this->form_validation->set_rules('tgl_berlaku_npwp', 'Berlaku Sampai', 'required|trim', ['required' => 'Berlaku Sampai  Wajib Diisi!']);
 		if ($this->form_validation->run() == false) {
 			$response = [
 				'error' => [
@@ -4623,9 +4664,9 @@ class Datapenyedia extends CI_Controller
 			$id = str_replace('-', '', $id);
 			// seeting enkrip dokumen
 			$chiper = "AES-128-ECB";
-			
-			$secret_token_dokumen1 = 'jmto.1'. $get_row_enkrip['id_url'];
-			$secret_token_dokumen2 = 'jmto.2'. $get_row_enkrip['id_url'];
+
+			$secret_token_dokumen1 = 'jmto.1' . $get_row_enkrip['id_url'];
+			$secret_token_dokumen2 = 'jmto.2' . $get_row_enkrip['id_url'];
 			$secret = $secret_token_dokumen1 . $secret_token_dokumen2;
 			$password_dokumen = '1234';
 			// SETTING PATH 
@@ -4730,7 +4771,7 @@ class Datapenyedia extends CI_Controller
 		$this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
 
-	
+
 	public function hapus_row_keuangan($id_url)
 	{
 		$where = [
@@ -4738,6 +4779,27 @@ class Datapenyedia extends CI_Controller
 		];
 		$this->M_datapenyedia->delete_keuangan($where);
 		$this->output->set_content_type('application/json')->set_output(json_encode('success'));
+	}
+
+	public function url_download_keuangan()
+	{
+		$id_url = $this->uri->segment(3);
+		$type = $this->uri->segment(4);
+		if ($id_url == '') {
+			// tendang not found
+		}
+		if ($type == 'keuangan_sertifikat') {
+			$get_row_enkrip = $this->M_datapenyedia->get_row_keuangan_url($id_url);
+			$fileDownload = $get_row_enkrip['file_laporan_auditor'];
+			$id_vendor = $get_row_enkrip['id_vendor'];
+		} else {
+			$get_row_enkrip = $this->M_datapenyedia->get_row_keuangan_url($id_url);
+			$fileDownload = $get_row_enkrip['file_laporan_keuangan'];
+			$id_vendor = $get_row_enkrip['id_vendor'];
+		}
+		$row_vendor = $this->M_datapenyedia->get_row_vendor($id_vendor);
+		$date = date('Y');
+		return force_download('file_vms/' . $row_vendor['nama_usaha'] . '/Laporan_Keuangan-' . $date . '/' . $fileDownload, NULL);
 	}
 	
 	// end crud laporan keuangan
