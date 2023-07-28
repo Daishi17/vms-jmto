@@ -158,22 +158,6 @@
                             <div class="row g-2 mb-2">
                                 <div class="col-sm-6">
                                     <div class="input-group">
-                                        <span class="input-group-text"><i class="fa-solid fa-keyboard"></i></span>
-                                        <input required type="password" id="passwordlihat1" name="password" class="form-control" placeholder="Buat Password">
-                                        <a class="btn btn-outline-secondary" onclick="myFunction1()" href="javascript:;"><i class="fa-solid fa-eye"></i></a>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="fa-solid fa-key"></i></span>
-                                        <input required name="password2" id="passwordlihat2" type="password" class="form-control" placeholder="Konfirmasi Password">
-                                        <a class="btn btn-outline-secondary" onclick="myFunction2()" href="javascript:;"><i class="fa-solid fa-eye"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row g-2 mb-2">
-                                <div class="col-sm-6">
-                                    <div class="input-group">
                                         <span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
                                         <input type="email" required class="form-control" name="email" value="<?= $this->session->userdata('email') ?>" readonly>
                                     </div>
@@ -206,12 +190,41 @@
                                 </div>
                             </div>
                             <hr>
-                            <div class="row align-items-start">
-                                <div class="col-auto">
-                                    <button type="submit" id="button_save" class="btn btn-primary disabled">
-                                        <i class="fa-solid fa-registered px-1"></i>
-                                        Registrasi
-                                    </button>
+                            <div class="row g-2 mb-2">
+                                <div class="col-sm-6">
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fa-solid fa-keyboard"></i></span>
+                                        <input required type="password" onkeyup="password_validation()" id="passwordlihat1" name="password" class="form-control" placeholder="Buat Password">
+                                        <a class="btn btn-outline-secondary" onclick="myFunction1()" href="javascript:;"><i class="fa-solid fa-eye"></i></a>
+                                    </div>
+                                    <br>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fa-solid fa-key"></i></span>
+                                        <input required name="password2" id="passwordlihat2" onkeyup="conform()" type="password" class="form-control" placeholder="Konfirmasi Password">
+                                        <a class="btn btn-outline-secondary" onclick="myFunction2()" href="javascript:;"><i class="fa-solid fa-eye"></i></a>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <small id="besar">Sertakan Huruf Besar</small><br>
+                                            <small id="kecil">Sertakan Huruf Kecil</small><br>
+                                            <small id="simbol">Sertakan Sepesial Simbol</small><br>
+                                            <small id="angka">Sertakan Angka</small><br>
+                                            <small id="panjang">Panjang 8 Karakter</small>
+                                        </div>
+                                        <div class="col-md-4"><br>
+                                            <br>
+                                            <div class="row align-items-start">
+                                                <div class="col-auto">
+                                                    <button type="submit" id="button_save" style="display: none;" class="btn btn-primary disabled">
+                                                        <i class="fa-solid fa-registered px-1"></i>
+                                                        Registrasi
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </form>
@@ -220,6 +233,7 @@
             </div>
         </div>
     </main>
+
 <?php } else { ?>
     <?php $this->load->view('notfound'); ?>
 <?php   }

@@ -28,7 +28,7 @@
                 <?php if ($this->session->flashdata('success')) {
                     echo '  <div class="alert alert-success alert-dismissible">
                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-               <h5><i class="icon fas fa-exclamation-triangle"></i> Maaf!</h5>';
+               <h5><i class="icon fas fa-exclamation-triangle"></i> Selamat!</h5>';
                     echo  $this->session->flashdata('success');
                     echo ' </div>';
                 } ?>

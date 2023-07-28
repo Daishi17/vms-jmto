@@ -510,7 +510,7 @@ function simpan_kbli_nib() {
             },
             success: function(response) {
                 if (response['message'] == 'success') {
-                    Swal.fire('Good job!', 'Data Beharhasil Ditambah!', 'success');
+                    Swal.fire('Good job!', 'Data Berhasil Ditambah!', 'success');
                     form_simpan_kbli_nib[0].reset();
                     reloadTable_kbli_nib()
                     $(".id_kbli_nib").css('display','none');
@@ -597,7 +597,7 @@ function Question_kbli_nib(id_url_kbli_nib, token_kbli_nib) {
                 dataType: "JSON",
                 success: function(response) {
                     if (response['message'] == 'success') {
-                        Swal.fire('Good job!', 'Data Beharhasil Dihapus!', 'success');
+                        Swal.fire('Good job!', 'Data Berhasil Dihapus!', 'success');
                         form_simpan_kbli_nib[0].reset();
                         reloadTable_kbli_nib()
                     } else {
@@ -625,7 +625,7 @@ function edit_kbli_nib() {
             success: function(response) {
                 if (response['message'] == 'success') {
                         modal_edit_kbli_nib.modal('hide');
-                        Swal.fire('Good job!', 'Data Beharhasil Edit!', 'success');
+                        Swal.fire('Good job!', 'Data Berhasil Edit!', 'success');
                         form_simpan_kbli_nib[0].reset();
                         form_edit_kbli_nib[0].reset();
                         reloadTable_kbli_nib();
@@ -925,7 +925,7 @@ function simpan_kbli_siup() {
             success: function(response) {
                 if (response['message'] == 'success') {
                     reloadTable_kbli_siup()
-                    Swal.fire('Good job!', 'Data Beharhasil Ditambah!', 'success');
+                    Swal.fire('Good job!', 'Data Berhasil Ditambah!', 'success');
                     form_simpan_kbli_siup[0].reset();
                     $(".id_kbli_siup_error").css('display','none');
                     $(".id_kualifikasi_izin_kbli_siup_error").css('display','none');
@@ -1011,7 +1011,7 @@ function Question_kbli_siup(id_url_kbli_siup, token_kbli_siup) {
                 dataType: "JSON",
                 success: function(response) {
                     if (response['message'] == 'success') {
-                        Swal.fire('Good job!', 'Data Beharhasil Dihapus!', 'success');
+                        Swal.fire('Good job!', 'Data Berhasil Dihapus!', 'success');
                         form_simpan_kbli_siup[0].reset();
                         reloadTable_kbli_siup()
                     } else {
@@ -1039,7 +1039,7 @@ function edit_kbli_siup() {
         success: function(response) {
             if (response['message'] == 'success') {
                 reloadTable_kbli_siup()
-                Swal.fire('Good job!', 'Data Beharhasil Ditambah!', 'success');
+                Swal.fire('Good job!', 'Data Berhasil Ditambah!', 'success');
                 form_edit_kbli_siup[0].reset();
                 form_simpan_kbli_siup[0].reset();
                 $(".id_kbli_siup_error").css('display','none');
@@ -1336,7 +1336,7 @@ function simpan_kbli_sbu() {
             success: function(response) {
                 if (response['message'] == 'success') {
                     reloadTable_kbli_sbu()
-                    Swal.fire('Good job!', 'Data Beharhasil Ditambah!', 'success');
+                    Swal.fire('Good job!', 'Data Berhasil Ditambah!', 'success');
                     form_simpan_kbli_sbu[0].reset();
                     $(".id_kbli_sbu_error").css('display','none');
                     $(".id_kualifikasi_izin_kbli_sbu_error").css('display','none');
@@ -1421,7 +1421,7 @@ function Question_kbli_sbu(id_url_kbli_sbu, token_kbli_sbu) {
               dataType: "JSON",
               success: function(response) {
                   if (response['message'] == 'success') {
-                      Swal.fire('Good job!', 'Data Beharhasil Dihapus!', 'success');
+                      Swal.fire('Good job!', 'Data Berhasil Dihapus!', 'success');
                       form_simpan_kbli_sbu[0].reset();
                       reloadTable_kbli_sbu()
                   } else {
@@ -1449,7 +1449,7 @@ function edit_kbli_sbu() {
         success: function(response) {
             if (response['message'] == 'success') {
                 reloadTable_kbli_sbu()
-                Swal.fire('Good job!', 'Data Beharhasil Ditambah!', 'success');
+                Swal.fire('Good job!', 'Data Berhasil Ditambah!', 'success');
                 form_edit_kbli_sbu[0].reset();
                 form_simpan_kbli_sbu[0].reset();
                 $(".id_kbli_sbu_error").css('display','none');
@@ -1744,7 +1744,7 @@ function simpan_kbli_siujk() {
         success: function(response) {
             if (response['message'] == 'success') {
                 reloadTable_kbli_siujk()
-                Swal.fire('Good job!', 'Data Beharhasil Ditambah!', 'success');
+                Swal.fire('Good job!', 'Data Berhasil Ditambah!', 'success');
                 form_simpan_kbli_siujk[0].reset();
                 $(".id_kbli_siujk_error").css('display', 'none');
                 $(".id_kualifikasi_izin_kbli_siujk_error").css('display', 'none');
@@ -1830,7 +1830,7 @@ function Question_kbli_siujk(id_url_kbli_siujk, token_kbli_siujk) {
                 dataType: "JSON",
                 success: function(response) {
                     if (response['message'] == 'success') {
-                        Swal.fire('Good job!', 'Data Beharhasil Dihapus!', 'success');
+                        Swal.fire('Good job!', 'Data Berhasil Dihapus!', 'success');
                         form_simpan_kbli_siujk[0].reset();
                         reloadTable_kbli_siujk()
                     } else {
@@ -1858,7 +1858,7 @@ function edit_kbli_siujk() {
         success: function(response) {
             if (response['message'] == 'success') {
                 reloadTable_kbli_siujk()
-                Swal.fire('Good job!', 'Data Beharhasil Ditambah!', 'success');
+                Swal.fire('Good job!', 'Data Berhasil Ditambah!', 'success');
                 form_edit_kbli_siujk[0].reset();
                 form_simpan_kbli_siujk[0].reset();
                 $(".id_kbli_siujk_error").css('display', 'none');

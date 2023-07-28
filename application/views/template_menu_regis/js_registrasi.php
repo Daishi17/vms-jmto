@@ -15,6 +15,7 @@
                     x.type = "password";
                 }
             }
+
             function myFunction2() {
                 var x = document.getElementById("passwordlihat2");
                 if (x.type === "password") {
@@ -101,6 +102,81 @@
             function set(e) {
                 e = e < 10 ? '0' + e : e;
                 return e;
+            }
+        </script>
+
+        <script>
+            function password_validation() {
+                var passwordlihat1 = document.getElementById('passwordlihat1');
+                var besar = document.getElementById('besar');
+                var kecil = document.getElementById('kecil');
+                var simbol = document.getElementById('simbol');
+                var angka = document.getElementById('angka');
+                var panjang = document.getElementById('panjang');
+                var nilai_1 = 0;
+                var nilai_2 = 0;
+                var nilai_3 = 0;
+                var nilai_4 = 0;
+                if (passwordlihat1.value.match(/[0-9]/)) {
+                    angka.style.color = 'green';
+                    var nilai_1 = 1;
+                } else {
+                    angka.style.color = 'red';
+                    var nilai_1 = 0;
+                }
+
+                if (passwordlihat1.value.match(/[A-Z]/)) {
+                    besar.style.color = 'green';
+                    var nilai_2 = 1;
+                } else {
+                    besar.style.color = 'red';
+                    var nilai_2 = 0;
+                }
+
+                if (passwordlihat1.value.match(/[!\@\#\$\%\^\&\*\(\)\_\+\=\-\<\>\?\.\,]/)) {
+                    simbol.style.color = 'green';
+                    var nilai_3 = 1;
+                } else {
+                    simbol.style.color = 'red';
+                    var nilai_3 = 0;
+                }
+
+                if (passwordlihat1.value.length < 8) {
+                    panjang.style.color = 'green';
+                    var nilai_4 = 1;
+                } else {
+                    panjang.style.color = 'red';
+                    var nilai_4 = 0;
+                }
+
+                if (passwordlihat1.value.match(/[a-z]/)) {
+                    kecil.style.color = 'green';
+                    var nilai_5 = 1;
+                } else {
+                    kecil.style.color = 'red';
+                    var nilai_5 = 0;
+                }
+
+            }
+
+            function conform() {
+                var passwordlihat1 = document.getElementById('passwordlihat1');
+                var passwordlihat2 = document.getElementById('passwordlihat2');
+                if (passwordlihat1.value == passwordlihat2.value) {
+                    $('#button_save').css('display', 'block');
+                    document.getElementById('besar').style.display = 'none';
+                    document.getElementById('kecil').style.display = 'none';
+                    document.getElementById('simbol').style.display = 'none';
+                    document.getElementById('panjang').style.display = 'none';
+                    document.getElementById('angka').style.display = 'none';
+                } else {
+                    $('#button_save').css('display', 'none')
+                    document.getElementById('besar').style.display = 'block';
+                    document.getElementById('kecil').style.display = 'block';
+                    document.getElementById('simbol').style.display = 'block';
+                    document.getElementById('panjang').style.display = 'block';
+                    document.getElementById('angka').style.display = 'block';
+                }
             }
         </script>
         </body>

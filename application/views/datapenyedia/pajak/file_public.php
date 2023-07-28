@@ -895,21 +895,34 @@
             dataType: "JSON",
             success: function(response) {
                 if (type == 'edit') {
-                    $('[name="file_dokumen_manipulasi_neraca"]').val(response['row_neraca'].file_dokumen_neraca);
                     modal_edit_neraca.modal('show');
-                    $('[name="validasi_enkripsi"]').val(response['row_neraca'].sts_token_dokumen);
-                    if (response['row_neraca']['sts_token_dokumen'] == 1) {
-                        $('.button_enkrip_neraca').html('<a href="javascript:;"  onclick="DekripEnkrip_neraca(\'' + response['row_neraca'].id_url_neraca + '\'' + ',' + '\'' + 'dekrip' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-lock-open mr-2"></i> Dekripsi Dokumen</a>');
-                    } else {
-                        $('.button_enkrip_neraca').html('<a href="javascript:;" onclick="DekripEnkrip_neraca(\'' + response['row_neraca'].id_url_neraca + '\'' + ',' + '\'' + 'enkrip' + '\')" class="btn btn-success btn-sm"><i class="fas fa-lock mr-2"></i> Enkripsi Dokumen</a>');
-                    }
-                    $('.button_nama_file_dokumen_sertifikat').html('<a href="javascript:;"  onclick="Download_neraca(\'' + response['row_neraca'].id_url_neraca + '\'' + ',' + '\'' + 'neraca_dokumen' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-file mr-2"></i> ' + response['row_neraca'].file_dokumen_sertifikat + '</a>');
-                    $('.button_nama_file_dokumen_neraca').html('<a href="javascript:;"  onclick="Download_neraca(\'' + response['row_neraca'].id_url_neraca + '\'' + ',' + '\'' + 'neraca_sertifikat' + '\')" class="btn btn-warning btn-sm"><i class="fas fa-file mr-2"></i> ' + response['row_neraca'].file_dokumen_neraca + '</a>');
+                    // tahun belom
+                    console.log(response['row_file_excel']);
+                    $('[name="nilai_tahun_kolom_1_1"]').val(response['row_file_excel'][1][2]);
+                    $('[name="nilai_tahun_kolom_2_1"]').val(response['row_file_excel'][1][3]);
+
+                    $('[name="nilai_tahun_kolom_1_2"]').val(response['row_file_excel'][2][2]);
+                    $('[name="nilai_tahun_kolom_2_2"]').val(response['row_file_excel'][2][3]);
+
+                    $('[name="nilai_tahun_kolom_1_3"]').val(response['row_file_excel'][3][2]);
+                    $('[name="nilai_tahun_kolom_2_3"]').val(response['row_file_excel'][3][3]);
+
+                    $('[name="nilai_tahun_kolom_1_4"]').val(response['row_file_excel'][4][2]);
+                    $('[name="nilai_tahun_kolom_2_4"]').val(response['row_file_excel'][4][3]);
+
+                    $('[name="nilai_tahun_kolom_1_5"]').val(response['row_file_excel'][5][2]);
+                    $('[name="nilai_tahun_kolom_2_5"]').val(response['row_file_excel'][5][3]);
+
+                    $('[name="nilai_tahun_kolom_1_6"]').val(response['row_file_excel'][6][2]);
+                    $('[name="nilai_tahun_kolom_2_6"]').val(response['row_file_excel'][6][3]);
+
+                    $('[name="nilai_tahun_kolom_1_7"]').val(response['row_file_excel'][7][2]);
+                    $('[name="nilai_tahun_kolom_2_7"]').val(response['row_file_excel'][7][3]);
+
+                    $('[name="nilai_tahun_kolom_1_8"]').val(response['row_file_excel'][8][2]);
+                    $('[name="nilai_tahun_kolom_2_8"]').val(response['row_file_excel'][8][3]);
                     $('[name="id_neraca"]').val(response['row_neraca'].id_neraca);
-                    // $('[name="nama_akuntan_public"]').val(response['row_neraca'].nama_akuntan_public);
-                    // $('[name="tangga_laporan"]').val(response['row_neraca'].tangga_laporan);
-                    $('[name="file_dokumen_neraca"]').val(response['row_neraca'].file_dokumen_neraca);
-                    $('[name="file_dokumen_sertifikat"]').val(response['row_neraca'].file_dokumen_sertifikat);
+
                 } else if (type == 'hapus') {
                     Question_hapus_neraca(response['row_neraca'].id_url_neraca, response['row_neraca'].nama_akuntan_public);
                 } else {
@@ -1045,5 +1058,231 @@
     function Download_neraca(id_url_neraca, type) {
         // var url_download_nib = $('[name="url_download_nib"]').val()
         location.href = '<?= base_url('datapenyedia/url_download_neraca/') ?>' + id_url_neraca + '/' + type;
+    }
+
+
+    // crud sppkp
+    var form_export_excel = $('#form_export_excel')
+
+    form_export_excel.on('submit', function(e) {
+        var url_buat_excel_format_neraca = $('[name="url_buat_excel_format_neraca"]').val()
+        var form_export_excel = $('#form_export_excel');
+        e.preventDefault();
+        $.ajax({
+            url: url_buat_excel_format_neraca,
+            method: "POST",
+            data: new FormData(this),
+            contentType: false,
+            cache: false,
+            processData: false,
+            beforeSend: function() {
+                $('.btn_simpan_excel').attr("disabled", true);
+            },
+            success: function(response) {
+                form_export_excel[0].reset();
+                Swal.fire('Data Berhasil Di Simpan!', '', 'success');
+                $('.btn_simpan_excel').attr("disabled", false);
+                $('#modal-xl-neraca').modal('hide');
+                reloadtable_nerca_keuangan()
+            }
+        })
+    })
+
+
+    // crud sppkp
+    var form_edit_neraca = $('#form_edit_neraca')
+
+    form_edit_neraca.on('submit', function(e) {
+        // var url_buat_excel_format_neraca = $('[name="url_buat_excel_format_neraca"]').val()
+        var modal_edit_neraca = $('#modal-xl-neraca-edit');
+        var form_export_excel = $('#form_export_excel');
+        e.preventDefault();
+        $.ajax({
+            url: "<?php echo base_url(); ?>datapenyedia/edit_neraca_keuangan",
+            method: "POST",
+            data: new FormData(this),
+            contentType: false,
+            cache: false,
+            processData: false,
+            beforeSend: function() {
+                $('.btn_simpan_excel').attr("disabled", true);
+            },
+            success: function(response) {
+                form_export_excel[0].reset();
+                Swal.fire('Data Berhasil Di Simpan!', '', 'success');
+                $('.btn_simpan_excel').attr("disabled", false);
+                modal_edit_neraca.modal('hide');
+                reloadtable_nerca_keuangan()
+            }
+        })
+    })
+
+    $('#modal-xl-neraca-edit').on('hidden.bs.modal', function() {
+        var form_export_excel = $('#form_export_excel');
+        form_export_excel[0].reset();
+    });
+
+    var rupiah1 = document.getElementById('rupiah1');
+    rupiah1.addEventListener('keyup', function(e) {
+        rupiah1.value = formatRupiah(this.value, 'Rp. ');
+    });
+    // rupiah2
+    var rupiah2 = document.getElementById('rupiah2');
+    rupiah2.addEventListener('keyup', function(e) {
+        rupiah2.value = formatRupiah(this.value, 'Rp. ');
+    });
+     // rupiah3
+     var rupiah3 = document.getElementById('rupiah3');
+    rupiah3.addEventListener('keyup', function(e) {
+        rupiah3.value = formatRupiah(this.value, 'Rp. ');
+    });
+    // rupiah4
+    var rupiah4 = document.getElementById('rupiah4');
+    rupiah4.addEventListener('keyup', function(e) {
+        rupiah4.value = formatRupiah(this.value, 'Rp. ');
+    });
+    // rupiah5
+    var rupiah5 = document.getElementById('rupiah5');
+    rupiah5.addEventListener('keyup', function(e) {
+        rupiah5.value = formatRupiah(this.value, 'Rp. ');
+    });
+    // rupiah6
+    var rupiah6 = document.getElementById('rupiah6');
+    rupiah6.addEventListener('keyup', function(e) {
+        rupiah6.value = formatRupiah(this.value, 'Rp. ');
+    });
+    // rupiah7
+    var rupiah7 = document.getElementById('rupiah7');
+    rupiah7.addEventListener('keyup', function(e) {
+        rupiah7.value = formatRupiah(this.value, 'Rp. ');
+    });
+    // rupiah8
+    var rupiah8 = document.getElementById('rupiah8');
+    rupiah8.addEventListener('keyup', function(e) {
+        rupiah8.value = formatRupiah(this.value, 'Rp. ');
+    });
+    // rupiah9
+    var rupiah9 = document.getElementById('rupiah9');
+    rupiah9.addEventListener('keyup', function(e) {
+        rupiah9.value = formatRupiah(this.value, 'Rp. ');
+    });
+    // rupiah10
+    var rupiah10 = document.getElementById('rupiah10');
+    rupiah10.addEventListener('keyup', function(e) {
+        rupiah10.value = formatRupiah(this.value, 'Rp. ');
+    });
+    // rupiah11
+    var rupiah11 = document.getElementById('rupiah11');
+    rupiah11.addEventListener('keyup', function(e) {
+        rupiah11.value = formatRupiah(this.value, 'Rp. ');
+    });
+    // rupiah12
+    var rupiah12 = document.getElementById('rupiah12');
+    rupiah12.addEventListener('keyup', function(e) {
+        rupiah12.value = formatRupiah(this.value, 'Rp. ');
+    });
+    // rupiah13
+    var rupiah13 = document.getElementById('rupiah13');
+    rupiah13.addEventListener('keyup', function(e) {
+        rupiah13.value = formatRupiah(this.value, 'Rp. ');
+    });
+    // rupiah14
+    var rupiah14 = document.getElementById('rupiah14');
+    rupiah14.addEventListener('keyup', function(e) {
+        rupiah14.value = formatRupiah(this.value, 'Rp. ');
+    });
+  
+    // rupiah1_
+    var rupiah1_1 = document.getElementById('rupiah1_1');
+    rupiah1_1.addEventListener('keyup', function(e) {
+        rupiah1_1.value = formatRupiah(this.value, 'Rp. ');
+    });
+    // rupiah2_2
+    var rupiah2_2 = document.getElementById('rupiah2_2');
+    rupiah2_2.addEventListener('keyup', function(e) {
+        rupiah2_2.value = formatRupiah(this.value, 'Rp. ');
+    });
+     // rupiah3_3
+     var rupiah3_3 = document.getElementById('rupiah3_3');
+    rupiah3_3.addEventListener('keyup', function(e) {
+        rupiah3_3.value = formatRupiah(this.value, 'Rp. ');
+    });
+    // rupiah4_4
+    var rupiah4_4 = document.getElementById('rupiah4_4');
+    rupiah4_4.addEventListener('keyup', function(e) {
+        rupiah4_4.value = formatRupiah(this.value, 'Rp. ');
+    });
+    // rupiah5_5
+    var rupiah5_5 = document.getElementById('rupiah5_5');
+    rupiah5_5.addEventListener('keyup', function(e) {
+        rupiah5_5.value = formatRupiah(this.value, 'Rp. ');
+    });
+    // rupiah6_6
+    var rupiah6_6 = document.getElementById('rupiah6_6');
+    rupiah6_6.addEventListener('keyup', function(e) {
+        rupiah6_6.value = formatRupiah(this.value, 'Rp. ');
+    });
+    // rupiah7_7
+    var rupiah7_7 = document.getElementById('rupiah7_7');
+    rupiah7_7.addEventListener('keyup', function(e) {
+        rupiah7_7.value = formatRupiah(this.value, 'Rp. ');
+    });
+    // rupiah8_8
+    var rupiah8_8 = document.getElementById('rupiah8_8');
+    rupiah8_8.addEventListener('keyup', function(e) {
+        rupiah8_8.value = formatRupiah(this.value, 'Rp. ');
+    });
+    // rupiah9_9
+    var rupiah9_9 = document.getElementById('rupiah9_9');
+    rupiah9_9.addEventListener('keyup', function(e) {
+        rupiah9_9.value = formatRupiah(this.value, 'Rp. ');
+    });
+    // rupiah10_10
+    var rupiah10_10 = document.getElementById('rupiah10_10');
+    rupiah10_10.addEventListener('keyup', function(e) {
+        rupiah10_10.value = formatRupiah(this.value, 'Rp. ');
+    });
+    // rupiah11_11
+    var rupiah11_11 = document.getElementById('rupiah11_11');
+    rupiah11_11.addEventListener('keyup', function(e) {
+        rupiah11_11.value = formatRupiah(this.value, 'Rp. ');
+    });
+    // rupiah12_12
+    var rupiah12_12 = document.getElementById('rupiah12_12');
+    rupiah12_12.addEventListener('keyup', function(e) {
+        rupiah12_12.value = formatRupiah(this.value, 'Rp. ');
+    });
+    // rupiah13_13
+    var rupiah13_13 = document.getElementById('rupiah13_13');
+    rupiah13_13.addEventListener('keyup', function(e) {
+        rupiah13_13.value = formatRupiah(this.value, 'Rp. ');
+    });
+    // rupiah14_14
+    var rupiah14_14 = document.getElementById('rupiah14_14');
+    rupiah14_14.addEventListener('keyup', function(e) {
+        rupiah14_14.value = formatRupiah(this.value, 'Rp. ');
+    });
+
+
+
+
+
+
+    /* Fungsi formatRupiah */
+    function formatRupiah(angka, prefix) {
+        var number_string = angka.replace(/[^,\d]/g, '').toString(),
+            split = number_string.split(','),
+            sisa = split[0].length % 3,
+            rupiah = split[0].substr(0, sisa),
+            ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+        if (ribuan) {
+            separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
+        }
+
+        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+        return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
     }
 </script>

@@ -187,7 +187,7 @@
                     url: url_hapus_row_import_excel_pemilik + id_url,
                     dataType: "JSON",
                     success: function(response) {
-                        Swal.fire('Good job!', 'Data Beharhasil Dihapus!', 'success');
+                        Swal.fire('Good job!', 'Data Berhasil Dihapus!', 'success');
                         reloaddata_excel_pemilik_manajerial()
                     }
                 })
@@ -210,7 +210,7 @@
                     url: url_hapus_import_excel_pemilik,
                     dataType: "JSON",
                     success: function(response) {
-                        Swal.fire('Good job!', 'Data Beharhasil Dihapus!', 'success');
+                        Swal.fire('Good job!', 'Data Berhasil Dihapus!', 'success');
                         reloaddata_excel_pemilik_manajerial()
 
                     }
@@ -410,7 +410,7 @@
 
                     } else {
                         modal_xl_pemilik.modal('hide')
-                        Swal.fire('Good job!', 'Data Beharhasil Di Buat!', 'success');
+                        Swal.fire('Good job!', 'Data Berhasil Di Buat!', 'success');
                         reloaddata_pemilik_manajerial()
                         $('.btn_simpan').attr('disabled', false);
                         form_simpan_manajerial_pemilik[0].reset();
@@ -503,7 +503,7 @@
                     url: url_hapus_row_pemilik + id_url,
                     dataType: "JSON",
                     success: function(response) {
-                        Swal.fire('Good job!', 'Data Beharhasil Dihapus!', 'success');
+                        Swal.fire('Good job!', 'Data Berhasil Dihapus!', 'success');
                         reloaddata_pemilik_manajerial()
                     }
                 })
@@ -583,7 +583,7 @@
 
                         } else {
                             modal_edit_excel_pemilik_manajerial.modal('hide')
-                            Swal.fire('Good job!', 'Data Beharhasil Di Edit!', 'success');
+                            Swal.fire('Good job!', 'Data Berhasil Di Edit!', 'success');
                             reloaddata_excel_pemilik_manajerial()
                             reloaddata_pemilik_manajerial();
                             $('.btn_edit_biasa').attr('disabled', false);
@@ -648,7 +648,7 @@
                 $('.data_tervalidasi').css('display', 'none');
             },
             success: function(response) {
-                Swal.fire('Good job!', 'Data Beharhasil Simpan!', 'success');
+                Swal.fire('Good job!', 'Data Berhasil Simpan!', 'success');
                 form_import_excel[0].reset();
                 reloaddata_excel_pemilik_manajerial();
                 reloaddata_pemilik_manajerial();
@@ -785,7 +785,7 @@
                         $('.btn_simpan').attr("disabled", false);
                     } else {
                         modal_xl_pengurus.modal('hide')
-                        Swal.fire('Good job!', 'Data Beharhasil Di Buat!', 'success');
+                        Swal.fire('Good job!', 'Data Berhasil Di Buat!', 'success');
                         reloaddata_pengurus_manajerial()
                         $('.btn_simpan').attr('disabled', false);
                         form_simpan_manajerial_pengurus[0].reset();
@@ -1010,7 +1010,7 @@
                     } else {
                         modal_edit_excel_pengurus_manajerial.modal('hide')
                         $('.btn_simpan').attr('disabled', false);
-                        Swal.fire('Good job!', 'Data Beharhasil Di Edit!', 'success');
+                        Swal.fire('Good job!', 'Data Berhasil Di Edit!', 'success');
                         reloaddata_excel_pengurus_manajerial()
                         reloaddata_pengurus_manajerial();
                         form_edit_excel_pengurus_manajerial[0].reset();
@@ -1051,7 +1051,7 @@
                     url: '<?= base_url('datapenyedia/hapus_row_import_excel_pengurus/') ?>' + id_url,
                     dataType: "JSON",
                     success: function(response) {
-                        Swal.fire('Good job!', 'Data Beharhasil Dihapus!', 'success');
+                        Swal.fire('Good job!', 'Data Berhasil Dihapus!', 'success');
                         reloaddata_excel_pengurus_manajerial()
                     }
                 })
@@ -1068,7 +1068,7 @@
                 $('.data_tervalidasi_pengurus').css('display', 'none');
             },
             success: function(response) {
-                Swal.fire('Good job!', 'Data Beharhasil Simpan!', 'success');
+                Swal.fire('Good job!', 'Data Berhasil Simpan!', 'success');
                 form_import_excel[0].reset();
                 reloaddata_excel_pengurus_manajerial();
                 reloaddata_pengurus_manajerial();
@@ -1108,7 +1108,7 @@
                     url: '<?= base_url('datapenyedia/hapus_import_excel_pengurus') ?>',
                     dataType: "JSON",
                     success: function(response) {
-                        Swal.fire('Good job!', 'Data Beharhasil Dihapus!', 'success');
+                        Swal.fire('Good job!', 'Data Berhasil Dihapus!', 'success');
                         reloaddata_excel_pengurus_manajerial()
 
                     }
@@ -1304,7 +1304,7 @@
                     url: '<?= base_url('datapenyedia/hapus_row_pengurus/') ?>' + id_url,
                     dataType: "JSON",
                     success: function(response) {
-                        Swal.fire('Good job!', 'Data Beharhasil Dihapus!', 'success');
+                        Swal.fire('Good job!', 'Data Berhasil Dihapus!', 'success');
                         reloaddata_pengurus_manajerial()
                     }
                 })

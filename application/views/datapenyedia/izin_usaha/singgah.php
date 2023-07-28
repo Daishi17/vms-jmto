@@ -112,7 +112,7 @@
                                                                 </td>
                                                                 <td class="col-sm-3">
                                                                     <input type="hidden" name="file_dokumen_nib_manipulasi">
-                                                                    <input type="file" name="file_dokumen_nib" class="file_dokumen_nib file_valid_nib"  accept=".pdf, .xlsx, .xls">
+                                                                    <input type="file" name="file_dokumen_nib" class="file_dokumen_nib file_valid_nib"  accept=".pdf">
                                                                     <small class="file_dokumen_nib_error text-danger"></small>
                                                                 </td>
                                                                 <td class="col-sm-2 bg-light">
@@ -221,7 +221,7 @@
                                                                 </td>
                                                                 <td class="col-sm-3">
                                                                     <input type="hidden" name="file_dokumen_siup_manipulasi">
-                                                                    <input type="file" name="file_dokumen_siup" class="file_dokumen_siup file_valid_siup" accept=".pdf, .xlsx, .xls">
+                                                                    <input type="file" name="file_dokumen_siup" class="file_dokumen_siup file_valid_siup" accept=".pdf">
                                                                     <small class="file_dokumen_siup_error text-danger"></small>
                                                                 </td>
                                                                 <td class="col-sm-2 bg-light">
@@ -330,7 +330,7 @@
                                                                 </td>
                                                                 <td class="col-sm-3">
                                                                 <input type="hidden" name="file_dokumen_sbu_manipulasi">
-                                                                    <input type="file" name="file_dokumen_sbu" class="file_dokumen_sbu file_valid_sbu" accept=".pdf, .xlsx, .xls">
+                                                                    <input type="file" name="file_dokumen_sbu" class="file_dokumen_sbu file_valid_sbu" accept=".pdf">
                                                                     <small class="file_dokumen_sbu_error text-danger"></small>
 
                                                                 </td>
@@ -439,7 +439,7 @@
                                                                 </td>
                                                                 <td class="col-sm-3">
                                                                     <input type="hidden" name="file_dokumen_siujk_manipulasi">
-                                                                    <input type="file" name="file_dokumen_siujk" class="file_dokumen_siujk file_valid_siujk" accept=".pdf, .xlsx, .xls">
+                                                                    <input type="file" name="file_dokumen_siujk" class="file_dokumen_siujk file_valid_siujk" accept=".pdf">
                                                                     <small class="file_dokumen_siujk_error text-danger"></small>
 
                                                                 </td>
@@ -667,7 +667,7 @@
                         <input type="hidden" name="id_url_nib">
                         <input type="hidden" name="secret_token" value="<?= $row_vendor['token_scure_vendor'] ?>">
                         <center>
-                            <img src="<?= base_url('assets34543543/img/private.jpg') ?>" width="100%" alt="">
+                            <img src="<?= base_url('assets34543543/img//private.jpg') ?>" width="100%" alt="">
                             <p>Silakan Masukan Token Untuk Mendkrip File Anda </p>
                             <div class="token_generate_nib">
 
@@ -937,7 +937,7 @@
                         <input type="hidden" name="id_url_siup">
                         <input type="hidden" name="secret_token" value="<?= $row_vendor['token_scure_vendor'] ?>">
                         <center>
-                            <img src="<?= base_url('assets34543543/img/private.jpg') ?>" width="100%" alt="">
+                            <img src="<?= base_url('assets34543543/img//private.jpg') ?>" width="100%" alt="">
                             <p>Silakan Masukan Token Untuk Mendkrip File Anda </p>
                             <div class="token_generate_siup">
 
@@ -1209,7 +1209,7 @@
                         <input type="hidden" name="id_url_sbu">
                         <input type="hidden" name="secret_token" value="<?= $row_vendor['token_scure_vendor'] ?>">
                         <center>
-                            <img src="<?= base_url('assets34543543/img/private.jpg') ?>" width="100%" alt="">
+                            <img src="<?= base_url('assets34543543/img//private.jpg') ?>" width="100%" alt="">
                             <p>Silakan Masukan Token Untuk Mendkrip File Anda </p>
                             <div class="token_generate_sbu">
 
@@ -1481,7 +1481,7 @@
                         <input type="hidden" name="id_url_siujk">
                         <input type="hidden" name="secret_token" value="<?= $row_vendor['token_scure_vendor'] ?>">
                         <center>
-                            <img src="<?= base_url('assets34543543/img/private.jpg') ?>" width="100%" alt="">
+                            <img src="<?= base_url('assets34543543/img//private.jpg') ?>" width="100%" alt="">
                             <p>Silakan Masukan Token Untuk Mendkrip File Anda </p>
                             <div class="token_generate_siujk">
 

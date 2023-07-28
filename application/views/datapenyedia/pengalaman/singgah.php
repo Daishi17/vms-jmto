@@ -66,7 +66,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                  
+
                                 </tbody>
                             </table>
                         </div>
@@ -167,8 +167,8 @@
                                                     <span class="input-group-text">Rp.</span>
                                                     <input name="nilai_kontrak" type="text" id="tanpa-rupiah" class="form-control">
                                                 </div>
-                                                  <!-- nilai_kontrak -->
-                                                  <small class="nilai_kontrak_error text-danger"></small>
+                                                <!-- nilai_kontrak -->
+                                                <small class="nilai_kontrak_error text-danger"></small>
                                             </div>
                                         </td>
                                     </tr>
@@ -195,8 +195,8 @@
                                                     <span class="input-group-text"><i class="fa-solid fa-road"></i></span>
                                                     <input name="lokasi_pekerjaan" type="text" class="form-control">
                                                 </div>
-                                                 <!-- lokasi_pekerjaan -->
-                                                 <small class="lokasi_pekerjaan_error text-danger"></small>
+                                                <!-- lokasi_pekerjaan -->
+                                                <small class="lokasi_pekerjaan_error text-danger"></small>
                                             </div>
                                         </td>
                                     </tr>
@@ -205,7 +205,7 @@
                                             <label class="form-label col-form-label-sm"><b>Upload File Kontrak</b></label>
                                         </td>
                                         <td class="col-sm-3">
-                                        <input type="hidden" name="file_dokumen_manipulasi_pengalaman">
+                                            <input type="hidden" name="file_dokumen_manipulasi_pengalaman">
                                             <input type="file" class="file_valid_pengalaman" name="file_kontrak_pengalaman" id="file" accept=".pdf">
                                         </td>
                                     </tr>
@@ -246,9 +246,17 @@
                                 <h4 class="text-white">Import Data Pengalaman Perusahaan</h4>
                             </div>
                             <div class="card-body">
+                                <div class="alert alert-warning shadow-lg" role="alert">
+                                    <h5 class="alert-heading">
+                                        <i class="fa-solid fa-circle-warning px-1"></i>
+                                        Catatan!
+                                    </h5>
+                                    <hr>
+                                    <small>1. Pastikan Format Anda Isi Semua.</small><br>
+                                    <small>2. Jika Field Dalam Keadaan Kosong Maka Data Row Tersebut Tidak Sah / Tidak Akan Masuk Ke View Import.</small><br>
+                                </div>
                                 <div class="row">
                                     <div class="col-md-4">
-
                                     </div>
                                     <div class="col-md-4">
                                         <center>
@@ -385,8 +393,8 @@
                                                 <span class="input-group-text"><i class="fa-solid fa-barcode"></i></span>
                                                 <input name="no_kontrak" type="text" class="form-control">
                                             </div>
-                                             <!-- no_kontrak -->
-                                             <small class="no_kontrak_error text-danger"></small>
+                                            <!-- no_kontrak -->
+                                            <small class="no_kontrak_error text-danger"></small>
                                         </div>
                                     </td>
                                     <td class="col-sm-2 bg-light">
@@ -413,8 +421,8 @@
                                                 <span class="input-group-text"><i class="fa-solid fa-user-pen"></i></span>
                                                 <textarea name="nama_pekerjaan" type="text" class="form-control" rows="2"></textarea>
                                             </div>
-                                             <!-- nama_pekerjaan -->
-                                             <small class="nama_pekerjaan_error text-danger"></small>
+                                            <!-- nama_pekerjaan -->
+                                            <small class="nama_pekerjaan_error text-danger"></small>
                                         </div>
                                     </td>
                                 </tr>
@@ -434,8 +442,8 @@
                                                     <option value="Sewa Kelola">Sewa Kelola</option>
                                                 </select>
                                             </div>
-                                             <!-- id_jenis_usaha -->
-                                             <small class="id_jenis_usaha_error text-danger"></small>
+                                            <!-- id_jenis_usaha -->
+                                            <small class="id_jenis_usaha_error text-danger"></small>
                                         </div>
                                     </td>
                                     <td class="col-sm-2 bg-light">
@@ -447,8 +455,8 @@
                                                 <span class="input-group-text">Rp.</span>
                                                 <input name="nilai_kontrak" type="text" id="tanpa-rupiah" class="form-control">
                                             </div>
-                                             <!-- nilai_kontrak -->
-                                             <small class="nilai_kontrak_error text-danger"></small>
+                                            <!-- nilai_kontrak -->
+                                            <small class="nilai_kontrak_error text-danger"></small>
                                         </div>
                                     </td>
                                 </tr>
@@ -485,8 +493,8 @@
                                         <label class="form-label col-form-label-sm"><b>Upload File Kontrak</b></label>
                                     </td>
                                     <td class="col-sm-3">
-                                    <input type="hidden" name="file_dokumen_manipulasi_pengalaman">
-                                            <input type="file" class="file_valid_pengalaman" name="file_kontrak_pengalaman" id="file" accept=".pdf">
+                                        <input type="hidden" name="file_dokumen_manipulasi_pengalaman">
+                                        <input type="file" class="file_valid_pengalaman" name="file_kontrak_pengalaman" id="file" accept=".pdf">
                                     </td>
                                     <td class="col-sm-4">
                                         <div class="button_nama_file_kontrak_pengalaman">

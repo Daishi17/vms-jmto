@@ -65,13 +65,34 @@
         })
     }
 
+
+
+    function pilih_audit() {
+        var jenis_audit = $('[name="jenis_audit"]').val();
+        if (jenis_audit == 'Tidak Audit') {
+            $('#audit_1').css('display', 'none');
+            $('#audit_2').css('display', 'none');
+        } else {
+            $('#audit_1').css('display', 'block');
+            $('#audit_2').css('display', 'block');
+        }
+    }
+
     var form_tambah_keuangan = $('#form_tambah_keuangan')
     form_tambah_keuangan.on('submit', function(e) {
         // nanti kalau sudah migrasi ke js ambil url nya dari view
-        var url_post = $('[name="url_post_keuangan"]').val()
-        var type_keuangan = $('[name="type_keuangan"]').val()
-        var file_dokumen_manipulasi_auditor = $('[name="file_dokumen_manipulasi_auditor"]').val()
-        var file_dokumen_manipulasi_keuangan = $('[name="file_dokumen_manipulasi_keuangan"]').val()
+        var jenis_audit = $('[name="jenis_audit"]').val();
+        if (jenis_audit == 'Tidak Audit') {
+            var url_post = $('[name="url_post_keuangan"]').val()
+            var type_keuangan = $('[name="type_keuangan"]').val()
+            var file_dokumen_manipulasi_auditor = $('[name="file_dokumen_manipulasi_auditor"]').val('-')
+            var file_dokumen_manipulasi_keuangan = $('[name="file_dokumen_manipulasi_keuangan"]').val()
+        } else {
+            var url_post = $('[name="url_post_keuangan"]').val()
+            var type_keuangan = $('[name="type_keuangan"]').val()
+            var file_dokumen_manipulasi_auditor = $('[name="file_dokumen_manipulasi_auditor"]').val()
+            var file_dokumen_manipulasi_keuangan = $('[name="file_dokumen_manipulasi_keuangan"]').val()
+        }
         if (file_dokumen_manipulasi_auditor == '') {
             e.preventDefault();
             Swal.fire({
@@ -290,6 +311,14 @@
                 } else if (type == 'edit') {
                     modal_edit_keuangan.modal('show');
                     $('[name="type_keuangan"]').val('edit');
+                    var jenis_audit = response['row_keuangan'].jenis_audit;
+                    if (jenis_audit == 'Tidak Audit') {
+                        $('#audit_1').css('display', 'none');
+                        $('#audit_2').css('display', 'none');
+                    } else {
+                        $('#audit_1').css('display', 'block');
+                        $('#audit_2').css('display', 'block');
+                    }
                     $('[name="jenis_audit"]').val(response['row_keuangan'].jenis_audit);
                     $('[name="tahun_lapor"]').val(response['row_keuangan'].tahun_lapor);
                     $('[name="file_dokumen_manipulasi_auditor"]').val(response['row_keuangan'].file_laporan_auditor);
